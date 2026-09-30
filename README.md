@@ -1,0 +1,22 @@
+# DE10
+
+Blank starter project. For now it targets the **Terasic DE1** (Cyclone II `EP2C20F484C7`).
+
+| File | What it is |
+|------|------------|
+| `top.v` | Top level: SW -> LEDR, KEY -> LEDG[7:4], LEDG0 blinks at 1 Hz, HEX2..HEX0 show SW in hex |
+| `top.qpf` / `top.qsf` | Quartus project, pins for CLOCK_50, KEY, SW, LEDG, LEDR, HEX0-3 |
+| `top.sdc` | 50 MHz clock constraint |
+| `DE1_pin_assignments.qsf` | Full DE1 pin list, copy lines from it when you use more of the board |
+
+## Build and program
+
+Needs Quartus II 13.0sp1 (newer Quartus dropped Cyclone II).
+
+```
+C:\altera\13.0sp1\quartus\bin64\quartus_sh --flow compile top
+C:\altera\13.0sp1\quartus\bin64\quartus_pgm -m jtag -o "p;output_files/top.sof"
+```
+
+Fit (13.0sp1): 63 logic elements, 26 registers, 61 pins.
+The "output pins stuck at VCC or GND" warning is expected (LEDG[3:1] and HEX3 are tied off).
