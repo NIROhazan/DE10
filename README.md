@@ -25,3 +25,5 @@ The "output pins stuck at VCC or GND" warning is expected (LEDG[3:1] and HEX3 ar
 
 - [`ex1/`](ex1/README.md) - SOP / POS: the student writes expressions in `answer.txt`, `run.bat` has
   Claude turn them into Verilog (mistakes kept) plus tutoring feedback, then programs the board.
+- [`ex2/`](ex2/README.md) - SOP / POS with three variables (Y = 1 when A = B = C): canonical SOP,
+  canonical POS, minimal POS. Same run.bat flow; SW2 = C shown on HEX1.
