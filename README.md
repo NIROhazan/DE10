@@ -20,3 +20,8 @@ C:\altera\13.0sp1\quartus\bin64\quartus_pgm -m jtag -o "p;output_files/top.sof"
 
 Fit (13.0sp1): 63 logic elements, 26 registers, 61 pins.
 The "output pins stuck at VCC or GND" warning is expected (LEDG[3:1] and HEX3 are tied off).
+
+## Exercises
+
+- [`ex1/`](ex1/README.md) - SOP / POS: the student writes expressions in `answer.txt`, `run.bat` has
+  Claude turn them into Verilog (mistakes kept) plus tutoring feedback, then programs the board.
