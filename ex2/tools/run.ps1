@@ -56,10 +56,10 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 # Quartus simplifies the logic. If the alarm LEDR[9] ends up tied to GND, the tool has
-# proved that SOP, POS and MIN equal Y on every row, not just the ones you tried.
+# proved that every answer equals Y on every row, not just the ones you tried.
 $map = Get-Content "output_files\$proj.map.rpt" -Raw
 if ($map -match 'Pin "LEDR\[9\]" is stuck at GND') {
-	Write-Host "  Quartus proof: LEDR9 is stuck at GND - all three answers equal Y on every row." -ForegroundColor Green
+	Write-Host "  Quartus proof: LEDR9 is stuck at GND - all your answers equal Y on every row." -ForegroundColor Green
 } else {
 	Write-Host "  LEDR9 is real logic - at least one answer differs from Y on some row. Find it with the switches." -ForegroundColor Yellow
 }

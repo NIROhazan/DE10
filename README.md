@@ -27,3 +27,5 @@ The "output pins stuck at VCC or GND" warning is expected (LEDG[3:1] and HEX3 ar
   Claude turn them into Verilog (mistakes kept) plus tutoring feedback, then programs the board.
 - [`ex2/`](ex2/README.md) - SOP / POS with three variables (Y = 1 when A = B = C): canonical SOP,
   canonical POS, minimal POS. Same run.bat flow; SW2 = C shown on HEX1.
+- [`ex3/`](ex3/README.md) - minimal SOP vs minimal POS (five 1s, three 0s): four answers on LEDR0-3;
+  the minimal SOP is not unique. The board checks correctness, the feedback checks minimality.
