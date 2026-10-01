@@ -31,3 +31,5 @@ The "output pins stuck at VCC or GND" warning is expected (LEDG[3:1] and HEX3 ar
   the minimal SOP is not unique. The board checks correctness, the feedback checks minimality.
 - [`ex4/`](ex4/README.md) - four variables, D on KEY3 (pressed = 1): canonical SOP/POS, K-map minimal SOP,
   and an XOR form. The function is even parity, so the K-map is a checkerboard and nothing merges.
+- [`ex5/`](ex5/README.md) - four variables, D on KEY3: minimal SOP (four-corner group) vs minimal POS;
+  POS wins with more 0s than 1s, so the 1s/0s count only predicts the canonical forms.
