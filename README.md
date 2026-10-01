@@ -33,3 +33,6 @@ The "output pins stuck at VCC or GND" warning is expected (LEDG[3:1] and HEX3 ar
   and an XOR form. The function is even parity, so the K-map is a checkerboard and nothing merges.
 - [`ex5/`](ex5/README.md) - four variables, D on KEY3: minimal SOP (four-corner group) vs minimal POS;
   POS wins with more 0s than 1s, so the 1s/0s count only predicts the canonical forms.
+- [`ex6/`](ex6/README.md) - three variables with two don't-care rows (X): the minimal SOP takes both X as 1,
+  the minimal POS takes both as 0, so the two minimal answers differ on the X rows and are both right.
+  LEDG1 marks an X row; the alarm is masked there.
