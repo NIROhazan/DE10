@@ -18,8 +18,6 @@
 |---|---|
 | SW0 / SW1 / SW2 | A / B / C |
 | HEX3 / HEX2 / HEX1 / HEX0 | A / B / C / Y (`-` בשורת X) |
-| LEDG0 | Y מהטבלה (המטרה) |
-| LEDG1 | השורה הזו היא X |
 | LEDR0 / LEDR1 | ה-SOP / ה-POS הקנוניים שלך |
 | LEDR2 / LEDR3 | ה-SOP המינימלי / ה-POS המינימלי שלך |
 | LEDR9 | התראה: אחת התשובות שלך לא שווה ל-Y בשורה הזו (לעולם לא בשורת X) |
@@ -32,8 +30,8 @@
 
 ## Instructor notes
 
-- Same machinery as ex1-ex5 (`tools/run.ps1` identical), board as ex3 plus LEDG1 = X row.
-  The alarm is masked on X rows; HEX0 shows `-` there.
+- Same machinery as ex1-ex5 (`tools/run.ps1` identical), board as ex3 but no green LEDs: Y (or `-` on an X row) is on HEX0 only.
+  The alarm is masked on X rows.
 - New idea: don't-cares. The minimal SOP (2 terms, 3 literals) takes **both** X rows as 1, the
   minimal POS (2 terms, 3 literals) takes both as 0 - so MSOP and MPOS are different functions
   that are both right. Without the X rows the minimal SOP costs 4 literals (question 1).

@@ -1,3 +1,19 @@
+
+1s: 011 101 111      0s: 000 001 010      X: 100 110
+SOP  = A'BC + AB'C + ABC                    (3 minterms, X rows not listed)
+POS  = (A+B+C)(A+B+C')(A+B'+C)              (3 maxterms, X rows not listed)
+MSOP = A + BC        2 terms, 3 literals, unique
+A = 100 101 110 111 (both X taken as 1); BC = 011 111
+MPOS = (A+B)(C)      2 terms, 3 literals, unique
+C kills 000 010 + X 100 110 (both X taken as 0); (A+B) kills 000 001
+MSOP != MPOS as functions: they differ exactly on 100 and 110 - both right
+Common non-minimal MSOP: AC + BC (X ignored, 4 literals) - equals MPOS expanded
+Q1: X = 0 -> AC + BC (or C(A+B)), 4 literals; the X rows save one literal (AC -> A)
+Q2: MSOP: 100 -> 1, 110 -> 1;  MPOS: 100 -> 0, 110 -> 0
+Q3: no - they differ on 100 and 110 only; those rows are X, so any value is right,
+and the alarm is masked there
+Q4 (correct answers): A=1 B=0 C=0 -> X row: LEDG1 on, LEDG0 off, HEX0 "-";
+LEDR0 off (no minterm), LEDR1 on (no maxterm), LEDR2 on, LEDR3 off, LEDR9 off
 # ============================================================
 #  תרגיל 6 - שורות "לא אכפת" (X)
 #  כתבו את התשובות שלכם בקובץ הזה, שמרו, והריצו run.bat
@@ -51,5 +67,5 @@ MPOS =
 # ש3. האם ה-MSOP וה-MPOS שלכם הם אותה פונקציה? אם לא - באילו שורות הם שונים, ולמה שניהם בכל זאת נכונים?
 ת3 =
 
-# ש4. נבאו לפני שאתם מזיזים מתגים: A=1 B=0 C=0 - אילו נורות LEDR ו-LEDG יידלקו?
+# ש4. נבאו לפני שאתם מזיזים מתגים: A=1 B=0 C=0 - אילו נורות LEDR יידלקו, ומה יראה HEX0?
 ת4 =

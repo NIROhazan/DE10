@@ -1,7 +1,7 @@
 // Exercise 6 - don't-care rows (X).  DO NOT EDIT: Claude writes student_logic.v from answer.txt.
 //
 //   SW0 = A, SW1 = B, SW2 = C        HEX3 = A, HEX2 = B, HEX1 = C, HEX0 = Y ("-" on an X row)
-//   LEDG0 = Y from the truth table   LEDG1 = this row is X (don't care)
+//   Green LEDs are not used: Y is on HEX0
 //   LEDR0 = your SOP        LEDR1 = your POS        LEDR2 = your minimal SOP   LEDR3 = your minimal POS
 //   LEDR9 = ALARM: one of your answers disagrees with Y on this row (never lights on an X row)
 //
@@ -50,7 +50,7 @@ module ex6_top(
 	// An X row may take any value, so it can never raise the alarm
 	wire alarm = ~dc & ((sop != Y) | (pos != Y) | (msop != Y) | (mpos != Y));
 
-	assign LEDG    = {6'b0, dc, Y & ~dc};
+	assign LEDG    = 8'b0;
 	assign LEDR    = {alarm, 5'b0, mpos, msop, pos, sop};
 
 	// 7-segment, active low: "0" and "1" only

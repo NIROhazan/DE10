@@ -116,7 +116,7 @@ Plain text in **Hebrew** (UTF-8), for the student. Structure:
    using don't-cares; or why a group made only of X rows never belongs in a minimal answer).
 5. End with a "check on the board" line: tell the student which switch setting to try first
    and what to watch (SW0 = A, SW1 = B, SW2 = C; HEX3..HEX1 show A B C and HEX0 shows Y, or
-   "-" on an X row; LEDG0 = Y from the table, LEDG1 = this is an X row, LEDR0 = your SOP,
+   "-" on an X row; the green LEDs are not used; LEDR0 = your SOP,
    LEDR1 = your POS, LEDR2 = your minimal SOP, LEDR3 = your minimal POS, LEDR9 = alarm, lights
    when one of your answers disagrees with Y on that row and never on an X row). Suggest
    A=1 B=0 C=0 to see LEDR2 and LEDR3 disagree while LEDR9 stays off.
