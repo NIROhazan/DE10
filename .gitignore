@@ -32,3 +32,6 @@ qbin.txt
 
 # ex0 prediction log (per student)
 history.txt
+
+# the prebuilt "Err" board that run.bat programs whenever it stops
+!locked/locked.sof

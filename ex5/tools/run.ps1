@@ -6,8 +6,26 @@ $ErrorActionPreference = "Stop"
 Set-Location (Split-Path $PSScriptRoot -Parent)
 $proj = Split-Path -Leaf (Get-Location)   # ex1, ex2, ... = the .qpf name
 
+$qbin = @("C:\altera\13.0sp1\quartus\bin64", "C:\altera\13.0sp1\quartus\bin",
+          "C:\altera\13.0\quartus\bin64", "C:\altera\13.0\quartus\bin") |
+	Where-Object { Test-Path (Join-Path $_ "quartus_sh.exe") } | Select-Object -First 1
+
 function Step($t) { Write-Host ""; Write-Host "=== $t ===" -ForegroundColor Cyan }
-function Fail($t) { Write-Host $t -ForegroundColor Red; exit 1 }
+
+# Every stop locks the board: ..\locked\locked.sof shows "Err" with all LEDs off, so the board never
+# keeps an older design that looks correct while the answers are empty or wrong.
+function Lock-Board {
+	$sof = Join-Path (Split-Path (Get-Location) -Parent) "locked\locked.sof"
+	if (-not $qbin -or -not (Test-Path $sof)) { return }
+	$ErrorActionPreference = "Continue"
+	& (Join-Path $qbin "quartus_pgm.exe") -c USB-Blaster -m JTAG -o "p;$sof" > lock.log 2>&1
+	if ($LASTEXITCODE -eq 0) { Write-Host "  The board now shows Err - it shows your logic only when every answer is correct." -ForegroundColor Yellow }
+}
+function Fail($t, [switch]$NoLock) {
+	Write-Host $t -ForegroundColor Red
+	if (-not $NoLock) { Lock-Board }
+	exit 1
+}
 
 # ---------------------------------------------------------------- 1. Claude
 Step "1/3  Claude reads answer.txt"
@@ -32,7 +50,7 @@ if ($empty.Count -gt 0) {
 	Write-Host "  Empty answers in answer.txt: $(($empty | ForEach-Object { "$_ (line $($where[$_]))" }) -join ', ')" -ForegroundColor Red
 	Write-Host "  Write each expression on that line, right after the = sign (for example  SOP = A'B + AB),"
 	Write-Host "  save the file, and run again."
-	Fail "  Nothing was checked and the board was NOT programmed."
+	Fail "  Nothing was checked - your logic was NOT put on the board."
 }
 
 $claude = (Get-Command claude -ErrorAction SilentlyContinue).Source
@@ -121,15 +139,12 @@ foreach ($line in (Get-Content "student_logic.v" | Where-Object { $_ -match '^\s
 }
 if ($wrong -gt 0) {
 	Write-Host ""
-	Fail "  The board was NOT programmed - only correct answers go on the board. Read feedback.txt, fix answer.txt, run again."
+	Fail "  Your logic was NOT put on the board - only correct answers go there. Read feedback.txt, fix answer.txt, run again."
 }
 if ($Mode -eq "check") { exit 0 }
 
 # ---------------------------------------------------------------- 2. Quartus
 Step "2/3  Quartus compiles your logic"
-$qbin = @("C:\altera\13.0sp1\quartus\bin64", "C:\altera\13.0sp1\quartus\bin",
-          "C:\altera\13.0\quartus\bin64", "C:\altera\13.0\quartus\bin") |
-	Where-Object { Test-Path (Join-Path $_ "quartus_sh.exe") } | Select-Object -First 1
 if (-not $qbin) { Fail "Quartus II 13.0sp1 not found under C:\altera." }
 
 & (Join-Path $qbin "quartus_sh.exe") --flow compile $proj > compile.log 2>&1
@@ -149,7 +164,7 @@ Step "3/3  Programming the board"
 & (Join-Path $qbin "quartus_pgm.exe") -c USB-Blaster -m JTAG -o "p;output_files\$proj.sof" > program.log 2>&1
 if ($LASTEXITCODE -ne 0) {
 	Select-String -Path program.log -Pattern "Error" | Select-Object -First 3 | ForEach-Object { Write-Host "  $($_.Line)" }
-	Fail "Programming FAILED. Is the board on, the USB cable in the BLASTER port, and the switch on RUN?"
+	Fail "Programming FAILED. Is the board on, the USB cable in the BLASTER port, and the switch on RUN?" -NoLock
 }
 Write-Host "  Board programmed." -ForegroundColor Green
 # The switch / LED map is the "//   " block at the top of <proj>_top.v

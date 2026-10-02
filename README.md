@@ -21,6 +21,10 @@ C:\altera\13.0sp1\quartus\bin64\quartus_pgm -m jtag -o "p;output_files/top.sof"
 Fit (13.0sp1): 63 logic elements, 26 registers, 61 pins.
 The "output pins stuck at VCC or GND" warning is expected (LEDG[3:1] and HEX3 are tied off).
 
+`locked/` - a design with HEX3..HEX1 = "Err" and all LEDs off. `run.bat` in ex1-ex6 programs
+`locked/locked.sof` whenever it stops (empty or wrong answers), so the board never keeps an older,
+correct-looking design. Rebuild: `quartus_sh --flow compile locked` in `locked/`, copy `output_files/locked.sof` up.
+
 ## Exercises
 
 - [`ex0/`](ex0/README.md) - week 1: LED wave. No logic - the student changes numbers in a `KNOBS` block
