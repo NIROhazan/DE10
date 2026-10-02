@@ -17,8 +17,14 @@ if (-not (Test-Path "answer.txt")) { Fail "answer.txt is missing." }
 # Expression lines are "NAME =" with an English name (SOP, POS, MIN, ...); the Hebrew question lines are not checked.
 $sheet = Get-Content "answer.txt" -Encoding UTF8 | Where-Object { $_ -notmatch '^\s*#' }
 $exprs = @($sheet | Where-Object { $_ -match '^\s*[A-Za-z]\w*\s*=' })
-$empty = @($exprs | Where-Object { $_ -match '^\s*([A-Za-z]\w*)\s*=\s*$' } |
-	ForEach-Object { $null = $_ -match '^\s*([A-Za-z]\w*)\s*='; $Matches[1] })
+# A name counts as answered if it is filled in on any line (answers pasted at the top of the file are fine).
+$names = [ordered]@{}
+foreach ($l in $exprs) {
+	$null = $l -match '^\s*([A-Za-z]\w*)\s*=\s*(.*)$'
+	$n = $Matches[1].ToUpper()
+	$names[$n] = [bool]$names[$n] -or ($Matches[2].Trim() -ne "")
+}
+$empty = @($names.Keys | Where-Object { -not $names[$_] })
 if ($exprs.Count -eq 0) { Fail "answer.txt has no answer lines (SOP = ...). Take a fresh copy of the file." }
 if ($empty.Count -gt 0) {
 	Write-Host "  Empty answers in answer.txt: $($empty -join ', ')" -ForegroundColor Red
