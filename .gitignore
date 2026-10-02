@@ -29,3 +29,6 @@ cpath.txt
 # student kits built by tools/make_kit.ps1, and run.bat scratch
 dist/
 qbin.txt
+
+# ex0 prediction log (per student)
+history.txt

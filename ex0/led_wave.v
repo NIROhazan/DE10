@@ -5,7 +5,7 @@
 // A smooth hump of light travels left to right across the
 // 10 red LEDs and wraps around forever.
 //   - 10 independent PWM channels, one per LED, in parallel
-//   - Brightness: 99% peak, then 60%, 30%, 10%, off
+//   - Brightness: 99% peak, then 60%, 30%, 10%, off (parameters PEAK, B1..B3)
 //   - One step every 300 ms
 //
 // Pin mapping (System Builder names):
@@ -14,7 +14,11 @@
 // ============================================================
 module led_wave #(
     parameter PWM_DIV  = 500,       // 50 MHz / 500 = 100 kHz tick -> 1 kHz PWM
-    parameter MOVE_DIV = 15000000   // 50 MHz / 15M = one step every 300 ms
+    parameter MOVE_DIV = 15000000,  // 50 MHz / 15M = one step every 300 ms
+    parameter [6:0] PEAK = 99,      // brightness (% of PWM period) at the peak...
+    parameter [6:0] B1   = 60,      // ...one LED away
+    parameter [6:0] B2   = 30,      // ...two LEDs away
+    parameter [6:0] B3   = 10       // ...three LEDs away (further = off)
 )(
     input  wire       clk,
     output reg  [9:0] LEDR
@@ -35,10 +39,10 @@ module led_wave #(
     function [6:0] hump;
         input [3:0] dist;
         case (dist)
-            4'd0:    hump = 7'd99;
-            4'd1:    hump = 7'd60;
-            4'd2:    hump = 7'd30;
-            4'd3:    hump = 7'd10;
+            4'd0:    hump = PEAK;
+            4'd1:    hump = B1;
+            4'd2:    hump = B2;
+            4'd3:    hump = B3;
             default: hump = 7'd0;
         endcase
     endfunction
