@@ -45,6 +45,11 @@ for ($i = 0; $i -lt $sheet.Count; $i++) {
 	if (-not $filled) { $where[$n] = $i + 1 }
 }
 $empty = @($names.Keys | Where-Object { -not $names[$_] })
+# Show exactly what was read, so a stale copy open in an editor is obvious.
+Write-Host "  Reading $((Resolve-Path 'answer.txt').Path)  (saved $((Get-Item 'answer.txt').LastWriteTime.ToString('HH:mm:ss')))"
+for ($i = 0; $i -lt $sheet.Count; $i++) {
+	if ($sheet[$i] -match '^\s*[A-Za-z]\w*\s*=') { Write-Host ("   line {0,3}:  {1}" -f ($i + 1), $sheet[$i].Trim()) }
+}
 if ($names.Count -eq 0) { Fail "answer.txt has no answer lines (SOP = ...). Take a fresh copy of the file." }
 if ($empty.Count -gt 0) {
 	Write-Host "  Empty answers in answer.txt: $(($empty | ForEach-Object { "$_ (line $($where[$_]))" }) -join ', ')" -ForegroundColor Red
