@@ -78,8 +78,9 @@ endmodule
 Rules - these matter more than anything else:
 
 - Translate **literally what the student wrote, mistakes included.** Never correct, simplify,
-  complete or "fix" an expression. The board must show the student's own logic so they can
-  see their mistake with the switches. A wrong answer must stay wrong on the board.
+  complete or "fix" an expression. run.bat has Quartus check the student's own logic and refuses to
+  program the board while any answer differs from Y, so a "fixed" answer would let a wrong one through.
+  A wrong answer must stay wrong.
 - Use only `~`, `&`, `|`, parentheses, `A`, `B`, `C`, `D`, `1'b0`, `1'b1`.
 - If a line is empty, or cannot be read as an expression of A, B, C and D, write `1'b0` and say
   so in the feedback. Do not guess what the student meant.
@@ -103,7 +104,9 @@ Plain text in **Hebrew** (UTF-8), for the student. Structure:
 4. If everything is right: congratulate briefly, then ask one deeper question to take home
    (e.g. how many 2-input gates each minimal form needs; or which single cell, if flipped,
    would make the SOP the cheaper form).
-5. End with a "check on the board" line: tell the student which setting to try first and what to
+5. If any of the expressions is wrong or missing, end with one line saying the board will NOT be
+   programmed until every expression equals Y, and which row to check first on paper. Otherwise
+   end with a "check on the board" line: tell the student which setting to try first and what to
    watch (SW0 = A, SW1 = B, SW2 = C, hold KEY3 for D = 1; HEX3..HEX0 show A B C D;
    LEDG0 = Y from the table, LEDR0 = your SOP, LEDR1 = your POS, LEDR2 = your minimal SOP,
    LEDR3 = your minimal POS, LEDR9 = alarm, lights when one of your answers disagrees with Y

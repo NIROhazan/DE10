@@ -80,8 +80,9 @@ endmodule
 Rules - these matter more than anything else:
 
 - Translate **literally what the student wrote, mistakes included.** Never correct, simplify,
-  complete or "fix" an expression. The board must show the student's own logic so they can
-  see their mistake with the switches. A wrong answer must stay wrong on the board.
+  complete or "fix" an expression. run.bat has Quartus check the student's own logic and refuses to
+  program the board while any answer differs from Y, so a "fixed" answer would let a wrong one through.
+  A wrong answer must stay wrong.
 - Use only `~`, `&`, `|`, parentheses, `A`, `B`, `C`, `1'b0`, `1'b1`. There is no X in
   Verilog here: if the student writes `X` or `d` inside an expression, that line cannot be
   read - write `1'b0` and explain that X is a choice they make, not a value in the expression.
@@ -114,7 +115,9 @@ Plain text in **Hebrew** (UTF-8), for the student. Structure:
    (e.g. a circuit is built from the minimal SOP and later someone says row 110 must be 0 -
    which of the two minimal forms survives without change, and what does that say about
    using don't-cares; or why a group made only of X rows never belongs in a minimal answer).
-5. End with a "check on the board" line: tell the student which switch setting to try first
+5. If any of the expressions is wrong or missing, end with one line saying the board will NOT be
+   programmed until every expression equals Y, and which row to check first on paper. Otherwise
+   end with a "check on the board" line: tell the student which switch setting to try first
    and what to watch (SW0 = A, SW1 = B, SW2 = C; HEX3..HEX1 show A B C and HEX0 shows Y, or
    "-" on an X row; the green LEDs are not used; LEDR0 = your SOP,
    LEDR1 = your POS, LEDR2 = your minimal SOP, LEDR3 = your minimal POS, LEDR9 = alarm, lights
