@@ -32,29 +32,34 @@ Step "1/3  Claude reads answer.txt"
 if (-not (Test-Path "answer.txt")) { Fail "answer.txt is missing." }
 
 # Empty answers stop here: no Claude, no compile, no board.
-# Expression lines are "NAME =" with an English name (SOP, POS, MIN, ...); the Hebrew question lines are not checked.
+# Answer lines are "NAME =": expressions with an English name (SOP, POS, MIN, ...) and the
+# questions, written in Hebrew as TAV + digit (shown as Q1..Q4 - the console cannot print Hebrew).
 $sheet = @(Get-Content "answer.txt" -Encoding UTF8)
 # A name counts as answered if it is filled in on any line (answers pasted at the top of the file are fine).
 $names = [ordered]@{}
 $where = @{}
+$shown = @()
 for ($i = 0; $i -lt $sheet.Count; $i++) {
-	if ($sheet[$i] -notmatch '^\s*([A-Za-z]\w*)\s*=\s*(.*)$') { continue }
-	$n = $Matches[1].ToUpper()
-	$filled = $Matches[2].Trim() -ne ""
+	if ($sheet[$i] -notmatch '^\s*([A-Za-z]\w*|[\u05D0-\u05EA]+\s*\d+)\s*=\s*(.*)$') { continue }
+	$n = $Matches[1] -replace '\s', ''
+	$isQ = $n -match '^[\u05D0-\u05EA]+(\d+)$'
+	if ($isQ) { $n = "Q" + $Matches[1] } else { $n = $n.ToUpper() }
+	$null = $sheet[$i] -match '=\s*(.*)$'
+	$filled = $Matches[1].Trim() -ne ""
 	$names[$n] = [bool]$names[$n] -or $filled
 	if (-not $filled) { $where[$n] = $i + 1 }
+	if ($isQ) { $text = if ($filled) { "$n = (answered)" } else { "$n =" } } else { $text = $sheet[$i].Trim() }
+	$shown += ("   line {0,3}:  {1}" -f ($i + 1), $text)
 }
 $empty = @($names.Keys | Where-Object { -not $names[$_] })
 # Show exactly what was read, so a stale copy open in an editor is obvious.
 Write-Host "  Reading $((Resolve-Path 'answer.txt').Path)  (saved $((Get-Item 'answer.txt').LastWriteTime.ToString('HH:mm:ss')))"
-for ($i = 0; $i -lt $sheet.Count; $i++) {
-	if ($sheet[$i] -match '^\s*[A-Za-z]\w*\s*=') { Write-Host ("   line {0,3}:  {1}" -f ($i + 1), $sheet[$i].Trim()) }
-}
+$shown | ForEach-Object { Write-Host $_ }
 if ($names.Count -eq 0) { Fail "answer.txt has no answer lines (SOP = ...). Take a fresh copy of the file." }
 if ($empty.Count -gt 0) {
 	Write-Host "  Empty answers in answer.txt: $(($empty | ForEach-Object { "$_ (line $($where[$_]))" }) -join ', ')" -ForegroundColor Red
-	Write-Host "  Write each expression on that line, right after the = sign (for example  SOP = A'B + AB),"
-	Write-Host "  save the file, and run again."
+	Write-Host "  Fill in every answer on its own line, right after the = sign (expressions like  SOP = A'B + AB,"
+	Write-Host "  the questions Q1..Q4 in your own words), save the file, and run again."
 	Fail "  Nothing was checked - your logic was NOT put on the board."
 }
 
