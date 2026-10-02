@@ -15,20 +15,23 @@ if (-not (Test-Path "answer.txt")) { Fail "answer.txt is missing." }
 
 # Empty answers stop here: no Claude, no compile, no board.
 # Expression lines are "NAME =" with an English name (SOP, POS, MIN, ...); the Hebrew question lines are not checked.
-$sheet = Get-Content "answer.txt" -Encoding UTF8 | Where-Object { $_ -notmatch '^\s*#' }
-$exprs = @($sheet | Where-Object { $_ -match '^\s*[A-Za-z]\w*\s*=' })
+$sheet = @(Get-Content "answer.txt" -Encoding UTF8)
 # A name counts as answered if it is filled in on any line (answers pasted at the top of the file are fine).
 $names = [ordered]@{}
-foreach ($l in $exprs) {
-	$null = $l -match '^\s*([A-Za-z]\w*)\s*=\s*(.*)$'
+$where = @{}
+for ($i = 0; $i -lt $sheet.Count; $i++) {
+	if ($sheet[$i] -notmatch '^\s*([A-Za-z]\w*)\s*=\s*(.*)$') { continue }
 	$n = $Matches[1].ToUpper()
-	$names[$n] = [bool]$names[$n] -or ($Matches[2].Trim() -ne "")
+	$filled = $Matches[2].Trim() -ne ""
+	$names[$n] = [bool]$names[$n] -or $filled
+	if (-not $filled) { $where[$n] = $i + 1 }
 }
 $empty = @($names.Keys | Where-Object { -not $names[$_] })
-if ($exprs.Count -eq 0) { Fail "answer.txt has no answer lines (SOP = ...). Take a fresh copy of the file." }
+if ($names.Count -eq 0) { Fail "answer.txt has no answer lines (SOP = ...). Take a fresh copy of the file." }
 if ($empty.Count -gt 0) {
-	Write-Host "  Empty answers in answer.txt: $($empty -join ', ')" -ForegroundColor Red
-	Write-Host "  Write every expression after its = sign, save the file, and run again."
+	Write-Host "  Empty answers in answer.txt: $(($empty | ForEach-Object { "$_ (line $($where[$_]))" }) -join ', ')" -ForegroundColor Red
+	Write-Host "  Write each expression on that line, right after the = sign (for example  SOP = A'B + AB),"
+	Write-Host "  save the file, and run again."
 	Fail "  Nothing was checked and the board was NOT programmed."
 }
 
