@@ -115,10 +115,13 @@ Write-Host "  Verilog:  assign Y = $ver;"
 # A few switch settings to check the board against
 $f = [scriptblock]::Create("param(`$A, `$B, `$C) ($($e[1])) -band 15")
 Write-Host ""
-Write-Host "  Try these on the switches:   A B C -> Y   (HEX0 HEX1 HEX2 -> HEX3)"
-foreach ($t in @(@(0,0,0), @(15,7,7), @(5,3,6), @(12,5,1), @(9,2,4))) {
+Write-Host "  Try these on the switches (bit by bit - 1*2 is 0001 AND 0010 = 0000):"
+Write-Host "      A     B     C   ->   Y        HEX0 HEX1 HEX2 -> HEX3"
+function Bin($n) { [Convert]::ToString($n, 2).PadLeft(4, "0") }
+foreach ($t in @(@(1,1,1), @(1,1,2), @(5,3,6), @(12,5,1), @(9,2,4))) {
 	$y = & $f $t[0] $t[1] $t[2]
-	Write-Host ("                                {0:X} {1:X} {2:X} -> {3:X}" -f $t[0], $t[1], $t[2], $y)
+	Write-Host ("    {0}  {1}  {2}  ->  {3}         {4:X}    {5:X}    {6:X}  ->  {7:X}" -f
+		(Bin $t[0]), (Bin $t[1]), (Bin $t[2]), (Bin $y), $t[0], $t[1], $t[2], $y)
 }
 
 $v = @(
