@@ -1,0 +1,17 @@
+# Exercise 0 - write ONE equation on the Y = line at the bottom, save, run run.bat.
+#
+#   A = SW3..SW0 (HEX0)   B = SW6..SW4 (HEX1)   C = SW9..SW7 (HEX2)   Y -> HEX3
+#
+#   OR   :  A + B     (or A | B)
+#   AND  :  A * B     (or A & B, A.B, or just AB)
+#   NOT  :  ~A        (or !A, or A')
+#   XOR  :  A ^ B
+#   also :  ( )  0  1
+#
+#   Order: NOT first, then AND, then XOR, then OR - use ( ) to change it.
+#   Every operation works bit by bit on 4 bits (B and C have a 0 on top).
+#   Examples:  Y = A      Y = A + B*C      Y = (A + B)'C      Y = ~(A ^ C)
+#
+# Lines starting with # are ignored.
+
+Y = A + B*C
