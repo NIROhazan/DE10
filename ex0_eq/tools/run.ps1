@@ -1,5 +1,5 @@
 # Exercise 0 (equation) runner: equation.txt -> equation.v -> Quartus -> board
-# The equation uses A, B, C and + * ~ ' ! ^ & | . ( ) 0 1; every operation is bit by bit on 4 bits.
+# The equation uses A, B, C and + * ~ ' ! ^ & | . ( ) 0 1 (parser in eq.ps1); bit by bit on 4 bits.
 # Kept ASCII so Windows PowerShell 5.1 reads it without a BOM.
 
 $ErrorActionPreference = "Stop"
@@ -10,78 +10,7 @@ $utf8 = New-Object System.Text.UTF8Encoding($false)
 function Step($t) { Write-Host ""; Write-Host "=== $t ===" -ForegroundColor Cyan }
 function Fail($t) { Write-Host $t -ForegroundColor Red; exit 1 }
 
-# ---------------------------------------------------------------- parser
-# Each Parse* returns @(verilog, powershell) for the same expression.
-#   or  := xor (('+' | '|') xor)*
-#   xor := and ('^' and)*
-#   and := not (('*' | '&' | '.')? not)*      AB = A*B
-#   not := ('~' | '!') not | atom "'"*
-#   atom:= A | B | C | 0 | 1 | '(' or ')'
-$script:tok = @()
-$script:pos = 0
-function Peek { if ($script:pos -lt $script:tok.Count) { $script:tok[$script:pos] } else { "" } }
-function Oops($t) {
-	$where = $script:pos
-	throw "$t (at character $($where + 1) of '$($script:tok -join '')')"
-}
-function ParseOr {
-	$l = ParseXor
-	while ((Peek) -eq "+" -or (Peek) -eq "|") {
-		$script:pos++; $r = ParseXor
-		$l = @("($($l[0]) | $($r[0]))", "($($l[1]) -bor $($r[1]))")
-	}
-	return $l
-}
-function ParseXor {
-	$l = ParseAnd
-	while ((Peek) -eq "^") {
-		$script:pos++; $r = ParseAnd
-		$l = @("($($l[0]) ^ $($r[0]))", "($($l[1]) -bxor $($r[1]))")
-	}
-	return $l
-}
-function ParseAnd {
-	$l = ParseNot
-	while ($true) {
-		$p = Peek
-		if ($p -eq "*" -or $p -eq "&" -or $p -eq ".") { $script:pos++ }
-		elseif (-not ($p -match "^[ABC01(~!]$")) { break }
-		$r = ParseNot
-		$l = @("($($l[0]) & $($r[0]))", "($($l[1]) -band $($r[1]))")
-	}
-	return $l
-}
-function ParseNot {
-	$p = Peek
-	if ($p -eq "~" -or $p -eq "!") {
-		$script:pos++; $x = ParseNot
-		return @("(~$($x[0]))", "((-bnot $($x[1])) -band 15)")
-	}
-	$x = ParseAtom
-	while ((Peek) -eq "'") {
-		$script:pos++
-		$x = @("(~$($x[0]))", "((-bnot $($x[1])) -band 15)")
-	}
-	return $x
-}
-function ParseAtom {
-	$p = Peek
-	switch -CaseSensitive ($p) {
-		"A" { $script:pos++; return @("A", '$A') }
-		"B" { $script:pos++; return @("B", '$B') }
-		"C" { $script:pos++; return @("C", '$C') }
-		"0" { $script:pos++; return @("4'h0", "0") }
-		"1" { $script:pos++; return @("4'hF", "15") }
-		"(" {
-			$script:pos++; $x = ParseOr
-			if ((Peek) -ne ")") { Oops "missing )" }
-			$script:pos++
-			return @("($($x[0]))", "($($x[1]))")
-		}
-		""  { Oops "the equation ends too early" }
-		default { Oops "expected A, B, C, 0, 1, ( or ~ but found '$p'" }
-	}
-}
+. (Join-Path $PSScriptRoot "eq.ps1")
 
 # ---------------------------------------------------------------- 1. Equation
 Step "1/3  Your equation"
@@ -94,35 +23,9 @@ $text = if ($yline.Count) { $yline[-1] } else { @($lines)[-1] }
 $text = ($text -replace '^\s*[Yy]\s*=', '').Trim().TrimEnd(';')
 if ($text -eq "") { Fail "The Y = line in equation.txt is empty. Example:  Y = A + B*C" }
 
-$script:tok = @()
-foreach ($ch in $text.ToCharArray()) {
-	$s = ([string]$ch).ToUpper()
-	if ($s -match '\s') { continue }
-	if ($s -notmatch "^[ABC01+*.&|^~!'()]$") { Fail "  Y = $text`n  '$s' is not allowed. Use A B C 0 1 + * ~ ' ! ^ ( )" }
-	$script:tok += $s
-}
-$script:pos = 0
-try {
-	$e = ParseOr
-	if ($script:pos -lt $script:tok.Count) { Oops "unexpected '$(Peek)'" }
-} catch {
-	Fail "  Y = $text`n  $($_.Exception.Message)"
-}
-$ver = $e[0]; if ($ver.StartsWith("(") -and $ver.EndsWith(")")) { $ver = $ver.Substring(1, $ver.Length - 2) }
+try { $ver, $f = Read-Equation $text } catch { Fail "  Y = $text`n  $($_.Exception.Message)" }
 Write-Host "  Y = $text"
 Write-Host "  Verilog:  assign Y = $ver;"
-
-# A few switch settings to check the board against
-$f = [scriptblock]::Create("param(`$A, `$B, `$C) ($($e[1])) -band 15")
-Write-Host ""
-Write-Host "  Try these on the switches (bit by bit - 1*2 is 0001 AND 0010 = 0000):"
-Write-Host "      A     B     C   ->   Y        HEX0 HEX1 HEX2 -> HEX3"
-function Bin($n) { [Convert]::ToString($n, 2).PadLeft(4, "0") }
-foreach ($t in @(@(1,1,1), @(1,1,2), @(5,3,6), @(12,5,1), @(9,2,4))) {
-	$y = & $f $t[0] $t[1] $t[2]
-	Write-Host ("    {0}  {1}  {2}  ->  {3}         {4:X}    {5:X}    {6:X}  ->  {7:X}" -f
-		(Bin $t[0]), (Bin $t[1]), (Bin $t[2]), (Bin $y), $t[0], $t[1], $t[2], $y)
-}
 
 $v = @(
 	"// Written by run.bat from equation.txt - edit equation.txt, not this file.",
