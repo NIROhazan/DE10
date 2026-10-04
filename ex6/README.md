@@ -1,6 +1,8 @@
 # תרגיל 6 - שורות "לא אכפת" (X)
 
-טבלת האמת (A B C | Y): `000|0  001|0  010|0  011|1  100|X  101|1  110|X  111|1`
+**לכל סטודנט טבלת אמת משלו.** בהרצה הראשונה של `run.bat` מקלידים מספר סטודנט (למשל 3160009489), והטבלה
+האישית נכתבת לתוך `answer.txt`. המשתנים מוחלפים ומתהפכים לפי המספר - אותו תרגיל, אותה רמת קושי, תשובות אחרות.
+כשהכול נכון והלוח נצרב, מקבלים **קוד** בקובץ `moodle.txt` - אותו מגישים במודל.
 
 **X = לא אכפת** (don't care): הצירוף לא יקרה, או שלא משנה מה ייצא בו. אתם מחליטים אם X הוא 0 או 1 -
 וכל ביטוי רשאי להחליט אחרת. השאלה: איך הבחירה הזו מקצרת את הביטוי המינימלי?
@@ -41,3 +43,8 @@
 - Question 4 (A=1 B=0 C=0) is a trap: correct canonical forms disagree on an X row too
   (canonical SOP gives 0, canonical POS gives 1).
 - Answers in `C:\DE10_solutions\ex6\ANSWERS.md` - not in this repo.
+- Personal tables (2026-10-04): `tools/base_top.v` is the original exercise; `tools/variant.ps1` (identical in
+  ex1-ex6) renames/complements the variables from MD5(ID|exN), writes `exN_top.v`, `tools/tutor_personal.md`
+  (the prompt with the student's table and the renaming, so the background still applies) and fills `@TABLE@`
+  in answer.txt on the first run. The ID is in `..\student.txt` (shared by all exercises). Programmed = code
+  HMAC(ID|exN) in moodle.txt. Instructor: `C:/DE10_solutions/answers.ps1 exN <ID>`, `C:/DE10_solutions/verify.bat`.

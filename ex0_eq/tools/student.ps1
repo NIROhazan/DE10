@@ -11,10 +11,14 @@ $script:codeAbc = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ"	# no 0/O, 1/I
 # Student number, e.g. 3160009489: 6-10 digits (no check digit - the Y/N question catches typos)
 function Test-StudentId($id) { return ($id -match '^\d{6,10}$') }
 
+# The ID is kept in ..\student.txt, so every exercise of the course uses the same one.
 function Get-StudentId {
-	if (Test-Path "student.txt") {
-		$id = ([IO.File]::ReadAllText((Resolve-Path "student.txt"))).Trim()
-		if (Test-StudentId $id) { return $id }
+	$shared = Join-Path (Split-Path (Get-Location) -Parent) "student.txt"
+	foreach ($f in @($shared, (Join-Path (Get-Location) "student.txt"))) {
+		if (Test-Path $f) {
+			$id = ([IO.File]::ReadAllText($f)).Trim()
+			if (Test-StudentId $id) { return $id }
+		}
 	}
 	Write-Host ""
 	Write-Host "  First time: type your student ID number (for example 3160009489)." -ForegroundColor Cyan
@@ -28,7 +32,7 @@ function Get-StudentId {
 		if ($null -eq $ok) { exit 0 }
 		if ($ok.Trim() -match '^[Yy]') { break }
 	}
-	[IO.File]::WriteAllText((Join-Path (Get-Location) "student.txt"), $id)
+	try { [IO.File]::WriteAllText($shared, $id) } catch { [IO.File]::WriteAllText((Join-Path (Get-Location) "student.txt"), $id) }
 	return $id
 }
 

@@ -5,6 +5,7 @@
 //   LEDR0 = your SOP   LEDR1 = your POS   LEDR2 = your minimal SOP   LEDR3 = your minimal POS
 //   LEDR9 = ALARM: one of your answers disagrees with Y on this row
 //
+// VARIANTS: perms=ABCD,CDAB masks=-,A,C,AC   (keep the K-map picture: the four corners stay non-adjacent in the drawing)
 // Truth table:  A B C D | Y        A B C D | Y
 //               0 0 0 0 | 1        1 0 0 0 | 1
 //               0 0 0 1 | 1        1 0 0 1 | 0

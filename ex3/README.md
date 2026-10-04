@@ -1,6 +1,8 @@
 # תרגיל 3 - SOP מינימלי מול POS מינימלי
 
-טבלת האמת (A B C | Y): `000|1  001|0  010|1  011|0  100|1  101|1  110|0  111|1`
+**לכל סטודנט טבלת אמת משלו.** בהרצה הראשונה של `run.bat` מקלידים מספר סטודנט (למשל 3160009489), והטבלה
+האישית נכתבת לתוך `answer.txt`. המשתנים מוחלפים ומתהפכים לפי המספר - אותו תרגיל, אותה רמת קושי, תשובות אחרות.
+כשהכול נכון והלוח נצרב, מקבלים **קוד** בקובץ `moodle.txt` - אותו מגישים במודל.
 
 חמישה 1 ושלושה 0. הפעם מבקשים את **שתי** הצורות המינימליות - ומשווים ביניהן.
 
@@ -41,3 +43,8 @@
 - Tested 2026-09-30 end to end on the DE1 with a correct but redundant 4-term MSOP: the board
   proof passed (LEDR9 stuck at GND), feedback flagged "correct but not minimal" and pointed at
   the doubly covered row 100 without writing the minimal cover.
+- Personal tables (2026-10-04): `tools/base_top.v` is the original exercise; `tools/variant.ps1` (identical in
+  ex1-ex6) renames/complements the variables from MD5(ID|exN), writes `exN_top.v`, `tools/tutor_personal.md`
+  (the prompt with the student's table and the renaming, so the background still applies) and fills `@TABLE@`
+  in answer.txt on the first run. The ID is in `..\student.txt` (shared by all exercises). Programmed = code
+  HMAC(ID|exN) in moodle.txt. Instructor: `C:/DE10_solutions/answers.ps1 exN <ID>`, `C:/DE10_solutions/verify.bat`.

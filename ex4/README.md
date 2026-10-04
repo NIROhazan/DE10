@@ -1,7 +1,8 @@
 # תרגיל 4 - ארבעה משתנים: SOP, POS, מפת קרנו ו-XOR
 
-טבלת האמת (A B C D | Y), לפי הסדר 0000 עד 1111:
-`1 0 0 1  0 1 1 0  0 1 1 0  1 0 0 1`
+**לכל סטודנט טבלת אמת משלו.** בהרצה הראשונה של `run.bat` מקלידים מספר סטודנט (למשל 3160009489), והטבלה
+האישית נכתבת לתוך `answer.txt`. המשתנים מוחלפים ומתהפכים לפי המספר - אותו תרגיל, אותה רמת קושי, תשובות אחרות.
+כשהכול נכון והלוח נצרב, מקבלים **קוד** בקובץ `moodle.txt` - אותו מגישים במודל.
 
 ציירו מפת קרנו לפני שאתם כותבים את ה-SOP המינימלי - והסתכלו טוב על מה שיוצא.
 
@@ -44,3 +45,8 @@
 - Tested 2026-09-30 end to end on the DE1 with a false merge in MSOP (0000 with the 0-cell 0010)
   and an XOR missing its complement: both kept wrong on the board; feedback named the 0-cell and
   "every row inverted" and linked it to the student's own ת2, without writing the XNOR form.
+- Personal tables (2026-10-04): `tools/base_top.v` is the original exercise; `tools/variant.ps1` (identical in
+  ex1-ex6) renames/complements the variables from MD5(ID|exN), writes `exN_top.v`, `tools/tutor_personal.md`
+  (the prompt with the student's table and the renaming, so the background still applies) and fills `@TABLE@`
+  in answer.txt on the first run. The ID is in `..\student.txt` (shared by all exercises). Programmed = code
+  HMAC(ID|exN) in moodle.txt. Instructor: `C:/DE10_solutions/answers.ps1 exN <ID>`, `C:/DE10_solutions/verify.bat`.

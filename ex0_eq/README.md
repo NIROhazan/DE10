@@ -36,7 +36,7 @@
   `tools/student.ps1` picks the student's switch setting from MD5(ID|Qn|k) until IF holds (and, for HEX, at most MAX
   settings give the shown digits), so every question has an answer on the board and the difficulty stays.
 - ID in `student.txt` (asked once, 6-10 digits). Code = HMAC-SHA256(key, "ID|Qn"), 5 chars; `moodle.txt` lists them.
-- `C:/DE10_solutions/ex0_eq/`: `verify.bat <folder>` checks the Moodle downloads and writes grades.csv;
-  `answers.ps1 <ID>` shows a student's questions and answers. Change `$codeKey` in student.ps1 every semester.
+- `C:/DE10_solutions/verify.bat <folder>` checks the Moodle downloads of any exercise (grades.csv);
+  `C:/DE10_solutions/answers.bat ex0 <ID>` shows a student's questions and answers. Change `$codeKey` in student.ps1 every semester.
 - Tested 2026-10-04: 20 IDs - every question solvable, Q7/Q9/Q10 have 1-4 solutions; ID 3160009489 solved 10/10
   through the runner and the board; a copied moodle.txt with another ID gets 0 in verify.

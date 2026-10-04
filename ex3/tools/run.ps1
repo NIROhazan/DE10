@@ -1,4 +1,6 @@
 # Exercise runner: answer.txt -> Claude -> student_logic.v + feedback.txt -> Quartus -> board
+# Every student has their own truth table, made from their ID (variant.ps1); a correct, programmed exercise
+# gives a code that goes into moodle.txt for Moodle.
 # Kept ASCII so Windows PowerShell 5.1 reads it without a BOM.
 param([string]$Mode = "")
 
@@ -27,9 +29,20 @@ function Fail($t, [switch]$NoLock) {
 	exit 1
 }
 
-# ---------------------------------------------------------------- 1. Claude
-Step "1/3  Claude reads answer.txt"
+# ---------------------------------------------------------------- 0. This student's table
 if (-not (Test-Path "answer.txt")) { Fail "answer.txt is missing." }
+. (Join-Path $PSScriptRoot "variant.ps1")
+$sid = Get-StudentId
+try { $fresh = New-PersonalFiles $sid $proj } catch { Fail "Cannot make your truth table: $($_.Exception.Message)" -NoLock }
+if ($fresh) {
+	Write-Host ""
+	Write-Host "  ID $sid - your own truth table is now in answer.txt." -ForegroundColor Green
+	Write-Host "  Open answer.txt, solve it for YOUR table, save, and run run.bat again."
+	exit 0
+}
+
+# ---------------------------------------------------------------- 1. Claude
+Step "1/3  Claude reads answer.txt   (ID $sid)"
 
 # Empty answers stop here: no Claude, no compile, no board.
 # Answer lines are "NAME =": expressions with an English name (SOP, POS, MIN, ...) and the
@@ -78,7 +91,7 @@ Write-Host "  Claude is checking your answers - about a minute..."
 # Empty stdin, and stderr only goes to the log: PowerShell 5.1 with "Stop" would treat a
 # stderr warning from claude.exe as a fatal error.
 $ErrorActionPreference = "Continue"
-"" | & $claude -p "Follow the instructions in tools/tutor_prompt.md exactly. The student's answers are in answer.txt." `
+"" | & $claude -p "Follow the instructions in tools/tutor_personal.md exactly. The student's answers are in answer.txt." `
 	--restricted --strict-mcp-config --tools "Read,Write" --permission-mode acceptEdits `
 	> claude.log 2>&1
 $ErrorActionPreference = "Stop"
@@ -177,5 +190,10 @@ if ($LASTEXITCODE -ne 0) {
 	Fail "Programming FAILED. Is the board on, the USB cable in the BLASTER port, and the switch on RUN?" -NoLock
 }
 Write-Host "  Board programmed." -ForegroundColor Green
+# Done: the code for Moodle (made from the ID, so a friend's code does not fit)
+$code = Get-Code $sid $proj
+[IO.File]::WriteAllLines((Join-Path (Get-Location) "moodle.txt"),
+	@("Exercise $($proj -replace '\D', '') - SOP / POS", "ID: $sid", "${proj}: $code"), (New-Object System.Text.UTF8Encoding($false)))
+Write-Host "  Your code for ${proj}: $code   - hand in the file moodle.txt on Moodle." -ForegroundColor Green
 # The switch / LED map is the "//   " block at the top of <proj>_top.v
 Get-Content "${proj}_top.v" | Where-Object { $_ -match '^//   \S' } | ForEach-Object { Write-Host ("  " + $_.Substring(5)) }

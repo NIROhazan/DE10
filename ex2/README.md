@@ -1,6 +1,8 @@
 # תרגיל 2 - SOP / POS עם שלושה משתנים
 
-טבלת האמת (A B C | Y): `000|1  001|0  010|0  011|0  100|0  101|0  110|0  111|1`
+**לכל סטודנט טבלת אמת משלו.** בהרצה הראשונה של `run.bat` מקלידים מספר סטודנט (למשל 3160009489), והטבלה
+האישית נכתבת לתוך `answer.txt`. המשתנים מוחלפים ומתהפכים לפי המספר - אותו תרגיל, אותה רמת קושי, תשובות אחרות.
+כשהכול נכון והלוח נצרב, מקבלים **קוד** בקובץ `moodle.txt` - אותו מגישים במודל.
 
 בתרגיל 1 היה רק 0 אחד, ולכן ה-POS היה קצר. כאן יש רק שני 1 - ומה קורה עכשיו?
 
@@ -34,3 +36,8 @@
   and `answer.txt` differ). Answers in `C:\DE10_solutions\ex2\ANSWERS.md` - not in this repo.
 - Tested 2026-09-30 end to end on the DE1, programming included, with a canonical POS missing
   one maxterm: Claude kept it wrong, feedback pointed at row 110 without writing the maxterm.
+- Personal tables (2026-10-04): `tools/base_top.v` is the original exercise; `tools/variant.ps1` (identical in
+  ex1-ex6) renames/complements the variables from MD5(ID|exN), writes `exN_top.v`, `tools/tutor_personal.md`
+  (the prompt with the student's table and the renaming, so the background still applies) and fills `@TABLE@`
+  in answer.txt on the first run. The ID is in `..\student.txt` (shared by all exercises). Programmed = code
+  HMAC(ID|exN) in moodle.txt. Instructor: `C:/DE10_solutions/answers.ps1 exN <ID>`, `C:/DE10_solutions/verify.bat`.
