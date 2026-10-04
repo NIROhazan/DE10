@@ -1,4 +1,4 @@
-# Exercise 0 - write ONE equation on the Y = line at the bottom, save, run run.bat.
+# Exercise 0 free mode - write ONE equation on the Y = line at the bottom, save, run free.bat.
 #
 #   A = SW3..SW0 (HEX0)   B = SW6..SW4 (HEX1)   C = SW9..SW7 (HEX2)   Y -> HEX3
 #

@@ -35,3 +35,9 @@ history.txt
 
 # the prebuilt "Err" board that run.bat programs whenever it stops
 !locked/locked.sof
+
+# ex0_eq: written by run.bat before each compile, and the student's tries
+ex0_eq/equation.v
+ex0_eq/results.txt
+# ex0_eq: prebuilt board files, one per question equation
+!ex0_eq/sof/*.sof
