@@ -1,11 +1,9 @@
-# Exercise 0 (equation) runner: asks the questions of questions.txt one by one.
-# For each question it programs the board with that question's equation, then the student types the answer here:
-#   Qn:  Y = <equation> | SW: 0 5 8      -> type the four digits HEX3 HEX2 HEX1 HEX0
-#   Qn:  Y = <equation> | HEX: 7 0 3 4   -> type the switches that make the board show this (? = any digit)
-# The right answer is computed from the Q line and never printed. Every try goes to results.txt.
-# Kept ASCII so Windows PowerShell 5.1 reads it without a BOM (the console cannot print Hebrew anyway).
-
-# run.ps1 -Only Q3 asks just that question (even if it was solved before) - that is what Q03.bat does.
+# Exercise 0 (equation) runner. Q03.bat = run.ps1 -Only Q3 (without -Only: every unsolved question in order).
+# questions.txt holds templates; each student gets their own numbers from their ID (student.ps1):
+#   Qn:  Y = <equation> | SW                 -> the student gets switches, types the four digits HEX3 HEX2 HEX1 HEX0
+#   Qn:  Y = <equation> | HEX: Y ? ? A       -> the student gets digits (? hidden), types switches that show them
+# The right answer is never printed. A correct answer gives a code (from the ID) that goes into moodle.txt;
+# every try goes to results.txt. Kept ASCII so Windows PowerShell 5.1 reads it without a BOM.
 param([string]$Only = "")
 
 $ErrorActionPreference = "Stop"
@@ -13,28 +11,41 @@ Set-Location (Split-Path $PSScriptRoot -Parent)
 $utf8 = New-Object System.Text.UTF8Encoding($false)
 . (Join-Path $PSScriptRoot "eq.ps1")
 . (Join-Path $PSScriptRoot "board.ps1")
+. (Join-Path $PSScriptRoot "student.ps1")
 
 function Fail($t) { Write-Host $t -ForegroundColor Red; exit 1 }
 function Log($t) {
 	[IO.File]::AppendAllText((Join-Path (Get-Location) "results.txt"),
-		"[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')]  $t`r`n", $utf8)
+		"[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')]  $sid  $t`r`n", $utf8)
+}
+# moodle.txt = the ID and the code of every solved question - this is what the student hands in
+function Save-Moodle {
+	$out = @("Exercise 0 - DE1 equations", "ID: $sid")
+	foreach ($q in $qs) { if ($solved[$q.Id]) { $out += "$($q.Id): $(Get-Code $sid $q.Id)" } }
+	[IO.File]::WriteAllLines((Join-Path (Get-Location) "moodle.txt"), $out, $utf8)
 }
 
 # ---------------------------------------------------------------- questions
 if (-not (Test-Path "questions.txt")) { Fail "questions.txt is missing." }
 $qs = @()
+$re = '^\s*Q(\d+):\s*Y\s*=\s*(.+?)\s*\|\s*(SW|HEX:\s*[YCBA?](?:\s*[YCBA?]){3})\s*(?:\|\s*MAX:\s*(\d+)\s*)?(?:\|\s*IF:\s*(.*))?$'
 foreach ($line in [IO.File]::ReadAllLines((Resolve-Path "questions.txt"), $utf8)) {
-	if ($line -match '^\s*Q(\d+):\s*Y\s*=\s*(.+?)\s*\|\s*(SW|HEX)\s*:\s*(.*)$') {
-		$qs += [pscustomobject]@{ Id = "Q" + $Matches[1]; Eq = $Matches[2]; Kind = $Matches[3].ToUpper(); Given = $Matches[4].Trim() }
+	if ($line -match $re) {
+		$kind = if ($Matches[3] -eq "SW") { "SW" } else { "HEX" }
+		$qs += [pscustomobject]@{
+			Id = "Q" + $Matches[1]; Eq = $Matches[2]; Kind = $kind
+			Show = ($Matches[3] -replace '^HEX:|\s', ''); Max = [int]$Matches[4]; If = $Matches[5] }
 	}
 }
 if ($qs.Count -eq 0) { Fail "No Q lines in questions.txt." }
 
-# Questions already solved (OK in results.txt) are skipped
+$sid = Get-StudentId
+
+# Questions this ID already solved (OK in results.txt) are skipped
 $solved = @{}
 if (Test-Path "results.txt") {
 	foreach ($l in [IO.File]::ReadAllLines((Resolve-Path "results.txt"), $utf8)) {
-		if ($l -match '\]\s+(Q\d+)\s+OK') { $solved[$Matches[1]] = $true }
+		if ($l -match "\]\s+$sid\s+(Q\d+)\s+OK") { $solved[$Matches[1]] = $true }
 	}
 }
 $left = @($qs | Where-Object { -not $solved[$_.Id] })
@@ -44,22 +55,19 @@ if ($Only) {
 }
 
 Write-Host ""
-Write-Host "  Exercise 0 - equations on the board" -ForegroundColor Cyan
+Write-Host "  Exercise 0 - equations on the board          ID $sid" -ForegroundColor Cyan
 Write-Host "  Board, left to right:   HEX3  HEX2  HEX1  HEX0"
 Write-Host "                           Y     C     B     A"
 Write-Host "  A = SW3..SW0   B = SW6..SW4   C = SW9..SW7   (SW0 is the rightmost switch)"
 Write-Host "  + is OR, * is AND, ~ and ' are NOT, ^ is XOR - bit by bit on 4 bits."
-Write-Host "  Solved $($qs.Count - $left.Count) of $($qs.Count).  Type S to skip a question, Q to stop."
-if ($left.Count -eq 0) { Write-Host "  All questions are solved." -ForegroundColor Green; exit 0 }
+Write-Host "  Solved $(@($qs | Where-Object { $solved[$_.Id] }).Count) of $($qs.Count).  Type S to skip a question, Q to stop."
+if ($left.Count -eq 0) { Write-Host "  All questions are solved. Hand in moodle.txt on Moodle." -ForegroundColor Green; Save-Moodle; exit 0 }
 
 # ---------------------------------------------------------------- one question at a time
 foreach ($q in $left) {
-	$id = $q.Id; $eq = $q.Eq; $kind = $q.Kind; $given = $q.Given
+	$id = $q.Id; $eq = $q.Eq; $kind = $q.Kind
 	$null, $f = Read-Equation $eq
-	# Every question must have an answer that can be set on the board
-	if ($kind -eq "HEX" -and -not (Get-AllDisplays $f | Where-Object { Test-Pattern $_ (($given -replace '\s', '').ToUpper()) })) {
-		Fail "  questions.txt: no switch setting shows $given for Y = $eq - fix this question."
-	}
+	try { $given = New-Question $q $sid } catch { Fail "  $($_.Exception.Message)" }
 	Write-Host ""
 	Write-Host "=== $id   Y = $eq ===" -ForegroundColor Cyan
 	try { Send-Sof (Get-Sof $eq) } catch { Fail "  $($_.Exception.Message)" }
@@ -91,16 +99,17 @@ foreach ($q in $left) {
 		}
 		$tries++
 		if ($good) {
-			Log "$id OK   try $tries   Y = $eq   answer: $ans"
-			Write-Host "  Correct!" -ForegroundColor Green
+			Log "$id OK   try $tries   Y = $eq   asked: $given   answer: $ans"
+			$solved[$id] = $true
+			Save-Moodle
+			Write-Host "  Correct!  Your code for ${id}: $(Get-Code $sid $id)   (saved in moodle.txt)" -ForegroundColor Green
 			break
 		}
-		Log "$id wrong try $tries   Y = $eq   answer: $ans"
+		Log "$id wrong try $tries   Y = $eq   asked: $given   answer: $ans"
 		Write-Host "  Wrong - look at the board again and try again." -ForegroundColor Red
 	}
 }
 
-$n = 0
-foreach ($l in [IO.File]::ReadAllLines((Resolve-Path "results.txt"), $utf8)) { if ($l -match '\]\s+Q\d+\s+OK') { $n++ } }
+$n = @($qs | Where-Object { $solved[$_.Id] }).Count
 Write-Host ""
-Write-Host "  Done. Solved $n of $($qs.Count). Your tries are saved in results.txt." -ForegroundColor Cyan
+Write-Host "  Solved $n of $($qs.Count). When you finish, hand in the file moodle.txt on Moodle." -ForegroundColor Cyan

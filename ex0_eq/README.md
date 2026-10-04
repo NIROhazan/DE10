@@ -15,22 +15,28 @@
 
 ## השאלות
 
-- **Q01-Q07 (חלק 1):** מרימים רק את המתגים שבשאלה, ומקלידים מה רואים - 4 תווים, משמאל לימין: HEX3 HEX2 HEX1 HEX0.
-- **Q08-Q12 (חלק 2):** הלוח צריך להראות את המספרים שבשאלה (`?` = כל ספרה). מוצאים אילו מתגים להרים, ומקלידים את מספרי המתגים.
+10 שאלות, מ-`Q01.bat` (קל מאוד) עד `Q10.bat` (מומחה). **לכל סטודנט יש מספרים משלו** - בפעם הראשונה מקלידים
+מספר סטודנט (למשל 3160009489), והשאלות נבנות ממנו. אי אפשר לשנות אותו אחר כך.
 
-תשובה שגויה - מנסים שוב. `S` = לדלג, `Q` = לצאת. כל ניסיון נרשם ב-`results.txt` עם השעה - המרצה יסתכל בו.
+- **Q01-Q03, Q05, Q06:** מרימים רק את המתגים שבשאלה, ומקלידים מה רואים - 4 תווים, משמאל לימין: HEX3 HEX2 HEX1 HEX0.
+- **Q04, Q07-Q10:** הלוח צריך להראות את המספרים שבשאלה (`?` = כל ספרה). מוצאים אילו מתגים להרים, ומקלידים את מספרי המתגים.
+
+תשובה שגויה - מנסים שוב. `S` = לדלג, `Q` = לצאת. כל ניסיון נרשם ב-`results.txt`.
+
+## ההגשה במודל
+
+על כל תשובה נכונה מקבלים **קוד** (למשל `NSKWP`), והוא נשמר בקובץ `moodle.txt` יחד עם מספר הסטודנט.
+בסוף מגישים במודל את הקובץ `moodle.txt`. הקודים נבנים ממספר הסטודנט - קוד של חבר לא יתקבל אצלכם.
 
 `free.bat` - מצב חופשי: כותבים משוואה משלכם בשורה `Y =` בקובץ `equation.txt` ורואים אותה על הלוח.
 
 ## Instructor notes
 
-- `questions.txt` holds the questions: `Qn: Y = <eq> | SW: 0 5 8` (part 1) or `Qn: Y = <eq> | HEX: 7 0 3 4`
-  (part 2, any switch set that gives the digits is accepted). The right answer is computed from that line and
-  never printed, so questions can be edited freely. A new question needs its own `Qnn.bat`
-  (copy one and change the `-Only Qn`).
-- `tools/eq.ps1` parser, `tools/board.ps1` builds `sof/<hash>.sof` once per equation (prebuilt and committed
-  for Q1-Q12, a new equation compiles in about 10 s) and programs it, `tools/run.ps1 -Only Qn` asks one question
-  (without `-Only` it asks all unsolved ones in order), `tools/free.ps1` = free mode.
-- Key: `C:/DE10_solutions/ex0_eq/answer_filled.txt` (all 12 verified through the runner).
-- Traps: Q3 `A*B` with 6 and 3 gives 2, not 18; Q5 `~A` is 4 bits; Q12 needs every switch except A's low 3 bits -
-  the only way to get F with A = 8 is B = C = 7.
+- `questions.txt` = templates: `Qn: Y = <eq> | SW | IF: <cond>` or `Qn: Y = <eq> | HEX: Y ? ? A | MAX: n | IF: <cond>`.
+  `tools/student.ps1` picks the student's switch setting from MD5(ID|Qn|k) until IF holds (and, for HEX, at most MAX
+  settings give the shown digits), so every question has an answer on the board and the difficulty stays.
+- ID in `student.txt` (asked once, 6-10 digits). Code = HMAC-SHA256(key, "ID|Qn"), 5 chars; `moodle.txt` lists them.
+- `C:/DE10_solutions/ex0_eq/`: `verify.bat <folder>` checks the Moodle downloads and writes grades.csv;
+  `answers.ps1 <ID>` shows a student's questions and answers. Change `$codeKey` in student.ps1 every semester.
+- Tested 2026-10-04: 20 IDs - every question solvable, Q7/Q9/Q10 have 1-4 solutions; ID 3160009489 solved 10/10
+  through the runner and the board; a copied moodle.txt with another ID gets 0 in verify.

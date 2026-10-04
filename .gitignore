@@ -41,3 +41,6 @@ ex0_eq/equation.v
 ex0_eq/results.txt
 # ex0_eq: prebuilt board files, one per question equation
 !ex0_eq/sof/*.sof
+# ex0_eq: the student's ID and the codes to hand in on Moodle
+ex0_eq/student.txt
+ex0_eq/moodle.txt
