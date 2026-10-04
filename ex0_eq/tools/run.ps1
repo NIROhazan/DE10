@@ -1,7 +1,9 @@
 # Exercise 0 (equation) runner: asks the questions of questions.txt one by one.
 # For each question it programs the board with that question's equation, then the student types the answer here:
 #   Qn:  Y = <equation> | SW: 0 5 8      -> type the four digits HEX3 HEX2 HEX1 HEX0
-#   Qn:  Y = <equation> | HEX: 7 0 3 4   -> type the switches that make the board show this (? = any digit)
+#   Qn:  Y = <equation> | HEX: 7 0 3 4   -> type the switches that make the board show this (? = any digit),
+#                                           or NONE when no switch setting can
+#   Qn:  Y = <equation> | COUNT: 7       -> type how many of the 1024 switch settings make HEX3 show 7
 # The right answer is computed from the Q line and never printed. Every try goes to results.txt.
 # Kept ASCII so Windows PowerShell 5.1 reads it without a BOM (the console cannot print Hebrew anyway).
 
@@ -24,7 +26,7 @@ function Log($t) {
 if (-not (Test-Path "questions.txt")) { Fail "questions.txt is missing." }
 $qs = @()
 foreach ($line in [IO.File]::ReadAllLines((Resolve-Path "questions.txt"), $utf8)) {
-	if ($line -match '^\s*Q(\d+):\s*Y\s*=\s*(.+?)\s*\|\s*(SW|HEX)\s*:\s*(.*)$') {
+	if ($line -match '^\s*Q(\d+):\s*Y\s*=\s*(.+?)\s*\|\s*(SW|HEX|COUNT)\s*:\s*(.*)$') {
 		$qs += [pscustomobject]@{ Id = "Q" + $Matches[1]; Eq = $Matches[2]; Kind = $Matches[3].ToUpper(); Given = $Matches[4].Trim() }
 	}
 }
@@ -64,9 +66,12 @@ foreach ($q in $left) {
 		$sw = @([regex]::Matches($given, '\d') | ForEach-Object { [int]$_.Value })
 		Write-Host "  Raise ONLY these switches: $(($sw | ForEach-Object { "SW$_" }) -join ' ')"
 		Write-Host "  What do HEX3 HEX2 HEX1 HEX0 show? (4 digits, e.g. 3 0 2 1)"
-	} else {
+	} elseif ($kind -eq "HEX") {
 		Write-Host "  Make the board show (HEX3 HEX2 HEX1 HEX0):   $given      (? = any digit)"
-		Write-Host "  Which switches did you raise? (switch numbers, e.g. 0 4 6)"
+		Write-Host "  Which switches did you raise? (switch numbers, e.g. 0 4 6 - or NONE if no setting can do it)"
+	} else {
+		Write-Host "  There are 1024 ways to set the 10 switches."
+		Write-Host "  In how many of them does HEX3 show $given ? (a number)"
 	}
 
 	$tries = 0
@@ -74,19 +79,25 @@ foreach ($q in $left) {
 		$ans = Read-Host "  $id answer"
 		if ($null -eq $ans) { exit 0 }		# input closed
 		$ans = $ans.Trim()
-		if ($ans -match '^[Qq]$') { Write-Host "  Stopped. Run run.bat again to continue."; exit 0 }
+		if ($ans -match '^[Qq]$') { Write-Host "  Stopped. Run the question again to continue."; exit 0 }
 		if ($ans -match '^[Ss]$') { Log "$id skipped after $tries tries"; break }
 		if ($kind -eq "SW") {
 			$mine = ($ans -replace '\s', '').ToUpper()
 			if ($mine -notmatch '^[0-9A-F]{4}$') { Write-Host "  Type 4 digits 0-9 / A-F, e.g. 3 0 2 1" -ForegroundColor Yellow; continue }
 			$good = ($mine -eq (Get-Display $f $sw))
-		} else {
-			if ($ans -notmatch '^[\sSWsw0-9,]+$' -or $ans -notmatch '\d') { Write-Host "  Type switch numbers, e.g. 0 4 6" -ForegroundColor Yellow; continue }
-			$mine = @([regex]::Matches($ans, '\d') | ForEach-Object { [int]$_.Value })
-			$shown = Get-Display $f $mine
+		} elseif ($kind -eq "HEX") {
 			$want = ($given -replace '\s', '').ToUpper()
-			$good = $true
-			for ($i = 0; $i -lt 4; $i++) { if ($want[$i] -ne '?' -and $want[$i] -ne $shown[$i]) { $good = $false } }
+			if ($ans -match '^(none|-)$') {
+				$good = -not (Get-AllDisplays $f | Where-Object { Test-Pattern $_ $want })
+			} else {
+				if ($ans -notmatch '^[\sSWsw0-9,]+$' -or $ans -notmatch '\d') { Write-Host "  Type switch numbers, e.g. 0 4 6 (or NONE)" -ForegroundColor Yellow; continue }
+				$mine = @([regex]::Matches($ans, '\d') | ForEach-Object { [int]$_.Value })
+				$good = Test-Pattern (Get-Display $f $mine) $want
+			}
+		} else {
+			if ($ans -notmatch '^\d+$') { Write-Host "  Type one number, e.g. 64" -ForegroundColor Yellow; continue }
+			$want = $given.Trim().ToUpper()
+			$good = ([int]$ans -eq @(Get-AllDisplays $f | Where-Object { $_[0] -eq $want[0] }).Count)
 		}
 		$tries++
 		if ($good) {

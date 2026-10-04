@@ -91,7 +91,18 @@ function Read-Equation($text) {
 # The four digits the board shows, left to right (HEX3 HEX2 HEX1 HEX0 = Y C B A), for a set of raised switches
 function Get-Display($f, [int[]]$sw) {
 	$v = 0; foreach ($n in $sw) { $v = $v -bor (1 -shl $n) }
+	return Get-DisplayOf $f $v
+}
+# ... and for the switches as one 10-bit number (SW9 = bit 9)
+function Get-DisplayOf($f, [int]$v) {
 	$A = $v -band 15; $B = ($v -shr 4) -band 7; $C = ($v -shr 7) -band 7
 	$Y = & $f $A $B $C
 	return ("{0:X}{1:X}{2:X}{3:X}" -f $Y, $C, $B, $A)
+}
+# What the board shows for every one of the 1024 switch settings
+function Get-AllDisplays($f) { return @(0..1023 | ForEach-Object { Get-DisplayOf $f $_ }) }
+# Does a display match a pattern like "F??8" (? = any digit)?
+function Test-Pattern($shown, $want) {
+	for ($i = 0; $i -lt 4; $i++) { if ($want[$i] -ne '?' -and $want[$i] -ne $shown[$i]) { return $false } }
+	return $true
 }

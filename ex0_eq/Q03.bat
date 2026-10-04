@@ -1,6 +1,6 @@
 @echo off
 rem ============================================================
-rem  Exercise 0 - question 3
+rem  Exercise 0 - question 3 of 10 (1 = easiest, 10 = expert)
 rem  Programs the board with the equation of Q3, then asks the
 rem  question here. Your tries are saved in results.txt.
 rem ============================================================
