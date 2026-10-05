@@ -15,11 +15,12 @@
 
 ## השאלות
 
-10 שאלות, מ-`Q01.bat` (קל מאוד) עד `Q10.bat` (מומחה). **לכל סטודנט יש מספרים משלו** - בפעם הראשונה מקלידים
+20 שאלות בשני סטים: `Q01.bat` (קל מאוד) עד `Q10.bat` (מומחה), ואז `Q11.bat` (קל) עד `Q20.bat` (מומחה) -
+עם פעולות חדשות: NOT בגרש, XOR של B ו-C, סדר פעולות, NOR, XOR כתוב כ-SOP, ושני נעלמים. **לכל סטודנט יש מספרים משלו** - בפעם הראשונה מקלידים
 מספר סטודנט (למשל 3160009489), והשאלות נבנות ממנו. אי אפשר לשנות אותו אחר כך.
 
-- **Q01-Q03, Q05, Q06:** מרימים רק את המתגים שבשאלה, ומקלידים מה רואים - 4 תווים, משמאל לימין: HEX3 HEX2 HEX1 HEX0.
-- **Q04, Q07-Q10:** הלוח צריך להראות את המספרים שבשאלה (`?` = כל ספרה). מוצאים אילו מתגים להרים, ומקלידים את מספרי המתגים.
+- **Q01-Q03, Q05, Q06, Q11-Q14:** מרימים רק את המתגים שבשאלה, ומקלידים מה רואים - 4 תווים, משמאל לימין: HEX3 HEX2 HEX1 HEX0.
+- **Q04, Q07-Q10, Q15-Q20:** הלוח צריך להראות את המספרים שבשאלה (`?` = כל ספרה). מוצאים אילו מתגים להרים, ומקלידים את מספרי המתגים.
 
 תשובה שגויה - מנסים שוב. `S` = לדלג, `Q` = לצאת. כל ניסיון נרשם ב-`results.txt`.
 
@@ -40,3 +41,5 @@
   `C:/DE10_solutions/answers.bat ex0 <ID>` shows a student's questions and answers. Change `$codeKey` in student.ps1 every semester.
 - Tested 2026-10-04: 20 IDs - every question solvable, Q7/Q9/Q10 have 1-4 solutions; ID 3160009489 solved 10/10
   through the runner and the board; a copied moodle.txt with another ID gets 0 in verify.
+- Set 2 (2026-10-05): Q11-Q20 checked over 20 IDs (every HEX question 1-4 solutions; Q20 MAX 3 for variety) and
+  run on the board with ID 316009489 (10/10). `sof/` holds the prebuilt board file of every question equation.

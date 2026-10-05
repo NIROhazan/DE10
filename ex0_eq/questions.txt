@@ -45,3 +45,38 @@ Q9:  Y = B + C'           | HEX: Y ? B A | MAX: 2
 
 # 10 - מומחה: (A+B)(A'+C) הוא בורר (MUX) לכל ביט - איפה ש-A=1 נלקח הביט של C, איפה ש-A=0 של B
 Q10: Y = (A + B)(A' + C)  | HEX: Y C ? A | MAX: 4 | IF: ($A -band 7) -ne 0 -and ($A -band 7) -ne 7
+
+# ------------------------------------------------------------
+#  סט 2: עוד 10 שאלות, שוב מקלה (11) עד מומחה (20)
+# ------------------------------------------------------------
+
+# 11 - קל: OR עם C (לביט העליון של C אין אף פעם 1)
+Q11: Y = A + C            | SW | IF: $B -eq 0 -and $A -ne 0 -and $C -ne 0 -and ($A -band $C) -ne 0
+
+# 12 - קל: NOT בכתיב של גרש - שוב 4 ביטים
+Q12: Y = A'               | SW | IF: (Bits $A) -ge 2 -and (Bits $A) -le 3
+
+# 13 - קל-בינוני: XOR של שני מספרים של 3 ביטים
+Q13: Y = B ^ C            | SW | IF: (Bits $B) -ge 2 -and (Bits $C) -ge 2 -and ($B -band $C) -ne 0
+
+# 14 - בינוני: סדר פעולות - AND לפני OR
+Q14: Y = AB + C           | SW | IF: (Bits $A) -ge 2 -and $B -ne 0 -and $C -ne 0 -and ($A -band $B) -ne 0 -and (($A -band $B) -band (-bnot $C)) -ne 0
+
+# 15 - בינוני: NOT של OR בכיוון ההפוך - B מוסתר
+Q15: Y = (A + B)'         | HEX: Y C ? A | MAX: 4 | IF: $Y -ne 0 -and ($A -band 7) -ne 7
+
+# 16 - בינוני-קשה: להפוך XOR - A מוסתר ונקבע לגמרי מ-Y ומ-B
+Q16: Y = A ^ B            | HEX: Y ? B ? | IF: $B -ne 0 -and (Bits $A) -ge 2 -and $C -eq 0
+
+# 17 - קשה: איפה ש-C = 0 הביט של B לא משנה; איפה ש-C = 1 הוא נקבע מ-A ומ-Y
+Q17: Y = (A ^ B)C         | HEX: Y C ? A | MAX: 4 | IF: (Bits $C) -ge 2 -and $Y -ne 0
+
+# 18 - קשה: לזהות ש-AB' + A'B הוא XOR, ואז לפתור את A
+Q18: Y = AB' + A'B        | HEX: Y C B ? | IF: $B -ne 0 -and (Bits $A) -ge 2
+
+# 19 - מומחה: NOR ואחריו XOR - לפתור את B משני השלבים
+Q19: Y = (A + B)' ^ C     | HEX: Y C ? A | MAX: 4 | IF: ($A -band 7) -ne 7 -and $C -ne 0
+
+# 20 - מומחה: שני נעלמים - B ו-C מוסתרים, A ו-Y ידועים
+Q20: Y = (A ^ C) + BC     | HEX: Y ? ? A | MAX: 3 | IF: (Bits $A) -ge 1
+
