@@ -42,7 +42,11 @@ $names = @($board.Vars) + @($board.Signals.Keys)
 
 Write-Host ""
 Write-Host "=== $proj  $($ask.Id) $($ask.Title)          ID $sid ===" -ForegroundColor Cyan
-if ($v.Expr) {
+if ($v.Story) {
+	Write-Host "  Your story:"; Write-Host "     $($v.Story.En)"
+} elseif ($v.Net.Count) {
+	Write-Host "  Your circuit (each line is one gate):"; $v.Net | ForEach-Object { Write-Host "     $(Convert-Expr $v $_)" }
+} elseif ($v.Expr) {
 	Write-Host "  Your expression:   Y = $(Convert-Expr $v $v.Expr)"
 } else {
 	Write-Host "  Your truth table:"
@@ -50,7 +54,7 @@ if ($v.Expr) {
 }
 Write-Host ""
 Write-Host "  $($ask.Text)" -ForegroundColor White
-Write-Host "  Write:  A' = NOT A   AB = A AND B   A+B = A OR B   (...)' = NOT of the whole group   Q = stop"
+Write-Host "  Write:  A' (or NOT A)   AB (or A AND B)   A+B (or A OR B)   (...)' = NOT of the whole group   Q = stop"
 if ($ask.Names.Count -gt 1) { Write-Host "  One line each for $($ask.Names -join ', ').  Enter on an empty line = the same as the line above." }
 Lock-Board
 
@@ -87,12 +91,11 @@ $null = $top -match 'student_logic\s+\w+\s*\(([^;]*)\);'
 $ports = @([regex]::Matches($Matches[1], '\.(\w+)\s*\(') | ForEach-Object { $_.Groups[1].Value })
 $inputs = @($ports | Where-Object { $names -contains $_ })
 $outs = @($ports | Where-Object { $names -notcontains $_ })
-$canon = Get-CanonVerilog $board
 $sl = @("// Written by $($ask.Id).bat from the answer typed in the console - do not edit.", "module student_logic(")
 $sl += @($inputs | ForEach-Object { "`tinput  $_," })
 $sl += (@($outs | ForEach-Object { "`toutput $_" }) -join ",`r`n")
 $sl += "`t);"
-$sl += @($outs | ForEach-Object { "`tassign $_ = $(if ($answers.Contains($_)) { $answers[$_] } else { $canon });" })
+$sl += @($outs | ForEach-Object { "`tassign $_ = $(if ($answers.Contains($_)) { $answers[$_] } else { Get-CanonVerilog $board $_ });" })
 $sl += "endmodule"
 [IO.File]::WriteAllLines((Join-Path (Get-Location) "student_logic.v"), $sl, $utf8)
 

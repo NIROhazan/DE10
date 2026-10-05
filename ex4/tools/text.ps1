@@ -30,7 +30,9 @@ if (-not $hebrew) { $hebrew = "" }
 
 Write-Host ""
 Write-Host "=== $proj  $Q  written question $k          ID $sid ===" -ForegroundColor Cyan
-if ($v.Expr) { Write-Host "  Your expression:   Y = $(Convert-Expr $v $v.Expr)" }
+if ($v.Story) { Write-Host "  Your story:"; Write-Host "     $($v.Story.En)" }
+elseif ($v.Net.Count) { Write-Host "  Your circuit:"; $v.Net | ForEach-Object { Write-Host "     $(Convert-Expr $v $_)" } }
+elseif ($v.Expr) { Write-Host "  Your expression:   Y = $(Convert-Expr $v $v.Expr)" }
 else { Write-Host "  Your truth table:"; Format-Table $v "     " "  " | ForEach-Object { Write-Host $_ } }
 Write-Host ""
 Write-Host "  $english" -ForegroundColor White

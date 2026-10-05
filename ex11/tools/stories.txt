@@ -1,0 +1,44 @@
+# Exercise 11 - one story per student, picked from the ID (tools/variant.ps1).
+# TABLE = Y for the rows ABC = 000 .. 111. Every story has the shape  P and (Q or R),  sometimes with a NOT:
+# 3 ones, minimal SOP 2 terms / 4 literals, minimal POS 2 sums / 3 literals - the same difficulty for all.
+# EN is shown in the console, HE goes into answer.txt. A = SW0, B = SW1, C = SW2.
+
+=== 1 park
+TABLE: 01110000
+EN: You go to the park (Y = 1) when it is NOT raining (A = 1 means it is raining), and you have sandwiches (B) or a friend comes along (C).
+HE: הולכים לפארק (Y=1) כשלא יורד גשם (A=1 פירושו שיורד גשם), ויש לכם כריכים (B) או שחבר מצטרף (C).
+
+=== 2 alarm
+TABLE: 00010011
+EN: The alarm rings (Y = 1) when the system is armed (B), and the door is open (A) or the window is open (C).
+HE: האזעקה מצלצלת (Y=1) כשהמערכת דרוכה (B), והדלת פתוחה (A) או שהחלון פתוח (C).
+
+=== 3 elevator
+TABLE: 00000111
+EN: The elevator door opens (Y = 1) when the elevator has stopped (A), and someone pressed the button (B) or the sensor sees an obstacle (C).
+HE: דלת המעלית נפתחת (Y=1) כשהמעלית עצרה (A), ומישהו לחץ על הכפתור (B) או שהחיישן מזהה מכשול (C).
+
+=== 4 phone
+TABLE: 00001101
+EN: The phone rings (Y = 1) when there is a call (A), and the phone is NOT on silent (B = 1 means silent) or the caller is a VIP contact (C).
+HE: הטלפון מצלצל (Y=1) כשיש שיחה (A), והטלפון לא במצב שקט (B=1 פירושו מצב שקט) או שהמתקשר הוא איש קשר חשוב (C).
+
+=== 5 course
+TABLE: 00010101
+EN: You pass the course (Y = 1) when you submitted all the labs (C), and you passed the exam (A) or you did the bonus project (B).
+HE: עוברים את הקורס (Y=1) כשהגשתם את כל המעבדות (C), ועברתם את המבחן (A) או שעשיתם את פרויקט הבונוס (B).
+
+=== 6 car
+TABLE: 00001011
+EN: The car starts (Y = 1) when the key is in (A), and the brake is pressed (B) or the car is NOT in gear (C = 1 means in gear).
+HE: המכונית מתניעה (Y=1) כשהמפתח בפנים (A), והבלם לחוץ (B) או שהמכונית לא בהילוך (C=1 פירושו בהילוך).
+
+=== 7 sprinkler
+TABLE: 01001100
+EN: The sprinkler waters the garden (Y = 1) when it is NOT raining (B = 1 means it is raining), and it is morning (A) or the soil is dry (C).
+HE: הממטרה משקה את הגינה (Y=1) כשלא יורד גשם (B=1 פירושו שיורד גשם), וזה בוקר (A) או שהאדמה יבשה (C).
+
+=== 8 heater
+TABLE: 01000101
+EN: The heater turns on (Y = 1) when someone is at home (C), and it is cold (A) or eco mode is OFF (B = 1 means eco mode is on).
+HE: התנור נדלק (Y=1) כשמישהו בבית (C), וקר (A) או שמצב החיסכון כבוי (B=1 פירושו שמצב החיסכון פועל).

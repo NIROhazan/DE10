@@ -10,6 +10,8 @@
 #   // GRADE: <names> : <rules>         ask.ps1 gives the code only when these hold too (run.ps1 ignores them -
 #                                       there minimality stays with Claude's feedback)
 #   // ASK Q1 SOP: SOP | <English text> one question of ask.ps1 (Q1_SOP.bat): the answer names it asks for
+#   // TARGETS: Y3 Y2 Y1 Y0             several outputs: the rows are  4'b1000: Y = 4'b1000;  and an answer
+#                                       named Y2 is compared to that column (the others to Y)
 # Rules: SOP  POS        a sum of products / a product of sums of single variables or their NOT
 #        CSOP CPOS       canonical: one minterm per 1-row / one maxterm per 0-row (X rows not listed)
 #        MIN             with SOP or POS: the fewest terms, then the fewest literals (X rows may be used)
@@ -92,12 +94,12 @@ function Get-MinCost($rows, [int]$n, [bool]$pos) {
 		$hit = @(0..($on.Count - 1) | Where-Object { & $cov $c $on[$_] })
 		if ($hit.Count -eq 0) { continue }
 		$mask = 0; foreach ($h in $hit) { $mask = $mask -bor (1 -shl $h) }
-		$cubes += [pscustomobject]@{ Mask = $mask; Lits = ($c.ToCharArray() | Where-Object { $_ -ne '-' }).Count }
+		$cubes += [pscustomobject]@{ Mask = $mask; Lits = ($c.ToCharArray() | Where-Object { $_ -ne '-' }).Count; Cube = $c }
 	}
 	# keep only cubes that no other cube beats (same or bigger cover, fewer or equal literals)
 	$cubes = @($cubes | Sort-Object Lits | Where-Object { $me = $_; -not @($cubes | Where-Object { $_ -ne $me -and ($_.Mask -bor $me.Mask) -eq $_.Mask -and $_.Lits -lt $me.Lits }).Count })
 	$all = (1 -shl $on.Count) - 1
-	if (@($cubes | Where-Object { $_.Lits -eq 0 }).Count) { return @(1, 0) }
+	if (@($cubes | Where-Object { $_.Lits -eq 0 }).Count) { $script:minCover = @("-" * $n); return @(1, 0) }
 	$best = $null
 	for ($t = 1; $t -le $cubes.Count -and -not $best; $t++) {
 		# every choice of t cubes (n <= 4, so this is small)
@@ -105,7 +107,7 @@ function Get-MinCost($rows, [int]$n, [bool]$pos) {
 		while ($true) {
 			$m = 0; $l = 0
 			foreach ($i in $idx) { $m = $m -bor $cubes[$i].Mask; $l += $cubes[$i].Lits }
-			if ($m -eq $all -and (-not $best -or $l -lt $best[1])) { $best = @($t, $l) }
+			if ($m -eq $all -and (-not $best -or $l -lt $best[1])) { $best = @($t, $l); $script:minCover = @($idx | ForEach-Object { $cubes[$_].Cube }) }
 			$j = $t - 1
 			while ($j -ge 0 -and $idx[$j] -eq $cubes.Count - $t + $j) { $j-- }
 			if ($j -lt 0) { break }
@@ -113,6 +115,21 @@ function Get-MinCost($rows, [int]$n, [bool]$pos) {
 		}
 	}
 	return $best
+}
+
+# One minimal SOP (or POS) of the table in the student's notation, e.g. A'B + AC  /  (A + B)(A' + C)
+function Get-MinExpr($rows, [string[]]$vars, [bool]$pos) {
+	$script:minCover = @()
+	$null = Get-MinCost $rows $vars.Count $pos
+	$terms = @($script:minCover | ForEach-Object {
+		$c = $_
+		$lits = @(0..($vars.Count - 1) | Where-Object { $c[$_] -ne '-' } | ForEach-Object {
+			# SOP: a 1 in the cube is the variable, a 0 its NOT; POS (cubes of 0-rows): the other way round
+			if (($c[$_] -eq '1') -xor $pos) { $vars[$_] } else { $vars[$_] + "'" } })
+		if ($pos) { if ($lits.Count -gt 1) { "(" + ($lits -join " + ") + ")" } else { $lits -join "" } } else { $lits -join "" } })
+	if ($terms.Count -eq 0 -or ($terms.Count -eq 1 -and $terms[0] -eq "")) { return $(if ($pos) { "0" } else { "1" }) }
+	if ($pos) { return ($terms -join "") }
+	return ($terms -join " + ")
 }
 
 # ---------------------------------------------------------------- the form rules
@@ -206,10 +223,12 @@ function Get-Board([string]$topFile) {
 	$top = [IO.File]::ReadAllText($topFile)
 	if ($top -notmatch 'case\s*\(\{([^}]*)\}\)') { throw "Cannot find the truth table in $topFile." }
 	$vars = @($Matches[1] -split ',' | ForEach-Object { $_.Trim() })
-	$rows = @([regex]::Matches($top, "\d+'b([01]+):\s*(?:begin\s*)?Y\s*=\s*1'b([01]);(\s*dc\s*=\s*1'b1)?") |
-		ForEach-Object { [pscustomobject]@{ Bits = $_.Groups[1].Value; Y = [int]$_.Groups[2].Value; Dc = $_.Groups[3].Success } })
+	$rows = @([regex]::Matches($top, "\d+'b([01]+):\s*(?:begin\s*)?Y\s*=\s*\d+'b([01]+);(\s*dc\s*=\s*1'b1)?") |
+		ForEach-Object { $y = $_.Groups[2].Value; [pscustomobject]@{ Bits = $_.Groups[1].Value; Y = $(if ($y.Length -eq 1) { [int]$y } else { $y }); Dc = $_.Groups[3].Success } })
+	$rows = @($rows | Sort-Object Bits)
 	if ($rows.Count -ne [math]::Pow(2, $vars.Count)) { throw "The truth table in $topFile has $($rows.Count) rows - expected $([math]::Pow(2, $vars.Count))." }
-	$b = [pscustomobject]@{ Vars = $vars; Rows = $rows; Signals = [ordered]@{}; Checks = [ordered]@{}; Only = @{}; Grade = @{}; Asks = @() }
+	$targets = @(if ($top -match '(?m)^//\s*TARGETS:\s*(.+?)\s*$') { $Matches[1] -split '\s+' })	# @() even when there are none
+	$b = [pscustomobject]@{ Vars = $vars; Rows = $rows; Signals = [ordered]@{}; Checks = [ordered]@{}; Only = @{}; Grade = @{}; Asks = @(); Targets = $targets }
 	foreach ($m in [regex]::Matches($top, '(?m)^//\s*SIGNAL:\s*(\w+)\s*=\s*(.+?)\s*$')) { $b.Signals[$m.Groups[1].Value] = $m.Groups[2].Value }
 	foreach ($m in [regex]::Matches($top, '(?m)^//\s*CHECK:\s*(\w+)\s*=\s*(.+?)\s*$')) { $b.Checks[$m.Groups[1].Value] = $m.Groups[2].Value }
 	foreach ($m in [regex]::Matches($top, '(?m)^//\s*(ONLY|GRADE):\s*([\w ]+?)\s*:\s*(.+?)\s*$')) {
@@ -222,6 +241,13 @@ function Get-Board([string]$topFile) {
 	return $b
 }
 
+# The rows with Y = the column of one output (several outputs), or the rows as they are
+function Get-TargetRows($board, $name) {
+	$i = [array]::IndexOf(@($board.Targets), $name)
+	if ($i -lt 0) { return $board.Rows }
+	return @($board.Rows | ForEach-Object { [pscustomobject]@{ Bits = $_.Bits; Y = [int]("" + $_.Y[$i]); Dc = $_.Dc } })
+}
+
 # ---------------------------------------------------------------- check answers against the table
 # $answers: ordered name -> Verilog. Prints one line per answer; returns the number of failed answers.
 # -Grade also applies the GRADE rules and returns their failures in $script:gradeFail (not counted as wrong).
@@ -232,7 +258,9 @@ function Test-Answers($board, $answers, [switch]$Grade) {
 		$mine = @($answers.Keys | Where-Object { $board.Checks[$c] -match "\b$_\b" })
 		if ($mine.Count) { $checks[$c] = $board.Checks[$c]; foreach ($n in $mine) { $parts[$n] = $true } }
 	}
-	$ctx = [pscustomobject]@{ Rows = $board.Rows; Vars = $board.Vars }
+	$ctx = @{}
+	foreach ($n in $answers.Keys) { $ctx[$n] = [pscustomobject]@{ Rows = (Get-TargetRows $board $n); Vars = $board.Vars } }
+	$col = @{}; foreach ($n in $answers.Keys) { $col[$n] = [array]::IndexOf(@($board.Targets), $n) }
 	$bad = @{}; $broken = @{}
 	foreach ($n in @($answers.Keys) + @($checks.Keys)) { $bad[$n] = @() }
 	foreach ($r in $board.Rows) {
@@ -245,30 +273,36 @@ function Test-Answers($board, $answers, [switch]$Grade) {
 			if ($broken[$n]) { continue }
 			try { $v = Test-Expr $answers[$n] $val } catch { $broken[$n] = "could not be read ($($_.Exception.Message))"; continue }
 			$val[$n] = $v
-			if (-not $parts[$n] -and $v -ne $r.Y) { $bad[$n] += $here }
+			$want = if ($col[$n] -ge 0) { [int]("" + $r.Y[$col[$n]]) } else { $r.Y }
+			if (-not $parts[$n] -and $v -ne $want) { $bad[$n] += "${here}: yours $v, $(if ($col[$n] -ge 0) { $n } else { 'Y' }) $want" }
 		}
 		foreach ($c in $checks.Keys) {
 			if ($broken[$c]) { continue }
 			try { $v = Test-Expr $checks[$c] $val } catch { $broken[$c] = "one of its parts could not be read"; continue }
-			if ($v -ne $r.Y) { $bad[$c] += $here }
+			if ($v -ne $r.Y) { $bad[$c] += "${here}: yours $v, Y $($r.Y)" }
 		}
 	}
 	$wrong = 0
 	$script:gradeFail = @()
 	foreach ($n in @($answers.Keys | Where-Object { -not $parts[$_] }) + @($checks.Keys)) {
-		$form = if ($board.Only[$n] -and $answers.Contains($n)) { Test-Rules $answers[$n] $board.Only[$n] $ctx } else { "" }
+		$tn = if ($answers.Contains($n) -and $col[$n] -ge 0) { $n } else { "Y" }	# the column it must equal
+		$form = if ($board.Only[$n] -and $answers.Contains($n)) { Test-Rules $answers[$n] $board.Only[$n] $ctx[$n] } else { "" }
 		if ($broken[$n]) { $wrong++; Write-Host "  $n : NOT checked - $($broken[$n])" -ForegroundColor Red }
-		elseif ($bad[$n].Count -gt 0) { $wrong++; Write-Host "  $n : NOT equal to Y on  $($bad[$n] -join '  ')" -ForegroundColor Red }
-		elseif ($form) { $wrong++; Write-Host "  $n : equals Y, but $form" -ForegroundColor Red }
+		elseif ($bad[$n].Count -gt 0) {
+			$wrong++
+			Write-Host "  $n : NOT equal to $tn on $($bad[$n].Count) row$(if ($bad[$n].Count -gt 1) { 's' }):" -ForegroundColor Red
+			$bad[$n] | ForEach-Object { Write-Host "      $_" -ForegroundColor Red }
+		}
+		elseif ($form) { $wrong++; Write-Host "  $n : equals $tn, but $form" -ForegroundColor Red }
 		else {
-			$g = if ($Grade -and $board.Grade[$n] -and $answers.Contains($n)) { Test-Rules $answers[$n] $board.Grade[$n] $ctx } else { "" }
-			if ($g) { $script:gradeFail += "$n $g"; Write-Host "  $n : equals Y on every row, but it $g" -ForegroundColor Yellow }
-			else { Write-Host "  $n : equals Y on every row" -ForegroundColor Green }
+			$g = if ($Grade -and $board.Grade[$n] -and $answers.Contains($n)) { Test-Rules $answers[$n] $board.Grade[$n] $ctx[$n] } else { "" }
+			if ($g) { $script:gradeFail += "$n $g"; Write-Host "  $n : equals $tn on every row, but it $g" -ForegroundColor Yellow }
+			else { Write-Host "  $n : equals $tn on every row" -ForegroundColor Green }
 		}
 	}
 	# The parts of a CHECK only have form rules
 	foreach ($n in @($answers.Keys | Where-Object { $parts[$_] })) {
-		$form = if ($board.Only[$n]) { Test-Rules $answers[$n] $board.Only[$n] $ctx } else { "" }
+		$form = if ($board.Only[$n]) { Test-Rules $answers[$n] $board.Only[$n] $ctx[$n] } else { "" }
 		if ($broken[$n]) { $wrong++; Write-Host "  $n : NOT checked - $($broken[$n])" -ForegroundColor Red }
 		elseif ($form) { $wrong++; Write-Host "  $n : $form" -ForegroundColor Red }
 	}
@@ -280,9 +314,16 @@ function Test-Answers($board, $answers, [switch]$Grade) {
 # $names: the variables / signals that exist. Throws a short English message when it cannot read it.
 function ConvertTo-Verilog([string]$text, [string[]]$names) {
 	$text = ($text -replace '\[[^\]]*\]', '').Trim()	# a [theorem] after a step is not part of it
+	# the words work too: NOT A + NOT B,  A AND B,  NOT (A OR B),  A XOR B  (any case)
+	$text = [regex]::Replace($text, '(?i)\bNOT\b', ' ~ ')
+	$text = [regex]::Replace($text, '(?i)\bXOR\b', ' ^ ')
+	$text = [regex]::Replace($text, '(?i)\bAND\b', ' * ')
+	$text = [regex]::Replace($text, '(?i)\bOR\b', ' + ')
 	$script:ct = @([regex]::Matches($text, "y\d|[A-Za-z]|[01]|'|\S") | ForEach-Object { $_.Value } | Where-Object { $_ -notmatch '^\s$' })
+	# a lowercase letter is the same variable (a = A), unless the lowercase name itself exists (y0..y7)
+	$script:ct = @($script:ct | ForEach-Object { if ($_ -cmatch '^[a-z]$' -and $names -cnotcontains $_ -and $names -ccontains $_.ToUpper()) { $_.ToUpper() } else { $_ } })
 	foreach ($t in $script:ct) {
-		if ($t -match '^[A-Za-z]$|^y\d$') { if ($names -cnotcontains $t) { throw "'$t' is not one of $($names -join ' ')" } }
+		if ($t -match '^[A-Za-z]$|^y\d$') { if ($names -cnotcontains $t) { throw "'$t' is not one of $($names -join ' ') (NOT, AND, OR need a space around them: NOT A, A AND B)" } }
 		elseif ($t -notmatch "^[01'~!+|*&.^()]$") { throw "cannot read '$t' - use ' + * ( ) 0 1 and the variables" }
 	}
 	$script:cp = 0
@@ -335,8 +376,8 @@ function ConvertTo-Verilog([string]$text, [string[]]$names) {
 }
 
 # The canonical SOP of the table as Verilog (X rows taken as 0) - fills the board outputs nobody asked for
-function Get-CanonVerilog($board) {
-	$t = @($board.Rows | Where-Object { $_.Y -eq 1 -and -not $_.Dc } | ForEach-Object {
+function Get-CanonVerilog($board, $name = "") {
+	$t = @((Get-TargetRows $board $name) | Where-Object { $_.Y -eq 1 -and -not $_.Dc } | ForEach-Object {
 		$b = $_.Bits
 		"(" + ((0..($board.Vars.Count - 1) | ForEach-Object { if ($b[$_] -eq '1') { $board.Vars[$_] } else { "~" + $board.Vars[$_] } }) -join " & ") + ")" })
 	if ($t.Count -eq 0) { return "1'b0" }

@@ -75,10 +75,28 @@ function Get-Variant($sid, $proj, $baseFile) {
 	$mask = $masks[($h[2] + 256 * $h[3]) % $masks.Count]
 	$P = @(0..($n - 1) | ForEach-Object { [array]::IndexOf($vars, [string]$perm[$_]) })
 	$M = @(0..($n - 1) | ForEach-Object { if ($mask.Contains($vars[$_])) { 1 } else { 0 } })
-	$rows = @([regex]::Matches($t, "\d+'b([01]+):\s*(?:begin\s*)?Y\s*=\s*1'b([01]);(\s*dc\s*=\s*1'b1)?") |
-		ForEach-Object { [pscustomobject]@{ Bits = $_.Groups[1].Value; Y = [int]$_.Groups[2].Value; Dc = $_.Groups[3].Success } })
+	# Y is one bit, or several outputs (// TARGETS: Y3 Y2 Y1 Y0 and rows like  4'b1000: Y = 4'b1000;)
+	$rows = @([regex]::Matches($t, "\d+'b([01]+):\s*(?:begin\s*)?Y\s*=\s*\d+'b([01]+);(\s*dc\s*=\s*1'b1)?") |
+		ForEach-Object { $y = $_.Groups[2].Value; [pscustomobject]@{ Bits = $_.Groups[1].Value; Y = $(if ($y.Length -eq 1) { [int]$y } else { $y }); Dc = $_.Groups[3].Success } })
+	$targets = @(if ($t -match '(?m)^//\s*TARGETS:\s*(.+?)\s*$') { $Matches[1] -split '\s+' })	# @() even when there are none
 	$expr = if ($t -match '(?m)^//\s*EXPR:\s*(.+?)\s*$') { $Matches[1] } else { "" }
-	return [pscustomobject]@{ Vars = $vars; P = $P; M = $M; Rows = $rows; Text = $t; Expr = $expr }
+	$net = @([regex]::Matches($t, '(?m)^//\s*NET:\s*(.+?)\s*$') | ForEach-Object { $_.Groups[1].Value })
+	# A story (tools/stories.txt next to base_top.v): the student's story, picked from the ID, sets the table
+	$story = $null
+	$sf = Join-Path (Split-Path $baseFile) "stories.txt"
+	if (Test-Path $sf) {
+		$all = @(); $cur = $null
+		foreach ($l in [IO.File]::ReadAllLines($sf, (New-Object System.Text.UTF8Encoding($false)))) {
+			if ($l -match '^===') { $cur = [pscustomobject]@{ Table = ""; En = ""; He = @() }; $all += $cur; continue }
+			if (-not $cur) { continue }
+			if ($l -match '^TABLE:\s*([01]+)') { $cur.Table = $Matches[1] }
+			elseif ($l -match '^EN:\s*(.+)$') { $cur.En = $Matches[1].Trim() }
+			elseif ($l -match '^HE:\s*(.+)$') { $cur.He += $Matches[1].Trim() }
+		}
+		$story = $all[($h[4] + 256 * $h[5]) % $all.Count]
+		foreach ($r in $rows) { $r.Y = [int]("" + $story.Table[[Convert]::ToInt32($r.Bits, 2)]) }
+	}
+	return [pscustomobject]@{ Vars = $vars; P = $P; M = $M; Rows = $rows; Text = $t; Expr = $expr; Targets = $targets; Net = $net; Story = $story }
 }
 
 # Original row (bits in variable order) -> this student's row
@@ -120,8 +138,8 @@ function Get-StudentRows($v) {
 
 function Format-Table($v, $prefix, $sep) {
 	$rows = Get-StudentRows $v
-	$cell = { param($r) (($r.Bits.ToCharArray()) -join $sep) + " | " + $(if ($r.Dc) { "X" } else { $r.Y }) }
-	$head = ($v.Vars -join $sep) + " | Y"
+	$cell = { param($r) (($r.Bits.ToCharArray()) -join $sep) + " | " + $(if ($r.Dc) { "X" } else { ("" + $r.Y).ToCharArray() -join $sep }) }
+	$head = ($v.Vars -join $sep) + " | " + $(if ($v.Targets.Count) { $v.Targets -join $sep } else { "Y" })
 	if ($rows.Count -le 8) { return @("$prefix$head") + @($rows | ForEach-Object { "$prefix$(& $cell $_)" }) }
 	$half = $rows.Count / 2
 	$lines = @("$prefix$head          $head")
@@ -137,7 +155,12 @@ function New-PersonalFiles($sid, $proj) {
 	$n = $v.Vars.Count
 
 	# --- the top level: case labels renamed, the comment table rewritten
-	$top = [regex]::Replace($v.Text, "(\d+)'b([01]+):", { param($m) "$($m.Groups[1].Value)'b$(Convert-Row $v $m.Groups[2].Value):" })
+	$top = $v.Text
+	if ($v.Story) {
+		$top = [regex]::Replace($top, "(\d+'b)([01]+)(:\s*Y\s*=\s*1'b)[01]", {
+			param($m) $m.Groups[1].Value + $m.Groups[2].Value + $m.Groups[3].Value + ($v.Rows | Where-Object { $_.Bits -eq $m.Groups[2].Value }).Y })
+	}
+	$top = [regex]::Replace($top, "(\d+)'b([01]+):", { param($m) "$($m.Groups[1].Value)'b$(Convert-Row $v $m.Groups[2].Value):" })
 	$lines = @($top -split "`r?`n")
 	$out = @(); $skip = $false
 	foreach ($l in $lines) {
@@ -151,14 +174,15 @@ function New-PersonalFiles($sid, $proj) {
 		$skip = $false
 		if ($l -match '^//\s*VARIANTS:') { continue }
 		if ($l -match '^//\s*EXPR:') { $out += "// EXPR: $(Convert-Expr $v $v.Expr)"; continue }
+		if ($l -match '^//\s*NET:\s*(.+)$') { $out += "// NET: $(Convert-Expr $v $Matches[1])"; continue }
 		$out += $l
 	}
 	[IO.File]::WriteAllText((Join-Path (Get-Location) "${proj}_top.v"), (($out -join "`r`n").TrimEnd() + "`r`n"), $utf8)
 
 	# --- Claude's instructions: this student's table + how to read the background written for the original
 	$p = [IO.File]::ReadAllText((Join-Path (Get-Location) "tools\tutor_prompt.md"))
-	$md = @(("| " + ($v.Vars -join " ") + " | Y |"), ("|" + ("---|" * 2))) +
-		@(Get-StudentRows $v | ForEach-Object { "| " + (($_.Bits.ToCharArray()) -join " ") + " | " + $(if ($_.Dc) { "X" } else { $_.Y }) + " |" })
+	$md = @(("| " + ($v.Vars -join " ") + " | " + $(if ($v.Targets.Count) { $v.Targets -join " " } else { "Y" }) + " |"), ("|" + ("---|" * 2))) +
+		@(Get-StudentRows $v | ForEach-Object { "| " + (($_.Bits.ToCharArray()) -join " ") + " | " + $(if ($_.Dc) { "X" } else { ("" + $_.Y).ToCharArray() -join " " }) + " |" })
 	$ren = @(0..($n - 1) | ForEach-Object { "original $($v.Vars[$_]) = this student's $($v.Vars[$v.P[$_]])$(if ($v.M[$_]) { "'" })" }) -join ", "
 	$map = @($v.Rows | ForEach-Object { "$($_.Bits) -> $(Convert-Row $v $_.Bits)" }) -join ", "
 	$note = @(
@@ -170,6 +194,8 @@ function New-PersonalFiles($sid, $proj) {
 		"you use it (the number of terms and literals, uniqueness and every other property stay the same).",
 		"The rows named in the questions of answer.txt are already this student's rows.",
 		$(if ($v.Expr) { "This student's starting expression (written in answer.txt): Y = $(Convert-Expr $v $v.Expr)  - the original was Y = $($v.Expr)." } else { "" }),
+		$(if ($v.Net.Count) { "This student's circuit (written in answer.txt): " + (@($v.Net | ForEach-Object { Convert-Expr $v $_ }) -join ";  ") + "  - the original was: " + ($v.Net -join ";  ") + "." } else { "" }),
+		$(if ($v.Story) { "This student's story (no renaming - the story itself is personal): $($v.Story.En)" } else { "" }),
 		"")
 	$pl = @($p -split "`r?`n"); $po = @(); $done = $false; $inTable = $false
 	foreach ($l in $pl) {
@@ -181,11 +207,13 @@ function New-PersonalFiles($sid, $proj) {
 
 	# --- answer.txt: the table goes in place of @TABLE@, rows named in the questions are renamed
 	$a = [IO.File]::ReadAllLines((Join-Path (Get-Location) "answer.txt"), $utf8)
-	if (-not ($a | Where-Object { $_ -match '@TABLE@|@EXPR@' })) { return $false }
+	if (-not ($a | Where-Object { $_ -match '@TABLE@|@EXPR@|@STORY@|@NET@' })) { return $false }
 	$ao = @()
 	foreach ($l in $a) {
 		if ($l -match '@TABLE@') { $ao += "#  (the table of ID $sid)"; $ao += @(Format-Table $v "#     " "  "); continue }
 		if ($l -match '@EXPR@') { $ao += ($l -replace '@EXPR@', (Convert-Expr $v $v.Expr)) + "      (ID $sid)"; continue }
+		if ($l -match '@STORY@') { $ao += "#  (the story of ID $sid)"; $ao += @($v.Story.He | ForEach-Object { "#     $_" }); continue }
+		if ($l -match '@NET@') { $ao += "#  (the circuit of ID $sid)"; $ao += @($v.Net | ForEach-Object { "#     $(Convert-Expr $v $_)" }); continue }
 		if ($l -match '^#\s*\S') { $l = Convert-Text $v $l }
 		$ao += $l
 	}
