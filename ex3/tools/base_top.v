@@ -5,6 +5,18 @@
 //   LEDR0 = your SOP        LEDR1 = your POS        LEDR2 = your minimal SOP   LEDR3 = your minimal POS
 //   LEDR9 = ALARM: one of your answers disagrees with Y on this row
 //
+// GRADE: SOP : CSOP
+// GRADE: POS : CPOS
+// GRADE: MSOP : SOP MIN
+// GRADE: MPOS : POS MIN
+// ASK Q1 SOP: SOP | Canonical SOP: one minterm for every row where Y = 1, e.g. A'BC + ABC'
+// ASK Q2 POS: POS | Canonical POS: one maxterm for every row where Y = 0, e.g. (A + B + C')(A' + B + C)
+// ASK Q3 MSOP: MSOP | Minimal SOP: the fewest terms, then the fewest literals
+// ASK Q4 MPOS: MPOS | Minimal POS: the fewest sums, then the fewest literals
+// TEXT Q5 1: Y has more than one minimal SOP. Find a second minimal SOP, different from yours, and explain why both are correct.
+// TEXT Q6 2: Count the literals of your MSOP and of your MPOS. Which is smaller, and what in the table hinted at it?
+// TEXT Q7 3: Is the row A=0 B=0 C=0 covered by more than one term of your MSOP? Why may terms overlap?
+// TEXT Q8 4: Predict before you move the switches: A=1 B=1 C=0 - which LEDR lights will be on?
 // Truth table:  A B C | Y
 //               0 0 0 | 1
 //               0 0 1 | 0

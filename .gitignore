@@ -46,6 +46,13 @@ ex0_eq/student.txt
 ex0_eq/moodle.txt
 # ex1-ex6: made from the student's ID by tools/variant.ps1, and the code for Moodle
 ex[1-6]/ex[1-6]_top.v
-ex[1-6]/tools/tutor_personal.md
+ex*/tools/tutor_personal.md
 student.txt
 moodle.txt
+ex[7-9]/ex[7-9]_top.v
+ex10/ex10_top.v
+# the per-question bats: typed answers, written answers, Claude's verdicts
+results.txt
+answers/
+judge_input.txt
+verdict.txt

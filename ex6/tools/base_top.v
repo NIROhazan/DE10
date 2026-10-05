@@ -5,6 +5,18 @@
 //   LEDR0 = your SOP        LEDR1 = your POS        LEDR2 = your minimal SOP   LEDR3 = your minimal POS
 //   LEDR9 = ALARM: one of your answers disagrees with Y on this row (never lights on an X row)
 //
+// GRADE: SOP : CSOP
+// GRADE: POS : CPOS
+// GRADE: MSOP : SOP MIN
+// GRADE: MPOS : POS MIN
+// ASK Q1 SOP: SOP | Canonical SOP: one minterm for every row where Y = 1 - none for the X rows
+// ASK Q2 POS: POS | Canonical POS: one maxterm for every row where Y = 0 - none for the X rows
+// ASK Q3 MSOP: MSOP | Minimal SOP - use the X rows where they help
+// ASK Q4 MPOS: MPOS | Minimal POS - use the X rows where they help
+// TEXT Q5 1: Suppose both X rows were 0. What would the minimal SOP be, and how many literals did the X rows save you?
+// TEXT Q6 2: In your MSOP, which value did each X row get? And in your MPOS?
+// TEXT Q7 3: Are your MSOP and MPOS the same function? If not - on which rows do they differ, and why are both still correct?
+// TEXT Q8 4: Predict before you move the switches: A=1 B=0 C=0 - which LEDR lights will be on, and what will HEX0 show?
 // Truth table:  A B C | Y
 //               0 0 0 | 0
 //               0 0 1 | 0

@@ -5,6 +5,16 @@
 //   LEDR0 = your SOP                 LEDR1 = your POS        LEDR2 = your MIN
 //   LEDR9 = ALARM: one of your answers disagrees with Y on this row
 //
+// GRADE: SOP : CSOP
+// GRADE: POS : CPOS
+// GRADE: MIN : SOP MIN
+// ASK Q1 SOP: SOP | Canonical SOP: one minterm for every row where Y = 1, e.g. A'B + AB
+// ASK Q2 POS: POS | Canonical POS: one maxterm for every row where Y = 0, e.g. (A + B')(A' + B)
+// ASK Q3 MIN: MIN | The shortest expression for Y you can find
+// TEXT Q4 1: How many minterms are in your SOP, and why exactly that number?
+// TEXT Q5 2: In the maxterm of the row A=0 B=1: which variable appears with ' and which without, and why?
+// TEXT Q6 3: Here the POS is shorter than the SOP. What in the table predicts this before you write anything?
+// TEXT Q7 4: Predict before you move the switches: A=0 B=1 - which LEDR lights will be on?
 // Truth table:  A B | Y
 //               0 0 | 1
 //               0 1 | 0

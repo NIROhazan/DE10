@@ -109,57 +109,17 @@ Start-Process notepad.exe "feedback.txt"
 Write-Host "  Feedback opened in Notepad (feedback.txt)."
 
 # ---------------------------------------------------------------- Truth-table check
-# Every expression in student_logic.v is evaluated on every row of the table in <proj>_top.v
-# (rows with dc = 1'b1 are X rows and are skipped). Only correct answers go on the board.
+# Every expression in student_logic.v is evaluated on every row of the table in <proj>_top.v (X rows are
+# skipped), with the rules of its header - see tools/check.ps1. Only correct answers go on the board.
 # (Quartus is not used for this: it does not always reduce a correct 4-variable answer to a constant.)
-function Test-Expr([string]$expr, [hashtable]$val) {
-	$script:tok = @([regex]::Matches($expr, "1'b[01]|[A-Za-z_]\w*|[~!&|^()]|\S") | ForEach-Object { $_.Value })
-	$script:pos = 0
-	function Peek { if ($script:pos -lt $script:tok.Count) { $script:tok[$script:pos] } else { "" } }
-	function Next { $t = Peek; $script:pos++; $t }
-	function POr  { $v = PXor; while ((Peek) -eq "|") { $null = Next; $v = $v -bor (PXor) }; $v }
-	function PXor { $v = PAnd; while ((Peek) -eq "^") { $null = Next; $v = $v -bxor (PAnd) }; $v }
-	function PAnd { $v = PNot; while ((Peek) -eq "&") { $null = Next; $v = $v -band (PNot) }; $v }
-	function PNot {
-		$t = Next
-		if ($t -eq "~" -or $t -eq "!") { return 1 - (PNot) }
-		if ($t -eq "(") { $v = POr; if ((Next) -ne ")") { throw "missing )" }; return $v }
-		if ($t -eq "1'b0") { return 0 }
-		if ($t -eq "1'b1") { return 1 }
-		if ($val.ContainsKey($t)) { return $val[$t] }
-		throw "cannot read '$t'"
-	}
-	$r = POr
-	if ($script:pos -ne $script:tok.Count) { throw "cannot read '$(Peek)'" }
-	$r
-}
-
-$top = Get-Content "${proj}_top.v" -Raw
-if ($top -notmatch 'case\s*\(\{([^}]*)\}\)') { Fail "Cannot find the truth table in ${proj}_top.v." }
-$vars = @($Matches[1] -split ',' | ForEach-Object { $_.Trim() })
-$rows = @([regex]::Matches($top, "\d+'b([01]+):\s*(?:begin\s*)?Y\s*=\s*1'b([01]);(\s*dc\s*=\s*1'b1)?") |
-	ForEach-Object { @{ bits = $_.Groups[1].Value; y = [int]$_.Groups[2].Value; dc = $_.Groups[3].Success } })
-if ($rows.Count -ne [math]::Pow(2, $vars.Count)) { Fail "The truth table in ${proj}_top.v has $($rows.Count) rows - expected $([math]::Pow(2, $vars.Count))." }
-
-$wrong = 0
+. (Join-Path $PSScriptRoot "check.ps1")
+try { $board = Get-Board (Join-Path (Get-Location) "${proj}_top.v") } catch { Fail $_.Exception.Message }
+$answers = [ordered]@{}
 foreach ($line in (Get-Content "student_logic.v" | Where-Object { $_ -match '^\s*assign\s+(\w+)\s*=\s*(.+);' })) {
 	$null = $line -match '^\s*assign\s+(\w+)\s*=\s*(.+);'
-	$name = $Matches[1]; $expr = $Matches[2]
-	$bad = @()
-	foreach ($r in $rows) {
-		if ($r.dc) { continue }
-		$val = @{}
-		for ($i = 0; $i -lt $vars.Count; $i++) { $val[$vars[$i]] = [int]("" + $r.bits[$i]) }
-		try { $v = Test-Expr $expr $val } catch { $bad = @("every row - run.bat could not read it ($($_.Exception.Message))"); break }
-		if ($v -ne $r.y) { $bad += ($vars -join '') + "=" + $r.bits }
-	}
-	if ($bad.Count -gt 0) {
-		$wrong++
-		Write-Host "  $name : NOT equal to Y on  $($bad -join '  ')" -ForegroundColor Red
-	} else {
-		Write-Host "  $name : equals Y on every row" -ForegroundColor Green
-	}
+	$answers[$Matches[1]] = $Matches[2]
 }
+$wrong = Test-Answers $board $answers
 if ($wrong -gt 0) {
 	Write-Host ""
 	Fail "  Your logic was NOT put on the board - only correct answers go there. Read feedback.txt, fix answer.txt, run again."
@@ -191,9 +151,7 @@ if ($LASTEXITCODE -ne 0) {
 }
 Write-Host "  Board programmed." -ForegroundColor Green
 # Done: the code for Moodle (made from the ID, so a friend's code does not fit)
-$code = Get-Code $sid $proj
-[IO.File]::WriteAllLines((Join-Path (Get-Location) "moodle.txt"),
-	@("Exercise $($proj -replace '\D', '') - SOP / POS", "ID: $sid", "${proj}: $code"), (New-Object System.Text.UTF8Encoding($false)))
+$code = Save-MoodleCode $sid $proj $proj
 Write-Host "  Your code for ${proj}: $code   - hand in the file moodle.txt on Moodle." -ForegroundColor Green
 # The switch / LED map is the "//   " block at the top of <proj>_top.v
 Get-Content "${proj}_top.v" | Where-Object { $_ -match '^//   \S' } | ForEach-Object { Write-Host ("  " + $_.Substring(5)) }

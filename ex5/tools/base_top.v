@@ -6,6 +6,18 @@
 //   LEDR9 = ALARM: one of your answers disagrees with Y on this row
 //
 // VARIANTS: perms=ABCD,CDAB masks=-,A,C,AC   (keep the K-map picture: the four corners stay non-adjacent in the drawing)
+// GRADE: SOP : CSOP
+// GRADE: POS : CPOS
+// GRADE: MSOP : SOP MIN
+// GRADE: MPOS : POS MIN
+// ASK Q1 SOP: SOP | Canonical SOP: one minterm for every row where Y = 1.   D is KEY3 on the board (pressed = 1).
+// ASK Q2 POS: POS | Canonical POS: one maxterm for every row where Y = 0.   D is KEY3 on the board (pressed = 1).
+// ASK Q3 MSOP: MSOP | Minimal SOP (K-map of the 1s): the fewest terms, then the fewest literals.   D is KEY3 on the board (pressed = 1).
+// ASK Q4 MPOS: MPOS | Minimal POS (K-map of the 0s): the fewest sums, then the fewest literals.   D is KEY3 on the board (pressed = 1).
+// TEXT Q5 1: On the K-map there is a group of four 1s that do not look adjacent in the drawing. Where are they, and what makes them neighbours?
+// TEXT Q6 2: For every term of your MSOP: name one row (ABCD) that only this term covers. If there is none - what does that say about the term?
+// TEXT Q7 3: In exercises 1-3 we saw 'fewer 1s -> a shorter canonical SOP'. Here there are 7 ones and 9 zeros: which minimal form is shorter, and why does counting 1s not predict it?
+// TEXT Q8 4: Predict before you touch the board: A=1 B=1 C=1 D=0 (D is KEY3, released = 0) - what will LEDG0 be, and which LEDR lights will be on?
 // Truth table:  A B C D | Y        A B C D | Y
 //               0 0 0 0 | 1        1 0 0 0 | 1
 //               0 0 0 1 | 1        1 0 0 1 | 0

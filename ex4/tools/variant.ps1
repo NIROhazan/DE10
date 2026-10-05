@@ -5,6 +5,8 @@
 # while the table and every answer differ from a friend's.
 #   // VARIANTS: perms=all masks=all            (in base_top.v; default)
 #   // VARIANTS: perms=ABCD,CDAB masks=-,A,C,AC (only these: e.g. keep the K-map picture of ex5)
+#   // EXPR: AB + A(B + C)' + A'BC              (ex7, ex8: the expression the student starts from;
+#                                                 @EXPR@ in answer.txt becomes this student's version)
 # perms: the student's letter for each original variable, in order. masks: original variables to complement.
 # Kept ASCII so Windows PowerShell 5.1 reads it without a BOM.
 
@@ -75,7 +77,8 @@ function Get-Variant($sid, $proj, $baseFile) {
 	$M = @(0..($n - 1) | ForEach-Object { if ($mask.Contains($vars[$_])) { 1 } else { 0 } })
 	$rows = @([regex]::Matches($t, "\d+'b([01]+):\s*(?:begin\s*)?Y\s*=\s*1'b([01]);(\s*dc\s*=\s*1'b1)?") |
 		ForEach-Object { [pscustomobject]@{ Bits = $_.Groups[1].Value; Y = [int]$_.Groups[2].Value; Dc = $_.Groups[3].Success } })
-	return [pscustomobject]@{ Vars = $vars; P = $P; M = $M; Rows = $rows; Text = $t }
+	$expr = if ($t -match '(?m)^//\s*EXPR:\s*(.+?)\s*$') { $Matches[1] } else { "" }
+	return [pscustomobject]@{ Vars = $vars; P = $P; M = $M; Rows = $rows; Text = $t; Expr = $expr }
 }
 
 # Original row (bits in variable order) -> this student's row
@@ -147,6 +150,7 @@ function New-PersonalFiles($sid, $proj) {
 		if ($skip -and $l -match '^//\s+[01X]') { continue }
 		$skip = $false
 		if ($l -match '^//\s*VARIANTS:') { continue }
+		if ($l -match '^//\s*EXPR:') { $out += "// EXPR: $(Convert-Expr $v $v.Expr)"; continue }
 		$out += $l
 	}
 	[IO.File]::WriteAllText((Join-Path (Get-Location) "${proj}_top.v"), (($out -join "`r`n").TrimEnd() + "`r`n"), $utf8)
@@ -165,6 +169,7 @@ function New-PersonalFiles($sid, $proj) {
 		"Translate every expression, row, group and K-map position of the background through this renaming before",
 		"you use it (the number of terms and literals, uniqueness and every other property stay the same).",
 		"The rows named in the questions of answer.txt are already this student's rows.",
+		$(if ($v.Expr) { "This student's starting expression (written in answer.txt): Y = $(Convert-Expr $v $v.Expr)  - the original was Y = $($v.Expr)." } else { "" }),
 		"")
 	$pl = @($p -split "`r?`n"); $po = @(); $done = $false; $inTable = $false
 	foreach ($l in $pl) {
@@ -176,13 +181,29 @@ function New-PersonalFiles($sid, $proj) {
 
 	# --- answer.txt: the table goes in place of @TABLE@, rows named in the questions are renamed
 	$a = [IO.File]::ReadAllLines((Join-Path (Get-Location) "answer.txt"), $utf8)
-	if (-not ($a | Where-Object { $_ -match '@TABLE@' })) { return $false }
+	if (-not ($a | Where-Object { $_ -match '@TABLE@|@EXPR@' })) { return $false }
 	$ao = @()
 	foreach ($l in $a) {
 		if ($l -match '@TABLE@') { $ao += "#  (the table of ID $sid)"; $ao += @(Format-Table $v "#     " "  "); continue }
+		if ($l -match '@EXPR@') { $ao += ($l -replace '@EXPR@', (Convert-Expr $v $v.Expr)) + "      (ID $sid)"; continue }
 		if ($l -match '^#\s*\S') { $l = Convert-Text $v $l }
 		$ao += $l
 	}
 	[IO.File]::WriteAllLines((Join-Path (Get-Location) "answer.txt"), $ao, $utf8)
 	return $true
+}
+
+# Adds (or replaces) one code line in moodle.txt and keeps the others: "ex3: CODE" from run.bat,
+# "ex3-Q2: CODE" from Q2_POS.bat. The student hands this file in on Moodle. Returns the code.
+function Save-MoodleCode($sid, $proj, $label) {
+	$utf8 = New-Object System.Text.UTF8Encoding($false)
+	$f = Join-Path (Get-Location) "moodle.txt"
+	$codes = [ordered]@{}
+	if (Test-Path $f) {
+		foreach ($l in [IO.File]::ReadAllLines($f, $utf8)) { if ($l -match '^\s*(ex\d+(?:-Q\d+)?):\s*(\S+)\s*$') { $codes[$Matches[1]] = $Matches[2] } }
+	}
+	$codes[$label] = Get-Code $sid $label
+	$out = @("Exercise $($proj -replace '\D', '')", "ID: $sid") + @($codes.Keys | Sort-Object | ForEach-Object { "${_}: $($codes[$_])" })
+	[IO.File]::WriteAllLines($f, $out, $utf8)
+	return $codes[$label]
 }

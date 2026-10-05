@@ -5,6 +5,18 @@
 //   LEDR0 = your SOP   LEDR1 = your POS   LEDR2 = your minimal SOP   LEDR3 = your XOR form
 //   LEDR9 = ALARM: one of your answers disagrees with Y on this row
 //
+// GRADE: SOP : CSOP
+// GRADE: POS : CPOS
+// GRADE: MSOP : SOP MIN
+// GRADE: XOR : MAXLIT 4
+// ASK Q1 SOP: SOP | Canonical SOP: one minterm for every row where Y = 1, e.g. A'B'CD + ...   D is KEY3 on the board (pressed = 1).
+// ASK Q2 POS: POS | Canonical POS: one maxterm for every row where Y = 0.   D is KEY3 on the board (pressed = 1).
+// ASK Q3 MSOP: MSOP | Minimal SOP - draw the K-map first.   D is KEY3 on the board (pressed = 1).
+// ASK Q4 XOR: XOR | Y with XOR (^) and NOT ('): the shortest expression you can find.   D is KEY3 on the board (pressed = 1).
+// TEXT Q5 1: In your K-map: how many pairs of adjacent 1s did you find? What does that say about the minimal SOP compared with the canonical one?
+// TEXT Q6 2: What do all the rows with Y = 1 have in common? (Hint: read each row as a number of four bits.)
+// TEXT Q7 3: Count literals: how many in your MSOP and how many in your XOR expression? Why does XOR save so much here?
+// TEXT Q8 4: Predict before you touch the board: A=1 B=0 C=1 D=1 (D is KEY3, pressed = 1) - what will LEDG0 be, and which LEDR lights will be on?
 // Truth table:  A B C D | Y        A B C D | Y
 //               0 0 0 0 | 1        1 0 0 0 | 0
 //               0 0 0 1 | 0        1 0 0 1 | 1

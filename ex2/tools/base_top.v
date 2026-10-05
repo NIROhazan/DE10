@@ -5,6 +5,16 @@
 //   LEDR0 = your SOP                 LEDR1 = your POS        LEDR2 = your minimal POS
 //   LEDR9 = ALARM: one of your answers disagrees with Y on this row
 //
+// GRADE: SOP : CSOP
+// GRADE: POS : CPOS
+// GRADE: MIN : POS MIN
+// ASK Q1 SOP: SOP | Canonical SOP: one minterm for every row where Y = 1, e.g. A'BC + ABC'
+// ASK Q2 POS: POS | Canonical POS: one maxterm for every row where Y = 0, e.g. (A + B + C')(A' + B + C)
+// ASK Q3 MIN: MIN | Minimal POS: the fewest sums (parentheses) - still a product of sums
+// TEXT Q4 1: In exercise 1 the POS was shorter than the SOP; here it is the other way round. What in the table decides which canonical form is shorter?
+// TEXT Q5 2: Can the two minterms of the SOP be merged into one shorter term? Explain why or why not.
+// TEXT Q6 3: Describe in words, without a formula, when Y = 1.
+// TEXT Q7 4: Predict before you move the switches: A=1 B=1 C=0 - which LEDR lights will be on?
 // Truth table:  A B C | Y
 //               0 0 0 | 1
 //               0 0 1 | 0
