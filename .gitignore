@@ -37,20 +37,20 @@ history.txt
 !locked/locked.sof
 
 # ex0_eq: written by run.bat before each compile, and the student's tries
-ex0_eq/equation.v
-ex0_eq/results.txt
+*/ex0_eq/equation.v
+*/ex0_eq/results.txt
 # ex0_eq: prebuilt board files, one per question equation
-!ex0_eq/sof/*.sof
+!*/ex0_eq/sof/*.sof
 # ex0_eq: the student's ID and the codes to hand in on Moodle
-ex0_eq/student.txt
-ex0_eq/moodle.txt
+*/ex0_eq/student.txt
+*/ex0_eq/moodle.txt
 # ex1-ex6: made from the student's ID by tools/variant.ps1, and the code for Moodle
-ex[1-6]/ex[1-6]_top.v
-ex*/tools/tutor_personal.md
+*/ex[1-6]/ex[1-6]_top.v
+*/ex*/tools/tutor_personal.md
 student.txt
 moodle.txt
-ex[7-9]/ex[7-9]_top.v
-ex10/ex10_top.v
+*/ex[7-9]/ex[7-9]_top.v
+*/ex10/ex10_top.v
 # the per-question bats: typed answers, written answers, Claude's verdicts
 results.txt
 answers/

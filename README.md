@@ -27,19 +27,34 @@ correct-looking design. Rebuild: `quartus_sh --flow compile locked` in `locked/`
 
 ## Exercises
 
-- [`ex0/`](ex0/README.md) - week 1: LED wave. No logic - the student changes numbers in a `KNOBS` block
+The exercises are split by lecture. Every exercise keeps its number (the Moodle codes are made from it).
+`student.txt` (the student ID) and `locked/` stay here in the course folder; the scripts find them from
+`week3/exN` or `other/exN`.
+
+### [`week3/`](week3/README.md) - lecture 3 (Harris ch. 2: Boolean equations, algebra, gates, mux / decoder)
+
+- [`ex0_eq/`](week3/ex0_eq/README.md) - an equation on the board (AND / OR / NOT / XOR on switch values), 20 questions.
+- [`ex1/`](week3/ex1/README.md) - SOP / POS with two variables: canonical SOP, canonical POS, minimal.
+- [`ex2/`](week3/ex2/README.md) - SOP / POS with three variables (Y = 1 when A = B = C): canonical SOP,
+  canonical POS, minimal POS. SW2 = C shown on HEX1.
+- [`ex3/`](week3/ex3/README.md) - minimal SOP vs minimal POS (five 1s, three 0s): four answers on LEDR0-3;
+  the minimal SOP is not unique. The board checks correctness, the feedback checks minimality.
+- [`ex7/`](week3/ex7/README.md) - simplifying step by step with the theorems T1-T12.
+- [`ex8/`](week3/ex8/README.md) - De Morgan, multiplying out (SOP) and factoring (POS).
+- [`ex9/`](week3/ex9/README.md) - only NAND, only NOR.
+- [`ex10/`](week3/ex10/README.md) - a function on a 4:1 mux and on a decoder.
+- [`ex11/`](week3/ex11/README.md) - from a story to an equation (like the cafeteria example).
+- [`ex12/`](week3/ex12/README.md) - priority circuit, four outputs, some inputs active low.
+- [`ex13/`](week3/ex13/README.md) - reading a multilevel NAND / NOR circuit (bubble pushing).
+
+### [`other/`](other/README.md) - not lecture 3
+
+- [`ex0/`](other/ex0/README.md) - week 1: LED wave. No logic - the student changes numbers in a `KNOBS` block
   (step divider, brightness), predicts on a `PREDICT:` line first (run.bat refuses without one, logs to
   `history.txt`), then checks on the board. Traps: 25-bit counter limit (wave freezes), 7-bit brightness overflow.
-- [`ex1/`](ex1/README.md) - SOP / POS: the student writes expressions in `answer.txt`, `run.bat` has
-  Claude turn them into Verilog (mistakes kept) plus tutoring feedback, then programs the board.
-- [`ex2/`](ex2/README.md) - SOP / POS with three variables (Y = 1 when A = B = C): canonical SOP,
-  canonical POS, minimal POS. Same run.bat flow; SW2 = C shown on HEX1.
-- [`ex3/`](ex3/README.md) - minimal SOP vs minimal POS (five 1s, three 0s): four answers on LEDR0-3;
-  the minimal SOP is not unique. The board checks correctness, the feedback checks minimality.
-- [`ex4/`](ex4/README.md) - four variables, D on KEY3 (pressed = 1): canonical SOP/POS, K-map minimal SOP,
-  and an XOR form. The function is even parity, so the K-map is a checkerboard and nothing merges.
-- [`ex5/`](ex5/README.md) - four variables, D on KEY3: minimal SOP (four-corner group) vs minimal POS;
+- [`ex4/`](other/ex4/README.md) - Karnaugh maps: four variables, D on KEY3 (pressed = 1): canonical SOP/POS,
+  K-map minimal SOP, and an XOR form. The function is even parity, so the K-map is a checkerboard.
+- [`ex5/`](other/ex5/README.md) - Karnaugh maps: four variables, minimal SOP (four-corner group) vs minimal POS;
   POS wins with more 0s than 1s, so the 1s/0s count only predicts the canonical forms.
-- [`ex6/`](ex6/README.md) - three variables with two don't-care rows (X): the minimal SOP takes both X as 1,
+- [`ex6/`](other/ex6/README.md) - Karnaugh maps with don't-care rows (X): the minimal SOP takes both X as 1,
   the minimal POS takes both as 0, so the two minimal answers differ on the X rows and are both right.
-  LEDG1 marks an X row; the alarm is masked there.
