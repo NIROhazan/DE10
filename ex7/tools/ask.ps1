@@ -54,7 +54,7 @@ if ($v.Story) {
 }
 Write-Host ""
 Write-Host "  $($ask.Text)" -ForegroundColor White
-Write-Host "  Write:  A' (or NOT A)   AB (or A AND B)   A+B (or A OR B)   (...)' = NOT of the whole group   Q = stop"
+Write-Host "  Write:  A' (or NOT A)   AB or A*B (or A AND B)   A+B (or A OR B)   (...)' = NOT of the whole group   Q = stop"
 if ($ask.Names.Count -gt 1) { Write-Host "  One line each for $($ask.Names -join ', ').  Enter on an empty line = the same as the line above." }
 Lock-Board
 
