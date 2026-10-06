@@ -28,6 +28,15 @@ $bin = Get-Bin $s 10
 $up = @(9..0 | Where-Object { $s -band (1 -shl $_) } | ForEach-Object { "SW$_" }) -join " "
 if (-not $up) { $up = "(none)" }
 
+# Steps already passed (progress.txt): the question goes on from there - it never starts over
+$done = if ($q.NS -gt 0) { Get-Progress $sid $q.Id } else { 0 }
+if ($q.NS -gt 0 -and $done -ge $q.NS - 1) {
+	Write-Host ""
+	Write-Host "  $($q.Id) is already done (all $($q.NS - 1) steps). Your code is in moodle.txt:" -ForegroundColor Green
+	Write-Host "  ce-$($q.Id): $(Get-SavedCode $q.Id)" -ForegroundColor Green
+	exit 0
+}
+
 # ---------------------------------------------------------------- the board
 $qbin = @("C:\altera\13.0sp1\quartus\bin64", "C:\altera\13.0sp1\quartus\bin",
           "C:\altera\13.0\quartus\bin64", "C:\altera\13.0\quartus\bin") |
@@ -57,7 +66,7 @@ function Read-Code($step, $failLines) {
 		$ans = Read-Host "  Code"
 		if ($null -eq $ans) { exit 0 }
 		$ans = ($ans -replace '\s', '').ToUpper()
-		if ($ans -eq 'Q') { Write-Host "  Stopped. Run $($q.Id) again to start over (you log in again)."; exit 0 }
+		if ($ans -eq 'Q') { Write-Host "  Stopped. Run $($q.Id) again to go on from your last passed step (you log in again)."; exit 0 }
 		if ($ans -notmatch '^[0-9A-F]{4}$') { Write-Host "  4 digits (0-9, A-F), as on HEX3 HEX2 HEX1 HEX0." -ForegroundColor Yellow; continue }
 		$fits = if ($null -eq $step) { Test-CodeDigits $ans $s } else { Test-CodeDigits $ans $s $step }
 		if ($fits) { Log "step $step code $ans PASS"; return $ans }
@@ -85,19 +94,31 @@ if ($q.NS -gt 0) {
 		}
 	}
 
-	# step 0: the login - the board shows a receipt that only the right login number gives
+	# step 0: the login - the board shows a receipt that only the right login number gives.
+	# After a closed window the board is programmed again: KEY2 in LOGIN picks the step to go on from.
+	$from = $done + 1
 	Show-Top 0
 	Write-Host "  LOG IN - the board builds YOUR puzzle from your login number." -ForegroundColor Yellow
+	if ($done -gt 0) {
+		Write-Host "  Welcome back: steps 1-$done are done. You go on with step $from." -ForegroundColor Green
+	}
 	Write-Host ""
-	Write-Host "  Switches UP: $up   (all the others down; HEX shows L $hex)"
-	Write-Host "  Press KEY3. The board shows 4 digits - type them."
+	Write-Host "  1. Switches UP: $up   (all the others down; HEX shows L $hex)"
+	if ($done -gt 0) {
+		$g = Get-Bin $from 3
+		$on = @(2..0 | Where-Object { $from -band (1 -shl $_) } | ForEach-Object { "LEDG$_" }) -join ", "
+		Write-Host "  2. Press KEY2 until LEDG2 LEDG1 LEDG0 = $($g[0]) $($g[1]) $($g[2])  (only $on on) = step $from."
+		Write-Host "  3. Press KEY3. The board shows 4 digits - type them."
+	} else {
+		Write-Host "  2. Press KEY3. The board shows 4 digits - type them."
+	}
 	Write-Host ""
 	$null = Read-Code 0 @("That is not your receipt. Hold KEY1: if HEX does not show the 4 digits again,",
 	                      "close this window, run $($q.Id) again and raise exactly: $up")
 	Write-Host "  PASS - you are logged in." -ForegroundColor Green
 	$null = Read-Host "  Enter = next step"
 
-	for ($k = 1; $k -le $last; $k++) {
+	for ($k = $from; $k -le $last; $k++) {
 		Show-Top $k
 		$q.S[$k] | ForEach-Object { if ($_ -match '^(GOAL|ANSWER)') { Write-Host "  $_" -ForegroundColor Yellow } else { Write-Host "  $_" } }
 		Write-Host ""
@@ -110,6 +131,7 @@ if ($q.NS -gt 0) {
 		$code = Read-Code $k @("These are not the 4 digits that KEY2 shows in step $k.",
 		                       "Hold KEY2 (not KEY3) and type what HEX shows while you hold it. Err? Fix the switches.",
 		                       "LEDG2..0 in answer mode must show $k. Hold KEY1 to see the last code again.")
+		Save-Progress $sid $q.Id $k
 		if ($k -lt $last) {
 			Write-Host "  PASS" -ForegroundColor Green
 			$null = Read-Host "  Enter = next step"

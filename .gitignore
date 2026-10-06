@@ -61,3 +61,5 @@ verdict.txt
 !week4/*/board.sof
 # class exercise: the prebuilt board of each question
 !class_exercise/sof/*.sof
+# class exercise: the steps each student passed (resume after a closed window)
+progress.txt

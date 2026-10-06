@@ -77,6 +77,28 @@ function Read-Questions {
 	return $qs
 }
 
+# progress.txt: "ID Qnn k" = the last step this student passed in that question (a closed window goes on from there)
+function Get-Progress($sid, $qid) {
+	$f = Join-Path (Get-Location) "progress.txt"
+	$k = 0
+	if (Test-Path $f) {
+		foreach ($l in [IO.File]::ReadAllLines($f, $script:utf8)) {
+			if ($l -match "^\s*$sid\s+$qid\s+(\d+)\s*$" -and [int]$Matches[1] -gt $k) { $k = [int]$Matches[1] }
+		}
+	}
+	return $k
+}
+function Save-Progress($sid, $qid, $k) {
+	[IO.File]::AppendAllText((Join-Path (Get-Location) "progress.txt"), "$sid $qid $k`r`n", $script:utf8)
+}
+function Get-SavedCode($qid) {
+	$f = Join-Path (Get-Location) "moodle.txt"
+	if (Test-Path $f) {
+		foreach ($l in [IO.File]::ReadAllLines($f, $script:utf8)) { if ($l -match "^\s*ce-${qid}:\s*(\S+)") { return $Matches[1] } }
+	}
+	return "(not found - ask the lecturer)"
+}
+
 # moodle.txt: "ID: ..." and one "ce-Qnn: CODE" line per solved question
 function Save-MoodleCode($sid, $qid, $code) {
 	$f = Join-Path (Get-Location) "moodle.txt"
