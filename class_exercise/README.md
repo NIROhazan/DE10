@@ -5,14 +5,14 @@
 
 ## איך עובדים
 
-1. דאבל-קליק על ה-BAT של השאלה (למשל `Q01_GATE.bat`). הלוח נצרב והחלון מציג שלב אחד בכל פעם.
-2. **כניסה (פעם אחת):** מרימים את המתגים שבחלון (מספר הכניסה, נבנה ממספר הסטודנט), לוחצים `KEY3`,
-   ומקלידים את 4 התווים שהלוח מציג. הם מתאימים רק למספר הכניסה הנכון.
-3. **כל שלב:** הכניסות של המעגל על המתגים **השמאליים** (`SW9`, `SW8`), התשובה על המתגים **הימניים** (`SW3..SW0`).
-   מחזיקים `KEY2`: הלוח מציג **`PASS`** או **`Err`**. אחרי PASS משחררים את `KEY2` ולוחצים Enter במחשב.
-4. **השלב האחרון:** `KEY2` מציג קוד של 4 תווים - מקלידים אותו, והוא נשמר ב-`moodle.txt` להגשה.
+1. דאבל-קליק על ה-BAT של השאלה (למשל `Q01_GATE.bat`). המחשב מכין את הלוח ומדבר איתו בעצמו דרך כבל ה-USB:
+   הוא כותב לתוכו את מספר הכניסה שלכם (בלי מתגים, בלי הקלדה). עד אז ה-HEX מציג `----`.
+2. בכל שלב המסך מראה מעט טקסט: מה עושים ואיפה שמים את התשובה. הכניסות של המעגל על המתגים **השמאליים**
+   (`SW9`, `SW8`), התשובה על המתגים **הימניים** (`SW3..SW0`).
+3. שמים את התשובה ולוחצים **`KEY2`**: הלוח מציג `PASS` או `Err` לשנייה. אחרי PASS **המסך עובר לשלב הבא לבד**.
+4. בסוף הלוח מציג `donE`, והמחשב שומר את הקוד ב-`moodle.txt` לבד - מגישים את הקובץ הזה.
 
-חלון שנסגר באמצע ממשיך מהשלב הבא (`progress.txt`), ושאלה שהסתיימה רק מציגה את הקוד.
+חלון שנסגר באמצע ממשיך מהשלב הבא (`progress.txt`) - המחשב אומר ללוח מאיזה שלב להתחיל. שאלה שהסתיימה רק מציגה את הקוד.
 
 ## השאלות
 
@@ -32,8 +32,10 @@ bubble pushing, ובסוף - קופסאות עם זיכרון (latch, צירופ
 - Source: `C:/DE10_solutions/class_exercise/gen.py` - the new list is `NEW` (ids Q01, Q02, ...; easy -> hard, in steps).
   `python gen.py` simulates the new questions in iverilog, `--compile` builds `sof/Qnn.sof`, `--id <ID>` (= `answers.bat ce <ID>`)
   prints the login number, every step's answer and the codes. The first-format puzzles stay in gen.py as o01..o25.
-- Hardware per question (`ce.v`): LOGIN (KEY2 there = the step to resume from, LEDG2..0) -> PLAY; `FLAT` questions have no answer
-  mode (inputs on the left switches, answer on the right, KEY2 any time). Steps show PASS / Err; only the last step shows the code
-  = mix(secret, step) + check digit. Codes `ce-Qnn` counted by `C:/DE10_solutions/verify.bat`.
-- Q01 GATE: 6 gates (AND OR XOR NAND NOR XNOR), 263 LEs. Simulated; programmed and run through the runner on the board
-  (codes typed from `--id`); the switches and KEYs by hand not yet.
+- The PC link: `ce.v` has an In-System Sources and Probes instance (altsource_probe, works in Quartus 13.0sp1 Web Edition).
+  `run.ps1` starts `quartus_stp -t tools/link.tcl <hex>`: source = {go, start step, login} (no login on the switches, resume
+  without the student), probe = {done, step, code} (code = 0 until the last step is solved). The screen follows the probe.
+  KEY2 = check: PASS / Err for one second; the last step = `donE`, the code = mix(secret, step) + check digit, read by the PC.
+  Codes `ce-Qnn` counted by `C:/DE10_solutions/verify.bat`. Testing without KEYs: `CE_TEST_SECONDS=12` makes link.tcl stop by itself.
+- Q01 GATE: 6 gates (AND OR XOR NAND NOR XNOR), 439 LEs. Simulated (with an altsource_probe stand-in); on the board: the link
+  writes the login and the runner shows the right step; the advance and the saved code tested with a fake link. KEY2 by hand: not yet.

@@ -1,10 +1,9 @@
-# Class exercise runner: Q05_MINTERM.bat = run.ps1 -Only Q05.
-# Programs sof\Qnn.sof. The board holds the puzzle and judges every answer (KEY2 shows the code or Err);
-# the student types the code here. The PC cannot check the answer - only the check digit (typos, wrong login,
-# a code of another step).
-# Questions with steps (questions.txt "| steps n"): one short screen per step, PASS / FAIL after every code,
-# the next screen only after a PASS. Step 0 = the login (the board shows a receipt).
-# Questions without steps: the whole question on one screen, one code.
+# Class exercise runner: Q01_GATE.bat = run.ps1 -Only Q01.
+# Programs sof\Qnn.sof and talks to the board over the USB cable (tools\link.tcl in quartus_stp): it writes the
+# student's login number and the step to start from into the board, and reads the board's step and code.
+# So the student only flips switches and presses KEY2; the screen moves on by itself, and the code at the end
+# goes into moodle.txt by itself. The board alone knows the answers and the codes.
+# progress.txt keeps the last step passed: a closed window goes on from there, never from the start.
 # Kept ASCII so Windows PowerShell 5.1 reads it without a BOM.
 param([Parameter(Mandatory = $true)][string]$Only)
 
@@ -12,40 +11,30 @@ $ErrorActionPreference = "Stop"
 Set-Location (Split-Path $PSScriptRoot -Parent)
 . (Join-Path $PSScriptRoot "common.ps1")
 
-function Log($t) {
-	[IO.File]::AppendAllText((Join-Path (Get-Location) "results.txt"),
-		"[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')]  $sid  $Only $t`r`n", $script:utf8)
-}
-
 $qs = Read-Questions
 if (-not $qs.Contains($Only)) { Write-Host "There is no $Only in tools\questions.txt." -ForegroundColor Red; exit 1 }
 $q = $qs[$Only]
 $sid = Get-StudentId
 $s = Get-Login $sid
 $pub = Get-Pub $q.Id $s $q.NPub
-$hex = '{0:X3}' -f $s
-$bin = Get-Bin $s 10
-$up = @(9..0 | Where-Object { $s -band (1 -shl $_) } | ForEach-Object { "SW$_" }) -join " "
-if (-not $up) { $up = "(none)" }
+$last = $q.NS - 1
 
-# Steps already passed (progress.txt): the question goes on from there - it never starts over
-$done = if ($q.NS -gt 0) { Get-Progress $sid $q.Id } else { 0 }
-if ($q.NS -gt 0 -and $done -ge $q.NS - 1) {
+$done = Get-Progress $sid $q.Id
+if ($done -ge $last) {
 	Write-Host ""
-	Write-Host "  $($q.Id) is already done (all $($q.NS - 1) steps). Your code is in moodle.txt:" -ForegroundColor Green
-	Write-Host "  ce-$($q.Id): $(Get-SavedCode $q.Id)" -ForegroundColor Green
+	Write-Host "  $($q.Id) is already done. Your code is in moodle.txt:  ce-$($q.Id): $(Get-SavedCode $q.Id)" -ForegroundColor Green
 	exit 0
 }
+$from = $done + 1
 
-# ---------------------------------------------------------------- the board
-$qbin = @("C:\altera\13.0sp1\quartus\bin64", "C:\altera\13.0sp1\quartus\bin",
-          "C:\altera\13.0\quartus\bin64", "C:\altera\13.0\quartus\bin") |
+# ---------------------------------------------------------------- program the board
+$qbin = @("C:\altera\13.0sp1\quartus\bin64", "C:\altera\13.0sp1\quartus\bin") |
 	Where-Object { Test-Path (Join-Path $_ "quartus_pgm.exe") } | Select-Object -First 1
 $sof = Join-Path (Get-Location) "sof\$($q.Id).sof"
 if (-not $qbin) { Write-Host "  Quartus II 13.0sp1 not found under C:\altera." -ForegroundColor Red; exit 1 }
-if (-not (Test-Path $sof)) { Write-Host "  sof\$($q.Id).sof is missing." -ForegroundColor Red; exit 1 }
+Get-Process quartus_stp -ErrorAction SilentlyContinue | Stop-Process -Force		# an old link from a closed window
 Write-Host ""
-Write-Host "  Programming the board with $($q.Id)..."
+Write-Host "  Preparing the board..."
 $ErrorActionPreference = "Continue"
 & (Join-Path $qbin "quartus_pgm.exe") -c USB-Blaster -m JTAG -o "p;$sof" > program.log 2>&1
 if ($LASTEXITCODE -ne 0) {		# jtagd may still be starting: once more
@@ -55,119 +44,69 @@ if ($LASTEXITCODE -ne 0) {		# jtagd may still be starting: once more
 $okPgm = ($LASTEXITCODE -eq 0)
 $ErrorActionPreference = "Stop"
 if (-not $okPgm) {
-	Write-Host "  Programming FAILED. Is the board on, the USB cable in the BLASTER port, the switch on RUN?" -ForegroundColor Red
-	Write-Host "  This question lives only in the board - it cannot be solved without it." -ForegroundColor Red
+	Write-Host "  The board did not answer. Is it on, the USB cable in the BLASTER port, the switch on RUN?" -ForegroundColor Red
 	exit 1
 }
 
-# Reads a code until it fits; $step = $null for a question without steps. Returns the code, or exits on Q.
-function Read-Code($step, $failLines) {
+# ---------------------------------------------------------------- the link: login + start step in, step + code out
+$srcHex = '{0:X4}' -f ((1 -shl 13) -bor ($from -shl 10) -bor $s)
+$psi = New-Object System.Diagnostics.ProcessStartInfo
+$psi.FileName = Join-Path $qbin "quartus_stp.exe"
+$psi.Arguments = "-t `"$(Join-Path $PSScriptRoot 'link.tcl')`" $srcHex"
+$psi.UseShellExecute = $false
+$psi.RedirectStandardOutput = $true
+$psi.RedirectStandardInput = $true		# the link must not share the console input
+$psi.CreateNoWindow = $true
+$link = [System.Diagnostics.Process]::Start($psi)
+
+function Show-Step($k) {
+	Clear-Host
+	Write-Host ""
+	Write-Host "  $($q.Id) - $($q.Title)          step $k of $last" -ForegroundColor Cyan
+	Write-Host ""
+	$q.B | ForEach-Object { Write-Host "  $_" -ForegroundColor DarkGray }
+	if ($q.P.ContainsKey($pub)) { $q.P[$pub] | ForEach-Object { Write-Host "  $_" } }
+	Write-Host ""
+	$q.S[$k] | ForEach-Object { if ($_ -match '^(GOAL|ANSWER)') { Write-Host "  $_" -ForegroundColor Yellow } else { Write-Host "  $_" } }
+	Write-Host ""
+	Write-Host "  Put the answer on the switches and press KEY2." -ForegroundColor Green
+	Write-Host "  The board shows PASS (this screen moves on by itself) or Err (try again)." -ForegroundColor DarkGray
+}
+
+try {
+	$cur = 0
 	while ($true) {
-		$ans = Read-Host "  Code"
-		if ($null -eq $ans) { exit 0 }
-		$ans = ($ans -replace '\s', '').ToUpper()
-		if ($ans -eq 'Q') { Write-Host "  Stopped. Run $($q.Id) again to go on from your last passed step (you log in again)."; exit 0 }
-		if ($ans -notmatch '^[0-9A-F]{4}$') { Write-Host "  4 digits (0-9, A-F), as on HEX3 HEX2 HEX1 HEX0." -ForegroundColor Yellow; continue }
-		$fits = if ($null -eq $step) { Test-CodeDigits $ans $s } else { Test-CodeDigits $ans $s $step }
-		if ($fits) { Log "step $step code $ans PASS"; return $ans }
-		Log "step $step code $ans FAIL"
-		Write-Host ""
-		Write-Host "  FAIL" -ForegroundColor Red
-		$failLines | ForEach-Object { Write-Host "  $_" -ForegroundColor Red }
-		Write-Host ""
-	}
-}
-
-# ================================================================ with steps: one short screen per step
-if ($q.NS -gt 0) {
-	$last = $q.NS - 1
-	function Show-Top($k) {
-		Clear-Host
-		Write-Host ""
-		Write-Host "  $($q.Id) - $($q.Title)" -ForegroundColor Cyan
-		Write-Host "  Step $k of $last" -ForegroundColor Cyan
-		Write-Host ""
-		if ($k -gt 0) {
-			$q.B | ForEach-Object { Write-Host "  $_" -ForegroundColor DarkGray }
-			if ($q.P.ContainsKey($pub)) { $q.P[$pub] | ForEach-Object { Write-Host "  $_" } }
+		$line = $link.StandardOutput.ReadLine()
+		if ($null -eq $line -or $line -eq "X") {
 			Write-Host ""
+			Write-Host "  The link to the board stopped (USB cable? board off?). Run $($q.Id) again - your progress is saved." -ForegroundColor Red
+			exit 1
 		}
-	}
-
-	# step 0: the login - the board shows a receipt that only the right login number gives.
-	# After a closed window the board is programmed again: KEY2 in LOGIN picks the step to go on from.
-	$from = $done + 1
-	Show-Top 0
-	Write-Host "  LOG IN - the board builds YOUR puzzle from your login number." -ForegroundColor Yellow
-	if ($done -gt 0) {
-		Write-Host "  Welcome back: steps 1-$done are done. You go on with step $from." -ForegroundColor Green
-	}
-	Write-Host ""
-	Write-Host "  1. Switches UP: $up   (all the others down; HEX shows L $hex)"
-	if ($done -gt 0) {
-		$g = Get-Bin $from 3
-		$on = @(2..0 | Where-Object { $from -band (1 -shl $_) } | ForEach-Object { "LEDG$_" }) -join ", "
-		Write-Host "  2. Press KEY2 until LEDG2 LEDG1 LEDG0 = $($g[0]) $($g[1]) $($g[2])  (only $on on) = step $from."
-		Write-Host "  3. Press KEY3. The board shows 4 digits - type them."
-	} else {
-		Write-Host "  2. Press KEY3. The board shows 4 digits - type them."
-	}
-	Write-Host ""
-	$null = Read-Code 0 @("That is not your receipt. Hold KEY1: if HEX does not show the 4 digits again,",
-	                      "close this window, run $($q.Id) again and raise exactly: $up")
-	Write-Host "  PASS - you are logged in." -ForegroundColor Green
-	$null = Read-Host "  Enter = next step"
-
-	for ($k = $from; $k -le $last; $k++) {
-		Show-Top $k
-		$q.S[$k] | ForEach-Object { if ($_ -match '^(GOAL|ANSWER)') { Write-Host "  $_" -ForegroundColor Yellow } else { Write-Host "  $_" } }
-		Write-Host ""
-		Write-Host "  HOW TO ANSWER" -ForegroundColor DarkGray
-		if (-not $q.Flat) {
-			Write-Host "    -  KEY3 = answer mode: LEDG7 on, HEX shows AnS.   (KEY3 again = back to the lights.)" -ForegroundColor DarkGray
+		if ($line -notmatch '^P\s+([0-9A-Fa-f]+)') { continue }
+		$v = [Convert]::ToInt32($Matches[1], 16)
+		$fin = ($v -shr 19) -band 1
+		$step = ($v -shr 16) -band 7
+		if ($cur -eq 0) {
+			if ($step -lt $from) { continue }		# the board is still starting
+			$cur = $step; Show-Step $cur; continue
 		}
-		Write-Host "    1. Put the answer on the switches." -ForegroundColor DarkGray
-		if ($k -lt $last) {
-			Write-Host "    2. HOLD KEY2: HEX shows PASS - or Err (not right yet: change the switches, try again)." -ForegroundColor DarkGray
-			Write-Host "    3. PASS? Release KEY2 - the board goes to the next step. Then press Enter here." -ForegroundColor DarkGray
+		while ($cur -lt $step) {			# a step passed on the board
+			Save-Progress $sid $q.Id $cur
 			Write-Host ""
-			$null = Read-Host "  Enter = the board showed PASS"
-			Save-Progress $sid $q.Id $k
-			continue
+			Write-Host "  PASS - well done!" -ForegroundColor Green
+			Start-Sleep -Milliseconds 1500
+			$cur++
+			Show-Step $cur
 		}
-		Write-Host "    2. HOLD KEY2: HEX shows your CODE (4 characters) - or Err (not right yet, try again)." -ForegroundColor DarkGray
-		Write-Host "    3. Type the code here." -ForegroundColor DarkGray
-		Write-Host ""
-		$code = Read-Code $k @("That is not the code of the last step. Hold KEY2 and type the 4 characters HEX shows.",
-		                       "HEX shows PASS? The board is at an earlier step: in answer mode LEDG2..0 must show $k.")
-		Save-Progress $sid $q.Id $k
-		Save-MoodleCode $sid $q.Id $code
-		Write-Host "  PASS - $($q.Id) is done. Saved in moodle.txt: ce-$($q.Id): $code" -ForegroundColor Green
+		if ($fin) {
+			$code = '{0:X4}' -f ($v -band 0xFFFF)
+			Save-Progress $sid $q.Id $last
+			Save-MoodleCode $sid $q.Id $code
+			Write-Host ""
+			Write-Host "  PASS - $($q.Id) is done!  Your code ce-$($q.Id): $code is saved in moodle.txt." -ForegroundColor Green
+			break
+		}
 	}
-	exit 0
+} finally {
+	if (-not $link.HasExited) { $link.Kill() }
 }
-
-# ================================================================ without steps: the whole question at once
-Write-Host ""
-Write-Host "=== Class exercise $($q.Id) - $($q.Title) ===          ID $sid" -ForegroundColor Cyan
-Write-Host ""
-Write-Host "  1. LOGIN  (HEX3 shows L, HEX2..HEX0 show the switches)" -ForegroundColor Yellow
-Write-Host "     Your login number: $s  =  hex $hex  =  SW9..SW0 $($bin.Substring(0,2)) $($bin.Substring(2,4)) $($bin.Substring(6,4))"
-Write-Host "     Switches UP: $up.   Then press KEY3."
-Write-Host ""
-Write-Host "  2. PLAY  - find the answer on the board" -ForegroundColor Yellow
-$q.B | ForEach-Object { Write-Host "     $_" }
-Write-Host ""
-$q.L | ForEach-Object { Write-Host "     $_" }
-if ($q.P.ContainsKey($pub)) { $q.P[$pub] | ForEach-Object { Write-Host "     $_" -ForegroundColor White } }
-Write-Host ""
-Write-Host "  3. ANSWER  - press KEY3 (LEDG7 lights; KEY3 again = back to PLAY)" -ForegroundColor Yellow
-$q.F | ForEach-Object { Write-Host "     $_" }
-Write-Host "     Other switches do not matter. HEX shows A and your switches in hex."
-Write-Host "     Hold KEY2: HEX3..HEX0 show your CODE if the answer is right, Err if not."
-Write-Host "     Hold KEY1: HEX shows L and the login number the board took - it must be $hex."
-Write-Host ""
-$code = Read-Code $null @("This code does not fit. A typo? Or the board took a wrong login number -",
-                          "hold KEY1 in ANSWER mode: it must show L $hex. If not, run $($q.Id) again.")
-Save-MoodleCode $sid $q.Id $code
-Write-Host "  Saved in moodle.txt: ce-$($q.Id): $code   - hand in moodle.txt on Moodle." -ForegroundColor Green
