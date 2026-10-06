@@ -4,14 +4,22 @@
 
 [Q01] SEQ | Combinational or sequential? (8 black boxes) | npub 1 | steps 5
 B: Inputs: A = SW1, B = SW0 (HEX1, HEX0). Box i = LEDRi (boxes 0-7), all boxes get the same A and B.
-S1: Set A B = 00, 01, 10, 11, and then 00 again - in this order.
-S1: Copy the lights: SWi up if LEDRi is on (SW7..SW0). Write them on paper too.
-S2: Now set A B = 11, 10, 01, 00 - in this order.
-S2: Copy the lights again (SW7..SW0), and write them on paper.
-S3: Both times you ended at A B = 00 - but some boxes are different.
-S3: Same inputs, different light = the box REMEMBERS. SWi up for every box that differed.
-S4: Some boxes remember in other rows too: reach every row coming from different rows.
-S4: SWi up for EVERY box with memory - a sequential box (SW7..SW0).
+S1: GOAL: see what the 8 boxes show after one order of inputs.
+S1: 1. Move SW1 SW0 (= A B) through 00, 01, 10, 11 and back to 00 - in this order.
+S1: 2. Look at LEDR7..LEDR0 and write them on paper (1 = on).
+S1: ANSWER = the same pattern on the switches: SWi up if LEDRi was on (SW7..SW0).
+S2: GOAL: the same end point (A B = 00), but from another direction.
+S2: 1. KEY3 back to the lights. Move SW1 SW0 through 11, 10, 01, 00 - in this order.
+S2: 2. Look at LEDR7..LEDR0 and write them on paper.
+S2: ANSWER = this pattern on the switches (SW7..SW0).
+S3: GOAL: find boxes that REMEMBER.
+S3: Both times the inputs ended at A B = 00, but some lights were different.
+S3: Same inputs, different light = the box remembers what came before.
+S3: ANSWER: compare your two papers. SWi up for every box that was different.
+S4: GOAL: find ALL boxes with memory (sequential boxes).
+S4: KEY3 back to the lights. Some boxes remember only in another row: for every row of A B, arrive at it
+S4: from different rows and watch whether a light changes.
+S4: ANSWER: SWi up for every sequential box (SW7..SW0).
 
 [Q02] LATCH | A box with memory: what sets it, what resets it? | npub 1
 B: Inputs: A = SW1, B = SW0 (HEX1, HEX0). The box = LEDR0. It starts at 0.

@@ -99,13 +99,17 @@ if ($q.NS -gt 0) {
 
 	for ($k = 1; $k -le $last; $k++) {
 		Show-Top $k
-		$q.S[$k] | ForEach-Object { Write-Host "  $_" -ForegroundColor Yellow }
+		$q.S[$k] | ForEach-Object { if ($_ -match '^(GOAL|ANSWER)') { Write-Host "  $_" -ForegroundColor Yellow } else { Write-Host "  $_" } }
 		Write-Host ""
-		Write-Host "  Answer: KEY3 (LEDG7 on, LEDG2..0 = $k) - set the switches - HOLD KEY2 - type the 4 digits." -ForegroundColor DarkGray
-		Write-Host "  Err = not right yet, change the switches.  KEY3 again = back to the lights." -ForegroundColor DarkGray
+		Write-Host "  HOW TO ANSWER" -ForegroundColor DarkGray
+		Write-Host "    a. KEY3 = answer mode: LEDG7 on, HEX shows AnS, LEDR show your switches." -ForegroundColor DarkGray
+		Write-Host "    b. Set the answer on the switches." -ForegroundColor DarkGray
+		Write-Host "    c. HOLD KEY2: HEX shows 4 digits = your code. Err = the switches are not right yet." -ForegroundColor DarkGray
+		Write-Host "    d. Type the 4 digits here.   (KEY3 again = back to the lights.)" -ForegroundColor DarkGray
 		Write-Host ""
-		$code = Read-Code $k @("That is not the code of step $k. LEDG2..0 must show $k in answer mode.",
-		                       "Hold KEY1 to see the last code the board gave, and check for a typo.")
+		$code = Read-Code $k @("These are not the 4 digits that KEY2 shows in step $k.",
+		                       "Hold KEY2 (not KEY3) and type what HEX shows while you hold it. Err? Fix the switches.",
+		                       "LEDG2..0 in answer mode must show $k. Hold KEY1 to see the last code again.")
 		if ($k -lt $last) {
 			Write-Host "  PASS" -ForegroundColor Green
 			$null = Read-Host "  Enter = next step"
