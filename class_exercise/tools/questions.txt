@@ -3,13 +3,16 @@
 # with steps: Sk: the screen of step k (step 0 = login, in run.ps1);  without: L: question, F: answer format
 
 [Q01] SEQ | Combinational or sequential? (8 black boxes) | npub 1 | steps 5
-B: Inputs: A = SW1, B = SW0 (HEX1, HEX0). Box i = LEDRi (boxes 0-7), all boxes get the same A and B.
-S1: GOAL: see what the 8 boxes show after one order of inputs.
-S1: 1. Move SW1 SW0 (= A B) through 00, 01, 10, 11 and back to 00 - in this order.
+B: Inputs: A = SW1, B = SW0 (HEX1, HEX0). Box i = LEDRi (8 boxes, all get the same A and B).
+B: Change ONE switch at a time - two at once pass through a row in between.
+S1: GOAL: see what the 8 boxes show after one path of inputs.
+S1: 1. Start with SW1 SW0 (= A B) at 0 0. Then flip ONE switch at a time:
+S1:    SW0 up (A B = 01),  SW1 up (11),  SW0 down (10),  SW1 down (00).
 S1: 2. Look at LEDR7..LEDR0 and write them on paper (1 = on).
 S1: ANSWER = the same pattern on the switches: SWi up if LEDRi was on (SW7..SW0).
-S2: GOAL: the same end point (A B = 00), but from another direction.
-S2: 1. KEY3 back to the lights. Move SW1 SW0 through 11, 10, 01, 00 - in this order.
+S2: GOAL: the same end point (A B = 00), but along the other path.
+S2: 1. KEY3 back to the lights. SW1 SW0 to 0 0, then ONE switch at a time:
+S2:    SW1 up (A B = 10),  SW0 up (11),  SW1 down (01),  SW0 down (00).
 S2: 2. Look at LEDR7..LEDR0 and write them on paper.
 S2: ANSWER = this pattern on the switches (SW7..SW0).
 S3: GOAL: find boxes that REMEMBER.
@@ -17,8 +20,8 @@ S3: Both times the inputs ended at A B = 00, but some lights were different.
 S3: Same inputs, different light = the box remembers what came before.
 S3: ANSWER: compare your two papers. SWi up for every box that was different.
 S4: GOAL: find ALL boxes with memory (sequential boxes).
-S4: KEY3 back to the lights. Some boxes remember only in another row: for every row of A B, arrive at it
-S4: from different rows and watch whether a light changes.
+S4: KEY3 back to the lights. Some boxes remember only in another row: reach every row
+S4: from both of its neighbours (one switch at a time) and watch whether a light changes.
 S4: ANSWER: SWi up for every sequential box (SW7..SW0).
 
 [Q02] LATCH | A box with memory: what sets it, what resets it? | npub 1
