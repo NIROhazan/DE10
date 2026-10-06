@@ -50,12 +50,12 @@ if (-not $okPgm) {
 
 # ---------------------------------------------------------------- the link: login + start step in, step + code out
 $srcHex = '{0:X4}' -f ((1 -shl 13) -bor ($from -shl 10) -bor $s)
+$state = Join-Path (Get-Location) "link_state.txt"	# the link writes the board's state here (see link.tcl)
+Remove-Item $state -ErrorAction SilentlyContinue
 $psi = New-Object System.Diagnostics.ProcessStartInfo
 $psi.FileName = Join-Path $qbin "quartus_stp.exe"
-$psi.Arguments = "-t `"$(Join-Path $PSScriptRoot 'link.tcl')`" $srcHex"
+$psi.Arguments = "-t `"$(Join-Path $PSScriptRoot 'link.tcl')`" $srcHex `"$state`""
 $psi.UseShellExecute = $false
-$psi.RedirectStandardOutput = $true
-$psi.RedirectStandardInput = $true		# the link must not share the console input
 $psi.CreateNoWindow = $true
 $link = [System.Diagnostics.Process]::Start($psi)
 
@@ -75,13 +75,24 @@ function Show-Step($k) {
 
 try {
 	$cur = 0
+	$prev = ""
+	$t0 = Get-Date
 	while ($true) {
-		$line = $link.StandardOutput.ReadLine()
-		if ($null -eq $line -or $line -eq "X") {
+		Start-Sleep -Milliseconds 200
+		$line = $null
+		try { $line = ([IO.File]::ReadAllText($state)).Trim() } catch { }
+		if ($link.HasExited -or ($line -like "X*")) {
 			Write-Host ""
 			Write-Host "  The link to the board stopped (USB cable? board off?). Run $($q.Id) again - your progress is saved." -ForegroundColor Red
+			if ($line -like "X *") { Write-Host "  ($($line.Substring(2)))" -ForegroundColor DarkGray }
 			exit 1
 		}
+		if ($cur -eq 0 -and ((Get-Date) - $t0).TotalSeconds -gt 40) {
+			Write-Host "  The board does not answer the computer. Close this window, check the USB cable, and run $($q.Id) again." -ForegroundColor Red
+			exit 1
+		}
+		if (-not $line -or $line -eq $prev) { continue }
+		$prev = $line
 		if ($line -notmatch '^P\s+([0-9A-Fa-f]+)') { continue }
 		$v = [Convert]::ToInt32($Matches[1], 16)
 		$fin = ($v -shr 19) -band 1

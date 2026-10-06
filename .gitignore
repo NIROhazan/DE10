@@ -65,3 +65,6 @@ verdict.txt
 progress.txt
 # class exercise old/: its own prebuilt boards
 !class_exercise/old/sof/*.sof
+# class exercise: the board state written by tools/link.tcl
+link_state.txt
+link_state.txt.tmp
