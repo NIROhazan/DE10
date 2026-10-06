@@ -19,6 +19,23 @@
 טעות הקלדה, או כניסה עם מספר לא נכון, נתפסות מיד. `KEY1` במצב תשובה מראה את מספר הכניסה שהלוח קיבל.
 אחרי צריבה מחדש (הרצה נוספת של ה-BAT) נכנסים שוב.
 
+## Q01 - בשלבים (פורמט חדש, לבדיקה)
+
+ב-Q01 כל מסך הוא שלב קטן: מעט טקסט, עושים, מקלידים את הקוד שהלוח נתן, ומקבלים **PASS / FAIL**.
+רק אחרי PASS המסך נמחק ומגיע השלב הבא. שלב 0 הוא הכניסה: אחרי `KEY3` הלוח מציג 4 ספרות (קבלה) - הן
+מתאימות רק למספר הכניסה הנכון, אז כניסה שגויה נתפסת מיד. במצב תשובה `LEDG2..LEDG0` מראות את מספר השלב,
+ושחרור `KEY2` אחרי תשובה נכונה מעביר את הלוח לשלב הבא. `KEY1` מראה את הקוד האחרון שהלוח נתן.
+
+| שלב | מה עושים |
+|---|---|
+| 0 | כניסה: המתגים של מספר הכניסה, `KEY3`, מקלידים את הקבלה |
+| 1 | A B = 00, 01, 10, 11, 00 - מעתיקים את הנורות למתגים |
+| 2 | A B = 11, 10, 01, 00 - מעתיקים שוב |
+| 3 | אילו קופסאות היו שונות בשני הניסיונות (אותה כניסה, אור אחר = זיכרון) |
+| 4 | כל הקופסאות הסדרתיות - הקוד הזה נכנס ל-`moodle.txt` |
+
+שאר השאלות (Q02-Q25) עדיין בפורמט הראשון: כל השאלה במסך אחד וקוד אחד.
+
 ## השאלות - לפי סדר ההרצאה
 
 | שאלה | נושא (שקופיות) | מה מוסתר בלוח | התשובה על המתגים |
@@ -62,6 +79,9 @@
   iverilog (every row, the memory boxes on a random walk, login / answer / code / Err / KEY1 per test login);
   `--compile` builds with Quartus 13.0sp1 and copies `sof/Qnn.sof` here; `--id <ID>` (or `answers.bat ce <ID>`) prints a student's
   login number, every answer as switches and every code. `ANSWERS.md` there describes every question.
+- Q01 is in steps (questions.txt `| steps 5`, `Sk:` lines): its `ce.v` adds a step register, a want ROM {variant, step} ->
+  {mask, answer}, and the step code = mix(secret16, step) in logic + check digit with the step (gen.py, `verify.ps1` too).
+  Q02-Q25 are still the first format; their sof files were built by `gen_v1.py.bak` and gen.py does not rebuild them.
 - One hardware for all (`ce.v`): seed ROM (1024 logins x {code, mask, answer, variant}) + table ROM (variant x row -> 0 / 1 / hold
   per output). 169-196 LEs, 47-111 Kbit M4K. Outputs stay 0 after the login until the first switch change.
 - `variant = pub * nsec + sec`: `pub` = MD5 (public - picks the printed text, computed by `tools/common.ps1` too), `sec` = HMAC with

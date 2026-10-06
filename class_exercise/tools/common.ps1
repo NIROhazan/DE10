@@ -44,25 +44,30 @@ function Get-Md5($s) { return [Security.Cryptography.MD5]::Create().ComputeHash(
 function Get-Login($sid) { $b = Get-Md5 "DE10ce|$sid"; return (($b[0] + 256 * $b[1]) % 1024) }
 function Get-Pub($qid, $s, $n) { if ($n -le 1) { return 0 }; return ((Get-Md5 "DE10ce|$qid|$s")[0] % $n) }
 
-# Code = 4 hex digits HEX3 HEX2 HEX1 HEX0; HEX0 = check digit over the other three and the login number
-function Test-CodeDigits($code, $s) {
+# Code = 4 hex digits HEX3 HEX2 HEX1 HEX0; HEX0 = check digit over the other three, the login number and the step
+# (questions without steps: no step term)
+function Test-CodeDigits($code, $s, $step = 0) {
 	$d = @($code.ToCharArray() | ForEach-Object { [Convert]::ToInt32([string]$_, 16) })
-	$c = ($d[0] + 3 * $d[1] + 5 * $d[2] + 7 + 9 * ($s -band 15) + 11 * (($s -shr 4) -band 15) + 13 * ($s -shr 8)) % 16
+	$c = ($d[0] + 3 * $d[1] + 5 * $d[2] + 7 + 9 * ($s -band 15) + 11 * (($s -shr 4) -band 15) + 13 * ($s -shr 8) + 15 * $step) % 16
 	return ($c -eq $d[3])
 }
 
 function Get-Bin($v, $n) { return ([Convert]::ToString([long]$v, 2)).PadLeft($n, '0') }
 
-# The questions: [Qnn] NAME | title | npub n, then B: / L: / Pk: / F: lines
+# The questions: [Qnn] NAME | title | npub n [| steps n], then B: / L: / Pk: / F: / Sk: lines
 function Read-Questions {
 	$qs = [ordered]@{}; $cur = $null
 	foreach ($l in [IO.File]::ReadAllLines((Join-Path $PSScriptRoot "questions.txt"), $script:utf8)) {
-		if ($l -match '^\[(Q\d+)\]\s*(\S+)\s*\|\s*(.+?)\s*\|\s*npub\s+(\d+)') {
+		if ($l -match '^\[(Q\d+)\]\s*(\S+)\s*\|\s*(.+?)\s*\|\s*npub\s+(\d+)(?:\s*\|\s*steps\s+(\d+))?') {
 			$cur = [pscustomobject]@{ Id = $Matches[1]; Name = $Matches[2]; Title = $Matches[3]; NPub = [int]$Matches[4]
-				B = @(); L = @(); F = @(); P = @{} }
+				NS = $(if ($Matches[5]) { [int]$Matches[5] } else { 0 }); B = @(); L = @(); F = @(); P = @{}; S = @{} }
 			$qs[$cur.Id] = $cur
 		} elseif ($cur -and $l -match '^([BLF]):\s?(.*)$') {
 			$cur.($Matches[1]) += $Matches[2]
+		} elseif ($cur -and $l -match '^S(\d+):\s?(.*)$') {
+			$k = [int]$Matches[1]
+			if (-not $cur.S.ContainsKey($k)) { $cur.S[$k] = @() }
+			$cur.S[$k] += $Matches[2]
 		} elseif ($cur -and $l -match '^P(\d+):\s?(.*)$') {
 			$k = [int]$Matches[1]
 			if (-not $cur.P.ContainsKey($k)) { $cur.P[$k] = @() }
