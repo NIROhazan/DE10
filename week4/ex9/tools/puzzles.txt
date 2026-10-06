@@ -1,0 +1,9 @@
+# ex9: gate delays of every puzzle, in ticks (1 tick = 0.1 s): puzzle NOT AND OR
+delay 0 2 5 1
+delay 1 2 2 4
+delay 2 6 4 1
+delay 3 4 5 2
+delay 4 3 2 4
+delay 5 2 5 1
+delay 6 5 3 3
+delay 7 3 5 1

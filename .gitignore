@@ -57,3 +57,5 @@ judge_input.txt
 verdict.txt
 # week 2: the prebuilt board of each exercise
 !week2/*/board.sof
+# week 4: the prebuilt boards of ex8-ex10
+!week4/*/board.sof

@@ -1,0 +1,24 @@
+# Exercise 7 - one segment per student, picked from the ID (tools/variant.ps1).
+# TABLE = Y for the rows ABCD = 0000 .. 1111 (the segment of the lecture's sevenseg module; rows 1010-1111 are X
+# in base_top.v, their 0 here is not used). Segments a, d, f, g: all four have a 4-term minimal SOP.
+# EN is shown in the console, HE goes into answer.txt. A = SW3, B = SW2, C = SW1, D = SW0.
+
+=== a
+TABLE: 1011011111000000
+EN: Your output Y is segment a of the seven-segment display (abc_defg in the lecture's sevenseg module): Y = 1 when segment a is lit for the digit ABCD (0-9). Rows 1010-1111 are X.
+HE: היציאה שלכם Y היא מקטע a של תצוגת 7 המקטעים (המקטע העליון, abc_defg במודול sevenseg מההרצאה): Y=1 כשמקטע a דולק בספרה ABCD (0-9). השורות 1010-1111 הן X.
+
+=== d
+TABLE: 1011011010000000
+EN: Your output Y is segment d of the seven-segment display (abc_defg in the lecture's sevenseg module): Y = 1 when segment d is lit for the digit ABCD (0-9). Rows 1010-1111 are X.
+HE: היציאה שלכם Y היא מקטע d של תצוגת 7 המקטעים (המקטע התחתון, abc_defg במודול sevenseg מההרצאה): Y=1 כשמקטע d דולק בספרה ABCD (0-9). השורות 1010-1111 הן X.
+
+=== f
+TABLE: 1000111011000000
+EN: Your output Y is segment f of the seven-segment display (abc_defg in the lecture's sevenseg module): Y = 1 when segment f is lit for the digit ABCD (0-9). Rows 1010-1111 are X.
+HE: היציאה שלכם Y היא מקטע f של תצוגת 7 המקטעים (המקטע השמאלי העליון, abc_defg במודול sevenseg מההרצאה): Y=1 כשמקטע f דולק בספרה ABCD (0-9). השורות 1010-1111 הן X.
+
+=== g
+TABLE: 0011111011000000
+EN: Your output Y is segment g of the seven-segment display (abc_defg in the lecture's sevenseg module): Y = 1 when segment g is lit for the digit ABCD (0-9). Rows 1010-1111 are X.
+HE: היציאה שלכם Y היא מקטע g של תצוגת 7 המקטעים (המקטע האמצעי, abc_defg במודול sevenseg מההרצאה): Y=1 כשמקטע g דולק בספרה ABCD (0-9). השורות 1010-1111 הן X.

@@ -28,9 +28,9 @@ correct-looking design. Rebuild: `quartus_sh --flow compile locked` in `locked/`
 ## Exercises
 
 The exercises are split by lecture and numbered from 1 in every week. Codes for Moodle carry the week:
-`w2-ex3-Q1`, `w3-ex4` (other/ keeps `ex4`, `ex5`, `ex6`), so ex3 of two weeks never share a code or a table.
+`w2-ex3-Q1`, `w3-ex4`, `w4-ex9-Q2`, so ex3 of two weeks never share a code or a table.
 `student.txt` (the student ID) and `locked/` stay here in the course folder; the scripts find them from
-`week3/exN` or `other/exN`.
+`weekN/exN` or `other/exN`.
 
 ### [`week2/`](week2/README.md) - lecture 2 (Harris ch. 1: number systems, signed numbers, gates, CMOS)
 
@@ -60,14 +60,27 @@ answer. The hidden boards (secret bytes, mystery gates, CMOS gates) are built fr
 - [`ex9/`](week3/ex9/README.md) - reading a multilevel NAND / NOR circuit (bubble pushing).
 - [`ex10/`](week3/ex10/README.md) - a function on a 4:1 mux and on a decoder.
 
-### [`other/`](other/README.md) - not lecture 3
+### [`week4/`](week4/README.md) - lecture 4 (Harris ch. 2: Karnaugh maps, don't-cares, timing, glitches; ch. 4: case / casez)
+
+- [`ex1/`](week4/ex1/README.md) - K-map, four variables, D on KEY3: canonical SOP/POS, minimal SOP, XOR form (a checkerboard - even parity). Was `other/ex4`.
+- [`ex2/`](week4/ex2/README.md) - K-map, four variables: minimal SOP (four-corner group) vs minimal POS - POS wins with more 0s. Was `other/ex5`.
+- [`ex3/`](week4/ex3/README.md) - K-map with don't-care rows (X): MSOP takes both X as 1, MPOS both as 0 - both right. Was `other/ex6`.
+- [`ex4/`](week4/ex4/README.md) - K-map, three variables: a group that wraps around the edge, a prime implicant that is not needed.
+- [`ex5/`](week4/ex5/README.md) - implicant / prime implicant / essential: a cyclic map with 6 prime implicants, none essential, two minimal SOPs.
+- [`ex6/`](week4/ex6/README.md) - K-map, four variables: a group of 8 (one literal), groups of 4; POS has fewer terms, SOP fewer literals.
+- [`ex7/`](week4/ex7/README.md) - one segment (a, d, f or g by ID) of the lecture's sevenseg module: BCD 0-9, rows 10-15 are X.
+- [`ex8/`](week4/ex8/README.md) - timing: the lecture's critical-path circuit in slow motion (1 tick = 0.1 s) with hidden gate delays and a
+  stopwatch on HEX3..0; measure gate delays, tpd and tcd; paper circuits with personal tpd / tcd in ps.
+- [`ex9/`](week4/ex9/README.md) - glitches: 8 hidden 2-term SOPs in slow motion; find Y, the glitching switch flip, its timing, and the
+  consensus term that removes it (SW6 adds it on the board).
+- [`ex10/`](week4/ex10/README.md) - `casez` puzzles: value of y, how many inputs reach `default`, the line that never fires, one bit as a minimal SOP.
+
+ex1-ex7 use the week-3 engine (personal truth table, `answer.txt` + Claude, `Qn` bats); ex8-ex10 use the week-2 engine (prebuilt
+`board.sof`, wrong answer = new numbers) plus `Get-SopKey` in `tools/common.ps1`: a SOP answer is checked by its truth table and its
+number of terms / literals, so every minimal SOP counts. Boards and keys: `C:\DE10_solutions\week4\gen_w4.py` (and `gen_kmap.py` for ex4-ex7).
+
+### [`other/`](other/README.md) - not a lecture
 
 - [`ex0/`](other/ex0/README.md) - week 1: LED wave. No logic - the student changes numbers in a `KNOBS` block
   (step divider, brightness), predicts on a `PREDICT:` line first (run.bat refuses without one, logs to
   `history.txt`), then checks on the board. Traps: 25-bit counter limit (wave freezes), 7-bit brightness overflow.
-- [`ex4/`](other/ex4/README.md) - Karnaugh maps: four variables, D on KEY3 (pressed = 1): canonical SOP/POS,
-  K-map minimal SOP, and an XOR form. The function is even parity, so the K-map is a checkerboard.
-- [`ex5/`](other/ex5/README.md) - Karnaugh maps: four variables, minimal SOP (four-corner group) vs minimal POS;
-  POS wins with more 0s than 1s, so the 1s/0s count only predicts the canonical forms.
-- [`ex6/`](other/ex6/README.md) - Karnaugh maps with don't-care rows (X): the minimal SOP takes both X as 1,
-  the minimal POS takes both as 0, so the two minimal answers differ on the X rows and are both right.
