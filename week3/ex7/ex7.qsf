@@ -1,4 +1,4 @@
-# Exercise 7 - Simplifying with the theorems on the Terasic DE1 (Cyclone II EP2C20F484C7), Quartus II 13.0sp1
+# Exercise 7 - A priority circuit on the Terasic DE1 (Cyclone II EP2C20F484C7), Quartus II 13.0sp1
 set_global_assignment -name FAMILY "Cyclone II"
 set_global_assignment -name DEVICE EP2C20F484C7
 set_global_assignment -name TOP_LEVEL_ENTITY ex7_top

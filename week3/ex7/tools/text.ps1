@@ -79,7 +79,7 @@ Log "$verdict   $($answer -replace '\s+', ' ')"
 
 Write-Host ""
 if ($verdict -eq "OK") {
-	$code = Save-MoodleCode $sid $proj "$proj-$Q"
+	$code = Save-MoodleCode $sid $proj "$(Get-ExLabel)-$Q"
 	Write-Host "  Correct!  Your code for $proj ${Q}: $code   - saved in moodle.txt (hand it in on Moodle)." -ForegroundColor Green
 } elseif ($verdict -eq "PARTIAL") {
 	Write-Host "  Partly right - read the feedback (it opened in Notepad), improve the answer, and run $Q again." -ForegroundColor Yellow

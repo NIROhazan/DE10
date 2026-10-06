@@ -45,7 +45,7 @@
 - New run.ps1 rules: `// SIGNAL: y0..y7` (decoder outputs), `// CHECK: MUX = ...` (D0..D3 are its parts, checked
   only through the mux), `// ONLY: D0 D1 D2 D3 : TOKENS C ~ 1'b0 1'b1`, `// ONLY: DEC : TOKENS y0 .. y7 |`.
   answers.ps1 computes D0..D3 / DEC from the student's own table (@MUX / @DEC in ANSWERS.md).
-- Key and per-student answers: `C:/DE10_solutions/answers.bat ex10 <ID>`; Moodle check: `C:/DE10_solutions/verify.bat`.
+- Key and per-student answers: `C:/DE10_solutions/answers.bat w3-ex10 <ID>`; Moodle check: `C:/DE10_solutions/verify.bat`.
 - Per-question bats (2026-10-05): `Qn_NAME.bat` -> `tools/ask.ps1 -Q Qn`, defined by the `// ASK` lines of base_top.v.
   The answer is typed in the console, translated by `ConvertTo-Verilog` (tools/check.ps1, no Claude), checked
   with the `ONLY` rules (blocks the board) and the `GRADE` rules (CSOP / CPOS / MIN / MAXLIT - needed for the

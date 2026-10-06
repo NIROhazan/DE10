@@ -1,31 +1,32 @@
-// Exercise 8 - De Morgan, multiplying out, factoring.  DO NOT EDIT: Claude writes student_logic.v from answer.txt.
+// Exercise 8 - NAND only and NOR only.  DO NOT EDIT: Claude writes student_logic.v from answer.txt.
 //
 //   SW0 = A, SW1 = B, SW2 = C        HEX3 = A, HEX2 = B, HEX1 = C, HEX0 = Y
-//   LEDG0 = Y (the expression you were given)
-//   LEDR0 = your DM   LEDR1 = your SOP   LEDR2 = your POS
+//   LEDG0 = Y from the truth table (the target)
+//   LEDR0 = your SOP   LEDR1 = your POS   LEDR2 = your NAND   LEDR3 = your NOR
 //   LEDR9 = ALARM: one of your answers disagrees with Y on this row
 //
-// EXPR: ((A + B'C)' + A'B)'
-// ONLY: DM : LITNOT
 // ONLY: SOP : SOP
 // ONLY: POS : POS
+// ONLY: NAND : NAND
+// ONLY: NOR : NOR
 // GRADE: SOP : SOP MIN
 // GRADE: POS : POS MIN
-// ASK Q1 DM: DM | Y after De Morgan, from the outside in: no ' after a parenthesis - only on single variables
-// ASK Q2 SOP: SOP | Minimal SOP (multiplying out): the fewest terms, then the fewest literals
-// ASK Q3 POS: POS | Minimal POS (factoring, T8'): the fewest sums, then the fewest literals
-// TEXT Q4 1: What is the complement of a product by De Morgan, and what is the complement of a sum? Write both forms (T12 and T12') with B and C.
-// TEXT Q5 2: Why do we start from the outer ' and not from the inner one? What would have happened in your expression if you had started from the inside?
-// TEXT Q6 3: To get from SOP to POS you used T8': W + XZ = (W + X)(W + Z). What were W, X and Z for you?
-// TEXT Q7 4: Predict before you move the switches: A=0 B=1 C=1 - what will LEDG0 be, and which LEDR lights will be on?
+// ASK Q1 SOP: SOP | Minimal SOP (K-map of the 1s)
+// ASK Q2 POS: POS | Minimal POS (K-map of the 0s)
+// ASK Q3 NAND: NAND | Y with NAND gates only, built from your SOP. A NAND is written (XY)'
+// ASK Q4 NOR: NOR | Y with NOR gates only, built from your POS. A NOR is written (X + Y)'
+// TEXT Q5 1: Bubble pushing: why can the AND-OR levels of the SOP be replaced by NAND-NAND without changing Y? Which theorem does this use?
+// TEXT Q6 2: How many NAND gates are in your NAND expression, and how many NOR gates in your NOR expression? (A' alone counts as one gate.)
+// TEXT Q7 3: Why is NAND called a 'universal gate'? Show how to build NOT, AND and OR from NAND only.
+// TEXT Q8 4: Predict before you move the switches: A=1 B=1 C=0 - what will LEDG0 be, and which LEDR lights will be on?
 // Truth table:  A B C | Y
 //               0 0 0 | 0
-//               0 0 1 | 1
+//               0 0 1 | 0
 //               0 1 0 | 0
-//               0 1 1 | 0
+//               0 1 1 | 1
 //               1 0 0 | 1
 //               1 0 1 | 1
-//               1 1 0 | 1
+//               1 1 0 | 0
 //               1 1 1 | 1
 module ex8_top(
 	input  [9:0] SW,
@@ -46,23 +47,23 @@ module ex8_top(
 	always @(*) begin
 		case ({A, B, C})
 			3'b000: Y = 1'b0;
-			3'b001: Y = 1'b1;
+			3'b001: Y = 1'b0;
 			3'b010: Y = 1'b0;
-			3'b011: Y = 1'b0;
+			3'b011: Y = 1'b1;
 			3'b100: Y = 1'b1;
 			3'b101: Y = 1'b1;
-			3'b110: Y = 1'b1;
+			3'b110: Y = 1'b0;
 			3'b111: Y = 1'b1;
 		endcase
 	end
 
-	wire dm, sop, pos;
-	student_logic u(.A(A), .B(B), .C(C), .DM(dm), .SOP(sop), .POS(pos));
+	wire sop, pos, g_nand, g_nor;
+	student_logic u(.A(A), .B(B), .C(C), .SOP(sop), .POS(pos), .NAND(g_nand), .NOR(g_nor));
 
-	wire alarm = (dm != Y) | (sop != Y) | (pos != Y);
+	wire alarm = (sop != Y) | (pos != Y) | (g_nand != Y) | (g_nor != Y);
 
 	assign LEDG    = {7'b0, Y};
-	assign LEDR    = {alarm, 6'b0, pos, sop, dm};
+	assign LEDR    = {alarm, 5'b0, g_nor, g_nand, pos, sop};
 
 	// 7-segment, active low: "0" and "1" only
 	function [6:0] bit7;

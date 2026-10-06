@@ -4,13 +4,9 @@ module student_logic(
 	input  A,
 	input  B,
 	input  C,
-	output SOP,
-	output POS,
-	output NAND,
-	output NOR
+	output MSOP,
+	output MPOS
 	);
-	assign SOP  = 1'b0;
-	assign POS  = 1'b0;
-	assign NAND = 1'b0;
-	assign NOR  = 1'b0;
+	assign MSOP = 1'b0;
+	assign MPOS = 1'b0;
 endmodule

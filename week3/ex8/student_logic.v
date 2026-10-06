@@ -4,11 +4,13 @@ module student_logic(
 	input  A,
 	input  B,
 	input  C,
-	output DM,
 	output SOP,
-	output POS
+	output POS,
+	output NAND,
+	output NOR
 	);
-	assign DM   = 1'b0;
 	assign SOP  = 1'b0;
 	assign POS  = 1'b0;
+	assign NAND = 1'b0;
+	assign NOR  = 1'b0;
 endmodule

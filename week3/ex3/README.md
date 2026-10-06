@@ -49,7 +49,7 @@
 - Same machinery as ex1/ex2 (`tools/run.ps1` identical), but four answers: LEDR0-3.
 - The minimal SOP is not unique (two 3-term covers); question 1 asks for the second one.
   The minimal POS (2 terms) is cheaper than the minimal SOP (3 terms).
-- Answers in `C:\DE10_solutions\ex3\ANSWERS.md` - not in this repo.
+- Answers in `C:\DE10_solutions\week3\ex3\ANSWERS.md` - not in this repo.
 - Tested 2026-09-30 end to end on the DE1 with a correct but redundant 4-term MSOP: the board
   proof passed (LEDR9 stuck at GND), feedback flagged "correct but not minimal" and pointed at
   the doubly covered row 100 without writing the minimal cover.

@@ -1,33 +1,31 @@
-// Exercise 9 - NAND only and NOR only.  DO NOT EDIT: Claude writes student_logic.v from answer.txt.
+// Exercise 9 - reading a multilevel circuit.  DO NOT EDIT: Claude writes student_logic.v from answer.txt.
 //
 //   SW0 = A, SW1 = B, SW2 = C        HEX3 = A, HEX2 = B, HEX1 = C, HEX0 = Y
-//   LEDG0 = Y from the truth table (the target)
-//   LEDR0 = your SOP   LEDR1 = your POS   LEDR2 = your NAND   LEDR3 = your NOR
+//   LEDG0 = Y of the circuit (the target)
+//   LEDR0 = your minimal SOP   LEDR1 = your minimal POS
 //   LEDR9 = ALARM: one of your answers disagrees with Y on this row
 //
-// ONLY: SOP : SOP
-// ONLY: POS : POS
-// ONLY: NAND : NAND
-// ONLY: NOR : NOR
-// GRADE: SOP : SOP MIN
-// GRADE: POS : POS MIN
-// ASK Q1 SOP: SOP | Minimal SOP (K-map of the 1s)
-// ASK Q2 POS: POS | Minimal POS (K-map of the 0s)
-// ASK Q3 NAND: NAND | Y with NAND gates only, built from your SOP. A NAND is written (XY)'
-// ASK Q4 NOR: NOR | Y with NOR gates only, built from your POS. A NOR is written (X + Y)'
-// TEXT Q5 1: Bubble pushing: why can the AND-OR levels of the SOP be replaced by NAND-NAND without changing Y? Which theorem does this use?
-// TEXT Q6 2: How many NAND gates are in your NAND expression, and how many NOR gates in your NOR expression? (A' alone counts as one gate.)
-// TEXT Q7 3: Why is NAND called a 'universal gate'? Show how to build NOT, AND and OR from NAND only.
-// TEXT Q8 4: Predict before you move the switches: A=1 B=1 C=0 - what will LEDG0 be, and which LEDR lights will be on?
+// NET: n1 = (AB')'
+// NET: n2 = (A' + C)'
+// NET: n3 = (n1 n2')'
+// NET: Y = (n3 + BC)'
+// GRADE: MSOP : SOP MIN
+// GRADE: MPOS : POS MIN
+// ASK Q1 MSOP: MSOP | Y of the circuit as a minimal SOP: the fewest terms, then the fewest literals
+// ASK Q2 MPOS: MPOS | Y of the circuit as a minimal POS: the fewest sums, then the fewest literals
+// TEXT Q3 1: What does gate n3 compute? Write it as a simplified expression of A, B and C, and name the theorems you used.
+// TEXT Q4 2: Bubble pushing: which gates of the circuit have bubbles that cancel each other? Redraw the last two gates so the bubbles cancel - which gate types do you get?
+// TEXT Q5 3: How many levels of gates does the circuit have from the inputs to Y, and how many levels does your minimal SOP need? Why is that allowed?
+// TEXT Q6 4: Predict before you move the switches: A=0 B=1 C=1 - what will LEDG0 be, and which LEDR lights will be on?
 // Truth table:  A B C | Y
-//               0 0 0 | 0
-//               0 0 1 | 0
-//               0 1 0 | 0
-//               0 1 1 | 1
-//               1 0 0 | 1
-//               1 0 1 | 1
+//               0 0 0 | 1
+//               0 0 1 | 1
+//               0 1 0 | 1
+//               0 1 1 | 0
+//               1 0 0 | 0
+//               1 0 1 | 0
 //               1 1 0 | 0
-//               1 1 1 | 1
+//               1 1 1 | 0
 module ex9_top(
 	input  [9:0] SW,
 	output [7:0] LEDG,
@@ -46,24 +44,24 @@ module ex9_top(
 	reg Y;
 	always @(*) begin
 		case ({A, B, C})
-			3'b000: Y = 1'b0;
-			3'b001: Y = 1'b0;
-			3'b010: Y = 1'b0;
-			3'b011: Y = 1'b1;
-			3'b100: Y = 1'b1;
-			3'b101: Y = 1'b1;
+			3'b000: Y = 1'b1;
+			3'b001: Y = 1'b1;
+			3'b010: Y = 1'b1;
+			3'b011: Y = 1'b0;
+			3'b100: Y = 1'b0;
+			3'b101: Y = 1'b0;
 			3'b110: Y = 1'b0;
-			3'b111: Y = 1'b1;
+			3'b111: Y = 1'b0;
 		endcase
 	end
 
-	wire sop, pos, g_nand, g_nor;
-	student_logic u(.A(A), .B(B), .C(C), .SOP(sop), .POS(pos), .NAND(g_nand), .NOR(g_nor));
+	wire s_msop, s_mpos;
+	student_logic u(.A(A), .B(B), .C(C), .MSOP(s_msop), .MPOS(s_mpos));
 
-	wire alarm = (sop != Y) | (pos != Y) | (g_nand != Y) | (g_nor != Y);
+	wire alarm = (s_msop != Y) | (s_mpos != Y);
 
 	assign LEDG    = {7'b0, Y};
-	assign LEDR    = {alarm, 5'b0, g_nor, g_nand, pos, sop};
+	assign LEDR    = {alarm, 7'b0, s_mpos, s_msop};
 
 	// 7-segment, active low: "0" and "1" only
 	function [6:0] bit7;

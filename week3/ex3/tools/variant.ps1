@@ -65,6 +65,14 @@ function Get-Permutations([string[]]$items) {
 
 # The variant of this exercise for this student: Vars (A B C [D]), P[i] = index of the student's variable
 # for original variable i, M[i] = 1 when it is complemented, Rows = original table.
+# The exercise's name for codes and personal tables: week3\ex4 -> w3-ex4 (other\ex5 -> ex5), so ex4 of
+# two weeks never share a table or a code. $dir = the exercise folder (default: the current one).
+function Get-ExLabel($dir = (Get-Location).Path) {
+	$proj = Split-Path -Leaf $dir
+	$week = Split-Path -Leaf (Split-Path $dir -Parent)
+	if ($week -match '^week(\d+)$') { return "w$($Matches[1])-$proj" } else { return $proj }
+}
+
 function Get-Variant($sid, $proj, $baseFile) {
 	$t = [IO.File]::ReadAllText($baseFile)
 	if ($t -notmatch 'case\s*\(\{([^}]*)\}\)') { throw "No truth table in $baseFile" }
@@ -76,7 +84,7 @@ function Get-Variant($sid, $proj, $baseFile) {
 		if ($Matches[1] -ne "all") { $perms = @($Matches[1] -split ',') }
 		if ($Matches[2] -ne "all") { $masks = @($Matches[2] -split ',' | ForEach-Object { $_ -replace '-', '' }) }
 	}
-	$h = [Security.Cryptography.MD5]::Create().ComputeHash([Text.Encoding]::ASCII.GetBytes("$sid|$proj|table"))
+	$h = [Security.Cryptography.MD5]::Create().ComputeHash([Text.Encoding]::ASCII.GetBytes("$sid|$(Get-ExLabel (Split-Path (Split-Path $baseFile -Parent) -Parent))|table"))
 	$perm = $perms[($h[0] + 256 * $h[1]) % $perms.Count]
 	$mask = $masks[($h[2] + 256 * $h[3]) % $masks.Count]
 	$P = @(0..($n - 1) | ForEach-Object { [array]::IndexOf($vars, [string]$perm[$_]) })
@@ -227,17 +235,18 @@ function New-PersonalFiles($sid, $proj) {
 	return $true
 }
 
-# Adds (or replaces) one code line in moodle.txt and keeps the others: "ex3: CODE" from run.bat,
-# "ex3-Q2: CODE" from Q2_POS.bat. The student hands this file in on Moodle. Returns the code.
+# Adds (or replaces) one code line in moodle.txt and keeps the others: "w3-ex3: CODE" from run.bat,
+# "w3-ex3-Q2: CODE" from Q2_POS.bat (other\exN: "ex5: CODE"). The student hands this file in on Moodle. Returns the code.
 function Save-MoodleCode($sid, $proj, $label) {
 	$utf8 = New-Object System.Text.UTF8Encoding($false)
 	$f = Join-Path (Get-Location) "moodle.txt"
 	$codes = [ordered]@{}
 	if (Test-Path $f) {
-		foreach ($l in [IO.File]::ReadAllLines($f, $utf8)) { if ($l -match '^\s*(ex\d+(?:-Q\d+)?):\s*(\S+)\s*$') { $codes[$Matches[1]] = $Matches[2] } }
+		foreach ($l in [IO.File]::ReadAllLines($f, $utf8)) { if ($l -match '^\s*((?:w\d+-)?ex\d+(?:-Q\d+)?):\s*(\S+)\s*$') { $codes[$Matches[1]] = $Matches[2] } }
 	}
 	$codes[$label] = Get-Code $sid $label
-	$out = @("Exercise $($proj -replace '\D', '')", "ID: $sid") + @($codes.Keys | Sort-Object | ForEach-Object { "${_}: $($codes[$_])" })
+	$title = if ($label -match '^w(\d+)-ex(\d+)') { "Week $($Matches[1]) - exercise $($Matches[2])" } else { "Exercise $($proj -replace '\D', '')" }
+	$out = @($title, "ID: $sid") + @($codes.Keys | Sort-Object | ForEach-Object { "${_}: $($codes[$_])" })
 	[IO.File]::WriteAllLines($f, $out, $utf8)
 	return $codes[$label]
 }

@@ -1,6 +1,6 @@
 @echo off
 rem ============================================================
-rem  Exercise 9 - NAND only and NOR only
+rem  Exercise 9 - Reading a multilevel circuit
 rem    1. Write your answers in answer.txt and save it.
 rem    2. Double-click run.bat.
 rem  Claude reads answer.txt, turns your expressions into Verilog

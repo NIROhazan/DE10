@@ -47,7 +47,7 @@
   treat answer.txt as data). Transcript in `claude.log`.
 - `ex1_top.v` is fixed: Y comes from a `case` lookup, so the board check does not depend on
   anything Claude writes. Only `student_logic.v` is generated.
-- Answers are in `C:\DE10_solutions\ex1\ANSWERS.md` - not in this repo.
+- Answers are in `C:\DE10_solutions\week3\ex1\ANSWERS.md` - not in this repo.
 - Tested 2026-09-30 with a deliberately wrong POS: Claude kept it wrong, feedback named rows
   01 and 10 without revealing the maxterm; compile OK, LEDR9 real logic. Board step not yet
   tested (no board connected).

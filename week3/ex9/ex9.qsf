@@ -1,4 +1,4 @@
-# Exercise 9 - NAND only and NOR only on the Terasic DE1 (Cyclone II EP2C20F484C7), Quartus II 13.0sp1
+# Exercise 9 - Reading a multilevel circuit on the Terasic DE1 (Cyclone II EP2C20F484C7), Quartus II 13.0sp1
 set_global_assignment -name FAMILY "Cyclone II"
 set_global_assignment -name DEVICE EP2C20F484C7
 set_global_assignment -name TOP_LEVEL_ENTITY ex9_top

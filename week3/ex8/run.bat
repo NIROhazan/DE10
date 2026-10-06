@@ -1,6 +1,6 @@
 @echo off
 rem ============================================================
-rem  Exercise 8 - De Morgan, multiplying out, factoring
+rem  Exercise 8 - NAND only and NOR only
 rem    1. Write your answers in answer.txt and save it.
 rem    2. Double-click run.bat.
 rem  Claude reads answer.txt, turns your expressions into Verilog

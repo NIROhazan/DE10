@@ -157,7 +157,7 @@ if ($LASTEXITCODE -ne 0) {
 }
 Write-Host "  Board programmed." -ForegroundColor Green
 # Done: the code for Moodle (made from the ID, so a friend's code does not fit)
-$code = Save-MoodleCode $sid $proj $proj
+$code = Save-MoodleCode $sid $proj (Get-ExLabel)
 Write-Host "  Your code for ${proj}: $code   - hand in the file moodle.txt on Moodle." -ForegroundColor Green
 # The switch / LED map is the "//   " block at the top of <proj>_top.v
 Get-Content "${proj}_top.v" | Where-Object { $_ -match '^//   \S' } | ForEach-Object { Write-Host ("  " + $_.Substring(5)) }

@@ -43,7 +43,7 @@
 ## Instructor notes
 
 - Same machinery as ex1 (`tools/run.ps1` is identical; only `tools/tutor_prompt.md`, `ex2_top.v`
-  and `answer.txt` differ). Answers in `C:\DE10_solutions\ex2\ANSWERS.md` - not in this repo.
+  and `answer.txt` differ). Answers in `C:\DE10_solutions\week3\ex2\ANSWERS.md` - not in this repo.
 - Tested 2026-09-30 end to end on the DE1, programming included, with a canonical POS missing
   one maxterm: Claude kept it wrong, feedback pointed at row 110 without writing the maxterm.
 - Personal tables (2026-10-04): `tools/base_top.v` is the original exercise; `tools/variant.ps1` (identical in

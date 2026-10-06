@@ -132,5 +132,5 @@ if ($script:gradeFail.Count) {
 	Write-Host "  Run $($ask.Id) again with a better answer to get the code."
 	exit 0
 }
-$code = Save-MoodleCode $sid $proj "$proj-$($ask.Id)"
+$code = Save-MoodleCode $sid $proj "$(Get-ExLabel)-$($ask.Id)"
 Write-Host "  Your code for $proj $($ask.Id): $code   - it is saved in moodle.txt, hand that file in on Moodle." -ForegroundColor Green

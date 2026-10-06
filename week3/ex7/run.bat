@@ -1,6 +1,6 @@
 @echo off
 rem ============================================================
-rem  Exercise 7 - Simplifying with the theorems
+rem  Exercise 7 - A priority circuit
 rem    1. Write your answers in answer.txt and save it.
 rem    2. Double-click run.bat.
 rem  Claude reads answer.txt, turns your expressions into Verilog

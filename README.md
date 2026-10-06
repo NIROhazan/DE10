@@ -27,7 +27,8 @@ correct-looking design. Rebuild: `quartus_sh --flow compile locked` in `locked/`
 
 ## Exercises
 
-The exercises are split by lecture. Every exercise keeps its number (the Moodle codes are made from it).
+The exercises are split by lecture and numbered from 1 in every week. Codes for Moodle carry the week:
+`w2-ex3-Q1`, `w3-ex4` (other/ keeps `ex4`, `ex5`, `ex6`), so ex3 of two weeks never share a code or a table.
 `student.txt` (the student ID) and `locked/` stay here in the course folder; the scripts find them from
 `week3/exN` or `other/exN`.
 
@@ -38,28 +39,26 @@ prebuilt `board.sof`, asks in the console with the student's own numbers, and gi
 answer. The hidden boards (secret bytes, mystery gates, CMOS gates) are built from `C:\DE10_solutions\week2\gen.py`;
 `tools/secrets.txt` holds only hashes of the right answers.
 
-- [`ex14/`](week2/ex14/README.md) - binary, decimal and hex; a secret byte per puzzle on LEDG (KEY3).
-- [`ex15/`](week2/ex15/README.md) - 4-bit adder with carry in (KEY0): overflow, 8-bit sum in two steps.
-- [`ex16/`](week2/ex16/README.md) - sign/magnitude and two's complement, subtraction, signed overflow, ranges.
-- [`ex17/`](week2/ex17/README.md) - sign-extension and zero-extension (SW9 picks which).
-- [`ex18/`](week2/ex18/README.md) - mystery gates: 16 puzzles x 8 hidden gates, found from truth tables.
-- [`ex19/`](week2/ex19/README.md) - CMOS gates: find the hidden gate, then its transistors (series / parallel, count).
+- [`ex1/`](week2/ex1/README.md) - binary, decimal and hex; a secret byte per puzzle on LEDG (KEY3).
+- [`ex2/`](week2/ex2/README.md) - 4-bit adder with carry in (KEY0): overflow, 8-bit sum in two steps.
+- [`ex3/`](week2/ex3/README.md) - sign/magnitude and two's complement, subtraction, signed overflow, ranges.
+- [`ex4/`](week2/ex4/README.md) - sign-extension and zero-extension (SW9 picks which).
+- [`ex5/`](week2/ex5/README.md) - mystery gates: 16 puzzles x 8 hidden gates, found from truth tables.
+- [`ex6/`](week2/ex6/README.md) - CMOS gates: find the hidden gate, then its transistors (series / parallel, count).
 
-### [`week3/`](week3/README.md) - lecture 3 (Harris ch. 2: Boolean equations, algebra, gates, mux / decoder)
+### [`week3/`](week3/README.md) - lecture 3 (Harris ch. 2), in the order of the lecture
 
-- [`ex0_eq/`](week3/ex0_eq/README.md) - an equation on the board (AND / OR / NOT / XOR on switch values), 20 questions.
+- [`ex0_eq/`](week3/ex0_eq/README.md) - warm-up: an equation on the board (AND / OR / NOT / XOR on switch values), 20 questions.
 - [`ex1/`](week3/ex1/README.md) - SOP / POS with two variables: canonical SOP, canonical POS, minimal.
-- [`ex2/`](week3/ex2/README.md) - SOP / POS with three variables (Y = 1 when A = B = C): canonical SOP,
-  canonical POS, minimal POS. SW2 = C shown on HEX1.
-- [`ex3/`](week3/ex3/README.md) - minimal SOP vs minimal POS (five 1s, three 0s): four answers on LEDR0-3;
-  the minimal SOP is not unique. The board checks correctness, the feedback checks minimality.
-- [`ex7/`](week3/ex7/README.md) - simplifying step by step with the theorems T1-T12.
-- [`ex8/`](week3/ex8/README.md) - De Morgan, multiplying out (SOP) and factoring (POS).
-- [`ex9/`](week3/ex9/README.md) - only NAND, only NOR.
+- [`ex2/`](week3/ex2/README.md) - SOP / POS with three variables (Y = 1 when A = B = C).
+- [`ex3/`](week3/ex3/README.md) - minimal SOP vs minimal POS; the minimal SOP is not unique.
+- [`ex4/`](week3/ex4/README.md) - from a story to an equation (like the cafeteria example).
+- [`ex5/`](week3/ex5/README.md) - simplifying step by step with the theorems T1-T12.
+- [`ex6/`](week3/ex6/README.md) - De Morgan, multiplying out (SOP) and factoring (POS).
+- [`ex7/`](week3/ex7/README.md) - priority circuit, four outputs, some inputs active low.
+- [`ex8/`](week3/ex8/README.md) - only NAND, only NOR.
+- [`ex9/`](week3/ex9/README.md) - reading a multilevel NAND / NOR circuit (bubble pushing).
 - [`ex10/`](week3/ex10/README.md) - a function on a 4:1 mux and on a decoder.
-- [`ex11/`](week3/ex11/README.md) - from a story to an equation (like the cafeteria example).
-- [`ex12/`](week3/ex12/README.md) - priority circuit, four outputs, some inputs active low.
-- [`ex13/`](week3/ex13/README.md) - reading a multilevel NAND / NOR circuit (bubble pushing).
 
 ### [`other/`](other/README.md) - not lecture 3
 

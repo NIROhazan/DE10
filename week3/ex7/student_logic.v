@@ -4,23 +4,14 @@ module student_logic(
 	input  A,
 	input  B,
 	input  C,
-	output S1,
-	output S2,
-	output S3,
-	output S4,
-	output S5,
-	output S6,
-	output S7,
-	output S8,
-	output MIN
+	input  D,
+	output Y3,
+	output Y2,
+	output Y1,
+	output Y0
 	);
-	assign S1   = 1'b0;
-	assign S2   = 1'b0;
-	assign S3   = 1'b0;
-	assign S4   = 1'b0;
-	assign S5   = 1'b0;
-	assign S6   = 1'b0;
-	assign S7   = 1'b0;
-	assign S8   = 1'b0;
-	assign MIN  = 1'b0;
+	assign Y3 = 1'b0;
+	assign Y2 = 1'b0;
+	assign Y1 = 1'b0;
+	assign Y0 = 1'b0;
 endmodule

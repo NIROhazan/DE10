@@ -1,4 +1,4 @@
-# Exercise 8 - De Morgan, multiplying out, factoring on the Terasic DE1 (Cyclone II EP2C20F484C7), Quartus II 13.0sp1
+# Exercise 8 - NAND only and NOR only on the Terasic DE1 (Cyclone II EP2C20F484C7), Quartus II 13.0sp1
 set_global_assignment -name FAMILY "Cyclone II"
 set_global_assignment -name DEVICE EP2C20F484C7
 set_global_assignment -name TOP_LEVEL_ENTITY ex8_top
