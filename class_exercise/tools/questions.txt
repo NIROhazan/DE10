@@ -10,5 +10,6 @@ S1: ANSWER: SW0 up if LEDG0 is on, SW0 down if it is off.
 S2: GOAL: the whole truth table of the gate.
 S2: Try A B = 00, 01, 10, 11 (SW9 SW8) and write Y for each row.
 S2: ANSWER: SW0 = Y at 00,  SW1 = Y at 01,  SW2 = Y at 10,  SW3 = Y at 11.
-S3: GOAL: name the gate.   0 = AND   1 = OR   2 = XOR   3 = NAND   4 = NOR   5 = XNOR
-S3: ANSWER: its number in binary on SW2 SW1 SW0  (for example 3 = NAND: SW1 and SW0 up).
+S3: GOAL: name the gate. Compare your truth table with what each gate does.
+S3: ANSWER - first put SW3 SW2 SW1 SW0 all DOWN, then raise only the switches of your gate:
+S3:    AND = (all down)    OR = SW0    XOR = SW1    NAND = SW1 + SW0    NOR = SW2    XNOR = SW2 + SW0
