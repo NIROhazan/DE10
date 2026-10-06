@@ -5,24 +5,22 @@
 [Q01] SEQ | Combinational or sequential? (8 black boxes) | npub 1 | steps 5
 B: Inputs: A = SW1, B = SW0 (HEX1, HEX0). Box i = LEDRi (8 boxes, all get the same A and B).
 B: Change ONE switch at a time - two at once pass through a row in between.
-S1: GOAL: see what the 8 boxes show after one path of inputs.
-S1: 1. Start with SW1 SW0 (= A B) at 0 0. Then flip ONE switch at a time:
-S1:    SW0 up (A B = 01),  SW1 up (11),  SW0 down (10),  SW1 down (00).
-S1: 2. Look at LEDR7..LEDR0 and write them on paper (1 = on).
-S1: ANSWER = the same pattern on the switches: SWi up if LEDRi was on (SW7..SW0).
-S2: GOAL: the same end point (A B = 00), but along the other path.
-S2: 1. KEY3 back to the lights. SW1 SW0 to 0 0, then ONE switch at a time:
-S2:    SW1 up (A B = 10),  SW0 up (11),  SW1 down (01),  SW0 down (00).
-S2: 2. Look at LEDR7..LEDR0 and write them on paper.
-S2: ANSWER = this pattern on the switches (SW7..SW0).
-S3: GOAL: find boxes that REMEMBER.
-S3: Both times the inputs ended at A B = 00, but some lights were different.
-S3: Same inputs, different light = the box remembers what came before.
-S3: ANSWER: compare your two papers. SWi up for every box that was different.
-S4: GOAL: find ALL boxes with memory (sequential boxes).
-S4: KEY3 back to the lights. Some boxes remember only in another row: reach every row
-S4: from both of its neighbours (one switch at a time) and watch whether a light changes.
-S4: ANSWER: SWi up for every sequential box (SW7..SW0).
+S1: GOAL: read ONE box. Box 0 = LEDR0 (it has no memory).
+S1: Try the four rows of A B (SW1 SW0) and write LEDR0 for each row.
+S1: ANSWER: SW3 = LEDR0 at A B = 11,  SW2 = at 10,  SW1 = at 01,  SW0 = at 00.
+S2: GOAL: a box that REMEMBERS. Box 1 = LEDR1.
+S2: 1. A B = 00. Raise SW0, then lower it (back to 00). Write LEDR1.
+S2: 2. Raise SW1, then lower it (back to 00). Write LEDR1.
+S2: Both times A B = 00 - but LEDR1 is different: the box remembers what came before.
+S2: ANSWER: SW1 = LEDR1 after move 1,  SW0 = LEDR1 after move 2.
+S3: GOAL: which other boxes remember? Test all 8 the same way, on two long paths.
+S3: Path 1 from 00, one switch at a time: SW0 up, SW1 up, SW0 down, SW1 down. Write LEDR7..LEDR0.
+S3: Path 2 from 00: SW1 up, SW0 up, SW1 down, SW0 down. Write LEDR7..LEDR0.
+S3: ANSWER: SWi up for every box whose light is different at the end of the two paths.
+S4: GOAL: ALL boxes with memory. Some remember only in another row, not at 00.
+S4: For every row of A B, arrive at it from both neighbours (one switch at a time)
+S4: and watch whether a light depends on where you came from.
+S4: ANSWER: SWi up for every box with memory (SW7..SW0).
 
 [Q02] LATCH | A box with memory: what sets it, what resets it? | npub 1
 B: Inputs: A = SW1, B = SW0 (HEX1, HEX0). The box = LEDR0. It starts at 0.

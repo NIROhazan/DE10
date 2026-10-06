@@ -123,22 +123,24 @@ if ($q.NS -gt 0) {
 		$q.S[$k] | ForEach-Object { if ($_ -match '^(GOAL|ANSWER)') { Write-Host "  $_" -ForegroundColor Yellow } else { Write-Host "  $_" } }
 		Write-Host ""
 		Write-Host "  HOW TO ANSWER" -ForegroundColor DarkGray
-		Write-Host "    a. KEY3 = answer mode: LEDG7 on, HEX shows AnS, LEDR show your switches." -ForegroundColor DarkGray
+		Write-Host "    a. KEY3 = answer mode: LEDG7 on, HEX shows AnS.   (KEY3 again = back to the lights.)" -ForegroundColor DarkGray
 		Write-Host "    b. Set the answer on the switches." -ForegroundColor DarkGray
-		Write-Host "    c. HOLD KEY2: HEX shows 4 digits = your code. Err = the switches are not right yet." -ForegroundColor DarkGray
-		Write-Host "    d. Type the 4 digits here.   (KEY3 again = back to the lights.)" -ForegroundColor DarkGray
-		Write-Host ""
-		$code = Read-Code $k @("These are not the 4 digits that KEY2 shows in step $k.",
-		                       "Hold KEY2 (not KEY3) and type what HEX shows while you hold it. Err? Fix the switches.",
-		                       "LEDG2..0 in answer mode must show $k. Hold KEY1 to see the last code again.")
-		Save-Progress $sid $q.Id $k
 		if ($k -lt $last) {
-			Write-Host "  PASS" -ForegroundColor Green
-			$null = Read-Host "  Enter = next step"
-		} else {
-			Save-MoodleCode $sid $q.Id $code
-			Write-Host "  PASS - $($q.Id) is done. Saved in moodle.txt: ce-$($q.Id): $code" -ForegroundColor Green
+			Write-Host "    c. HOLD KEY2: HEX shows PASS - or Err (not right yet: change the switches, try again)." -ForegroundColor DarkGray
+			Write-Host "    d. PASS? Release KEY2 - the board goes to the next step. Then press Enter here." -ForegroundColor DarkGray
+			Write-Host ""
+			$null = Read-Host "  Enter = the board showed PASS"
+			Save-Progress $sid $q.Id $k
+			continue
 		}
+		Write-Host "    c. HOLD KEY2: HEX shows your CODE (4 characters) - or Err (not right yet, try again)." -ForegroundColor DarkGray
+		Write-Host "    d. Type the code here." -ForegroundColor DarkGray
+		Write-Host ""
+		$code = Read-Code $k @("That is not the code of the last step. Hold KEY2 and type the 4 characters HEX shows.",
+		                       "HEX shows PASS? The board is at an earlier step: in answer mode LEDG2..0 must show $k.")
+		Save-Progress $sid $q.Id $k
+		Save-MoodleCode $sid $q.Id $code
+		Write-Host "  PASS - $($q.Id) is done. Saved in moodle.txt: ce-$($q.Id): $code" -ForegroundColor Green
 	}
 	exit 0
 }
