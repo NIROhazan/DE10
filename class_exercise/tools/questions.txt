@@ -19,12 +19,18 @@ B: A = SW9, B = SW8, C = SW7 (HEX3 HEX2 HEX1).  F = LEDG0 (green).  Your answer 
 S1: GOAL: meet F. It has three inputs: A = SW9, B = SW8, C = SW7. F = LEDG0.
 S1: Put A B C = 0 0 0 (SW9, SW8, SW7 down). Is LEDG0 on?
 S1: ANSWER: SW0 up if LEDG0 is on, SW0 down if it is off.
-S2: GOAL: the first half of the truth table - the rows where A = 0 (SW9 down).
-S2: Try B C = 00, 01, 10, 11 (SW8 SW7) and write F for each.
-S2: ANSWER: SW0 = F at 000,  SW1 = F at 001,  SW2 = F at 010,  SW3 = F at 011.
-S3: GOAL: the second half - the rows where A = 1 (SW9 up).
-S3: Try B C = 00, 01, 10, 11 again and write F for each.
-S3: ANSWER: SW0 = F at 100,  SW1 = F at 101,  SW2 = F at 110,  SW3 = F at 111.
+S2: GOAL: the first half of the truth table - the 4 rows where A = 0. Keep SW9 DOWN.
+S2: 1. Set SW8 SW7 like this, and write down LEDG0 (on = 1) for each row:
+S2:       row 000: SW8 down, SW7 down      row 001: SW8 down, SW7 up
+S2:       row 010: SW8 up,   SW7 down      row 011: SW8 up,   SW7 up
+S2: 2. Copy the 4 lights to the right switches (up = 1):
+S2: ANSWER: SW0 = row 000,  SW1 = row 001,  SW2 = row 010,  SW3 = row 011.
+S3: GOAL: the second half - the 4 rows where A = 1. Keep SW9 UP.
+S3: 1. Set SW8 SW7 like this, and write down LEDG0 (on = 1) for each row:
+S3:       row 100: SW8 down, SW7 down      row 101: SW8 down, SW7 up
+S3:       row 110: SW8 up,   SW7 down      row 111: SW8 up,   SW7 up
+S3: 2. Copy the 4 lights to the right switches (up = 1):
+S3: ANSWER: SW0 = row 100,  SW1 = row 101,  SW2 = row 110,  SW3 = row 111.
 S4: GOAL: minterms. A row where F = 1 is a MINTERM: F = SIGMA(those row numbers).
 S4: Count the rows of your table where F = 1.
 S4: ANSWER: the number on the switches:   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
