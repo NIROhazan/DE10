@@ -56,3 +56,5 @@ results.txt
 answers/
 judge_input.txt
 verdict.txt
+# week 2: the prebuilt board of each exercise
+!week2/*/board.sof

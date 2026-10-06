@@ -31,6 +31,20 @@ The exercises are split by lecture. Every exercise keeps its number (the Moodle 
 `student.txt` (the student ID) and `locked/` stay here in the course folder; the scripts find them from
 `week3/exN` or `other/exN`.
 
+### [`week2/`](week2/README.md) - lecture 2 (Harris ch. 1: number systems, signed numbers, gates, CMOS)
+
+One `Qn_NAME.bat` per question; the runner (`tools/run.ps1`, the same in every week-2 exercise) programs the
+prebuilt `board.sof`, asks in the console with the student's own numbers, and gives NEW numbers after a wrong
+answer. The hidden boards (secret bytes, mystery gates, CMOS gates) are built from `C:\DE10_solutions\week2\gen.py`;
+`tools/secrets.txt` holds only hashes of the right answers.
+
+- [`ex14/`](week2/ex14/README.md) - binary, decimal and hex; a secret byte per puzzle on LEDG (KEY3).
+- [`ex15/`](week2/ex15/README.md) - 4-bit adder with carry in (KEY0): overflow, 8-bit sum in two steps.
+- [`ex16/`](week2/ex16/README.md) - sign/magnitude and two's complement, subtraction, signed overflow, ranges.
+- [`ex17/`](week2/ex17/README.md) - sign-extension and zero-extension (SW9 picks which).
+- [`ex18/`](week2/ex18/README.md) - mystery gates: 16 puzzles x 8 hidden gates, found from truth tables.
+- [`ex19/`](week2/ex19/README.md) - CMOS gates: find the hidden gate, then its transistors (series / parallel, count).
+
 ### [`week3/`](week3/README.md) - lecture 3 (Harris ch. 2: Boolean equations, algebra, gates, mux / decoder)
 
 - [`ex0_eq/`](week3/ex0_eq/README.md) - an equation on the board (AND / OR / NOT / XOR on switch values), 20 questions.
