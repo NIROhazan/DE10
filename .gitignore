@@ -59,3 +59,5 @@ verdict.txt
 !week2/*/board.sof
 # week 4: the prebuilt boards of ex8-ex10
 !week4/*/board.sof
+# class exercise: the prebuilt board of each question
+!class_exercise/sof/*.sof

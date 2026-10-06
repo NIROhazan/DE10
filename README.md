@@ -60,6 +60,13 @@ answer. The hidden boards (secret bytes, mystery gates, CMOS gates) are built fr
 - [`ex9/`](week3/ex9/README.md) - reading a multilevel NAND / NOR circuit (bubble pushing).
 - [`ex10/`](week3/ex10/README.md) - a function on a 4:1 mux and on a decoder.
 
+### [`class_exercise/`](class_exercise/README.md) - lecture 3 (Harris ch. 2, slides 1 and 3-106), needs the board
+
+25 questions, one `Qnn_NAME.bat` each. The answer exists only in the board: every question is a hidden circuit in a prebuilt
+`sof/Qnn.sof`, and the board itself judges the answer (the student sets it on the switches, holds KEY2, and the board shows a code
+or `Err`). The PC holds neither answers nor codes. Login number from the ID on SW9..0 + KEY3. Source and key:
+`C:\DE10_solutions\class_exercise\gen.py` (iverilog-checked); codes `ce-Qnn` in moodle.txt, counted by `verify.bat`.
+
 ### [`week4/`](week4/README.md) - lecture 4 (Harris ch. 2: Karnaugh maps, don't-cares, timing, glitches; ch. 4: case / casez)
 
 - [`ex1/`](week4/ex1/README.md) - K-map, four variables, D on KEY3: canonical SOP/POS, minimal SOP, XOR form (a checkerboard - even parity). Was `other/ex4`.
