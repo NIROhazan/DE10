@@ -58,9 +58,9 @@ function Get-Bin($v, $n) { return ([Convert]::ToString([long]$v, 2)).PadLeft($n,
 function Read-Questions {
 	$qs = [ordered]@{}; $cur = $null
 	foreach ($l in [IO.File]::ReadAllLines((Join-Path $PSScriptRoot "questions.txt"), $script:utf8)) {
-		if ($l -match '^\[(Q\d+)\]\s*(\S+)\s*\|\s*(.+?)\s*\|\s*npub\s+(\d+)(?:\s*\|\s*steps\s+(\d+))?(\s*\|\s*flat)?') {
+		if ($l -match '^\[(Q\d+)\]\s*(\S+)\s*\|\s*(.+?)\s*\|\s*npub\s+(\d+)(?:\s*\|\s*steps\s+(\d+))?') {
 			$cur = [pscustomobject]@{ Id = $Matches[1]; Name = $Matches[2]; Title = $Matches[3]; NPub = [int]$Matches[4]
-				NS = $(if ($Matches[5]) { [int]$Matches[5] } else { 0 }); Flat = [bool]$Matches[6]; B = @(); L = @(); F = @(); P = @{}; S = @{} }
+				NS = $(if ($Matches[5]) { [int]$Matches[5] } else { 0 }); B = @(); L = @(); F = @(); P = @{}; S = @{} }
 			$qs[$cur.Id] = $cur
 		} elseif ($cur -and $l -match '^([BLF]):\s?(.*)$') {
 			$cur.($Matches[1]) += $Matches[2]

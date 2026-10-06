@@ -123,20 +123,18 @@ if ($q.NS -gt 0) {
 		$q.S[$k] | ForEach-Object { if ($_ -match '^(GOAL|ANSWER)') { Write-Host "  $_" -ForegroundColor Yellow } else { Write-Host "  $_" } }
 		Write-Host ""
 		Write-Host "  HOW TO ANSWER" -ForegroundColor DarkGray
-		if (-not $q.Flat) {
-			Write-Host "    -  KEY3 = answer mode: LEDG7 on, HEX shows AnS.   (KEY3 again = back to the lights.)" -ForegroundColor DarkGray
-		}
-		Write-Host "    1. Put the answer on the switches." -ForegroundColor DarkGray
+		Write-Host "    a. KEY3 = answer mode: LEDG7 on, HEX shows AnS.   (KEY3 again = back to the lights.)" -ForegroundColor DarkGray
+		Write-Host "    b. Set the answer on the switches." -ForegroundColor DarkGray
 		if ($k -lt $last) {
-			Write-Host "    2. HOLD KEY2: HEX shows PASS - or Err (not right yet: change the switches, try again)." -ForegroundColor DarkGray
-			Write-Host "    3. PASS? Release KEY2 - the board goes to the next step. Then press Enter here." -ForegroundColor DarkGray
+			Write-Host "    c. HOLD KEY2: HEX shows PASS - or Err (not right yet: change the switches, try again)." -ForegroundColor DarkGray
+			Write-Host "    d. PASS? Release KEY2 - the board goes to the next step. Then press Enter here." -ForegroundColor DarkGray
 			Write-Host ""
 			$null = Read-Host "  Enter = the board showed PASS"
 			Save-Progress $sid $q.Id $k
 			continue
 		}
-		Write-Host "    2. HOLD KEY2: HEX shows your CODE (4 characters) - or Err (not right yet, try again)." -ForegroundColor DarkGray
-		Write-Host "    3. Type the code here." -ForegroundColor DarkGray
+		Write-Host "    c. HOLD KEY2: HEX shows your CODE (4 characters) - or Err (not right yet, try again)." -ForegroundColor DarkGray
+		Write-Host "    d. Type the code here." -ForegroundColor DarkGray
 		Write-Host ""
 		$code = Read-Code $k @("That is not the code of the last step. Hold KEY2 and type the 4 characters HEX shows.",
 		                       "HEX shows PASS? The board is at an earlier step: in answer mode LEDG2..0 must show $k.")

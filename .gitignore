@@ -63,3 +63,5 @@ verdict.txt
 !class_exercise/sof/*.sof
 # class exercise: the steps each student passed (resume after a closed window)
 progress.txt
+# class exercise old/: its own prebuilt boards
+!class_exercise/old/sof/*.sof

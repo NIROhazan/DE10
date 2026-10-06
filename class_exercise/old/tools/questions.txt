@@ -1,0 +1,311 @@
+# Class exercise - the questions (written by C:/DE10_solutions/class_exercise/gen.py, do not edit).
+# [Qnn] NAME | title | npub n [| steps n];  B: board;  Pk: printed for login numbers with pub = k;
+# with steps: Sk: the screen of step k (step 0 = login, in run.ps1);  without: L: question, F: answer format
+
+[Q01] SEQ | Combinational or sequential? (8 black boxes) | npub 1 | steps 5
+B: Inputs: A = SW1, B = SW0 (HEX1, HEX0). Box i = LEDRi (8 boxes, all get the same A and B).
+B: Change ONE switch at a time - two at once pass through a row in between.
+S1: GOAL: read ONE box. Box 0 = LEDR0 (it has no memory).
+S1: Try the four rows of A B (SW1 SW0) and write LEDR0 for each row.
+S1: ANSWER: SW3 = LEDR0 at A B = 11,  SW2 = at 10,  SW1 = at 01,  SW0 = at 00.
+S2: GOAL: a box that REMEMBERS. Box 1 = LEDR1.
+S2: 1. A B = 00. Raise SW0, then lower it (back to 00). Write LEDR1.
+S2: 2. Raise SW1, then lower it (back to 00). Write LEDR1.
+S2: Both times A B = 00 - but LEDR1 is different: the box remembers what came before.
+S2: ANSWER: SW1 = LEDR1 after move 1,  SW0 = LEDR1 after move 2.
+S3: GOAL: which other boxes remember? Test all 8 the same way, on two long paths.
+S3: Path 1 from 00, one switch at a time: SW0 up, SW1 up, SW0 down, SW1 down. Write LEDR7..LEDR0.
+S3: Path 2 from 00: SW1 up, SW0 up, SW1 down, SW0 down. Write LEDR7..LEDR0.
+S3: ANSWER: SWi up for every box whose light is different at the end of the two paths.
+S4: GOAL: ALL boxes with memory. Some remember only in another row, not at 00.
+S4: For every row of A B, arrive at it from both neighbours (one switch at a time)
+S4: and watch whether a light depends on where you came from.
+S4: ANSWER: SWi up for every box with memory (SW7..SW0).
+
+[Q02] LATCH | A box with memory: what sets it, what resets it? | npub 1
+B: Inputs: A = SW1, B = SW0 (HEX1, HEX0). The box = LEDR0. It starts at 0.
+L: One input row (A B) sets the box to 1, one row resets it to 0, the other two rows keep (hold)
+L: the last value. Find the set row and the reset row.
+F: SW3 SW2 = A B of the SET row,  SW1 SW0 = A B of the RESET row.
+
+[Q03] PI | Maxterms: write F as a product of sums, F = PI(...) | npub 1
+B: Inputs: A = SW1, B = SW0 (HEX1, HEX0). F = LEDR0.
+L: F is hidden in the board. Find its truth table and write F in canonical POS: F = PI(...).
+F: SWi = 1 if maxterm i is in PI(...), row i = A B in binary (SW3..SW0).
+
+[Q04] SIGMA | Minterms: write F as a sum of products, F = SIGMA(...) | npub 1
+B: Inputs: A = SW2, B = SW1, C = SW0 (HEX2 HEX1 HEX0). F = LEDR0.
+L: F is hidden in the board. Find its truth table and write F in canonical SOP: F = SIGMA(...).
+F: SWi = 1 if minterm i is in SIGMA(...), row i = A B C in binary (SW7..SW0).
+
+[Q05] MINTERM | Which LEDs are minterms? | npub 1
+B: Inputs: A = SW2, B = SW1, C = SW0 (HEX2 HEX1 HEX0). LEDR7..LEDR0 = 8 hidden terms.
+L: Each LED is one term over A, B, C: a product (AND of literals) or a sum (OR of literals),
+L: with 1, 2 or 3 literals. Find the LEDs that are minterms.
+L: Hint: how many rows of the truth table light a minterm? how many rows turn a maxterm off?
+F: SWi = 1 if LEDRi is a minterm (SW7..SW0).
+
+[Q06] MAXTERM | Which LEDs are maxterms? | npub 1
+B: Inputs: A = SW2, B = SW1, C = SW0 (HEX2 HEX1 HEX0). LEDR7..LEDR0 = 8 hidden terms.
+L: Each LED is one term over A, B, C: a product (AND of literals) or a sum (OR of literals),
+L: with 1, 2 or 3 literals. Find the LEDs that are maxterms.
+L: Hint: how many rows of the truth table light a minterm? how many rows turn a maxterm off?
+F: SWi = 1 if LEDRi is a maxterm (SW7..SW0).
+
+[Q07] STORY | From a story to an equation | npub 6
+B: Inputs: SW3 SW2 SW1 SW0 = the four letters of your story, in the order given (HEX3..HEX0).
+B: LEDR3..LEDR0 = four circuits built by four students from the same story.
+P0: You can Eat delicious food (E) if you Make it yourself (M), or you have a personal Chef (C)
+P0: who is Talented (T) and not eXpensive (X).
+P0: Letters: M = SW3, C = SW2, T = SW1, X = SW0
+P1: The alarm sounds (Y) when the Door is open (D) and the system is Armed (A),
+P1: or when there is Smoke (S) and it is not a Test (T).
+P1: Letters: D = SW3, A = SW2, S = SW1, T = SW0
+P2: You pass (P) if you did the Homework (H) and the Exam (E) or the Lab (L),
+P2: unless you Cheated (C).
+P2: Letters: H = SW3, E = SW2, L = SW1, C = SW0
+P3: The light (Y) is on when it is Dark (D) and someone Moves (M), or when the Switch (S) is on -
+P3: but never when the Battery (B) is low.
+P3: Letters: D = SW3, M = SW2, S = SW1, B = SW0
+P4: You can Enter (E) with a Hat (H) and Shoes (S), or with a Hat and a Ticket (T),
+P4: or if you are a VIP (V).
+P4: Letters: H = SW3, S = SW2, T = SW1, V = SW0
+P5: The fan (F) runs when it is Hot (H) and the window is not Open (O),
+P5: or when a Kid (K) presses the Button (B).
+P5: Letters: H = SW3, O = SW2, K = SW1, B = SW0
+L: Write the Boolean equation of the story (on paper). Only ONE LED implements it exactly.
+F: SWi = 1 for the LED that implements your story (one switch, SW3..SW0).
+
+[Q08] MATTER | Which inputs does the guard really look at? | npub 1
+B: Inputs: Hat H = SW3, Shoes S = SW2, Ticket T = SW1, VIP V = SW0 (HEX3..HEX0). Enter E = LEDR0.
+L: Like E = HS + H in the lecture: the guard's rule mentions all four, but some of them never change E.
+L: Find the inputs that DO matter (changing them alone changes E in at least one situation).
+F: SW3 = H, SW2 = S, SW1 = T, SW0 = V: 1 if that input matters, 0 if E never depends on it.
+
+[Q09] EQUAL | Perfect induction: which statements are true? | npub 1
+B: Pair k = SW9 SW8 SW7 (HEX3). Inputs: A = SW2, B = SW1, C = SW0 (HEX2 HEX1 HEX0).
+B: LEDR1 = the LEFT side, LEDR0 = the RIGHT side of statement k (k = 0..7).
+L: The board holds 8 statements LEFT = RIGHT. Some are theorems, some are false.
+L: Prove or refute each one by perfect induction: check every row.
+F: SWk = 1 if statement k is TRUE (LEFT = RIGHT in all 8 rows), SW7..SW0.
+
+[Q10] WHERE | Perfect induction: find two statements on the board | npub 8
+B: Pair k = SW9 SW8 SW7 (HEX3). Inputs: A = SW2, B = SW1, C = SW0 (HEX2 HEX1 HEX0).
+B: LEDR1 = the LEFT side, LEDR0 = the RIGHT side of statement k (k = 0..7).
+P0: Find X = statement 0 (A(A + B) = A) and Y = statement 4 ((A + B)' = A' + B').
+P1: Find X = statement 1 (BC + BC' = B) and Y = statement 6 (A + BC = (A + B)C).
+P2: Find X = statement 2 (AB + A'C + BC = AB + A'C) and Y = statement 4 ((A + B)' = A' + B').
+P3: Find X = statement 3 ((AB)' = A' + B') and Y = statement 6 (A + BC = (A + B)C).
+P4: Find X = statement 5 (A + BC = (A + B)(A + C)) and Y = statement 4 ((A + B)' = A' + B').
+P5: Find X = statement 7 (A + A'B = A + B) and Y = statement 6 (A + BC = (A + B)C).
+P6: Find X = statement 3 ((AB)' = A' + B') and Y = statement 4 ((A + B)' = A' + B').
+P7: Find X = statement 5 (A + BC = (A + B)(A + C)) and Y = statement 6 (A + BC = (A + B)C).
+L: These 8 statements are on the board, in a hidden order (pair k = 0..7):
+L:    0:  A(A + B) = A
+L:    1:  BC + BC' = B
+L:    2:  AB + A'C + BC = AB + A'C
+L:    3:  (AB)' = A' + B'
+L:    4:  (A + B)' = A' + B'
+L:    5:  A + BC = (A + B)(A + C)
+L:    6:  A + BC = (A + B)C
+L:    7:  A + A'B = A + B
+L: Write both sides of a statement as truth tables (on paper), then find it on the board.
+F: SW2 SW1 SW0 = the pair number k of X,  SW5 SW4 SW3 = the pair number k of Y.
+
+[Q11] MINSOP | Simplify: the minimal sum of products | npub 1
+B: Inputs: A = SW2, B = SW1, C = SW0 (HEX2 HEX1 HEX0). F = LEDR0.
+L: F is hidden in the board. Find it, then simplify it with the theorems to a minimal SOP
+L: (fewest implicants, and each implicant with the fewest literals).
+F: SW2 SW1 SW0 = number of implicants (terms),  SW7 SW6 SW5 SW4 = number of literals (SW3 = 0).
+
+[Q12] LITERAL | The hidden literal, then simplify | npub 6
+B: Inputs: A = SW2, B = SW1, C = SW0 (HEX2 HEX1 HEX0). Y = LEDR0.
+P0: Y = (A + B)(A' + ?) + BC
+P1: Y = A'B + ?C + A'BC'
+P2: Y = (AB + C)? + A'B'
+P3: Y = A'? + BC' + AB'C
+P4: Y = (A + ?)(B' + C) + A'BC'
+P5: Y = AB + A'? + B'C'
+L: The board computes the expression below. One literal (?) is hidden: it is A, A', B, B', C or C'.
+L: Find it, then simplify Y to a minimal SOP and count its literals.
+F: SW2 SW1 SW0 = the hidden literal: 0 = A, 1 = A', 2 = B, 3 = B', 4 = C, 5 = C'.
+F: SW7 SW6 SW5 SW4 = number of literals in the minimal SOP of Y (SW3 = 0).
+
+[Q13] ERRORS | Common errors: which simplifications are wrong? | npub 6
+B: Inputs: A = SW2, B = SW1, C = SW0 (HEX2 HEX1 HEX0). LEDR4..LEDR0 = the five results.
+P0: Y = A'BC + A'
+P1: Y = AB + AB'
+P2: Y = (A + BC)'
+P3: Y = (A + B)(A + C)
+P4: Y = AB + A'C + BC
+P5: Y = A + A'B
+L: Five students simplified the expression below. Their results are LEDR4..LEDR0.
+L: Some are right, some made a common error (lost a bar, De Morgan on a mix, a wrong step).
+F: SWi = 1 if LEDRi is WRONG (not equal to Y in some row), SW4..SW0.
+
+[Q14] DEMORGAN | De Morgan: which results are right? | npub 6
+B: Inputs: A = SW3, B = SW2, C = SW1, D = SW0 (HEX3..HEX0). LEDR3..LEDR0 = the four answers.
+P0: Y = ((A + BD)C)'
+P1: Y = ((A + B')C)'
+P2: Y = (A'B + CD')'
+P3: Y = ((A + B)(C + D)')'
+P4: Y = (A(B' + C) + D)'
+P5: Y = ((AB)' + C)'
+L: Apply De Morgan to the expression below (from the outside in). LEDR3..LEDR0 are four answers.
+F: SWi = 1 if LEDRi is RIGHT (equal to Y in all 16 rows), SW3..SW0.
+
+[Q15] MULTIPLY | Multiplying out (SOP) and factoring (POS) | npub 6
+B: Inputs: A = SW3, B = SW2, C = SW1, D = SW0 (HEX3..HEX0). LEDR5..LEDR0 = the six answers.
+P0: Y = (A + C + D)(A + B)
+P1: Y = (A + BC)(A + D)
+P2: Y = A + B'CD
+P3: Y = AB + C'D
+P4: Y = (A + B)(C + D)
+P5: Y = A + B(C' + D)
+L: Multiply out (to SOP) or factor (to POS) the expression below. LEDR5..LEDR0 are six answers.
+F: SWi = 1 if LEDRi is RIGHT (equal to Y in all 16 rows), SW5..SW0.
+
+[Q16] PRIORITY | Priority circuit: the order | npub 1
+B: Inputs: A3 = SW3, A2 = SW2, A1 = SW1, A0 = SW0 (HEX3..HEX0). Outputs: Yi = LEDRi.
+B: Like the lecture's priority circuit: Yi = 1 when Ai is active and no input of higher priority is.
+L: The priority order is hidden (it is not A3 > A2 > A1 > A0). Some inputs may be active LOW
+L: (active when the switch is DOWN). Find the order, from the highest priority to the lowest.
+F: SW1 SW0 = number (0-3) of the HIGHEST input,  SW3 SW2 = the second,
+F: SW5 SW4 = the third,  SW7 SW6 = the LOWEST.
+
+[Q17] ACTIVELOW | Priority circuit: active-low inputs | npub 1
+B: Inputs: A3 = SW3, A2 = SW2, A1 = SW1, A0 = SW0 (HEX3..HEX0). Outputs: Yi = LEDRi.
+B: Like the lecture's priority circuit: Yi = 1 when Ai is active and no input of higher priority is.
+L: Some inputs are active LOW: they count as active when the switch is DOWN (0) - like KEY0..KEY3
+L: on the board. With all switches down, something already lights. Find the active-low inputs.
+F: SWi = 1 if Ai is active low, 0 if active high (SW3..SW0).
+
+[Q18] NANDNOR | Two-level logic: NAND or NOR? | npub 1
+B: Inputs: A = SW2, B = SW1, C = SW0 (HEX2 HEX1 HEX0).
+B: First level: n1 = LEDR3, n2 = LEDR2, n3 = LEDR1 - each a 2-input NAND or NOR of literals (A, A', B, ...).
+B: Second level: Y = LEDR0 = a 3-input NAND or NOR of n1, n2, n3.
+L: Find the type of every gate. A NAND of literals is a sum (x' + y'); a NOR is a product (x'y').
+L: For Y, look at what it does when n1, n2, n3 are not all equal.
+F: SW3 = n1, SW2 = n2, SW1 = n3, SW0 = Y:  1 = NAND, 0 = NOR.
+
+[Q19] NODE | Two-level logic: the inputs of one gate | npub 3
+B: Inputs: A = SW2, B = SW1, C = SW0 (HEX2 HEX1 HEX0).
+B: First level: n1 = LEDR3, n2 = LEDR2, n3 = LEDR1 - each a 2-input NAND or NOR of literals (A, A', B, ...).
+B: Second level: Y = LEDR0 = a 3-input NAND or NOR of n1, n2, n3.
+P0: Your gate: n1 (LEDR3).
+P1: Your gate: n2 (LEDR2).
+P2: Your gate: n3 (LEDR1).
+L: Find which two literals go into your gate (and so whether it is a NAND or a NOR).
+F: Two switches up: SW5 = A, SW4 = A', SW3 = B, SW2 = B', SW1 = C, SW0 = C'.
+
+[Q20] GATES | A multilevel circuit: find the gates | npub 1
+B: Inputs: A = SW3, B = SW2, C = SW1, D = SW0 (HEX3..HEX0).
+B: The circuit: n1 = G1(A, B) on LEDR2,  n2 = G2(n1, C) on LEDR1,  Y = G3(n2, D) on LEDR0.
+L: Each gate G1, G2, G3 is an AND, OR, NAND or NOR (2 inputs). Find all three.
+F: Codes: 0 = AND, 1 = OR, 2 = NAND, 3 = NOR.  SW5 SW4 = G1,  SW3 SW2 = G2,  SW1 SW0 = G3.
+
+[Q21] BUBBLES | Bubble pushing: which circuit is in the board? | npub 8
+B: Inputs: A = SW3, B = SW2, C = SW1, D = SW0 (HEX3..HEX0). Y = LEDR0.
+P0:   0: n1 = NAND(D', A');  n2 = NAND(B, C');  Y = OR(n1, n2')
+P0:   1: n1 = NAND(D, C);  n2 = NAND(C', B);  Y = NAND(n1', n2)
+P0:   2: n1 = NOR(B, A');  n2 = NOR(C, B);  Y = OR(n1, n2)
+P0:   3: n1 = NOR(A', B);  n2 = NOR(B', D');  Y = NAND(n1', n2)
+P0:   4: n1 = NAND(A', B);  n2 = NAND(D', A);  Y = NOR(n1', n2')
+P0:   5: n1 = NOR(D', B);  n2 = NOR(C', B');  Y = OR(n1, n2')
+P0:   6: n1 = NOR(D', A');  n2 = NAND(B, D');  Y = OR(n1, n2)
+P0:   7: n1 = NOR(C', B');  n2 = NOR(D', C);  Y = NAND(n1', n2)
+P1:   0: n1 = NOR(C', B');  n2 = NOR(D, B);  Y = NAND(n1', n2)
+P1:   1: n1 = NOR(B, D');  n2 = NAND(D', B');  Y = NOR(n1, n2')
+P1:   2: n1 = NAND(C', B');  n2 = NOR(C', D');  Y = NOR(n1', n2)
+P1:   3: n1 = NAND(D, A');  n2 = NOR(C', A');  Y = OR(n1', n2')
+P1:   4: n1 = NAND(B, A);  n2 = NAND(C, B');  Y = NOR(n1', n2')
+P1:   5: n1 = NOR(A', B);  n2 = NAND(D, B);  Y = OR(n1, n2')
+P1:   6: n1 = NOR(B', C);  n2 = NAND(D', B');  Y = NOR(n1, n2')
+P1:   7: n1 = NAND(B', C);  n2 = NOR(C', B');  Y = AND(n1, n2')
+P2:   0: n1 = NOR(A, C');  n2 = NOR(D', A);  Y = NAND(n1', n2')
+P2:   1: n1 = NAND(B', C);  n2 = NOR(A, B');  Y = NAND(n1', n2')
+P2:   2: n1 = NOR(C, B);  n2 = NAND(A, D);  Y = NOR(n1', n2')
+P2:   3: n1 = NAND(D, B);  n2 = NOR(B, C);  Y = AND(n1', n2')
+P2:   4: n1 = NAND(A, D);  n2 = NOR(A', D);  Y = AND(n1', n2')
+P2:   5: n1 = NOR(D', B');  n2 = NOR(A, D);  Y = NAND(n1', n2')
+P2:   6: n1 = NOR(B', A');  n2 = NAND(B', D);  Y = AND(n1', n2')
+P2:   7: n1 = NAND(D', A');  n2 = NAND(B', C);  Y = OR(n1, n2')
+P3:   0: n1 = NAND(C, A');  n2 = NAND(B, D');  Y = OR(n1', n2)
+P3:   1: n1 = NOR(B', A);  n2 = NAND(D, C');  Y = NOR(n1, n2')
+P3:   2: n1 = NAND(A, B');  n2 = NAND(C', A');  Y = OR(n1, n2')
+P3:   3: n1 = NOR(A', C');  n2 = NAND(C', B);  Y = NOR(n1', n2')
+P3:   4: n1 = NOR(C, D');  n2 = NAND(A, D');  Y = NAND(n1, n2)
+P3:   5: n1 = NAND(C', B);  n2 = NOR(D, A);  Y = NOR(n1', n2)
+P3:   6: n1 = NAND(D', C');  n2 = NAND(B', C);  Y = NAND(n1, n2)
+P3:   7: n1 = NOR(D', B');  n2 = NAND(C', A);  Y = OR(n1, n2')
+P4:   0: n1 = NOR(B', A');  n2 = NOR(A, D);  Y = OR(n1, n2')
+P4:   1: n1 = NAND(B, A);  n2 = NOR(B, C);  Y = OR(n1', n2')
+P4:   2: n1 = NAND(C, B');  n2 = NAND(A, B);  Y = NAND(n1', n2)
+P4:   3: n1 = NOR(D, C);  n2 = NAND(D', C');  Y = AND(n1, n2')
+P4:   4: n1 = NOR(C', A);  n2 = NAND(A, D);  Y = AND(n1, n2)
+P4:   5: n1 = NAND(B, C);  n2 = NAND(A, D);  Y = OR(n1', n2')
+P4:   6: n1 = NOR(C', D');  n2 = NOR(D, A');  Y = NAND(n1', n2')
+P4:   7: n1 = NAND(A, D');  n2 = NOR(C, D');  Y = NOR(n1', n2')
+P5:   0: n1 = NAND(C, B);  n2 = NOR(B', C');  Y = OR(n1', n2)
+P5:   1: n1 = NAND(C, A);  n2 = NOR(B, D);  Y = NAND(n1', n2')
+P5:   2: n1 = NAND(B, C);  n2 = NOR(B, C');  Y = OR(n1, n2)
+P5:   3: n1 = NOR(C', B);  n2 = NOR(C, A);  Y = NAND(n1', n2)
+P5:   4: n1 = NAND(C', B);  n2 = NOR(B', C);  Y = NAND(n1, n2')
+P5:   5: n1 = NAND(A, D');  n2 = NAND(C, A');  Y = AND(n1, n2)
+P5:   6: n1 = NOR(A, C);  n2 = NOR(A, D');  Y = OR(n1, n2)
+P5:   7: n1 = NOR(D, A);  n2 = NAND(B', A');  Y = AND(n1', n2)
+P6:   0: n1 = NOR(C, A);  n2 = NAND(C', A');  Y = NOR(n1, n2')
+P6:   1: n1 = NOR(B', A);  n2 = NAND(D, C);  Y = AND(n1', n2)
+P6:   2: n1 = NAND(B', C);  n2 = NAND(D', B);  Y = AND(n1', n2)
+P6:   3: n1 = NOR(D', B');  n2 = NOR(B', A);  Y = AND(n1', n2')
+P6:   4: n1 = NAND(B, D);  n2 = NAND(D', B');  Y = NOR(n1', n2')
+P6:   5: n1 = NOR(C', D);  n2 = NAND(A, B');  Y = NAND(n1, n2)
+P6:   6: n1 = NOR(D', A);  n2 = NAND(C', B');  Y = NOR(n1, n2')
+P6:   7: n1 = NAND(B, C');  n2 = NOR(A', D);  Y = NAND(n1', n2')
+P7:   0: n1 = NOR(C', D');  n2 = NOR(C', D');  Y = AND(n1', n2')
+P7:   1: n1 = NAND(D, B);  n2 = NOR(D, C);  Y = NOR(n1', n2')
+P7:   2: n1 = NAND(B', D');  n2 = NOR(B', D');  Y = OR(n1', n2')
+P7:   3: n1 = NOR(D', C);  n2 = NOR(B', D');  Y = NOR(n1, n2)
+P7:   4: n1 = NOR(B, C);  n2 = NOR(B', A');  Y = OR(n1, n2')
+P7:   5: n1 = NAND(C, B);  n2 = NAND(C', A');  Y = NOR(n1', n2')
+P7:   6: n1 = NAND(D', A');  n2 = NAND(D', A);  Y = NAND(n1', n2)
+P7:   7: n1 = NAND(D', A');  n2 = NOR(B, C');  Y = AND(n1, n2)
+L: The board holds ONE of the eight circuits below (n1' = a bubble on that input of the last gate).
+L: Push the bubbles, write each Y as an SOP, and find the one in the board.
+F: SW2 SW1 SW0 = the number of the circuit (0-7).
+
+[Q22] MUXDATA | A 4:1 mux: what is on its data inputs? | npub 1
+B: Inputs: A = SW2, B = SW1, C = SW0 (HEX2 HEX1 HEX0). Y = LEDR0.
+B: A 4:1 mux: S1 = A, S0 = B select D0..D3 (AB = 00 -> D0 ... 11 -> D3). Each Di is 0, 1, C or C'.
+L: Find what is wired to every data input.
+F: Codes: 0 = '0', 1 = '1', 2 = C, 3 = C'.  SW7 SW6 = D3,  SW5 SW4 = D2,  SW3 SW2 = D1,  SW1 SW0 = D0.
+
+[Q23] MUXLOGIC | Logic using a mux: build F with your select lines | npub 3
+B: Inputs: A = SW2, B = SW1, C = SW0 (HEX2 HEX1 HEX0). F = LEDR0 (hidden).
+P0: Your mux: S1 = A, S0 = B, X = C  (AB = 00 -> D0 ... 11 -> D3).
+P1: Your mux: S1 = A, S0 = C, X = B  (AC = 00 -> D0 ... 11 -> D3).
+P2: Your mux: S1 = B, S0 = C, X = A  (BC = 00 -> D0 ... 11 -> D3).
+L: Find F, then build it from ONE 4:1 mux: your select lines are given below, and every data
+L: input D0..D3 is 0, 1, X or X' (X = the variable that is not a select line).
+F: Codes: 0 = '0', 1 = '1', 2 = X, 3 = X'.  SW7 SW6 = D3,  SW5 SW4 = D2,  SW3 SW2 = D1,  SW1 SW0 = D0.
+
+[Q24] DECODER | A 3:8 decoder: which LED is which output? | npub 8
+B: Inputs: A = SW2, B = SW1, C = SW0 (HEX2 HEX1 HEX0).
+B: A 3:8 decoder with ACTIVE-LOW outputs on LEDR7..LEDR0 - wired in a hidden order.
+P0: Your rows: minterm 5 (A B C = 101) and minterm 2 (A B C = 010).
+P1: Your rows: minterm 0 (A B C = 000) and minterm 7 (A B C = 111).
+P2: Your rows: minterm 3 (A B C = 011) and minterm 6 (A B C = 110).
+P3: Your rows: minterm 1 (A B C = 001) and minterm 4 (A B C = 100).
+P4: Your rows: minterm 6 (A B C = 110) and minterm 1 (A B C = 001).
+P5: Your rows: minterm 2 (A B C = 010) and minterm 5 (A B C = 101).
+P6: Your rows: minterm 7 (A B C = 111) and minterm 0 (A B C = 000).
+P7: Your rows: minterm 4 (A B C = 100) and minterm 3 (A B C = 011).
+L: One-hot, active low: for each input row exactly one LED is OFF. Find the LEDs of your two rows.
+F: SW2 SW1 SW0 = the LED number (0-7) of your FIRST minterm,  SW5 SW4 SW3 = the LED number of the SECOND.
+
+[Q25] DECOR | Logic using a decoder: which outputs go into the gate? | npub 1
+B: Inputs: A = SW2, B = SW1, C = SW0 (HEX2 HEX1 HEX0).
+B: A 3:8 decoder with ACTIVE-LOW outputs on LEDR7..LEDR0 - wired in a hidden order.
+B: Y = LEDG0 = a gate fed by some of the decoder outputs (OR of minterms, with active-low outputs).
+L: Find which decoder outputs (LEDs) are wired into the gate that makes Y.
+F: SWi = 1 if the output on LEDRi goes into the gate (SW7..SW0).
