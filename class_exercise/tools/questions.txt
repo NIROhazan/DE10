@@ -108,3 +108,27 @@ S5: GOAL: what is on D3? Put S1 S0 = 1 1 (SW9 up, SW8 up) - now Y shows D3.
 S5: Look at Y with C = 0 (SW7 down) and with C = 1 (SW7 up):
 S5:    Y 0 and 0 -> '0'     Y 1 and 1 -> '1'     Y = C (0 then 1) -> C     Y = opposite of C (1 then 0) -> C'
 S5: ANSWER: '0' = all down    '1' = SW0    C = SW1    C' = SW1 + SW0
+
+[Q06] DECODER | A decoder: which light is which output? | npub 6 | steps 6 | flat
+B: A = SW9, B = SW8 (HEX3 HEX2).  The decoder's 4 outputs = LEDG3..LEDG0 - in a hidden order.  Answer on SW3..SW0.
+P0: Your function for the last step:  F = SIGMA(0, 1)  - F = 1 when A B = 00 or 01.
+P1: Your function for the last step:  F = SIGMA(0, 2)  - F = 1 when A B = 00 or 10.
+P2: Your function for the last step:  F = SIGMA(0, 3)  - F = 1 when A B = 00 or 11.
+P3: Your function for the last step:  F = SIGMA(1, 2)  - F = 1 when A B = 01 or 10.
+P4: Your function for the last step:  F = SIGMA(1, 3)  - F = 1 when A B = 01 or 11.
+P5: Your function for the last step:  F = SIGMA(2, 3)  - F = 1 when A B = 10 or 11.
+S1: GOAL: meet the decoder. For every input row exactly ONE output is on (one-hot).
+S1: Put A B = 0 0 (SW9 down, SW8 down). Which green light is on?
+S1: ANSWER: one switch up - SWi for the light LEDGi that is on.   Write it down: row 00 -> LEDG?
+S2: GOAL: the output of row 01.
+S2: Put A B = 0 1 (SW9 down, SW8 up). Which green light is on?
+S2: ANSWER: one switch up - SWi for the light LEDGi that is on.   Write it down: row 01 -> LEDG?
+S3: GOAL: the output of row 10.
+S3: Put A B = 1 0 (SW9 up, SW8 down). Which green light is on?
+S3: ANSWER: one switch up - SWi for the light LEDGi that is on.   Write it down: row 10 -> LEDG?
+S4: GOAL: the output of row 11.
+S4: Put A B = 1 1 (SW9 up, SW8 up). Which green light is on?
+S4: ANSWER: one switch up - SWi for the light LEDGi that is on.   Write it down: row 11 -> LEDG?
+S5: GOAL: logic using a decoder. F = SIGMA(...) = an OR of the decoder outputs of its rows (see above).
+S5: Look at your notes: which light belongs to each row of F?
+S5: ANSWER: raise the TWO switches of those lights (SWi for LEDGi).
