@@ -85,3 +85,26 @@ S3:    000 - 010      001 - 011      100 - 110      101 - 111
 S3: ANSWER: SW0 up if B matters, SW0 down if F is the same in all 4 pairs.
 S4: GOAL: one input never changes F - find it. (Check C too: pairs 000-001, 010-011, 100-101, 110-111.)
 S4: ANSWER: raise ONE switch for the input that does NOT matter:   A = SW2    B = SW1    C = SW0
+
+[Q05] MUX | What is wired into the multiplexer? | npub 1 | steps 6 | flat
+B: Select S1 = SW9, S0 = SW8.  Input C = SW7.  (HEX3 HEX2 HEX1)   Y = LEDG0 (green).   Your answer goes on SW3..SW0.
+B: A 4:1 mux: S1 S0 = 00 sends D0 to Y,  01 sends D1,  10 sends D2,  11 sends D3.
+S1: GOAL: meet the mux. Put S1 S0 = 0 0 (SW9, SW8 down) - now Y shows D0.
+S1: Look at Y with C = 0 (SW7 down), then with C = 1 (SW7 up).
+S1: ANSWER: SW0 = Y with C = 0,   SW1 = Y with C = 1   (up = on).
+S2: GOAL: what is on D0? Put S1 S0 = 0 0 (SW9 down, SW8 down) - now Y shows D0.
+S2: Look at Y with C = 0 (SW7 down) and with C = 1 (SW7 up):
+S2:    Y 0 and 0 -> '0'     Y 1 and 1 -> '1'     Y = C (0 then 1) -> C     Y = opposite of C (1 then 0) -> C'
+S2: ANSWER: '0' = all down    '1' = SW0    C = SW1    C' = SW1 + SW0
+S3: GOAL: what is on D1? Put S1 S0 = 0 1 (SW9 down, SW8 up) - now Y shows D1.
+S3: Look at Y with C = 0 (SW7 down) and with C = 1 (SW7 up):
+S3:    Y 0 and 0 -> '0'     Y 1 and 1 -> '1'     Y = C (0 then 1) -> C     Y = opposite of C (1 then 0) -> C'
+S3: ANSWER: '0' = all down    '1' = SW0    C = SW1    C' = SW1 + SW0
+S4: GOAL: what is on D2? Put S1 S0 = 1 0 (SW9 up, SW8 down) - now Y shows D2.
+S4: Look at Y with C = 0 (SW7 down) and with C = 1 (SW7 up):
+S4:    Y 0 and 0 -> '0'     Y 1 and 1 -> '1'     Y = C (0 then 1) -> C     Y = opposite of C (1 then 0) -> C'
+S4: ANSWER: '0' = all down    '1' = SW0    C = SW1    C' = SW1 + SW0
+S5: GOAL: what is on D3? Put S1 S0 = 1 1 (SW9 up, SW8 up) - now Y shows D3.
+S5: Look at Y with C = 0 (SW7 down) and with C = 1 (SW7 up):
+S5:    Y 0 and 0 -> '0'     Y 1 and 1 -> '1'     Y = C (0 then 1) -> C     Y = opposite of C (1 then 0) -> C'
+S5: ANSWER: '0' = all down    '1' = SW0    C = SW1    C' = SW1 + SW0
