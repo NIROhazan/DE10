@@ -61,3 +61,27 @@ S3: ANSWER: one switch up - SWi for that light (LEDGi).
 S4: GOAL: the MAXTERM - all three letters ORed, like  A + B' + C. It is OFF in only ONE row.
 S4: In your table, find the column with a single 0.
 S4: ANSWER: one switch up - SWi for that light (LEDGi).
+
+[Q04] MATTER | Which input does not matter? | npub 1 | steps 5 | flat
+B: A = SW9, B = SW8, C = SW7 (HEX3 HEX2 HEX1).  F = LEDG0 (green).  Your answer goes on SW3..SW0.
+S1: GOAL: the truth table of F. Copy it to paper, go over the 8 rows once (0 = down, 1 = up),
+S1: and write F (LEDG0 on = 1) in each row:
+S1:    row (SW9 SW8 SW7)    F
+S1:    0 0 0
+S1:    0 0 1
+S1:    0 1 0
+S1:    0 1 1
+S1:    1 0 0
+S1:    1 0 1
+S1:    1 1 0
+S1:    1 1 1
+S1: ANSWER: how many 1s in the F column?   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
+S2: GOAL: does A matter? Look at pairs of rows that differ ONLY in A (the first digit):
+S2:    000 - 100      001 - 101      010 - 110      011 - 111
+S2: If F is different in at least one pair, A matters.
+S2: ANSWER: SW0 up if A matters, SW0 down if F is the same in all 4 pairs.
+S3: GOAL: does B matter? Pairs that differ ONLY in B (the middle digit):
+S3:    000 - 010      001 - 011      100 - 110      101 - 111
+S3: ANSWER: SW0 up if B matters, SW0 down if F is the same in all 4 pairs.
+S4: GOAL: one input never changes F - find it. (Check C too: pairs 000-001, 010-011, 100-101, 110-111.)
+S4: ANSWER: raise ONE switch for the input that does NOT matter:   A = SW2    B = SW1    C = SW0
