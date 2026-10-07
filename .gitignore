@@ -68,3 +68,5 @@ progress.txt
 # class exercise: the board state written by tools/link.tcl
 link_state.txt
 link_state.txt.tmp
+# class exercise: when a START now lesson began
+lesson_start.txt

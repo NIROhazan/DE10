@@ -2,7 +2,8 @@
 # Times follow the clock of each student's computer, so the whole class moves to the next topic together.
 #
 # START hh:mm       when the first topic begins (before it, the students see a countdown).
-# START now         the lesson begins when LESSON.bat is started (for practice at home).
+# START now         the lesson begins when LESSON.bat is first started (for practice at home); the time is kept in
+#                   lesson_start.txt, so closing the window and coming back does not restart the clock.
 # TOPIC <minutes> | <name> | <questions in order, easy -> hard>
 #   The questions of a topic come one after another; when the topic's time is up, the next topic begins,
 #   even if not every question is done. Finished early - the student waits for the next topic.

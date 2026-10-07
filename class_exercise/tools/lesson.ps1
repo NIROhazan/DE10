@@ -18,7 +18,20 @@ foreach ($l in [IO.File]::ReadAllLines($Schedule, $script:utf8)) {
 }
 if ($Start) { $startText = $Start }
 if ($topics.Count -eq 0) { Write-Host "No TOPIC lines in $Schedule." -ForegroundColor Red; exit 1 }
-$t = if ($startText -eq "now") { Get-Date } else { [datetime]::ParseExact($startText, "HH:mm", $null) }
+# START now: the first launch fixes the start (lesson_start.txt) - leaving and coming back does not restart the clock.
+$startFile = Join-Path (Get-Location) "lesson_start.txt"
+$back = $false
+if ($startText -eq "now") {
+	if (Test-Path $startFile) {
+		$t = [datetime]::Parse(([IO.File]::ReadAllText($startFile)).Trim(), $null, [Globalization.DateTimeStyles]::RoundtripKind).ToLocalTime()
+		$back = $true
+	} else {
+		$t = Get-Date
+		[IO.File]::WriteAllText($startFile, $t.ToString("o"))
+	}
+} else {
+	$t = [datetime]::ParseExact($startText, "HH:mm", $null)
+}
 foreach ($tp in $topics) {
 	$tp | Add-Member Begin $t
 	$t = $t.AddMinutes($tp.Min)
@@ -28,6 +41,7 @@ $qs = Read-Questions
 foreach ($tp in $topics) { foreach ($x in $tp.Qs) { if (-not $qs.Contains($x)) { Write-Host "lesson.txt: there is no $x." -ForegroundColor Red; exit 1 } } }
 
 $sid = Get-StudentId
+if ((Test-Path "progress.txt") -and ([IO.File]::ReadAllText((Join-Path (Get-Location) "progress.txt")) -match "(?m)^$sid ")) { $back = $true }
 function Test-Done($qid) { return ((Get-Progress $sid $qid) -ge ($qs[$qid].NS - 1)) }
 function Show-Plan($cur, $title, $color) {
 	Clear-Host
@@ -72,6 +86,11 @@ while ($true) {
 		continue
 	}
 	Show-Plan $cur "Topic $($cur + 1) of $($topics.Count): $($tp.Name) - next question $next" Yellow
+	if ($back) {
+		Write-Host ("  Welcome back! Your progress is saved, and the lesson went on while you were away - now topic {0}, until {1:HH:mm}." -f ($cur + 1), $tp.End) -ForegroundColor Green
+		$back = $false
+		Start-Sleep -Seconds 4
+	}
 	Start-Sleep -Seconds 2
 	& (Join-Path $PSScriptRoot "run.ps1") -Only $next -Deadline $tp.End.ToString("o")
 	$code = $LASTEXITCODE
