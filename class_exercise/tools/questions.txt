@@ -223,3 +223,98 @@ S2: GOAL: meet the 4 answers on the board. Put A B C = 0 0 0 (SW9, SW8, SW7 down
 S2: ANSWER: copy the lights - SWi up if LEDGi is on (SW3..SW0).
 S3: GOAL: the right answer. Compare each light with your table, row by row (all 8 rows).
 S3: ANSWER: one switch up - SWi for the light that matches your Y in all 8 rows.
+
+[Q11] ERRORS | Common errors: which simplifications are wrong? | npub 6 | steps 4 | flat
+B: A = SW9, B = SW8, C = SW7 (HEX3 HEX2 HEX1).  4 students' results = LEDG3..LEDG0.  Answer on SW3..SW0.
+P0: Four students simplified your expression:   Y = A'BC + A'
+P1: Four students simplified your expression:   Y = AB + AB'
+P2: Four students simplified your expression:   Y = (A + BC)'
+P3: Four students simplified your expression:   Y = (A + B)(A + C)
+P4: Four students simplified your expression:   Y = AB + A'C + BC
+P5: Four students simplified your expression:   Y = A + A'B
+S1: GOAL: your own answer first. Work on YOUR expression (above) on paper, then fill its table:
+S1:    row (SW9 SW8 SW7)    Y
+S1:    0 0 0
+S1:    0 0 1
+S1:    0 1 0
+S1:    0 1 1
+S1:    1 0 0
+S1:    1 0 1
+S1:    1 1 0
+S1:    1 1 1
+S1: ANSWER: how many 1s in your Y column?   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
+S2: GOAL: meet the 4 results on the board. Put A B C = 0 0 0 (SW9, SW8, SW7 down).
+S2: ANSWER: copy the lights - SWi up if LEDGi is on (SW3..SW0).
+S3: GOAL: find the mistakes. Compare each light with your table, row by row (all 8 rows).
+S3: ANSWER: SWi up for every light that is WRONG (different from your Y in some row) - two lights.
+
+[Q12] MULTIPLY | Multiplying out and factoring: which answers are right? | npub 6 | steps 4 | flat
+B: A = SW9, B = SW8, C = SW7 (HEX3 HEX2 HEX1).  4 students' results = LEDG3..LEDG0.  Answer on SW3..SW0.
+P0: Four students multiplied out (SOP) or factored (POS) your expression:   Y = (A + B')(A + C)
+P1: Four students multiplied out (SOP) or factored (POS) your expression:   Y = A(B + C')
+P2: Four students multiplied out (SOP) or factored (POS) your expression:   Y = A + BC
+P3: Four students multiplied out (SOP) or factored (POS) your expression:   Y = A + B'C'
+P4: Four students multiplied out (SOP) or factored (POS) your expression:   Y = (A' + B)(C + B)
+P5: Four students multiplied out (SOP) or factored (POS) your expression:   Y = AB + C
+S1: GOAL: your own answer first. Work on YOUR expression (above) on paper, then fill its table:
+S1:    row (SW9 SW8 SW7)    Y
+S1:    0 0 0
+S1:    0 0 1
+S1:    0 1 0
+S1:    0 1 1
+S1:    1 0 0
+S1:    1 0 1
+S1:    1 1 0
+S1:    1 1 1
+S1: ANSWER: how many 1s in your Y column?   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
+S2: GOAL: meet the 4 results on the board. Put A B C = 0 0 0 (SW9, SW8, SW7 down).
+S2: ANSWER: copy the lights - SWi up if LEDGi is on (SW3..SW0).
+S3: GOAL: find the right answers. Compare each light with your table, row by row (all 8 rows).
+S3: ANSWER: SWi up for every light that is RIGHT (equal to your Y in all 8 rows) - two lights.
+
+[Q13] MINSOP | The minimal sum of products | npub 1 | steps 4 | flat
+B: A = SW9, B = SW8, C = SW7 (HEX3 HEX2 HEX1).  F = LEDG0 (green).  Answer on SW3..SW0.
+S1: GOAL: the truth table of F. Copy it to paper, go over the 8 rows once (0 = down, 1 = up), write F (LEDG0):
+S1:    row (SW9 SW8 SW7)    Y
+S1:    0 0 0
+S1:    0 0 1
+S1:    0 1 0
+S1:    0 1 1
+S1:    1 0 0
+S1:    1 0 1
+S1:    1 1 0
+S1:    1 1 1
+S1: ANSWER: how many 1s in the F column?   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
+S2: GOAL: the minimal SOP. Write F as SIGMA of its minterms, then join minterms that differ in one letter
+S2: (T10: XY + XY' = X), until no more joins - the fewest terms, each with the fewest letters.
+S2: ANSWER: how many TERMS (products) does it have?   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
+S3: GOAL: count the letters. In your minimal SOP, count every letter of every term (A'B + C = 3 letters).
+S3: ANSWER: how many LITERALS?   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
+
+[Q14] NANDNOR | Two-level logic: NAND-NAND or NOR-NOR | npub 1 | steps 4 | flat
+B: A = SW9, B = SW8, C = SW7 (HEX3 HEX2 HEX1).  n1 = LEDG2, n2 = LEDG1 (first level), Y = LEDG0 (second level).
+B: All three gates are NAND, or all three are NOR. Each first-level gate has 2 inputs: letters or their NOTs (A, A', B, ...).
+S1: GOAL: meet the circuit. Put A B C = 0 0 0 (SW9, SW8, SW7 down).
+S1: ANSWER: copy the lights - SW2 = n1 (LEDG2),  SW1 = n2 (LEDG1),  SW0 = Y (LEDG0)   (up = on).
+S2: GOAL: NAND or NOR? Go over the 8 rows and watch n1 (LEDG2).
+S2: A 2-input NAND is OFF in only 2 rows (both inputs 1).  A 2-input NOR is ON in only 2 rows (both inputs 0).
+S2: ANSWER: SW0 up if n1 is a NAND, SW0 down if it is a NOR.
+S3: GOAL: the inputs of n1. Look at the 2 special rows of n1 (NAND: where it is off, NOR: where it is on).
+S3: In those rows two letters stay the same - they are n1's inputs. NAND: a letter that is 1 there is X, 0 there is X'.
+S3: NOR: a letter that is 0 there is X, 1 there is X'.
+S3: ANSWER: two switches up:   SW5 = A   SW4 = A'   SW3 = B   SW2 = B'   SW1 = C   SW0 = C'
+
+[Q15] GATES | A multilevel circuit: find the gates | npub 1 | steps 5 | flat
+B: A = SW9, B = SW8, C = SW7, D = SW6 (HEX3..HEX0).  Answer on SW1 SW0.
+B: The circuit:  n1 = G1(A, B) on LEDG2   ->   n2 = G2(n1, C) on LEDG1   ->   Y = G3(n2, D) on LEDG0.
+S1: GOAL: meet the circuit. Put A B C D = 0 0 0 0 (SW9..SW6 down).
+S1: ANSWER: copy the lights - SW2 = n1 (LEDG2),  SW1 = n2 (LEDG1),  SW0 = Y (LEDG0)   (up = on).
+S2: GOAL: G1. n1 (LEDG2) depends only on A and B: try A B = 00, 01, 10, 11 (SW9 SW8).
+S2: AND: 1 only if both inputs are 1.  OR: 0 only if both are 0.  NAND: 0 only if both are 1.  NOR: 1 only if both are 0.
+S2: ANSWER (on SW1 SW0):   AND = both down   OR = SW0   NAND = SW1   NOR = SW1 + SW0
+S3: GOAL: G2. Its inputs are n1 (LEDG2) and C (SW7); its output is n2 (LEDG1). Try all four n1, C pairs.
+S3: AND: 1 only if both inputs are 1.  OR: 0 only if both are 0.  NAND: 0 only if both are 1.  NOR: 1 only if both are 0.
+S3: ANSWER (on SW1 SW0):   AND = both down   OR = SW0   NAND = SW1   NOR = SW1 + SW0
+S4: GOAL: G3. Its inputs are n2 (LEDG1) and D (SW6); its output is Y (LEDG0). Try all four n2, D pairs.
+S4: AND: 1 only if both inputs are 1.  OR: 0 only if both are 0.  NAND: 0 only if both are 1.  NOR: 1 only if both are 0.
+S4: ANSWER (on SW1 SW0):   AND = both down   OR = SW0   NAND = SW1   NOR = SW1 + SW0
