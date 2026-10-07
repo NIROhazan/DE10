@@ -24,16 +24,17 @@ eset_lesson.bat`.
 - הכל לפי השעון של המחשב, אז כל הכיתה עוברת נושא יחד. לפני השיעור: לשנות את `START` (ואת הדקות / השאלות) ב-`tools/lesson.txt`.
   `START now` = השיעור מתחיל כשמפעילים (לתרגול בבית).
 
-## איך עובדים
+## איך עובדים (בתוך השיעור)
 
-1. דאבל-קליק על ה-BAT של השאלה (למשל `Q01_GATE.bat`). המחשב מכין את הלוח ומדבר איתו בעצמו דרך כבל ה-USB:
-   הוא כותב לתוכו את מספר הכניסה שלכם (בלי מתגים, בלי הקלדה). עד אז ה-HEX מציג `----`.
-2. בכל שלב המסך מראה מעט טקסט: מה עושים ואיפה שמים את התשובה. הכניסות של המעגל על המתגים **השמאליים**
-   (`SW9`, `SW8`), התשובה על המתגים **הימניים** (`SW3..SW0`).
+**נכנסים לשאלות רק דרך `LESSON.bat`** - אין קבצי BAT לשאלות בודדות, ו-`tools/run.ps1` מסרב לרוץ בלי השיעור.
+בכל שאלה:
+
+1. המחשב מכין את הלוח ומדבר איתו בעצמו דרך כבל ה-USB: הוא כותב לתוכו את מספר הכניסה שלכם (בלי מתגים, בלי הקלדה).
+   עד אז ה-HEX מציג `----`.
+2. בכל שלב המסך מראה מעט טקסט: מה עושים ואיפה שמים את התשובה. הכניסות של המעגל על המתגים **השמאליים**,
+   התשובה על המתגים **הימניים** (`SW3..SW0`).
 3. שמים את התשובה ולוחצים **`KEY2`**: הלוח מציג `PASS` או `Err` לשנייה. אחרי PASS **המסך עובר לשלב הבא לבד**.
 4. בסוף הלוח מציג `donE`, והמחשב שומר את הקוד ב-`moodle.txt` לבד - מגישים את הקובץ הזה.
-
-חלון שנסגר באמצע ממשיך מהשלב הבא (`progress.txt`) - המחשב אומר ללוח מאיזה שלב להתחיל. שאלה שהסתיימה רק מציגה את הקוד.
 
 ## השאלות
 
@@ -75,6 +76,8 @@ eset_lesson.bat`.
 
 ## Instructor notes
 
+- Questions open only through LESSON.bat: lesson.ps1 sets CE_LESSON=1, run.ps1 refuses without it, gen.py writes no Qnn BATs.
+  Instructor, one question directly: `C:/DE10_solutions/class_exercise/question.bat Q05`; reset: `reset_lesson.bat` there.
 - Source: `C:/DE10_solutions/class_exercise/gen.py` - the new list is `NEW` (ids Q01, Q02, ...; easy -> hard, in steps).
   `python gen.py` simulates the new questions in iverilog, `--compile` builds `sof/Qnn.sof`, `--id <ID>` (= `answers.bat ce <ID>`)
   prints the login number, every step's answer and the codes. The first-format puzzles stay in gen.py as o01..o25.

@@ -41,6 +41,7 @@ $qs = Read-Questions
 foreach ($tp in $topics) { foreach ($x in $tp.Qs) { if (-not $qs.Contains($x)) { Write-Host "lesson.txt: there is no $x." -ForegroundColor Red; exit 1 } } }
 
 $sid = Get-StudentId
+$env:CE_LESSON = "1"		# run.ps1 runs only from here
 if ((Test-Path "progress.txt") -and ([IO.File]::ReadAllText((Join-Path (Get-Location) "progress.txt")) -match "(?m)^$sid ")) { $back = $true }
 function Test-Done($qid) { return ((Get-Progress $sid $qid) -ge ($qs[$qid].NS - 1)) }
 function Show-Plan($cur, $title, $color) {

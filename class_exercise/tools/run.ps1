@@ -12,6 +12,11 @@ param([Parameter(Mandatory = $true)][string]$Only, [string]$Deadline = "")
 $ErrorActionPreference = "Stop"
 Set-Location (Split-Path $PSScriptRoot -Parent)
 . (Join-Path $PSScriptRoot "common.ps1")
+if ($env:CE_LESSON -ne "1") {		# questions open only through LESSON.bat (lesson.ps1 sets it)
+	Write-Host ""
+	Write-Host "  The questions open only through the lesson: double-click LESSON.bat." -ForegroundColor Yellow
+	exit 1
+}
 
 $qs = Read-Questions
 if (-not $qs.Contains($Only)) { Write-Host "There is no $Only in tools\questions.txt." -ForegroundColor Red; exit 1 }
