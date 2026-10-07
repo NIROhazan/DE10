@@ -132,3 +132,94 @@ S4: ANSWER: one switch up - SWi for the light LEDGi that is on.   Write it down:
 S5: GOAL: logic using a decoder. F = SIGMA(...) = an OR of the decoder outputs of its rows (see above).
 S5: Look at your notes: which light belongs to each row of F?
 S5: ANSWER: raise the TWO switches of those lights (SWi for LEDGi).
+
+[Q07] PRIORITY | A priority circuit: who wins? | npub 1 | steps 5 | flat
+B: Inputs A3 = SW9, A2 = SW8, A1 = SW7, A0 = SW6 (HEX3..HEX0).  Outputs Y3..Y0 = LEDG3..LEDG0.  Answer on SW3..SW0.
+B: Yi = 1 when Ai is up and no STRONGER input is up. The order of strength is hidden.
+S1: GOAL: meet the priority circuit. Raise ONLY SW9 (A3) - all of SW9..SW6 others down.
+S1: One input alone always wins. Which light is on?
+S1: ANSWER: one switch up - SWi for the light LEDGi that is on.
+S2: GOAL: two inputs together. Raise SW9 AND SW8 (A3 and A2). Only the stronger one lights its Y.
+S2: Which light is on now?
+S2: ANSWER: one switch up - SWi for that light.
+S3: GOAL: the STRONGEST input. Raise all four: SW9, SW8, SW7, SW6.
+S3: The light that is on belongs to the strongest input.
+S3: ANSWER: one switch up - SWi for that light.
+S4: GOAL: the WEAKEST input - it wins only when it is alone.
+S4: From all four up: lower the winner's switch, see who wins next, lower it too ... the last one is the weakest.
+S4: ANSWER: one switch up for the weakest input:   A3 = SW3   A2 = SW2   A1 = SW1   A0 = SW0
+
+[Q08] THEOREMS | Perfect induction: which statements are true? | npub 4 | steps 4 | flat
+B: Pair k = SW9 SW8 (HEX3: 0-3).  A = SW7, B = SW6 (HEX1 HEX0).  LEFT side = LEDG1, RIGHT side = LEDG0.  Answer on SW3..SW0.
+B: The board holds 4 statements LEFT = RIGHT, in a hidden order:   A + AB = A     A + A'B = A + B     (AB)' = A' + B'     (A + B)' = A' + B'
+P0: Your statement for the last step:  A + AB = A
+P1: Your statement for the last step:  A + A'B = A + B
+P2: Your statement for the last step:  (AB)' = A' + B'
+P3: Your statement for the last step:  (A + B)' = A' + B'
+S1: GOAL: check ONE statement in every row (perfect induction). Pair k = 0: SW9, SW8 down.
+S1: Go over A B = 00, 01, 10, 11 (SW7 SW6) and compare LEFT (LEDG1) with RIGHT (LEDG0).
+S1: ANSWER: SW0 up if LEFT = RIGHT in all 4 rows (a true statement), SW0 down if not.
+S2: GOAL: all 4 pairs. Do the same for k = 1 (SW8 up), k = 2 (SW9 up), k = 3 (both up).
+S2: ANSWER: SWk up for every pair k that is TRUE (equal in all 4 rows):   k0 = SW0  k1 = SW1  k2 = SW2  k3 = SW3
+S3: GOAL: find YOUR statement (above). On paper, write the truth table of its LEFT side and of its RIGHT side
+S3: (4 rows each), then find the pair k whose LEDG1 and LEDG0 show exactly those two columns.
+S3: ANSWER: the pair number k:   0 = all down   1 = SW0   2 = SW1   3 = SW1+SW0
+
+[Q09] STORY | From a story to an equation | npub 6 | steps 4 | flat
+B: Your three letters are on SW9 SW8 SW7, in the order shown below (HEX3 HEX2 HEX1).  4 students' circuits = LEDG3..LEDG0.
+B: Answer on SW3..SW0.
+P0: You go to the Park (P) if it is NOT Raining (R) and you have Sandwiches (S) or Drinks (D).
+P0: Letters:  R = SW9,  S = SW8,  D = SW7
+P1: The alarm (Y) rings when the Door (D) is open and the system is Armed (A), or when there is Smoke (S).
+P1: Letters:  D = SW9,  A = SW8,  S = SW7
+P2: The light (L) is on when it is Dark (D) and someone Moves (M) - but never when the Battery (B) is low.
+P2: Letters:  D = SW9,  M = SW8,  B = SW7
+P3: You Enter (E) with a Hat (H) and Shoes (S), or with a Hat and no Shoes (S').
+P3: Letters:  H = SW9,  S = SW8   (SW7 is not used)
+P4: The fan (F) runs when it is Hot (H) and the window is not Open (O), or when a Kid (K) presses the button.
+P4: Letters:  H = SW9,  O = SW8,  K = SW7
+P5: You Win (W) if you get a Million (M) or a Notepad (N) - but only if you Play (P).
+P5: Letters:  M = SW9,  N = SW8,  P = SW7
+S1: GOAL: meet the 4 circuits. First write the story as an equation, on paper.
+S1: Put all three letters to 1 (SW9, SW8, SW7 up).
+S1: ANSWER: copy the lights - SWi up if LEDGi is on (SW3..SW0).
+S2: GOAL: use YOUR equation. What is it when the letters are 1, 0, 1 (SW9 up, SW8 down, SW7 up)?
+S2: Work it out on paper, from the equation.
+S2: ANSWER: SW0 up if your equation gives 1, SW0 down if it gives 0.
+S3: GOAL: which circuit is your equation? Fill this table from your equation (paper), then compare it
+S3: with each light on the board, row by row:
+S3:    row (SW9 SW8 SW7)    Y
+S3:    0 0 0
+S3:    0 0 1
+S3:    0 1 0
+S3:    0 1 1
+S3:    1 0 0
+S3:    1 0 1
+S3:    1 1 0
+S3:    1 1 1
+S3: ANSWER: one switch up - SWi for the light that matches in all 8 rows.
+
+[Q10] DEMORGAN | De Morgan: which answer is right? | npub 6 | steps 4 | flat
+B: A = SW9, B = SW8, C = SW7 (HEX3 HEX2 HEX1).  4 students' answers = LEDG3..LEDG0.  Answer on SW3..SW0.
+P0: Your expression:   Y = ((A + B')C)'
+P1: Your expression:   Y = (A'B + C)'
+P2: Your expression:   Y = (AB + C)'
+P3: Your expression:   Y = ((A + B)C')'
+P4: Your expression:   Y = (A + B + C)'
+P5: Your expression:   Y = (A(B + C'))'
+S1: GOAL: De Morgan on paper. Remove the outer bar of your Y (outside in: (XY)' = X' + Y', (X + Y)' = X'Y').
+S1: Then fill the table of Y from your result:
+S1:    row (SW9 SW8 SW7)    Y
+S1:    0 0 0
+S1:    0 0 1
+S1:    0 1 0
+S1:    0 1 1
+S1:    1 0 0
+S1:    1 0 1
+S1:    1 1 0
+S1:    1 1 1
+S1: ANSWER: how many 1s in your Y column?   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
+S2: GOAL: meet the 4 answers on the board. Put A B C = 0 0 0 (SW9, SW8, SW7 down).
+S2: ANSWER: copy the lights - SWi up if LEDGi is on (SW3..SW0).
+S3: GOAL: the right answer. Compare each light with your table, row by row (all 8 rows).
+S3: ANSWER: one switch up - SWi for the light that matches your Y in all 8 rows.
