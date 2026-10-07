@@ -466,3 +466,242 @@ S4: GOAL: ALL boxes with memory. Some remember only in another row, not at 00.
 S4: For every row of A B, arrive at it from both neighbours (one switch at a time)
 S4: and watch whether a light depends on where you came from.
 S4: ANSWER: SWi up for every box with memory (SW7..SW0).
+
+[Q21] SIGMA4 | Minterms and maxterms - four inputs | npub 1 | steps 7 | flat
+B: A = SW9, B = SW8, C = SW7, D = SW6 (HEX3..HEX0).  F = LEDG0 (green).  Answer on SW3..SW0.
+S1: GOAL: the rows where A B = 0 0 (SW9 down, SW8 down). Try C D = 00, 01, 10, 11 (SW7 SW6).
+S1: ANSWER: SW0 = F at C D = 00,  SW1 = at 01,  SW2 = at 10,  SW3 = at 11.
+S2: GOAL: the rows where A B = 0 1 (SW9 down, SW8 up). Try C D = 00, 01, 10, 11 (SW7 SW6).
+S2: ANSWER: SW0 = F at C D = 00,  SW1 = at 01,  SW2 = at 10,  SW3 = at 11.
+S3: GOAL: the rows where A B = 1 0 (SW9 up, SW8 down). Try C D = 00, 01, 10, 11 (SW7 SW6).
+S3: ANSWER: SW0 = F at C D = 00,  SW1 = at 01,  SW2 = at 10,  SW3 = at 11.
+S4: GOAL: the rows where A B = 1 1 (SW9 up, SW8 up). Try C D = 00, 01, 10, 11 (SW7 SW6).
+S4: ANSWER: SW0 = F at C D = 00,  SW1 = at 01,  SW2 = at 10,  SW3 = at 11.
+S5: GOAL: minterms. Count the rows (of all 16) where F = 1.
+S5: ANSWER: the number in binary: SW3 = 8, SW2 = 4, SW1 = 2, SW0 = 1 - raise the ones that add up to it.
+S6: GOAL: maxterms. Count the rows where F = 0.
+S6: ANSWER: the number in binary: SW3 = 8, SW2 = 4, SW1 = 2, SW0 = 1 - raise the ones that add up to it.
+
+[Q22] DEC38 | A 3:8 decoder: which light is which output? | npub 8 | steps 4 | flat
+B: A = SW9, B = SW8, C = SW7 (HEX3 HEX2 HEX1).  The decoder's 8 outputs = LEDG7..LEDG0, in a hidden order.  Answer on SW2..SW0.
+P0: Your minterm for the last step:  m0  (A B C = 000).
+P1: Your minterm for the last step:  m1  (A B C = 001).
+P2: Your minterm for the last step:  m2  (A B C = 010).
+P3: Your minterm for the last step:  m3  (A B C = 011).
+P4: Your minterm for the last step:  m4  (A B C = 100).
+P5: Your minterm for the last step:  m5  (A B C = 101).
+P6: Your minterm for the last step:  m6  (A B C = 110).
+P7: Your minterm for the last step:  m7  (A B C = 111).
+S1: GOAL: meet the decoder. Put A B C = 0 0 0 (SW9, SW8, SW7 down). Exactly one green light is on.
+S1: ANSWER: its number in binary: SW2 = 4, SW1 = 2, SW0 = 1 - raise the ones that add up to it (0 = all down)   (LEDG5 = SW2 + SW0).
+S2: GOAL: one more. Put A B C = 1 1 1 (all three up). Which light is on now?
+S2: ANSWER: its number in binary: SW2 = 4, SW1 = 2, SW0 = 1 - raise the ones that add up to it (0 = all down).
+S3: GOAL: your minterm (above). Put its row on SW9 SW8 SW7 and see which light is on.
+S3: ANSWER: its number in binary: SW2 = 4, SW1 = 2, SW0 = 1 - raise the ones that add up to it (0 = all down).
+
+[Q23] THEOREMS8 | Perfect induction: 8 statements of A B C | npub 8 | steps 4 | flat
+B: Statement number = SW9 SW8 SW7 (HEX3: 0-7).  A = SW6, B = SW5, C = SW4 (HEX2 HEX1 HEX0).
+B: LEFT side = LEDG1, RIGHT side = LEDG0.  Answer on SW3..SW0.
+P0: Your statement for the last step:  A(A + B) = A
+P1: Your statement for the last step:  BC + BC' = B
+P2: Your statement for the last step:  AB + A'C + BC = AB + A'C
+P3: Your statement for the last step:  (AB)' = A' + B'
+P4: Your statement for the last step:  (A + B)' = A' + B'
+P5: Your statement for the last step:  A + BC = (A + B)(A + C)
+P6: Your statement for the last step:  A + BC = (A + B)C
+P7: Your statement for the last step:  A + A'B = A + B
+S1: GOAL: is statement 0 true? SW9 SW8 SW7 down = statement 0. Go over the 8 rows of A B C (SW6 SW5 SW4).
+S1: True = LEDG1 and LEDG0 are the same (both on or both off) in ALL 8 rows.
+S1: ANSWER: SW0 up if statement 0 is true, SW0 down if not.
+S2: GOAL: check all 8 statements (SW9 SW8 SW7 = 000 ... 111) the same way.
+S2: ANSWER: how many of them are true?   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
+S3: GOAL: find YOUR statement (above). On paper, write the table of its LEFT side and of its RIGHT side (8 rows),
+S3: then find the statement number whose LEDG1 and LEDG0 show exactly those two columns.
+S3: ANSWER: its number in binary: SW2 = 4, SW1 = 2, SW0 = 1 - raise the ones that add up to it (0 = all down).
+
+[Q24] STORY4 | From a story to an equation - four letters | npub 6 | steps 4 | flat
+B: Your four letters are on SW9 SW8 SW7 SW6, in the order shown below (HEX3..HEX0).  4 circuits = LEDG3..LEDG0.  Answer on SW3..SW0.
+P0: You can Eat delicious food (E) if you Make it yourself (M), or you have a personal Chef (C)
+P0: who is Talented (T) and not eXpensive (X).
+P0: Letters:  M = SW9,  C = SW8,  T = SW7,  X = SW6
+P1: The alarm sounds (Y) when the Door is open (D) and the system is Armed (A),
+P1: or when there is Smoke (S) and it is not a Test (T).
+P1: Letters:  D = SW9,  A = SW8,  S = SW7,  T = SW6
+P2: You pass (P) if you did the Homework (H) and the Exam (E) or the Lab (L),
+P2: unless you Cheated (C).
+P2: Letters:  H = SW9,  E = SW8,  L = SW7,  C = SW6
+P3: The light (Y) is on when it is Dark (D) and someone Moves (M), or when the Switch (S) is on -
+P3: but never when the Battery (B) is low.
+P3: Letters:  D = SW9,  M = SW8,  S = SW7,  B = SW6
+P4: You can Enter (E) with a Hat (H) and Shoes (S), or with a Hat and a Ticket (T),
+P4: or if you are a VIP (V).
+P4: Letters:  H = SW9,  S = SW8,  T = SW7,  V = SW6
+P5: The fan (F) runs when it is Hot (H) and the window is not Open (O),
+P5: or when a Kid (K) presses the Button (B).
+P5: Letters:  H = SW9,  O = SW8,  K = SW7,  B = SW6
+S1: GOAL: meet the 4 circuits. Write the story as an equation (paper). Put all four letters to 1 (SW9..SW6 up).
+S1: ANSWER: copy the lights - SWi up if LEDGi is on (SW3..SW0).
+S2: GOAL: use YOUR equation: what is it when the letters are 1, 0, 1, 0 (SW9 up, SW8 down, SW7 up, SW6 down)?
+S2: ANSWER: SW0 up if your equation gives 1, SW0 down if it gives 0.
+S3: GOAL: which circuit is your equation? Compare each light with your equation in all 16 rows
+S3: (rows where they differ rule a light out - start with the rows you already know).
+S3: ANSWER: one switch up - SWi for the light that matches in every row.
+
+[Q25] DEMORGAN4 | De Morgan with four letters: which answers are right? | npub 6 | steps 4 | flat
+B: A = SW9, B = SW8, C = SW7, D = SW6 (HEX3..HEX0).  4 students' results = LEDG3..LEDG0.  Answer on SW3..SW0.
+P0: Apply De Morgan to your expression:   Y = ((A + BD)C)'
+P1: Apply De Morgan to your expression:   Y = ((A + B')C)'
+P2: Apply De Morgan to your expression:   Y = (A'B + CD')'
+P3: Apply De Morgan to your expression:   Y = ((A + B)(C + D)')'
+P4: Apply De Morgan to your expression:   Y = (A(B' + C) + D)'
+P5: Apply De Morgan to your expression:   Y = ((AB)' + C)'
+S1: GOAL: meet the 4 answers. Put A B C D = 0 0 0 0 (SW9..SW6 down).
+S1: ANSWER: copy the lights - SWi up if LEDGi is on (SW3..SW0).
+S2: GOAL: and at A B C D = 1 1 1 1 (SW9..SW6 up).
+S2: ANSWER: copy the lights (SW3..SW0).
+S3: GOAL: De Morgan on paper (outside in), then compare each light with your result row by row.
+S3: ANSWER: SWi up for every light that is RIGHT (equal to Y in all 16 rows) - one or two lights.
+
+[Q26] MULTIPLY4 | Multiplying out and factoring - six answers | npub 6 | steps 4 | flat
+B: A = SW9, B = SW8, C = SW7, D = SW6 (HEX3..HEX0).  6 students' results = LEDG5..LEDG0.  Answer on SW5..SW0.
+P0: Six students multiplied out (SOP) or factored (POS) your expression:   Y = (A + C + D)(A + B)
+P1: Six students multiplied out (SOP) or factored (POS) your expression:   Y = (A + BC)(A + D)
+P2: Six students multiplied out (SOP) or factored (POS) your expression:   Y = A + B'CD
+P3: Six students multiplied out (SOP) or factored (POS) your expression:   Y = AB + C'D
+P4: Six students multiplied out (SOP) or factored (POS) your expression:   Y = (A + B)(C + D)
+P5: Six students multiplied out (SOP) or factored (POS) your expression:   Y = A + B(C' + D)
+S1: GOAL: meet the 6 answers (LEDG5..LEDG0). Put A B C D = 0 0 0 0 (SW9..SW6 down).
+S1: ANSWER: copy the lights - SWi up if LEDGi is on (SW5..SW0).
+S2: GOAL: and at A B C D = 1 1 1 1 (SW9..SW6 up).
+S2: ANSWER: copy the lights (SW5..SW0).
+S3: GOAL: multiply out or factor your expression on paper, then compare each light with it row by row.
+S3: ANSWER: SWi up for every light that is RIGHT (equal to Y in all 16 rows) - two lights.
+
+[Q27] ERRORS5 | Common errors - five simplifications | npub 6 | steps 4 | flat
+B: A = SW9, B = SW8, C = SW7 (HEX3 HEX2 HEX1).  5 students' results = LEDG4..LEDG0.  Answer on SW4..SW0.
+P0: Five students simplified your expression:   Y = A'BC + A'
+P1: Five students simplified your expression:   Y = AB + AB'
+P2: Five students simplified your expression:   Y = (A + BC)'
+P3: Five students simplified your expression:   Y = (A + B)(A + C)
+P4: Five students simplified your expression:   Y = AB + A'C + BC
+P5: Five students simplified your expression:   Y = A + A'B
+S1: GOAL: your own answer first. Simplify YOUR expression (above) on paper, then fill its table:
+S1:    row (SW9 SW8 SW7)    Y
+S1:    0 0 0
+S1:    0 0 1
+S1:    0 1 0
+S1:    0 1 1
+S1:    1 0 0
+S1:    1 0 1
+S1:    1 1 0
+S1:    1 1 1
+S1: ANSWER: how many 1s in your Y column?   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
+S2: GOAL: meet the 5 results (LEDG4..LEDG0). Put A B C = 0 0 0 (SW9, SW8, SW7 down).
+S2: ANSWER: copy the lights - SWi up if LEDGi is on (SW4..SW0).
+S3: GOAL: find the mistakes. Compare each light with your table, row by row.
+S3: ANSWER: SWi up for every light that is WRONG (different from your Y in some row).
+
+[Q28] NANDNOR3 | Two-level logic: three gates, NAND or NOR each | npub 1 | steps 4 | flat
+B: A = SW9, B = SW8, C = SW7 (HEX3 HEX2 HEX1).  First level: n1 = LEDG3, n2 = LEDG2, n3 = LEDG1 (2-input NAND or NOR
+B: of letters or their NOTs).  Second level: Y = LEDG0 = a 3-input NAND or NOR of n1, n2, n3.  Answer on SW3..SW0.
+S1: GOAL: meet the circuit. Put A B C = 0 0 0 (SW9, SW8, SW7 down).
+S1: ANSWER: copy the lights - SW3 = n1 (LEDG3), SW2 = n2, SW1 = n3, SW0 = Y (LEDG0).
+S2: GOAL: n1 (LEDG3): NAND or NOR? Go over the 8 rows.
+S2: A 2-input NAND is OFF in only 2 rows (both inputs 1).  A 2-input NOR is ON in only 2 rows (both inputs 0).
+S2: ANSWER: SW0 up if n1 is a NAND, SW0 down if it is a NOR.
+S3: GOAL: every gate. n2 and n3 the same way. For Y (3 inputs n1 n2 n3): watch a row where n1, n2, n3 are
+S3: NOT all equal - a NAND gives 1 there, a NOR gives 0.
+S3: ANSWER: SW3 = n1,  SW2 = n2,  SW1 = n3,  SW0 = Y:   up = NAND,  down = NOR.
+
+[Q29] BUBBLES8 | Bubble pushing: which of eight circuits? | npub 8 | steps 3 | flat
+B: A = SW9, B = SW8, C = SW7, D = SW6 (HEX3..HEX0).  Y = LEDG0 (green).  Answer on SW2..SW0.
+B: n1' means a bubble (NOT) on that input of the last gate.
+P0: The board holds ONE of these circuits:
+P0:   0: n1 = NAND(D', A');  n2 = NAND(B, C');  Y = OR(n1, n2')
+P0:   1: n1 = NAND(D, C);  n2 = NAND(C', B);  Y = NAND(n1', n2)
+P0:   2: n1 = NOR(B, A');  n2 = NOR(C, B);  Y = OR(n1, n2)
+P0:   3: n1 = NOR(A', B);  n2 = NOR(B', D');  Y = NAND(n1', n2)
+P0:   4: n1 = NAND(A', B);  n2 = NAND(D', A);  Y = NOR(n1', n2')
+P0:   5: n1 = NOR(D', B);  n2 = NOR(C', B');  Y = OR(n1, n2')
+P0:   6: n1 = NOR(D', A');  n2 = NAND(B, D');  Y = OR(n1, n2)
+P0:   7: n1 = NOR(C', B');  n2 = NOR(D', C);  Y = NAND(n1', n2)
+P1: The board holds ONE of these circuits:
+P1:   0: n1 = NOR(C', B');  n2 = NOR(D, B);  Y = NAND(n1', n2)
+P1:   1: n1 = NOR(B, D');  n2 = NAND(D', B');  Y = NOR(n1, n2')
+P1:   2: n1 = NAND(C', B');  n2 = NOR(C', D');  Y = NOR(n1', n2)
+P1:   3: n1 = NAND(D, A');  n2 = NOR(C', A');  Y = OR(n1', n2')
+P1:   4: n1 = NAND(B, A);  n2 = NAND(C, B');  Y = NOR(n1', n2')
+P1:   5: n1 = NOR(A', B);  n2 = NAND(D, B);  Y = OR(n1, n2')
+P1:   6: n1 = NOR(B', C);  n2 = NAND(D', B');  Y = NOR(n1, n2')
+P1:   7: n1 = NAND(B', C);  n2 = NOR(C', B');  Y = AND(n1, n2')
+P2: The board holds ONE of these circuits:
+P2:   0: n1 = NOR(A, C');  n2 = NOR(D', A);  Y = NAND(n1', n2')
+P2:   1: n1 = NAND(B', C);  n2 = NOR(A, B');  Y = NAND(n1', n2')
+P2:   2: n1 = NOR(C, B);  n2 = NAND(A, D);  Y = NOR(n1', n2')
+P2:   3: n1 = NAND(D, B);  n2 = NOR(B, C);  Y = AND(n1', n2')
+P2:   4: n1 = NAND(A, D);  n2 = NOR(A', D);  Y = AND(n1', n2')
+P2:   5: n1 = NOR(D', B');  n2 = NOR(A, D);  Y = NAND(n1', n2')
+P2:   6: n1 = NOR(B', A');  n2 = NAND(B', D);  Y = AND(n1', n2')
+P2:   7: n1 = NAND(D', A');  n2 = NAND(B', C);  Y = OR(n1, n2')
+P3: The board holds ONE of these circuits:
+P3:   0: n1 = NAND(C, A');  n2 = NAND(B, D');  Y = OR(n1', n2)
+P3:   1: n1 = NOR(B', A);  n2 = NAND(D, C');  Y = NOR(n1, n2')
+P3:   2: n1 = NAND(A, B');  n2 = NAND(C', A');  Y = OR(n1, n2')
+P3:   3: n1 = NOR(A', C');  n2 = NAND(C', B);  Y = NOR(n1', n2')
+P3:   4: n1 = NOR(C, D');  n2 = NAND(A, D');  Y = NAND(n1, n2)
+P3:   5: n1 = NAND(C', B);  n2 = NOR(D, A);  Y = NOR(n1', n2)
+P3:   6: n1 = NAND(D', C');  n2 = NAND(B', C);  Y = NAND(n1, n2)
+P3:   7: n1 = NOR(D', B');  n2 = NAND(C', A);  Y = OR(n1, n2')
+P4: The board holds ONE of these circuits:
+P4:   0: n1 = NOR(B', A');  n2 = NOR(A, D);  Y = OR(n1, n2')
+P4:   1: n1 = NAND(B, A);  n2 = NOR(B, C);  Y = OR(n1', n2')
+P4:   2: n1 = NAND(C, B');  n2 = NAND(A, B);  Y = NAND(n1', n2)
+P4:   3: n1 = NOR(D, C);  n2 = NAND(D', C');  Y = AND(n1, n2')
+P4:   4: n1 = NOR(C', A);  n2 = NAND(A, D);  Y = AND(n1, n2)
+P4:   5: n1 = NAND(B, C);  n2 = NAND(A, D);  Y = OR(n1', n2')
+P4:   6: n1 = NOR(C', D');  n2 = NOR(D, A');  Y = NAND(n1', n2')
+P4:   7: n1 = NAND(A, D');  n2 = NOR(C, D');  Y = NOR(n1', n2')
+P5: The board holds ONE of these circuits:
+P5:   0: n1 = NAND(C, B);  n2 = NOR(B', C');  Y = OR(n1', n2)
+P5:   1: n1 = NAND(C, A);  n2 = NOR(B, D);  Y = NAND(n1', n2')
+P5:   2: n1 = NAND(B, C);  n2 = NOR(B, C');  Y = OR(n1, n2)
+P5:   3: n1 = NOR(C', B);  n2 = NOR(C, A);  Y = NAND(n1', n2)
+P5:   4: n1 = NAND(C', B);  n2 = NOR(B', C);  Y = NAND(n1, n2')
+P5:   5: n1 = NAND(A, D');  n2 = NAND(C, A');  Y = AND(n1, n2)
+P5:   6: n1 = NOR(A, C);  n2 = NOR(A, D');  Y = OR(n1, n2)
+P5:   7: n1 = NOR(D, A);  n2 = NAND(B', A');  Y = AND(n1', n2)
+P6: The board holds ONE of these circuits:
+P6:   0: n1 = NOR(C, A);  n2 = NAND(C', A');  Y = NOR(n1, n2')
+P6:   1: n1 = NOR(B', A);  n2 = NAND(D, C);  Y = AND(n1', n2)
+P6:   2: n1 = NAND(B', C);  n2 = NAND(D', B);  Y = AND(n1', n2)
+P6:   3: n1 = NOR(D', B');  n2 = NOR(B', A);  Y = AND(n1', n2')
+P6:   4: n1 = NAND(B, D);  n2 = NAND(D', B');  Y = NOR(n1', n2')
+P6:   5: n1 = NOR(C', D);  n2 = NAND(A, B');  Y = NAND(n1, n2)
+P6:   6: n1 = NOR(D', A);  n2 = NAND(C', B');  Y = NOR(n1, n2')
+P6:   7: n1 = NAND(B, C');  n2 = NOR(A', D);  Y = NAND(n1', n2')
+P7: The board holds ONE of these circuits:
+P7:   0: n1 = NOR(C', D');  n2 = NOR(C', D');  Y = AND(n1', n2')
+P7:   1: n1 = NAND(D, B);  n2 = NOR(D, C);  Y = NOR(n1', n2')
+P7:   2: n1 = NAND(B', D');  n2 = NOR(B', D');  Y = OR(n1', n2')
+P7:   3: n1 = NOR(D', C);  n2 = NOR(B', D');  Y = NOR(n1, n2)
+P7:   4: n1 = NOR(B, C);  n2 = NOR(B', A');  Y = OR(n1, n2')
+P7:   5: n1 = NAND(C, B);  n2 = NAND(C', A');  Y = NOR(n1', n2')
+P7:   6: n1 = NAND(D', A');  n2 = NAND(D', A);  Y = NAND(n1', n2)
+P7:   7: n1 = NAND(D', A');  n2 = NOR(B, C');  Y = AND(n1, n2)
+S1: GOAL: two quick looks. Put A B C D = 0 0 0 0 (all down), then 1 1 1 1 (all up).
+S1: ANSWER: SW0 = Y (LEDG0) at 0000,   SW1 = Y at 1111   (up = on).
+S2: GOAL: which circuit? Work out each circuit's Y in a few rows (paper; bubble pushing helps),
+S2: and compare with the board, until only one circuit is left.
+S2: ANSWER: its number in binary: SW2 = 4, SW1 = 2, SW0 = 1 - raise the ones that add up to it (0 = all down).
+
+[Q30] DLATCH | A D latch: which input is the enable? | npub 1 | steps 4 | flat
+B: A = SW9, B = SW8 (HEX3 HEX2).  The box = LEDG0 (green).  Answer on SW1 SW0.
+B: Move ONE switch at a time - two at once pass through a row in between.
+S1: GOAL: a D latch: when its ENABLE is active it copies its DATA input, otherwise it remembers.
+S1: One of A, B is the enable, the other is the data. Walk 00 -> 01 -> 11 -> 10 -> 00 (one switch at a time).
+S1: ANSWER: SW0 up if LEDG0 changed at least once on the way.
+S2: GOAL: which input is the ENABLE? Set one input, then move the OTHER one up and down and watch the box.
+S2: The enable is the input that, in one of its positions, makes the box FOLLOW the other one; in its other position the box stays.
+S2: ANSWER: SW1 up if A (SW9) is the enable,  SW0 up if B (SW8) is the enable - one switch.
+S3: GOAL: is the enable active when it is 1 (up) or when it is 0 (down)?
+S3: ANSWER: SW0 up if the box follows the data while the enable is UP,  SW0 down if while it is DOWN.
