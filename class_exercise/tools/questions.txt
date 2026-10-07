@@ -160,10 +160,15 @@ S1: GOAL: is statement 0 true?  SW9, SW8 down = statement 0.  LEDG1 = its LEFT s
 S1: Set SW7 SW6 = down down,  down up,  up down,  up up.
 S1: In each one: are LEDG1 and LEDG0 the SAME (both on or both off)?
 S1: ANSWER: SW0 up if they were the same in all 4.  SW0 down if they were different even once.
-S2: GOAL: check all 4 statements the same way. The statement number is on SW9 SW8:
-S2:    0 = down down     1 = down up     2 = up down     3 = up up
-S2: For each one, write on paper: same in all 4 settings of SW7 SW6?  yes = TRUE.
-S2: ANSWER: raise SW0 if statement 0 is true,  SW1 if statement 1 is true,  SW2 for 2,  SW3 for 3.
+S2: GOAL: the same check as step 1, for all 4 statements. Copy this table to paper:
+S2:    statement   SW9 SW8      same in all 4?
+S2:        0       down down        ?
+S2:        1       down up          ?
+S2:        2       up down          ?
+S2:        3       up up            ?
+S2: For each line: set SW9 SW8, move SW7 SW6 through down down, down up, up down, up up, and watch
+S2: LEDG1 and LEDG0. The same (both on or both off) every time = yes. Different even once = no.
+S2: ANSWER: raise the switch of every 'yes':  statement 0 = SW0,  1 = SW1,  2 = SW2,  3 = SW3.
 S3: GOAL: where is YOUR statement (at the top)? Fill this table on paper from YOUR statement:
 S3:    A B (SW7 SW6)    LEFT   RIGHT
 S3:    0 0
