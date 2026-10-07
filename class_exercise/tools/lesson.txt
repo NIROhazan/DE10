@@ -1,0 +1,15 @@
+# The lesson schedule - read by LESSON.bat (tools\lesson.ps1). Edit it before the lesson.
+# Times follow the clock of each student's computer, so the whole class moves to the next topic together.
+#
+# START hh:mm       when the first topic begins (before it, the students see a countdown).
+# START now         the lesson begins when LESSON.bat is started (for practice at home).
+# TOPIC <minutes> | <name> | <questions in order, easy -> hard>
+#   The questions of a topic come one after another; when the topic's time is up, the next topic begins,
+#   even if not every question is done. Finished early - the student waits for the next topic.
+#   Names in English (the console cannot show Hebrew).
+
+START 10:00
+
+TOPIC 30 | Truth tables, minterms and maxterms, theorems        | Q01 Q02 Q03 Q04 Q21 Q08 Q23 Q13 Q17
+TOPIC 30 | From words to equations: De Morgan, errors, factoring | Q09 Q10 Q11 Q12 Q24 Q25 Q27 Q26
+TOPIC 30 | Building blocks and circuits, then memory           | Q05 Q06 Q07 Q16 Q22 Q14 Q15 Q18 Q28 Q29 Q19 Q30 Q20

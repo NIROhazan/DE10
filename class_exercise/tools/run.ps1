@@ -4,8 +4,10 @@
 # So the student only flips switches and presses KEY2; the screen moves on by itself, and the code at the end
 # goes into moodle.txt by itself. The board alone knows the answers and the codes.
 # progress.txt keeps the last step passed: a closed window goes on from there, never from the start.
+# -Deadline (from LESSON.bat): the end of the topic - the window title counts down, and at that time the question
+# stops with exit code 2 (progress saved). Exit 0 = done, 1 = a problem with the board.
 # Kept ASCII so Windows PowerShell 5.1 reads it without a BOM.
-param([Parameter(Mandatory = $true)][string]$Only)
+param([Parameter(Mandatory = $true)][string]$Only, [string]$Deadline = "")
 
 $ErrorActionPreference = "Stop"
 Set-Location (Split-Path $PSScriptRoot -Parent)
@@ -14,6 +16,14 @@ Set-Location (Split-Path $PSScriptRoot -Parent)
 $qs = Read-Questions
 if (-not $qs.Contains($Only)) { Write-Host "There is no $Only in tools\questions.txt." -ForegroundColor Red; exit 1 }
 $q = $qs[$Only]
+$dl = if ($Deadline) { [datetime]::Parse($Deadline, $null, [Globalization.DateTimeStyles]::RoundtripKind).ToLocalTime() } else { $null }
+function Test-TimeUp {
+	if (-not $dl) { return $false }
+	$left = $dl - (Get-Date)
+	if ($left.TotalSeconds -le 0) { return $true }
+	$Host.UI.RawUI.WindowTitle = "$($q.Id) - {0:mm\:ss} left in this topic" -f $left
+	return $false
+}
 $sid = Get-StudentId
 $s = Get-Login $sid
 $pub = Get-Pub $q.Id $s $q.NPub
@@ -26,6 +36,7 @@ if ($done -ge $last) {
 	exit 0
 }
 $from = $done + 1
+if (Test-TimeUp) { exit 2 }
 
 # ---------------------------------------------------------------- program the board
 $qbin = @("C:\altera\13.0sp1\quartus\bin64", "C:\altera\13.0sp1\quartus\bin") |
@@ -71,6 +82,7 @@ function Show-Step($k) {
 	Write-Host ""
 	Write-Host "  Put the answer on the switches and press KEY2." -ForegroundColor Green
 	Write-Host "  The board shows PASS (this screen moves on by itself) or Err (try again)." -ForegroundColor DarkGray
+	if ($dl) { Write-Host ""; Write-Host ("  This topic ends at {0:HH:mm} (time left: see the window title)." -f $dl) -ForegroundColor DarkGray }
 }
 
 try {
@@ -79,6 +91,11 @@ try {
 	$t0 = Get-Date
 	while ($true) {
 		Start-Sleep -Milliseconds 200
+		if (Test-TimeUp) {
+			Write-Host ""
+			Write-Host "  Time is up for this topic." -ForegroundColor Yellow
+			exit 2
+		}
 		$line = $null
 		try { $line = ([IO.File]::ReadAllText($state)).Trim() } catch { }
 		if ($link.HasExited -or ($line -like "X*")) {
@@ -115,7 +132,7 @@ try {
 			Save-MoodleCode $sid $q.Id $code
 			Write-Host ""
 			Write-Host "  PASS - $($q.Id) is done!  Your code ce-$($q.Id): $code is saved in moodle.txt." -ForegroundColor Green
-			break
+			exit 0
 		}
 	}
 } finally {
