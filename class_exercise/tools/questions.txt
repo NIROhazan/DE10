@@ -150,20 +150,28 @@ S4: From all four up: lower the winner's switch, see who wins next, lower it too
 S4: ANSWER: one switch up for the weakest input:   A3 = SW3   A2 = SW2   A1 = SW1   A0 = SW0
 
 [Q08] THEOREMS | Perfect induction: which statements are true? | npub 4 | steps 4 | flat
-B: Pair k = SW9 SW8 (HEX3: 0-3).  A = SW7, B = SW6 (HEX1 HEX0).  LEFT side = LEDG1, RIGHT side = LEDG0.  Answer on SW3..SW0.
+B: Statement number = SW9 SW8 (HEX3).  A = SW7, B = SW6 (HEX1 HEX0).  LEFT = LEDG1, RIGHT = LEDG0.  Answer on SW3..SW0.
 B: The board holds 4 statements LEFT = RIGHT, in a hidden order:   A + AB = A     A + A'B = A + B     (AB)' = A' + B'     (A + B)' = A' + B'
 P0: Your statement for the last step:  A + AB = A
 P1: Your statement for the last step:  A + A'B = A + B
 P2: Your statement for the last step:  (AB)' = A' + B'
 P3: Your statement for the last step:  (A + B)' = A' + B'
-S1: GOAL: check ONE statement in every row (perfect induction). Pair k = 0: SW9, SW8 down.
-S1: Go over A B = 00, 01, 10, 11 (SW7 SW6) and compare LEFT (LEDG1) with RIGHT (LEDG0).
-S1: ANSWER: SW0 up if LEFT = RIGHT in all 4 rows (a true statement), SW0 down if not.
-S2: GOAL: all 4 pairs. Do the same for k = 1 (SW8 up), k = 2 (SW9 up), k = 3 (both up).
-S2: ANSWER: SWk up for every pair k that is TRUE (equal in all 4 rows):   k0 = SW0  k1 = SW1  k2 = SW2  k3 = SW3
-S3: GOAL: find YOUR statement (above). On paper, write the truth table of its LEFT side and of its RIGHT side
-S3: (4 rows each), then find the pair k whose LEDG1 and LEDG0 show exactly those two columns.
-S3: ANSWER: the pair number k:   0 = all down   1 = SW0   2 = SW1   3 = SW1+SW0
+S1: GOAL: is statement 0 true?  SW9, SW8 down = statement 0.  LEDG1 = its LEFT side, LEDG0 = its RIGHT side.
+S1: Set SW7 SW6 = down down,  down up,  up down,  up up.
+S1: In each one: are LEDG1 and LEDG0 the SAME (both on or both off)?
+S1: ANSWER: SW0 up if they were the same in all 4.  SW0 down if they were different even once.
+S2: GOAL: check all 4 statements the same way. The statement number is on SW9 SW8:
+S2:    0 = down down     1 = down up     2 = up down     3 = up up
+S2: For each one, write on paper: same in all 4 settings of SW7 SW6?  yes = TRUE.
+S2: ANSWER: raise SW0 if statement 0 is true,  SW1 if statement 1 is true,  SW2 for 2,  SW3 for 3.
+S3: GOAL: where is YOUR statement (at the top)? Fill this table on paper from YOUR statement:
+S3:    A B (SW7 SW6)    LEFT   RIGHT
+S3:    0 0
+S3:    0 1
+S3:    1 0
+S3:    1 1
+S3: Now find the statement number whose LEDG1 (LEFT) and LEDG0 (RIGHT) show exactly your table.
+S3: ANSWER: that number:   0 = all down   1 = SW0   2 = SW1   3 = SW1+SW0
 
 [Q09] STORY | From a story to an equation | npub 6 | steps 4 | flat
 B: Your three letters are on SW9 SW8 SW7, in the order shown below (HEX3 HEX2 HEX1).  4 students' circuits = LEDG3..LEDG0.
