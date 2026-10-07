@@ -43,13 +43,21 @@ B: A = SW9, B = SW8, C = SW7 (HEX3 HEX2 HEX1).  4 terms = LEDG3..LEDG0 (green). 
 S1: GOAL: meet the 4 green lights. Each one is a TERM of A B C, like  A B'  or  A + C.
 S1: Put A B C = 1 1 1 (SW9, SW8, SW7 up).
 S1: ANSWER: copy the lights - SWi up if LEDGi is on (SW3..SW0).
-S2: GOAL: look at ONE light, LEDG0, in all 8 rows:
-S2:    000  001  010  011  100  101  110  111   (SW9 SW8 SW7, down = 0, up = 1)
-S2: Count the rows where LEDG0 is on.
-S2: ANSWER: the number on the switches:   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
-S3: GOAL: find the MINTERM. A minterm (all three letters ANDed, like  A B' C) is ON in exactly ONE row.
-S3: Do the same for LEDG1, LEDG2, LEDG3: in how many rows is each one on?
-S3: ANSWER: one switch up - SWi for the light that is on in only ONE row.
-S4: GOAL: find the MAXTERM. A maxterm (all three letters ORed, like  A + B' + C) is OFF in exactly ONE row.
-S4: Look again at your counts: which light is on in 7 rows (off in only one)?
-S4: ANSWER: one switch up - SWi for the light that is off in only ONE row.
+S2: GOAL: ONE table of all 4 lights. Copy it to paper, go over the 8 rows once (0 = down, 1 = up),
+S2: and mark the lights that are on in each row:
+S2:    row (SW9 SW8 SW7)    LEDG3  LEDG2  LEDG1  LEDG0
+S2:    0 0 0
+S2:    0 0 1
+S2:    0 1 0
+S2:    0 1 1
+S2:    1 0 0
+S2:    1 0 1
+S2:    1 1 0
+S2:    1 1 1
+S2: ANSWER: how many 1s in the LEDG0 column?   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
+S3: GOAL: the MINTERM - all three letters ANDed, like  A B' C. It is ON in only ONE row.
+S3: In your table, find the column with a single 1.
+S3: ANSWER: one switch up - SWi for that light (LEDGi).
+S4: GOAL: the MAXTERM - all three letters ORed, like  A + B' + C. It is OFF in only ONE row.
+S4: In your table, find the column with a single 0.
+S4: ANSWER: one switch up - SWi for that light (LEDGi).
