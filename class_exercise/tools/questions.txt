@@ -331,3 +331,138 @@ S3: ANSWER (on SW1 SW0):   AND = both down   OR = SW0   NAND = SW1   NOR = SW1 +
 S4: GOAL: G3. Its inputs are n2 (LEDG1) and D (SW6); its output is Y (LEDG0). Try all four n2, D pairs.
 S4: AND: 1 only if both inputs are 1.  OR: 0 only if both are 0.  NAND: 0 only if both are 1.  NOR: 1 only if both are 0.
 S4: ANSWER (on SW1 SW0):   AND = both down   OR = SW0   NAND = SW1   NOR = SW1 + SW0
+
+[Q16] MUXLOGIC | Build F from a multiplexer | npub 3 | steps 6 | flat
+B: A = SW9, B = SW8, C = SW7 (HEX3 HEX2 HEX1).  F = LEDG0 (green).  Answer on SW1 SW0.
+P0: Your mux: S1 = A, S0 = B, and X = C goes to the data inputs.   AB = 00 -> D0,  01 -> D1,  10 -> D2,  11 -> D3.
+P1: Your mux: S1 = A, S0 = C, and X = B goes to the data inputs.   AC = 00 -> D0,  01 -> D1,  10 -> D2,  11 -> D3.
+P2: Your mux: S1 = B, S0 = C, and X = A goes to the data inputs.   BC = 00 -> D0,  01 -> D1,  10 -> D2,  11 -> D3.
+S1: GOAL: the truth table of F. Copy it to paper, go over the 8 rows once (0 = down, 1 = up), write F (LEDG0):
+S1:    row (SW9 SW8 SW7)    Y
+S1:    0 0 0
+S1:    0 0 1
+S1:    0 1 0
+S1:    0 1 1
+S1:    1 0 0
+S1:    1 0 1
+S1:    1 1 0
+S1:    1 1 1
+S1: ANSWER: how many 1s?   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
+S2: GOAL: D0. Look at the 2 rows of your table where your S1 S0 = 0 0 (one with X = 0, one with X = 1).
+S2: F there is 0 and 0 -> D0 = '0'.   1 and 1 -> '1'.   0 then 1 (follows X) -> X.   1 then 0 -> X'.
+S2: ANSWER (on SW1 SW0):   '0' = both down   '1' = SW0   X = SW1   X' = SW1 + SW0
+S3: GOAL: D1. Look at the 2 rows of your table where your S1 S0 = 0 1 (one with X = 0, one with X = 1).
+S3: F there is 0 and 0 -> D1 = '0'.   1 and 1 -> '1'.   0 then 1 (follows X) -> X.   1 then 0 -> X'.
+S3: ANSWER (on SW1 SW0):   '0' = both down   '1' = SW0   X = SW1   X' = SW1 + SW0
+S4: GOAL: D2. Look at the 2 rows of your table where your S1 S0 = 1 0 (one with X = 0, one with X = 1).
+S4: F there is 0 and 0 -> D2 = '0'.   1 and 1 -> '1'.   0 then 1 (follows X) -> X.   1 then 0 -> X'.
+S4: ANSWER (on SW1 SW0):   '0' = both down   '1' = SW0   X = SW1   X' = SW1 + SW0
+S5: GOAL: D3. Look at the 2 rows of your table where your S1 S0 = 1 1 (one with X = 0, one with X = 1).
+S5: F there is 0 and 0 -> D3 = '0'.   1 and 1 -> '1'.   0 then 1 (follows X) -> X.   1 then 0 -> X'.
+S5: ANSWER (on SW1 SW0):   '0' = both down   '1' = SW0   X = SW1   X' = SW1 + SW0
+
+[Q17] LITERAL | The hidden literal | npub 6 | steps 4 | flat
+B: A = SW9, B = SW8, C = SW7 (HEX3 HEX2 HEX1).  Y = LEDG0 (green).  Answer on SW3..SW0.
+P0: Your expression:   Y = (A + B)(A' + ?) + BC      - one literal is hidden: ? is A, A', B, B', C or C'.
+P1: Your expression:   Y = A'B + ?C + A'BC'      - one literal is hidden: ? is A, A', B, B', C or C'.
+P2: Your expression:   Y = (AB + C)? + A'B'      - one literal is hidden: ? is A, A', B, B', C or C'.
+P3: Your expression:   Y = A'? + BC' + AB'C      - one literal is hidden: ? is A, A', B, B', C or C'.
+P4: Your expression:   Y = (A + ?)(B' + C) + A'BC'      - one literal is hidden: ? is A, A', B, B', C or C'.
+P5: Your expression:   Y = AB + A'? + B'C'      - one literal is hidden: ? is A, A', B, B', C or C'.
+S1: GOAL: the truth table of the board's Y. Copy it to paper, go over the 8 rows once, write Y (LEDG0):
+S1:    row (SW9 SW8 SW7)    Y
+S1:    0 0 0
+S1:    0 0 1
+S1:    0 1 0
+S1:    0 1 1
+S1:    1 0 0
+S1:    1 0 1
+S1:    1 1 0
+S1:    1 1 1
+S1: ANSWER: how many 1s?   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
+S2: GOAL: find the hidden literal. Try ? = A in your expression: work out its table on paper and compare with
+S2: the board's table. Not the same? Try A', then B, B', C, C' - only one of them matches.
+S2: ANSWER:   A = SW0   A' = SW1   B = SW1+SW0   B' = SW2   C = SW2+SW0   C' = SW2+SW1
+S3: GOAL: simplify Y (with the right literal) to a minimal SOP and count its letters (A'B + C = 3).
+S3: ANSWER: how many LITERALS?   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
+
+[Q18] BUBBLES | Bubble pushing: which circuit is in the board? | npub 8 | steps 3 | flat
+B: A = SW9, B = SW8, C = SW7, D = SW6 (HEX3..HEX0).  Y = LEDG0 (green).  Answer on SW1 SW0.
+B: n1' means a bubble (NOT) on that input of the last gate.
+P0: The board holds ONE of these circuits:
+P0:   0: n1 = NAND(D', A');  n2 = NAND(B, C');  Y = OR(n1, n2')
+P0:   1: n1 = NAND(D, C);  n2 = NAND(C', B);  Y = NAND(n1', n2)
+P0:   2: n1 = NOR(B, A');  n2 = NOR(C, B);  Y = OR(n1, n2)
+P0:   3: n1 = NOR(A', B);  n2 = NOR(B', D');  Y = NAND(n1', n2)
+P1: The board holds ONE of these circuits:
+P1:   0: n1 = NOR(C', B');  n2 = NOR(D, B);  Y = NAND(n1', n2)
+P1:   1: n1 = NOR(B, D');  n2 = NAND(D', B');  Y = NOR(n1, n2')
+P1:   2: n1 = NAND(C', B');  n2 = NOR(C', D');  Y = NOR(n1', n2)
+P1:   3: n1 = NAND(D, A');  n2 = NOR(C', A');  Y = OR(n1', n2')
+P2: The board holds ONE of these circuits:
+P2:   0: n1 = NOR(A, C');  n2 = NOR(D', A);  Y = NAND(n1', n2')
+P2:   1: n1 = NAND(B', C);  n2 = NOR(A, B');  Y = NAND(n1', n2')
+P2:   2: n1 = NOR(C, B);  n2 = NAND(A, D);  Y = NOR(n1', n2')
+P2:   3: n1 = NAND(D, B);  n2 = NOR(B, C);  Y = AND(n1', n2')
+P3: The board holds ONE of these circuits:
+P3:   0: n1 = NAND(C, A');  n2 = NAND(B, D');  Y = OR(n1', n2)
+P3:   1: n1 = NOR(B', A);  n2 = NAND(D, C');  Y = NOR(n1, n2')
+P3:   2: n1 = NAND(A, B');  n2 = NAND(C', A');  Y = OR(n1, n2')
+P3:   3: n1 = NOR(A', C');  n2 = NAND(C', B);  Y = NOR(n1', n2')
+P4: The board holds ONE of these circuits:
+P4:   0: n1 = NOR(B', A');  n2 = NOR(A, D);  Y = OR(n1, n2')
+P4:   1: n1 = NAND(B, A);  n2 = NOR(B, C);  Y = OR(n1', n2')
+P4:   2: n1 = NAND(C, B');  n2 = NAND(A, B);  Y = NAND(n1', n2)
+P4:   3: n1 = NOR(D, C);  n2 = NAND(D', C');  Y = AND(n1, n2')
+P5: The board holds ONE of these circuits:
+P5:   0: n1 = NAND(C, B);  n2 = NOR(B', C');  Y = OR(n1', n2)
+P5:   1: n1 = NAND(C, A);  n2 = NOR(B, D);  Y = NAND(n1', n2')
+P5:   2: n1 = NAND(B, C);  n2 = NOR(B, C');  Y = OR(n1, n2)
+P5:   3: n1 = NOR(C', B);  n2 = NOR(C, A);  Y = NAND(n1', n2)
+P6: The board holds ONE of these circuits:
+P6:   0: n1 = NOR(C, A);  n2 = NAND(C', A');  Y = NOR(n1, n2')
+P6:   1: n1 = NOR(B', A);  n2 = NAND(D, C);  Y = AND(n1', n2)
+P6:   2: n1 = NAND(B', C);  n2 = NAND(D', B);  Y = AND(n1', n2)
+P6:   3: n1 = NOR(D', B');  n2 = NOR(B', A);  Y = AND(n1', n2')
+P7: The board holds ONE of these circuits:
+P7:   0: n1 = NOR(C', D');  n2 = NOR(C', D');  Y = AND(n1', n2')
+P7:   1: n1 = NAND(D, B);  n2 = NOR(D, C);  Y = NOR(n1', n2')
+P7:   2: n1 = NAND(B', D');  n2 = NOR(B', D');  Y = OR(n1', n2')
+P7:   3: n1 = NOR(D', C);  n2 = NOR(B', D');  Y = NOR(n1, n2)
+S1: GOAL: two quick looks at the board. Put A B C D = 0 0 0 0 (all down), then 1 1 1 1 (all up).
+S1: ANSWER: SW0 = Y (LEDG0) at 0000,   SW1 = Y at 1111   (up = on).
+S2: GOAL: which circuit? Push the bubbles of each circuit above to an SOP (paper), or just work out
+S2: its Y in a few rows (start with 0000 and 1111). Compare with the board until only one circuit fits.
+S2: ANSWER: its number:   0 = both down   1 = SW0   2 = SW1   3 = SW1 + SW0
+
+[Q19] LATCH | A box with memory: what turns it on, what turns it off? | npub 1 | steps 4 | flat
+B: A = SW9, B = SW8 (HEX3 HEX2).  The box = LEDG0 (green).  Answer on SW1 SW0.
+B: Move ONE switch at a time - two at once pass through a row in between.
+S1: GOAL: meet the box. Start at A B = 0 0, then ONE switch at a time: SW8 up (01), SW9 up (11),
+S1: SW8 down (10), SW9 down (00). Watch LEDG0 the whole time.
+S1: ANSWER: SW0 up if LEDG0 changed at least once on the way.
+S2: GOAL: the row that turns the box ON. The box stays as it is in most rows - only ONE row switches it on.
+S2: Find it: when the light goes on, which row are you in?
+S2: ANSWER: that row A B on SW1 SW0:   00 = both down   01 = SW0   10 = SW1   11 = SW1 + SW0
+S3: GOAL: the row that turns the box OFF. (In the other two rows the box just remembers.)
+S3: ANSWER: that row A B on SW1 SW0:   00 = both down   01 = SW0   10 = SW1   11 = SW1 + SW0
+
+[Q20] SEQ | Combinational or sequential? (8 boxes) | npub 1 | steps 5 | flat
+B: A = SW9, B = SW8 (HEX3 HEX2).  Box i = LEDGi (8 boxes, all get the same A and B).  Answer on SW7..SW0.
+B: Move ONE switch at a time - two at once pass through a row in between.
+S1: GOAL: read ONE box. Box 0 = LEDG0 (it has no memory).
+S1: Try the four rows of A B (SW9 SW8) and write LEDG0 for each row.
+S1: ANSWER: SW3 = LEDG0 at A B = 11,  SW2 = at 10,  SW1 = at 01,  SW0 = at 00.
+S2: GOAL: a box that REMEMBERS. Box 1 = LEDG1.
+S2: 1. A B = 00. Raise SW8, then lower it (back to 00). Write LEDG1.
+S2: 2. Raise SW9, then lower it (back to 00). Write LEDG1.
+S2: Both times A B = 00 - but LEDG1 is different: the box remembers what came before.
+S2: ANSWER: SW1 = LEDG1 after move 1,  SW0 = LEDG1 after move 2.
+S3: GOAL: which other boxes remember? Test all 8 on two long paths, one switch at a time:
+S3: Path 1 from 00: SW8 up, SW9 up, SW8 down, SW9 down. Write LEDG7..LEDG0.
+S3: Path 2 from 00: SW9 up, SW8 up, SW9 down, SW8 down. Write LEDG7..LEDG0.
+S3: ANSWER: SWi up for every box whose light is different at the end of the two paths.
+S4: GOAL: ALL boxes with memory. Some remember only in another row, not at 00.
+S4: For every row of A B, arrive at it from both neighbours (one switch at a time)
+S4: and watch whether a light depends on where you came from.
+S4: ANSWER: SWi up for every box with memory (SW7..SW0).
