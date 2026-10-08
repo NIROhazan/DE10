@@ -7,7 +7,8 @@
 # -Deadline (from LESSON.bat): the end of the topic - the window title counts down, and at that time the question
 # stops with exit code 2 (progress saved). Exit 0 = done, 1 = a problem with the board.
 # Kept ASCII so Windows PowerShell 5.1 reads it without a BOM.
-param([Parameter(Mandatory = $true)][string]$Only, [string]$Deadline = "")
+param([Parameter(Mandatory = $true)][string]$Only, [string]$Deadline = "", [switch]$Review)
+# -Review (lesson.ps1, when goto.txt chose a question already done): open it again from step 1
 
 $ErrorActionPreference = "Stop"
 Set-Location (Split-Path $PSScriptRoot -Parent)
@@ -36,13 +37,13 @@ $pub = Get-Pub $q.Id $s $q.NPub
 $last = $q.NS - 1
 
 $done = Get-Progress $sid $q.Id
-if ($done -ge $last) {
+if ($done -ge $last -and -not $Review) {
 	Write-Host ""
 	Write-Line (U "already") Green
 	Write-Line ("ce-$($q.Id): $(Get-SavedCode $q.Id)") Green
 	exit 0
 }
-$from = $done + 1
+$from = if ($done -ge $last) { 1 } else { $done + 1 }
 if (Test-TimeUp) { exit 2 }
 
 # ---------------------------------------------------------------- program the board
@@ -68,15 +69,29 @@ if (-not $okPgm) {
 }
 
 # ---------------------------------------------------------------- the link: login + start step in, step + code out
-$srcHex = '{0:X4}' -f ((1 -shl 13) -bor ($from -shl 10) -bor $s)
 $state = Join-Path (Get-Location) "link_state.txt"	# the link writes the board's state here (see link.tcl)
-Remove-Item $state -ErrorAction SilentlyContinue
-$psi = New-Object System.Diagnostics.ProcessStartInfo
-$psi.FileName = Join-Path $qbin "quartus_stp.exe"
-$psi.Arguments = "-t `"$(Join-Path $PSScriptRoot 'link.tcl')`" $srcHex `"$state`""
-$psi.UseShellExecute = $false
-$psi.CreateNoWindow = $true
-$link = [System.Diagnostics.Process]::Start($psi)
+# a new link resets the board and puts it at step $k (the start, a resume, or a step the student goes back to)
+function Start-Link($k) {
+	Remove-Item $state -ErrorAction SilentlyContinue
+	$psi = New-Object System.Diagnostics.ProcessStartInfo
+	$psi.FileName = Join-Path $qbin "quartus_stp.exe"
+	$psi.Arguments = "-t `"$(Join-Path $PSScriptRoot 'link.tcl')`" $('{0:X4}' -f ((1 -shl 13) -bor ($k -shl 10) -bor $s)) `"$state`""
+	$psi.UseShellExecute = $false
+	$psi.CreateNoWindow = $true
+	return [System.Diagnostics.Process]::Start($psi)
+}
+$link = Start-Link $from
+# the arrow keys: left = back one step, right = forward again, up to the step the student has reached
+function Get-NavKey {
+	try {
+		while ([Console]::KeyAvailable) {
+			$key = [Console]::ReadKey($true)
+			if ($key.Key -eq "LeftArrow") { return -1 }
+			if ($key.Key -eq "RightArrow") { return 1 }
+		}
+	} catch { }
+	return 0
+}
 
 function Show-Step($k) {
 	Clear-Host
@@ -85,7 +100,6 @@ function Show-Step($k) {
 	Write-Line ("$($q.Title)     " + ((U "step_head") -f $k, $last)) Cyan
 	Write-Host ""
 	$q.B | ForEach-Object { Write-Line $_ $(if ($_ -match '[\u0590-\u05FF]') { "White" } else { "DarkGray" }) }	# the data line stands out
-	# the student's own text (statement, expression, story...): inside the step where a line is "@P", else at the top
 	# only the data THIS step needs: the student's own text (statement, expression, story...) appears where the step
 	# has an "@P" line, and nowhere else (gen.py puts "@P" into every step that uses it)
 	$mine = if ($q.P.ContainsKey($pub)) { @($q.P[$pub]) } else { @() }
@@ -97,6 +111,7 @@ function Show-Step($k) {
 	Write-Line (U "foot") Green
 	Write-Line (U "foot_en") Green
 	if ($dl) { Write-Line ((U "topic_end") -f ('{0:HH:mm}' -f $dl)) DarkGray }
+	Write-Line (U "nav") DarkGray
 }
 
 try {
@@ -117,6 +132,19 @@ try {
 			Write-Line (U "link_stop") Red
 			if ($line -like "X *") { Write-Host "  ($($line.Substring(2)))" -ForegroundColor DarkGray }
 			exit 1
+		}
+		$nav = Get-NavKey
+		if ($nav -ne 0 -and $cur -gt 0) {		# go to another step: a new link puts the board there
+			$reach = [Math]::Min($last, (Get-Progress $sid $q.Id) + 1)
+			$want = [Math]::Max(1, [Math]::Min($reach, $cur + $nav))
+			if ($want -ne $cur) {
+				if (-not $link.HasExited) { $link.Kill(); $link.WaitForExit() }
+				Write-Host ""
+				Write-Line ((U "nav_go") -f $want) Cyan
+				$link = Start-Link $want
+				$from = $want; $cur = 0; $prev = ""; $t0 = Get-Date
+				continue
+			}
 		}
 		if ($cur -eq 0 -and ((Get-Date) - $t0).TotalSeconds -gt 40) {
 			Write-Line (U "no_answer") Red

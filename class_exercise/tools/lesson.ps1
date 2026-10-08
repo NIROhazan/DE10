@@ -86,10 +86,16 @@ while ($true) {
 	$tp = $topics[$cur]
 	# by question number: from the saved position (lesson_pos.txt - the question last opened, or chosen by GOTO) on,
 	# the first one not done yet; earlier questions are not brought back (GOTO reaches them)
-	if ($First) { [IO.File]::WriteAllText($posFile, $First); $First = "" }
+	$review = ""
+	if ($First) {			# chosen in goto.txt: a question already done opens again from step 1 (review)
+		[IO.File]::WriteAllText($posFile, $First)
+		if ((Test-Done $First) -and ($tp.Qs -contains $First)) { $review = $First }
+		$First = ""
+	}
 	$pos = if (Test-Path $posFile) { ([IO.File]::ReadAllText($posFile)).Trim() } else { "" }
 	$from = [Math]::Max(0, [array]::IndexOf($tp.Qs, $pos))
 	$next = @($tp.Qs[$from..($tp.Qs.Count - 1)] | Where-Object { -not (Test-Done $_) }) | Select-Object -First 1
+	if ($review) { $next = $review }
 	if (-not $next) {
 		$after = if ($cur + 1 -lt $topics.Count) { (U "next_topic_at") -f ('{0:HH:mm}' -f $tp.End) } else { U "last_topic" }
 		Wait-Until $tp.End $cur @((U "end_topic"), $after) Green
@@ -103,7 +109,7 @@ while ($true) {
 		Start-Sleep -Seconds 4
 	}
 	Start-Sleep -Seconds 2
-	& (Join-Path $PSScriptRoot "run.ps1") -Only $next -Deadline $tp.End.ToString("o")
+	& (Join-Path $PSScriptRoot "run.ps1") -Only $next -Deadline $tp.End.ToString("o") -Review:([bool]$review)
 	$code = $LASTEXITCODE
 	if ($code -eq 2) {
 		Write-Host ""

@@ -12,6 +12,8 @@ mine = הנתונים האישיים שלכם:
 foot = שימו את התשובה על המתגים ולחצו:
 foot_en = KEY2          PASS = correct (this screen moves on by itself)          Err = not yet, try again
 topic_end = הנושא נגמר בשעה {0}
+nav = חץ שמאלה = לשלב הקודם        חץ ימינה = לשלב הבא שכבר הגעתם אליו
+nav_go = עוברים לשלב {0}...
 pass = כל הכבוד! עוברים לשלב הבא.
 done = השאלה הסתיימה! הקוד נשמר בקובץ
 done_en = moodle.txt:     ce-{0}: {1}
