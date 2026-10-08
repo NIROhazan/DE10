@@ -126,7 +126,7 @@ function ConvertTo-Visual([string]$s) {
 	return $out.ToString()
 }
 function Write-Line([string]$s, [string]$color = "Gray") {
-	if ($s -match '[֐-׿]') {
+	if ($s -match '[\u0590-\u05FF]') {
 		$w = 100
 		try { $w = [Math]::Max(60, $Host.UI.RawUI.WindowSize.Width - 2) } catch { }
 		$v = (ConvertTo-Visual $s.Trim())

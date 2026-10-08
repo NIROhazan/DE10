@@ -84,7 +84,7 @@ function Show-Step($k) {
 	Write-Line "$($q.Id)" Cyan
 	Write-Line ("$($q.Title)     " + ((U "step_head") -f $k, $last)) Cyan
 	Write-Host ""
-	$q.B | ForEach-Object { Write-Line $_ $(if ($_ -match '[֐-׿]') { "White" } else { "DarkGray" }) }	# the data line stands out
+	$q.B | ForEach-Object { Write-Line $_ $(if ($_ -match '[\u0590-\u05FF]') { "White" } else { "DarkGray" }) }	# the data line stands out
 	# the student's own text (statement, expression, story...): inside the step where a line is "@P", else at the top
 	# every step shows ALL the data of the question on its own screen: the student's own text is either inside the
 	# step (an "@P" line) or, in every other step, at the top under a label - never missing
