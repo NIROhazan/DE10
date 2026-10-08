@@ -85,7 +85,7 @@ while ($true) {
 	}
 	$tp = $topics[$cur]
 	# by question number: from the saved position (lesson_pos.txt - the question last opened, or chosen by GOTO) on,
-	# the first one not done yet; earlier questions are not brought back (GOTO reaches them)
+	# the first one not done yet; after the last one, the questions skipped earlier; all done - wait for the next topic
 	$review = ""
 	if ($First) {			# chosen in goto.txt: a question already done opens again from step 1 (review)
 		[IO.File]::WriteAllText($posFile, $First)
@@ -95,6 +95,9 @@ while ($true) {
 	$pos = if (Test-Path $posFile) { ([IO.File]::ReadAllText($posFile)).Trim() } else { "" }
 	$from = [Math]::Max(0, [array]::IndexOf($tp.Qs, $pos))
 	$next = @($tp.Qs[$from..($tp.Qs.Count - 1)] | Where-Object { -not (Test-Done $_) }) | Select-Object -First 1
+	if (-not $next) {		# past the last question: back to the topic's questions not done yet (skipped earlier)
+		$next = @($tp.Qs | Where-Object { -not (Test-Done $_) }) | Select-Object -First 1
+	}
 	if ($review) { $next = $review }
 	if (-not $next) {
 		$after = if ($cur + 1 -lt $topics.Count) { (U "next_topic_at") -f ('{0:HH:mm}' -f $tp.End) } else { U "last_topic" }
