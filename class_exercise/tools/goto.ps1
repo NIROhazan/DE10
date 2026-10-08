@@ -6,6 +6,7 @@
 # No choosing of minutes. The progress stays. Kept ASCII for PowerShell 5.1.
 $ErrorActionPreference = "Stop"
 Set-Location (Split-Path $PSScriptRoot -Parent)
+. (Join-Path $PSScriptRoot "common.ps1")		# Write-Line, U (the Hebrew screen texts)
 
 $topics = @()
 foreach ($l in [IO.File]::ReadAllLines((Join-Path $PSScriptRoot "lesson.txt"))) {
