@@ -1,0 +1,9 @@
+# Where in the lesson do you want to be? Write ONE line below, save, then double-click GOTO.bat.
+#
+#   TOPIC 2        the start of topic 2
+#   TOPIC 2 10     topic 2, 10 minutes after it began
+#   MINUTE 45      45 minutes after the start of the lesson
+#
+# Your progress (steps already passed) is kept. LESSON.bat then goes on with this clock.
+
+TOPIC 1
