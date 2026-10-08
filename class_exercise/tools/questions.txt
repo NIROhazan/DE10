@@ -88,18 +88,29 @@ S4: ANSWER: raise ONE switch for the input that does NOT matter:   A = SW2    B 
 
 [Q05] SIGMA4 | Minterms and maxterms - four inputs | npub 1 | steps 7 | flat
 B: A = SW9, B = SW8, C = SW7, D = SW6 (HEX3..HEX0).  F = LEDG0 (green).  Answer on SW3..SW0.
-S1: GOAL: the rows where A B = 0 0 (SW9 down, SW8 down). Try C D = 00, 01, 10, 11 (SW7 SW6).
-S1: ANSWER: SW0 = F at C D = 00,  SW1 = at 01,  SW2 = at 10,  SW3 = at 11.
-S2: GOAL: the rows where A B = 0 1 (SW9 down, SW8 up). Try C D = 00, 01, 10, 11 (SW7 SW6).
-S2: ANSWER: SW0 = F at C D = 00,  SW1 = at 01,  SW2 = at 10,  SW3 = at 11.
-S3: GOAL: the rows where A B = 1 0 (SW9 up, SW8 down). Try C D = 00, 01, 10, 11 (SW7 SW6).
-S3: ANSWER: SW0 = F at C D = 00,  SW1 = at 01,  SW2 = at 10,  SW3 = at 11.
-S4: GOAL: the rows where A B = 1 1 (SW9 up, SW8 up). Try C D = 00, 01, 10, 11 (SW7 SW6).
-S4: ANSWER: SW0 = F at C D = 00,  SW1 = at 01,  SW2 = at 10,  SW3 = at 11.
-S5: GOAL: minterms. Count the rows (of all 16) where F = 1.
-S5: ANSWER: the number in binary: SW3 = 8, SW2 = 4, SW1 = 2, SW0 = 1 - raise the ones that add up to it.
-S6: GOAL: maxterms. Count the rows where F = 0.
-S6: ANSWER: the number in binary: SW3 = 8, SW2 = 4, SW1 = 2, SW0 = 1 - raise the ones that add up to it.
+S1: GOAL: F has FOUR inputs (A B C D = SW9 SW8 SW7 SW6), so its table has 16 rows. Copy this table to
+S1: paper - you fill it in 4 parts, one column per part:
+S1:    A B C D           F      A B C D           F      A B C D           F      A B C D           F
+S1:    0 0 0 0  (row 0)  .      0 1 0 0  (row 4)  .      1 0 0 0  (row 8)  .      1 1 0 0  (row 12) .
+S1:    0 0 0 1  (row 1)  .      0 1 0 1  (row 5)  .      1 0 0 1  (row 9)  .      1 1 0 1  (row 13) .
+S1:    0 0 1 0  (row 2)  .      0 1 1 0  (row 6)  .      1 0 1 0  (row 10) .      1 1 1 0  (row 14) .
+S1:    0 0 1 1  (row 3)  .      0 1 1 1  (row 7)  .      1 0 1 1  (row 11) .      1 1 1 1  (row 15) .
+S1: PART 1: keep SW9 down and SW8 down.  Set SW7 SW6 = down down,  down up,  up down,  up up.
+S1: Write F (LEDG0, on = 1) in column 1 of your table - rows 0 to 3.
+S1: ANSWER: copy the 4 lights:  SW0 = 1st,  SW1 = 2nd,  SW2 = 3rd,  SW3 = 4th   (up = on).
+S2: GOAL: part 2 of the table. Keep SW9 down and SW8 up, set SW7 SW6 = down down,  down up,  up down,  up up.
+S2: Write F (LEDG0, on = 1) in column 2 of your table - rows 4 to 7.
+S2: ANSWER: copy the 4 lights:  SW0 = 1st,  SW1 = 2nd,  SW2 = 3rd,  SW3 = 4th   (up = on).
+S3: GOAL: part 3 of the table. Keep SW9 up and SW8 down, set SW7 SW6 = down down,  down up,  up down,  up up.
+S3: Write F (LEDG0, on = 1) in column 3 of your table - rows 8 to 11.
+S3: ANSWER: copy the 4 lights:  SW0 = 1st,  SW1 = 2nd,  SW2 = 3rd,  SW3 = 4th   (up = on).
+S4: GOAL: part 4 of the table. Keep SW9 up and SW8 up, set SW7 SW6 = down down,  down up,  up down,  up up.
+S4: Write F (LEDG0, on = 1) in column 4 of your table - rows 12 to 15.
+S4: ANSWER: copy the 4 lights:  SW0 = 1st,  SW1 = 2nd,  SW2 = 3rd,  SW3 = 4th   (up = on).
+S5: GOAL: minterms. A row where F = 1 is a minterm. Count the 1s in your whole table (all 16 rows).
+S5: ANSWER: the number in binary:   SW3 = 8, SW2 = 4, SW1 = 2, SW0 = 1 - raise the ones that add up to it.  6 = SW2+SW1   9 = SW3+SW0   11 = SW3+SW1+SW0
+S6: GOAL: maxterms. A row where F = 0 is a maxterm. Count the 0s (= 16 minus your minterms).
+S6: ANSWER: the number in binary:   SW3 = 8, SW2 = 4, SW1 = 2, SW0 = 1 - raise the ones that add up to it.  6 = SW2+SW1   9 = SW3+SW0   11 = SW3+SW1+SW0
 
 [Q06] THEOREMS | Perfect induction: which statements are true? | npub 4 | steps 4 | flat
 B: Statement number = SW9 SW8 (HEX3).  A = SW7, B = SW6 (HEX1 HEX0).  LEFT = LEDG1, RIGHT = LEDG0.  Answer on SW3..SW0.
