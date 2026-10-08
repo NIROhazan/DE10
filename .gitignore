@@ -68,3 +68,4 @@ link_state.txt
 link_state.txt.tmp
 # class exercise: when a START now lesson began
 lesson_start.txt
+lesson_pos.txt

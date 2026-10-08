@@ -41,6 +41,7 @@ $qs = Read-Questions
 foreach ($tp in $topics) { foreach ($x in $tp.Qs) { if (-not $qs.Contains($x)) { Write-Host "lesson.txt: there is no $x." -ForegroundColor Red; exit 1 } } }
 
 $sid = Get-StudentId
+$posFile = Join-Path (Get-Location) "lesson_pos.txt"		# the question the student is at (see the lesson loop)
 $env:CE_LESSON = "1"		# run.ps1 runs only from here
 if ((Test-Path "progress.txt") -and ([IO.File]::ReadAllText((Join-Path (Get-Location) "progress.txt")) -match "(?m)^$sid ")) { $back = $true }
 function Test-Done($qid) { return ((Get-Progress $sid $qid) -ge ($qs[$qid].NS - 1)) }
@@ -80,17 +81,18 @@ while ($true) {
 		exit 0
 	}
 	$tp = $topics[$cur]
-	$next = @($tp.Qs | Where-Object { -not (Test-Done $_) }) | Select-Object -First 1
-	if ($First) {
-		if (($tp.Qs -contains $First) -and -not (Test-Done $First)) { $next = $First }
-		elseif (Test-Done $First) { Write-Host "  $First is already done - going on with the topic." -ForegroundColor Green; Start-Sleep -Seconds 3 }
-		$First = ""
-	}
+	# by question number: from the saved position (lesson_pos.txt - the question last opened, or chosen by GOTO) on,
+	# the first one not done yet; earlier questions are not brought back (GOTO reaches them)
+	if ($First) { [IO.File]::WriteAllText($posFile, $First); $First = "" }
+	$pos = if (Test-Path $posFile) { ([IO.File]::ReadAllText($posFile)).Trim() } else { "" }
+	$from = [Math]::Max(0, [array]::IndexOf($tp.Qs, $pos))
+	$next = @($tp.Qs[$from..($tp.Qs.Count - 1)] | Where-Object { -not (Test-Done $_) }) | Select-Object -First 1
 	if (-not $next) {
 		$after = if ($cur + 1 -lt $topics.Count) { "The next topic starts at $('{0:HH:mm}' -f $tp.End)." } else { "That was the last topic." }
-		Wait-Until $tp.End $cur "Well done - every question of this topic is done!  $after" Green
+		Wait-Until $tp.End $cur "Well done - you reached the end of this topic!  $after" Green
 		continue
 	}
+	[IO.File]::WriteAllText($posFile, $next)
 	Show-Plan $cur "Topic $($cur + 1) of $($topics.Count): $($tp.Name) - next question $next" Yellow
 	if ($back) {
 		Write-Host ("  Welcome back! Your progress is saved, and the lesson went on while you were away - now topic {0}, until {1:HH:mm}." -f ($cur + 1), $tp.End) -ForegroundColor Green
