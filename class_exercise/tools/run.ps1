@@ -86,10 +86,11 @@ function Show-Step($k) {
 	Write-Host ""
 	$q.B | ForEach-Object { Write-Line $_ DarkGray }
 	# the student's own text (statement, expression, story...): inside the step where a line is "@P", else at the top
-	# (a question that has an "@P" step shows it only there; otherwise at the top of every step, with a label)
+	# every step shows ALL the data of the question on its own screen: the student's own text is either inside the
+	# step (an "@P" line) or, in every other step, at the top under a label - never missing
 	$mine = if ($q.P.ContainsKey($pub)) { @($q.P[$pub]) } else { @() }
-	$anyInline = @($q.S.Values | Where-Object { @($_) -contains "@P" }).Count -gt 0
-	if ($mine.Count -and -not $anyInline) { Write-Host ""; Write-Line (U "mine") White; $mine | ForEach-Object { Write-Line $_ White } }
+	$inline = @($q.S[$k]) -contains "@P"
+	if ($mine.Count -and -not $inline) { Write-Host ""; Write-Line (U "mine") White; $mine | ForEach-Object { Write-Line $_ White } }
 	Write-Host ""
 	foreach ($l in $q.S[$k]) {
 		if ($l -eq "@P") { $mine | ForEach-Object { Write-Line $_ White } } else { Write-Line $l Yellow }
