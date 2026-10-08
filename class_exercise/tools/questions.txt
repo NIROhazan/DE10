@@ -3,6 +3,7 @@
 # with steps: Sk: the screen of step k (step 0 = login, in run.ps1);  without: L: question, F: answer format
 
 [Q01] GATE | איזה שער מוסתר בלוח? | npub 1 | steps 4 | flat
+B: בלוח מוסתר שער אחד. שתי כניסות, יציאה אחת - הנורה הירוקה.
 B: A = SW9     B = SW8     Y = LEDG0 (green)     answer: SW3..SW0
 S1: שימו את שני המתגים למטה:
 S1: SW9 = down   SW8 = down
@@ -22,6 +23,7 @@ S3: הרימו את המתגים של השער:
 S3: AND = all down   OR = SW0   XOR = SW1   NAND = SW1+SW0   NOR = SW2   XNOR = SW2+SW0
 
 [Q02] SIGMA | מינטרמים ומקסטרמים של פונקציה מוסתרת | npub 1 | steps 6 | flat
+B: בלוח מוסתרת פונקציה של שלוש כניסות. הפונקציה היא הנורה הירוקה.
 B: A = SW9     B = SW8     C = SW7     F = LEDG0 (green)     answer: SW3..SW0
 S1: שימו את שלושת המתגים למטה:
 S1: SW9 SW8 SW7 = down down down
@@ -49,6 +51,7 @@ S5: שימו את המספר:
 S5: 1 = SW0    2 = SW1    3 = SW1+SW0    4 = SW2    5 = SW2+SW0    6 = SW2+SW1    7 = SW2+SW1+SW0
 
 [Q03] TERMS | איזו נורה היא מינטרם, ואיזו מקסטרם? | npub 1 | steps 5 | flat
+B: בלוח 4 נורות ירוקות. כל נורה היא איבר אחד (מכפלה או סכום) של שלוש הכניסות.
 B: A = SW9     B = SW8     C = SW7     4 terms = LEDG3..LEDG0 (green)     answer: SW3..SW0
 S1: כל נורה ירוקה היא איבר אחד (מכפלה או סכום) של האותיות:
 S1: A, B, C
@@ -70,6 +73,7 @@ S4: איזו נורה כבתה רק פעם אחת? הרימו את המתג של
 S4: LEDGi -> SWi
 
 [Q04] MATTER | איזו כניסה לא משנה? | npub 1 | steps 5 | flat
+B: בלוח פונקציה של שלוש כניסות - הנורה הירוקה. כניסה אחת לא משפיעה עליה אף פעם.
 B: A = SW9     B = SW8     C = SW7     F = LEDG0 (green)     answer: SW3..SW0
 S1: עברו על 8 המצבים, ובכל מצב רשמו אם הנורה דולקת:
 S1: SW9 SW8 SW7:   000   001   010   011   100   101   110   111      (0 = down, 1 = up)
@@ -94,6 +98,7 @@ S4: ) הרימו מתג אחד:
 S4: A = SW2     B = SW1     C = SW0
 
 [Q05] SIGMA4 | מינטרמים ומקסטרמים - ארבע כניסות | npub 1 | steps 7 | flat
+B: בלוח פונקציה של ארבע כניסות - הנורה הירוקה. יש לה 16 מצבים.
 B: A = SW9     B = SW8     C = SW7     D = SW6     F = LEDG0 (green)     answer: SW3..SW0
 S1: יש 16 מצבים, אז עובדים ב-4 סבבים של 4 מצבים.
 S1: סבב 1. החזיקו כל הסבב:
@@ -127,6 +132,7 @@ S6: 1 = SW0          2 = SW1          3 = SW1+SW0       4 = SW2           5 = SW
 S6: 7 = SW2+SW1+SW0  8 = SW3          9 = SW3+SW0      10 = SW3+SW1      11 = SW3+SW1+SW0  12 = SW3+SW2
 
 [Q06] THEOREMS | אינדוקציה מלאה: אילו טענות נכונות? | npub 4 | steps 4 | flat
+B: בלוח 4 טענות מהצורה: צד שמאל = צד ימין. כל טענה מוצגת בשתי נורות.
 B: statement = SW9 SW8     A = SW7     B = SW6     LEFT = LEDG1     RIGHT = LEDG0     answer: SW3..SW0
 B: statements:   A + AB = A     A + A'B = A + B     (AB)' = A' + B'     (A + B)' = A' + B'
 P0: A + AB = A
@@ -158,6 +164,7 @@ S3: מצאו את מספר הטענה שהנורות שלה מראות בדיו�
 S3: 0 = all down    1 = SW0    2 = SW1    3 = SW1+SW0
 
 [Q07] THEOREMS8 | אינדוקציה מלאה: 8 טענות | npub 8 | steps 4 | flat
+B: בלוח 8 טענות מהצורה: צד שמאל = צד ימין. כל טענה מוצגת בשתי נורות.
 B: statement = SW9 SW8 SW7     A = SW6     B = SW5     C = SW4     LEFT = LEDG1     RIGHT = LEDG0     answer: SW3..SW0
 P0: A(A + B) = A
 P1: BC + BC' = B
@@ -195,6 +202,8 @@ S3: מצאו את מספר הטענה שהנורות שלה מראות בדיו�
 S3: 0 = all down   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
 
 [Q08] MINSOP | סכום מכפלות מינימלי | npub 1 | steps 4 | flat
+B: הפונקציה בשאלה היא הנורה הירוקה. טבלת האמת שלה: הנורה בכל אחד מ-8 המצבים:
+B: SW9 SW8 SW7:   000   001   010   011   100   101   110   111      (0 = down, 1 = up)
 B: A = SW9     B = SW8     C = SW7     F = LEDG0 (green)     answer: SW3..SW0
 S1: הפונקציה בשאלה הזו היא הנורה הירוקה:
 S1: F = LEDG0
@@ -214,6 +223,7 @@ S3: שימו את המספר:
 S3: 1 = SW0    2 = SW1    3 = SW1+SW0    4 = SW2    5 = SW2+SW0    6 = SW2+SW1    7 = SW2+SW1+SW0
 
 [Q09] LITERAL | הליטרל המוסתר | npub 6 | steps 4 | flat
+B: הלוח מחשב את הביטוי שלכם, עם האות המוסתרת. התוצאה היא הנורה הירוקה.
 B: A = SW9     B = SW8     C = SW7     Y = LEDG0 (green)     answer: SW3..SW0
 P0: Y = (A + B)(A' + ?) + BC
 P0: ? = A, A', B, B', C or C'
@@ -245,6 +255,7 @@ S3: שימו את המספר:
 S3: 1 = SW0    2 = SW1    3 = SW1+SW0    4 = SW2    5 = SW2+SW0    6 = SW2+SW1    7 = SW2+SW1+SW0
 
 [Q10] STORY | מסיפור למשוואה | npub 6 | steps 4 | flat
+B: בלוח 4 מעגלים של סטודנטים לסיפור שלכם. רק אחד מהם נכון.
 B: your letters = SW9 SW8 SW7 (see below)     4 students' circuits = LEDG3..LEDG0     answer: SW3..SW0
 P0: הולכים לפארק אם לא יורד גשם, ויש כריכים או שתייה.
 P0: P = park   R = rain   S = sandwiches   D = drinks
@@ -290,6 +301,7 @@ S3: והשוו לכל נורה ב-8 המצבים. הרימו את המתג של 
 S3: LEDGi -> SWi
 
 [Q11] DEMORGAN | דה-מורגן: איזו תשובה נכונה? | npub 6 | steps 4 | flat
+B: בלוח 4 תשובות של סטודנטים לביטוי שלכם. רק אחת נכונה.
 B: A = SW9     B = SW8     C = SW7     4 answers = LEDG3..LEDG0     answer: SW3..SW0
 P0: Y = ((A + B')C)'
 P1: Y = (A'B + C)'
@@ -321,6 +333,7 @@ S3: השוו כל נורה לטבלה שלכם, בכל 8 המצבים. הרימ�
 S3: LEDGi -> SWi
 
 [Q12] ERRORS | טעויות נפוצות: אילו פישוטים שגויים? | npub 6 | steps 4 | flat
+B: בלוח 4 פישוטים של הביטוי שלכם. שניים מהם שגויים.
 B: A = SW9     B = SW8     C = SW7     4 students' results = LEDG3..LEDG0     answer: SW3..SW0
 P0: Y = A'BC + A'
 P1: Y = AB + AB'
@@ -350,6 +363,7 @@ S3: הרימו מתג לכל נורה שגויה (שונה מהטבלה שלכם
 S3: LEDGi -> SWi
 
 [Q13] MULTIPLY | הכפלה ופירוק: אילו תשובות נכונות? | npub 6 | steps 4 | flat
+B: בלוח 4 תשובות להכפלה או לפירוק של הביטוי שלכם. שתיים נכונות.
 B: A = SW9     B = SW8     C = SW7     4 students' results = LEDG3..LEDG0     answer: SW3..SW0
 P0: Y = (A + B')(A + C)
 P1: Y = A(B + C')
@@ -379,6 +393,7 @@ S3: הרימו מתג לכל נורה נכונה (שווה לטבלה שלכם �
 S3: LEDGi -> SWi
 
 [Q14] STORY4 | מסיפור למשוואה - ארבע אותיות | npub 6 | steps 4 | flat
+B: בלוח 4 מעגלים לסיפור שלכם (ארבע אותיות). רק אחד נכון.
 B: your letters = SW9 SW8 SW7 SW6 (see below)     4 circuits = LEDG3..LEDG0     answer: SW3..SW0
 P0: אפשר לאכול אוכל טעים אם מכינים לבד, או שיש שף פרטי מוכשר ולא יקר.
 P0: E = eat   M = make it yourself   C = chef   T = talented   X = expensive
@@ -415,6 +430,7 @@ S3: (מצב שבו הם שונים פוסל את הנורה). הרימו את ה
 S3: LEDGi -> SWi
 
 [Q15] DEMORGAN4 | דה-מורגן עם ארבע אותיות | npub 6 | steps 4 | flat
+B: בלוח 4 תשובות לביטוי שלכם. אחת או שתיים נכונות.
 B: A = SW9     B = SW8     C = SW7     D = SW6     4 answers = LEDG3..LEDG0     answer: SW3..SW0
 P0: Y = ((A + BD)C)'
 P1: Y = ((A + B')C)'
@@ -437,6 +453,7 @@ S3: הרימו מתג לכל נורה נכונה (אחת או שתיים):
 S3: LEDGi -> SWi
 
 [Q16] ERRORS5 | טעויות נפוצות - חמישה פישוטים | npub 6 | steps 4 | flat
+B: בלוח 5 פישוטים של הביטוי שלכם. חלקם שגויים.
 B: A = SW9     B = SW8     C = SW7     5 students' results = LEDG4..LEDG0     answer: SW4..SW0
 P0: Y = A'BC + A'
 P1: Y = AB + AB'
@@ -467,6 +484,7 @@ S3: הרימו מתג לכל נורה שגויה:
 S3: LEDGi -> SWi
 
 [Q17] MULTIPLY4 | הכפלה ופירוק - שש תשובות | npub 6 | steps 4 | flat
+B: בלוח 6 תשובות להכפלה או לפירוק של הביטוי שלכם. שתיים נכונות.
 B: A = SW9     B = SW8     C = SW7     D = SW6     6 answers = LEDG5..LEDG0     answer: SW5..SW0
 P0: Y = (A + C + D)(A + B)
 P1: Y = (A + BC)(A + D)
@@ -489,6 +507,7 @@ S3: הרימו מתג לכל נורה נכונה (שתיים):
 S3: LEDGi -> SWi
 
 [Q18] MUX | מה מחובר למרבב? | npub 1 | steps 6 | flat
+B: בלוח מרבב: שני קווי בחירה בוחרים איזו מ-4 הכניסות תגיע לנורה הירוקה.
 B: S1 = SW9     S0 = SW8     C = SW7     Y = LEDG0 (green)     answer: SW1 SW0
 B: mux 4:1:   S1 S0 = 00 -> D0     01 -> D1     10 -> D2     11 -> D3
 S1: המרבב שולח ליציאה כניסה אחת. שימו:
@@ -539,6 +558,7 @@ S5: הרימו:
 S5: 0 = both down     1 = SW0     C = SW1     C' = SW1 + SW0
 
 [Q19] DECODER | מפענח: איזו נורה היא איזו יציאה? | npub 6 | steps 6 | flat
+B: בלוח מפענח: בכל מצב דולקת בדיוק נורה אחת, אבל הסדר של הנורות מוסתר.
 B: A = SW9     B = SW8     4 outputs = LEDG3..LEDG0 (hidden order)     answer: SW3..SW0
 P0: F = SIGMA(0, 1)  - F = 1 when A B = 00 or 01.
 P1: F = SIGMA(0, 2)  - F = 1 when A B = 00 or 10.
@@ -573,6 +593,7 @@ S5: לפי מה שרשמתם: אילו שתי נורות? הרימו את המת
 S5: LEDGi -> SWi
 
 [Q20] PRIORITY | מעגל עדיפויות: מי מנצח? | npub 1 | steps 5 | flat
+B: בלוח מעגל עדיפויות: כשכמה כניסות למעלה, רק החזקה מביניהן מדליקה את הנורה שלה.
 B: A3 = SW9     A2 = SW8     A1 = SW7     A0 = SW6     Y3..Y0 = LEDG3..LEDG0     answer: SW3..SW0
 B: Yi = 1 when Ai is up and no stronger input is up
 S1: הרימו רק את
@@ -592,6 +613,7 @@ S4: האחרון שנשאר הוא החלש. הרימו מתג אחד:
 S4: A3 = SW3     A2 = SW2     A1 = SW1     A0 = SW0
 
 [Q21] MUXLOGIC | בונים פונקציה ממרבב | npub 3 | steps 6 | flat
+B: בלוח פונקציה של שלוש כניסות - הנורה הירוקה. בונים אותה ממרבב עם קווי הבחירה שלכם.
 B: A = SW9     B = SW8     C = SW7     F = LEDG0 (green)     answer: SW1 SW0
 P0: קווי הבחירה של המרבב שלכם:
 P0: S1 = A, S0 = B, and X = C goes to the data inputs.   AB = 00 -> D0,  01 -> D1,  10 -> D2,  11 -> D3.
@@ -641,6 +663,7 @@ S5: הרימו:
 S5: 0 = both down     1 = SW0     X = SW1     X' = SW1 + SW0
 
 [Q22] DEC38 | מפענח 3:8: איזו נורה היא איזו יציאה? | npub 8 | steps 4 | flat
+B: בלוח מפענח עם 8 יציאות: בכל מצב דולקת נורה אחת, בסדר מוסתר.
 B: A = SW9     B = SW8     C = SW7     8 outputs = LEDG7..LEDG0 (hidden order)     answer: SW2..SW0
 P0: m0  (A B C = 000).
 P1: m1  (A B C = 001).
@@ -665,6 +688,7 @@ S3: שימו את המצב שלו על המתגים. איזו נורה דולק�
 S3: 0 = all down   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
 
 [Q23] NANDNOR | שתי רמות: NAND או NOR? | npub 1 | steps 4 | flat
+B: בלוח מעגל של שתי רמות: שני שערים ראשונים, ושער אחרון שמקבל אותם.
 B: A = SW9     B = SW8     C = SW7     n1 = LEDG2     n2 = LEDG1     Y = LEDG0     answer: SW5..SW0
 B: all three gates are NAND, or all three are NOR
 S1: שימו את שלושת המתגים למטה:
@@ -688,6 +712,7 @@ S3: הרימו שני מתגים:
 S3: SW5 = A   SW4 = A'   SW3 = B   SW2 = B'   SW1 = C   SW0 = C'
 
 [Q24] GATES | מעגל רב-שלבי: מצאו את השערים | npub 1 | steps 5 | flat
+B: בלוח שלושה שערים בשרשרת. כל צומת מוצג בנורה.
 B: A = SW9     B = SW8     C = SW7     D = SW6     answer: SW1 SW0
 B: n1 = G1(A, B) on LEDG2   ->   n2 = G2(n1, C) on LEDG1   ->   Y = G3(n2, D) on LEDG0
 S1: שימו את ארבעת המתגים למטה:
@@ -721,6 +746,7 @@ S4: הרימו:
 S4: AND = both down     OR = SW0     NAND = SW1     NOR = SW1 + SW0
 
 [Q25] BUBBLES | דחיפת בועות: איזה מעגל בלוח? | npub 8 | steps 3 | flat
+B: הלוח מחזיק אחד מארבעת המעגלים שלכם. התוצאה היא הנורה הירוקה.
 B: A = SW9     B = SW8     C = SW7     D = SW6     Y = LEDG0 (green)     answer: SW1 SW0
 B: n1' = a bubble (NOT) on that input of the last gate
 P0: 0: n1 = NAND(D', A');  n2 = NAND(B, C');  Y = OR(n1, n2')
@@ -768,6 +794,7 @@ S2: והשוו ללוח עד שנשאר מעגל אחד. שימו את המספ�
 S2: 0 = all down    1 = SW0    2 = SW1    3 = SW1+SW0
 
 [Q26] NANDNOR3 | שתי רמות: שלושה שערים, NAND או NOR | npub 1 | steps 4 | flat
+B: בלוח מעגל של שתי רמות: שלושה שערים ראשונים, ושער אחרון שמקבל אותם.
 B: A = SW9     B = SW8     C = SW7     n1 = LEDG3   n2 = LEDG2   n3 = LEDG1   Y = LEDG0     answer: SW3..SW0
 B: n1, n2, n3: 2-input NAND or NOR of letters      Y: 3-input NAND or NOR of n1, n2, n3
 S1: שימו את שלושת המתגים למטה:
@@ -792,6 +819,7 @@ S3: הרימו:
 S3: SW3 = n1   SW2 = n2   SW1 = n3   SW0 = Y      (up = NAND, down = NOR)
 
 [Q27] BUBBLES8 | דחיפת בועות: איזה מ-8 מעגלים? | npub 8 | steps 3 | flat
+B: הלוח מחזיק אחד משמונת המעגלים שלכם. התוצאה היא הנורה הירוקה.
 B: A = SW9     B = SW8     C = SW7     D = SW6     Y = LEDG0 (green)     answer: SW2..SW0
 B: n1' = a bubble (NOT) on that input of the last gate
 P0: 0: n1 = NAND(D', A');  n2 = NAND(B, C');  Y = OR(n1, n2')
@@ -871,6 +899,7 @@ S2: שימו את המספר שלו:
 S2: 0 = all down   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
 
 [Q28] LATCH | קופסה עם זיכרון: מה מדליק ומה מכבה? | npub 1 | steps 4 | flat
+B: בלוח קופסה עם זיכרון: מצב אחד מדליק אותה, מצב אחד מכבה, ובשני האחרים היא זוכרת.
 B: A = SW9     B = SW8     the box = LEDG0 (green)     answer: SW1 SW0
 B: move ONE switch at a time
 S1: הזיזו מתג אחד בכל פעם ועברו בדרך הזו, תוך כדי הסתכלות על הנורה:
@@ -885,6 +914,7 @@ S3: הרימו:
 S3: 00 = both down     01 = SW0     10 = SW1     11 = SW1 + SW0
 
 [Q29] DLATCH | נועל D: מי האפשור? | npub 1 | steps 4 | flat
+B: בלוח נועל: כשהאפשור פעיל הוא מעתיק את הנתון; כשלא - הוא זוכר.
 B: A = SW9     B = SW8     the box = LEDG0 (green)     answer: SW1 SW0
 B: move ONE switch at a time
 S1: לנועל יש כניסת אפשור וכניסת נתון. כשהאפשור פעיל - הוא מעתיק את הנתון; אחרת - הוא זוכר.
@@ -901,6 +931,7 @@ S3: הרימו:
 S3: SW0 = active when up      (down = active when down)
 
 [Q30] SEQ | צירופי או סדרתי? (8 קופסאות) | npub 1 | steps 5 | flat
+B: בלוח 8 קופסאות עם אותן שתי כניסות. לחלק מהן יש זיכרון.
 B: A = SW9     B = SW8     box i = LEDGi (8 boxes)     answer: SW7..SW0
 B: move ONE switch at a time
 S1: קופסה 0 בלי זיכרון. נסו את 4 המצבים ורשמו את
