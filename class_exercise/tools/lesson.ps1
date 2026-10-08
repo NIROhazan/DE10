@@ -1,7 +1,7 @@
 # The lesson runner: LESSON.bat = lesson.ps1. Runs tools\lesson.txt by the clock: before START a countdown,
 # then each topic for its minutes - its questions one after another (run.ps1 -Deadline = the topic's end),
 # then the next topic. A question already done (progress.txt) is skipped. Kept ASCII for PowerShell 5.1.
-param([string]$Schedule = "", [string]$Start = "")
+param([string]$Schedule = "", [string]$Start = "", [string]$First = "")	# -First Q13: open that question first (GOTO.bat)
 
 $ErrorActionPreference = "Stop"
 Set-Location (Split-Path $PSScriptRoot -Parent)
@@ -81,6 +81,11 @@ while ($true) {
 	}
 	$tp = $topics[$cur]
 	$next = @($tp.Qs | Where-Object { -not (Test-Done $_) }) | Select-Object -First 1
+	if ($First) {
+		if (($tp.Qs -contains $First) -and -not (Test-Done $First)) { $next = $First }
+		elseif (Test-Done $First) { Write-Host "  $First is already done - going on with the topic." -ForegroundColor Green; Start-Sleep -Seconds 3 }
+		$First = ""
+	}
 	if (-not $next) {
 		$after = if ($cur + 1 -lt $topics.Count) { "The next topic starts at $('{0:HH:mm}' -f $tp.End)." } else { "That was the last topic." }
 		Wait-Until $tp.End $cur "Well done - every question of this topic is done!  $after" Green

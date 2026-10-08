@@ -2,6 +2,8 @@
 #
 #   TOPIC 2        the start of topic 2
 #   TOPIC 2 10     topic 2, 10 minutes after it began
+#   QUESTION 13    question 13 first (at the start of its topic), then the rest of that topic
+#   QUESTION 13 10 question 13, 10 minutes after its topic began
 #   MINUTE 45      45 minutes after the start of the lesson
 #
 # Your progress (steps already passed) is kept. LESSON.bat then goes on with this clock.
