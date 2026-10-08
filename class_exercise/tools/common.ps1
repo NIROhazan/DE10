@@ -110,3 +110,38 @@ function Save-MoodleCode($sid, $qid, $code) {
 	$out = @("Class exercise - lecture 3", "ID: $sid") + @($codes.Keys | Sort-Object | ForEach-Object { "${_}: $($codes[$_])" })
 	[IO.File]::WriteAllLines($f, $out, $script:utf8)
 }
+
+# ---- Hebrew in the console. The console shows text left to right, so a Hebrew line comes out reversed. Write-Line
+# turns a line that has Hebrew into visual order (the order of its pieces reversed; Latin / digit pieces like SW9 or
+# 16 kept as they are; brackets mirrored) and aligns it to the right. Lines without Hebrew are written as they are.
+# The question texts keep English (switch names, formulas) on lines of their own, so a line is either Hebrew or not.
+function ConvertTo-Visual([string]$s) {
+	$tok = [regex]::Matches($s, "[A-Za-z0-9][A-Za-z0-9_.+'=/:-]*|.")
+	$out = New-Object System.Text.StringBuilder
+	for ($i = $tok.Count - 1; $i -ge 0; $i--) {
+		$t = $tok[$i].Value
+		switch ($t) { '(' { $t = ')' } ')' { $t = '(' } '[' { $t = ']' } ']' { $t = '[' } '<' { $t = '>' } '>' { $t = '<' } }
+		[void]$out.Append($t)
+	}
+	return $out.ToString()
+}
+function Write-Line([string]$s, [string]$color = "Gray") {
+	if ($s -match '[֐-׿]') {
+		$w = 100
+		try { $w = [Math]::Max(60, $Host.UI.RawUI.WindowSize.Width - 2) } catch { }
+		$v = (ConvertTo-Visual $s.Trim())
+		Write-Host ($v.PadLeft([Math]::Max($v.Length, $w))) -ForegroundColor $color
+	} else {
+		Write-Host "  $s" -ForegroundColor $color
+	}
+}
+
+# ---- the fixed screen texts, in Hebrew (ui.txt, UTF-8). U "key" -> the text; a missing key shows the key itself.
+$script:UI = @{}
+$uiFile = Join-Path $PSScriptRoot "ui.txt"
+if (Test-Path $uiFile) {
+	foreach ($l in [IO.File]::ReadAllLines($uiFile, $script:utf8)) {
+		if ($l -match '^\s*([A-Za-z_]+)\s*=\s?(.*)$') { $script:UI[$Matches[1]] = $Matches[2] }
+	}
+}
+function U([string]$k) { if ($script:UI.ContainsKey($k)) { return $script:UI[$k] } else { return $k } }

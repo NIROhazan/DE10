@@ -7,10 +7,10 @@
 # TOPIC <minutes> | <name> | <questions in order, easy -> hard>
 #   The questions of a topic come one after another; when the topic's time is up, the next topic begins,
 #   even if not every question is done. Finished early - the student waits for the next topic.
-#   Names in English (the console cannot show Hebrew).
+#   Names in Hebrew (shown in the lesson plan; no English letters in a name).
 
 START 10:00
 
-TOPIC 30 | Truth tables, minterms and maxterms, theorems        | Q01 Q02 Q03 Q04 Q05 Q06 Q07 Q08 Q09
-TOPIC 30 | From words to equations: De Morgan, errors, factoring | Q10 Q11 Q12 Q13 Q14 Q15 Q16 Q17
-TOPIC 30 | Building blocks and circuits, then memory           | Q18 Q19 Q20 Q21 Q22 Q23 Q24 Q25 Q26 Q27 Q28 Q29 Q30
+TOPIC 30 | טבלאות אמת, מינטרמים ומקסטרמים, טענות | Q01 Q02 Q03 Q04 Q05 Q06 Q07 Q08 Q09
+TOPIC 30 | ממילים למשוואה: דה-מורגן, טעויות, הכפלה ופירוק | Q10 Q11 Q12 Q13 Q14 Q15 Q16 Q17
+TOPIC 30 | אבני בניין ומעגלים, ובסוף זיכרון | Q18 Q19 Q20 Q21 Q22 Q23 Q24 Q25 Q26 Q27 Q28 Q29 Q30

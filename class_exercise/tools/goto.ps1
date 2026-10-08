@@ -14,20 +14,19 @@ foreach ($l in [IO.File]::ReadAllLines((Join-Path $PSScriptRoot "lesson.txt"))) 
 	}
 }
 
-function Fail($t) {
+function Fail($lines) {
 	Write-Host ""
-	Write-Host "  $t" -ForegroundColor Red
+	@($lines) | ForEach-Object { Write-Line $_ Red }
 	Write-Host ""
-	for ($i = 0; $i -lt $topics.Count; $i++) {
-		Write-Host ("    TOPIC {0}: {1}  ({2} questions)" -f ($i + 1), $topics[$i].Name, $topics[$i].Qs.Count)
-	}
+	for ($i = 0; $i -lt $topics.Count; $i++) { Write-Line ((U "goto_list") -f ($i + 1), $topics[$i].Name, $topics[$i].Qs.Count) }
 	Write-Host ""
-	Write-Host "  Fix goto.txt (open it in Notepad) and run LESSON.bat again." -ForegroundColor Yellow
+	Write-Line (U "goto_fix") Yellow
+	Write-Line (U "goto_fix_en") Yellow
 	exit 1
 }
 
 $f = Join-Path (Get-Location) "goto.txt"
-if (-not (Test-Path $f)) { Fail "goto.txt is missing." }
+if (-not (Test-Path $f)) { Fail @((U "goto_bad"), (U "goto_bad_en")) }
 # every non-comment line together: "TOPIC 1 QUESTION 3" on one line, or TOPIC 1 and QUESTION 3 on two lines
 $line = (@([IO.File]::ReadAllLines($f) | Where-Object { $_ -notmatch '^\s*(#|$)' } | ForEach-Object { $_.Trim() }) -join " ")
 $applied = Join-Path (Get-Location) "goto_applied.txt"
@@ -42,13 +41,13 @@ if ((Test-Path $applied) -and (([IO.File]::ReadAllText($applied)).Trim() -eq $li
 	exit $LASTEXITCODE
 }
 if ($line -notmatch '^\s*TOPIC\s+(\d+)(?:\s+QUESTION\s+(\d+))?\s*$') {
-	Fail "I do not understand '$($line.Trim())'. Write  TOPIC 2   or   TOPIC 1 QUESTION 3"
+	Fail @((U "goto_bad"), (U "goto_bad_en"))
 }
 $n = [int]$Matches[1]
 $k = if ($Matches[2]) { [int]$Matches[2] } else { 1 }
-if ($n -lt 1 -or $n -gt $topics.Count) { Fail "There is no topic $n - the lesson has TOPIC 1 to TOPIC $($topics.Count)." }
+if ($n -lt 1 -or $n -gt $topics.Count) { Fail ((U "goto_no_topic") -f $topics.Count) }
 $tp = $topics[$n - 1]
-if ($k -lt 1 -or $k -gt $tp.Qs.Count) { Fail "Topic $n has $($tp.Qs.Count) questions - QUESTION 1 to QUESTION $($tp.Qs.Count)." }
+if ($k -lt 1 -or $k -gt $tp.Qs.Count) { Fail ((U "goto_no_q") -f $n, $tp.Qs.Count) }
 $first = $tp.Qs[$k - 1]
 
 $offset = 0
@@ -57,7 +56,7 @@ $start = (Get-Date).AddMinutes(-$offset)
 [IO.File]::WriteAllText((Join-Path (Get-Location) "lesson_start.txt"), $start.ToString("o"))
 [IO.File]::WriteAllText($applied, $line.Trim())
 Write-Host ""
-Write-Host "  Topic $n ($($tp.Name)) starts now, with its question $k of $($tp.Qs.Count) ($first)." -ForegroundColor Green
+Write-Line ((U "goto_jump") -f $n, $k, $tp.Qs.Count) Green
 Start-Sleep -Seconds 2
 & $lesson -First $first
 exit $LASTEXITCODE

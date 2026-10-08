@@ -45,26 +45,29 @@ $posFile = Join-Path (Get-Location) "lesson_pos.txt"		# the question the student
 $env:CE_LESSON = "1"		# run.ps1 runs only from here
 if ((Test-Path "progress.txt") -and ([IO.File]::ReadAllText((Join-Path (Get-Location) "progress.txt")) -match "(?m)^$sid ")) { $back = $true }
 function Test-Done($qid) { return ((Get-Progress $sid $qid) -ge ($qs[$qid].NS - 1)) }
+# $title: one line or several (Hebrew and English lines apart); the plan rows are Hebrew (topic names from lesson.txt)
 function Show-Plan($cur, $title, $color) {
 	Clear-Host
 	Write-Host ""
-	Write-Host "  $title" -ForegroundColor $color
+	@($title) | ForEach-Object { Write-Line $_ $color }
 	Write-Host ""
 	for ($i = 0; $i -lt $topics.Count; $i++) {
 		$tp = $topics[$i]
 		$done = @($tp.Qs | Where-Object { Test-Done $_ }).Count
-		$mark = if ($i -eq $cur) { ">" } else { " " }
-		$line = "  $mark {0:HH:mm}-{1:HH:mm}   {2,-52} {3}/{4} done" -f $tp.Begin, $tp.End, $tp.Name, $done, $tp.Qs.Count
-		if ($i -eq $cur) { Write-Host $line -ForegroundColor Yellow } else { Write-Host $line }
+		$line = (U "plan_row") -f ('{0:HH:mm}' -f $tp.Begin), ('{0:HH:mm}' -f $tp.End), $tp.Name, $done, $tp.Qs.Count
+		Write-Line $line $(if ($i -eq $cur) { "Yellow" } else { "Gray" })
 	}
 	Write-Host ""
 }
 function Wait-Until($when, $cur, $title, $color) {
 	Show-Plan $cur $title $color
+	$w = 100
+	try { $w = [Math]::Max(60, $Host.UI.RawUI.WindowSize.Width - 2) } catch { }
 	while ((Get-Date) -lt $when) {
 		$left = $when - (Get-Date)
 		$Host.UI.RawUI.WindowTitle = "Class lesson - next in {0:mm\:ss}" -f $left
-		Write-Host ("`r  Starts in {0:hh\:mm\:ss}   " -f $left) -NoNewline -ForegroundColor Cyan
+		$v = ConvertTo-Visual ("{0}  {1:hh\:mm\:ss}" -f (U "countdown"), $left)
+		Write-Host ("`r" + $v.PadLeft($w)) -NoNewline -ForegroundColor Cyan
 		Start-Sleep -Milliseconds 500
 	}
 	Write-Host ""
@@ -73,11 +76,11 @@ function Wait-Until($when, $cur, $title, $color) {
 # ---------------------------------------------------------------- the lesson
 while ($true) {
 	$now = Get-Date
-	if ($now -lt $topics[0].Begin) { Wait-Until $topics[0].Begin 0 "The lesson starts at $('{0:HH:mm}' -f $topics[0].Begin). Today:" Cyan; continue }
+	if ($now -lt $topics[0].Begin) { Wait-Until $topics[0].Begin 0 ((U "starts_at") -f ('{0:HH:mm}' -f $topics[0].Begin)) Cyan; continue }
 	$cur = -1
 	for ($i = 0; $i -lt $topics.Count; $i++) { if ($now -ge $topics[$i].Begin -and $now -lt $topics[$i].End) { $cur = $i } }
 	if ($cur -lt 0) {
-		Show-Plan -1 "The lesson is over. Your codes are in moodle.txt - hand it in on Moodle." Green
+		Show-Plan -1 @((U "over"), (U "over_en")) Green
 		exit 0
 	}
 	$tp = $topics[$cur]
@@ -88,14 +91,14 @@ while ($true) {
 	$from = [Math]::Max(0, [array]::IndexOf($tp.Qs, $pos))
 	$next = @($tp.Qs[$from..($tp.Qs.Count - 1)] | Where-Object { -not (Test-Done $_) }) | Select-Object -First 1
 	if (-not $next) {
-		$after = if ($cur + 1 -lt $topics.Count) { "The next topic starts at $('{0:HH:mm}' -f $tp.End)." } else { "That was the last topic." }
-		Wait-Until $tp.End $cur "Well done - you reached the end of this topic!  $after" Green
+		$after = if ($cur + 1 -lt $topics.Count) { (U "next_topic_at") -f ('{0:HH:mm}' -f $tp.End) } else { U "last_topic" }
+		Wait-Until $tp.End $cur @((U "end_topic"), $after) Green
 		continue
 	}
 	[IO.File]::WriteAllText($posFile, $next)
-	Show-Plan $cur "Topic $($cur + 1) of $($topics.Count): $($tp.Name) - next question $next" Yellow
+	Show-Plan $cur @(((U "topic_now") -f ($cur + 1), $topics.Count, $tp.Name), ((U "next_q") -f $next)) Yellow
 	if ($back) {
-		Write-Host ("  Welcome back! Your progress is saved, and the lesson went on while you were away - now topic {0}, until {1:HH:mm}." -f ($cur + 1), $tp.End) -ForegroundColor Green
+		Write-Line ((U "welcome") -f ($cur + 1), ('{0:HH:mm}' -f $tp.End)) Green
 		$back = $false
 		Start-Sleep -Seconds 4
 	}
@@ -104,11 +107,12 @@ while ($true) {
 	$code = $LASTEXITCODE
 	if ($code -eq 2) {
 		Write-Host ""
-		Write-Host "  Time is up for this topic - your progress is saved. On to the next topic." -ForegroundColor Yellow
+		Write-Line (U "timeup_next") Yellow
 		Start-Sleep -Seconds 4
 	} elseif ($code -ne 0) {
 		Write-Host ""
-		$null = Read-Host "  Something went wrong (see above). Enter = try again"
+		Write-Line (U "wrong") Yellow
+		$null = Read-Host "  Enter"
 	} else {
 		Start-Sleep -Seconds 3
 	}

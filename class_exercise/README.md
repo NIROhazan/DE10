@@ -40,6 +40,11 @@ eset_lesson.bat`.
 מספר השאלה הוא בתוך הנושא (נושא 1: 9 שאלות, נושא 2: 8, נושא 3: 13); מספר שלא קיים מקבל הודעה ורשימת הנושאים.
 אחרי כל שאלה נפתחת הבאה במספר. ההתקדמות נשמרת. חזרה לשעון של הכיתה: למחוק את השורה מ-`goto.txt`.
 
+## המסכים בעברית
+
+השאלות וההודעות על המסך בעברית, קצרות ובשלבים. כל שורה היא או עברית או אנגלית (שמות מתגים, נוסחאות, אותיות) -
+אף פעם לא שתיהן, כי החלון השחור לא יודע לערבב כיוונים. שורה בעברית מוצגת מיושרת לימין.
+
 ## איך עובדים (בתוך השיעור)
 
 **נכנסים לשאלות רק דרך `LESSON.bat`** - אין קבצי BAT לשאלות בודדות, ו-`tools/run.ps1` מסרב לרוץ בלי השיעור.
@@ -101,6 +106,9 @@ eset_lesson.bat`.
 - A student's own clock (missed the lesson, a technical problem): on their computer `reset_time.bat` (topic 1 starts now) or
   `reset_time.bat 2` (topic 2 starts now); the progress stays. It writes lesson_start.txt, which wins over START;
   `reset_lesson.bat` deletes it - back to the class clock, progress too.
+- Hebrew screens: question texts in `C:/DE10_solutions/class_exercise/he_text.py` (by question name; gen.py checks that no line
+  mixes Hebrew and Latin), fixed messages in `tools/ui.txt` (UTF-8, `U "key"`), drawn by `Write-Line` in common.ps1 (a Hebrew line
+  is put in visual order and aligned right - the console has no right-to-left). Topic names in lesson.txt are Hebrew too.
 - Source: `C:/DE10_solutions/class_exercise/gen.py` - the new list is `NEW` (ids Q01, Q02, ...; easy -> hard, in steps).
   `python gen.py` simulates the new questions in iverilog, `--compile` builds `sof/Qnn.sof`, `--id <ID>` (= `answers.bat ce <ID>`)
   prints the login number, every step's answer and the codes. The first-format puzzles stay in gen.py as o01..o25.

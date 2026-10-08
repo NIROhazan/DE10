@@ -2,762 +2,971 @@
 # [Qnn] NAME | title | npub n [| steps n];  B: board;  Pk: printed for login numbers with pub = k;
 # with steps: Sk: the screen of step k (step 0 = login, in run.ps1);  without: L: question, F: answer format
 
-[Q01] GATE | Which gate is hidden in the board? | npub 1 | steps 4 | flat
-B: A = SW9, B = SW8 (HEX3, HEX2).  Y = LEDG0 (green).  Your answer goes on SW3..SW0.
-S1: GOAL: meet the board. A gate is hidden in it: inputs A = SW9, B = SW8, output Y = LEDG0.
-S1: Put A B = 0 0 (SW9 and SW8 down). Is the green light LEDG0 on?
-S1: ANSWER: SW0 up if LEDG0 is on, SW0 down if it is off.
-S2: GOAL: the whole truth table of the gate.
-S2: Try A B = 00, 01, 10, 11 (SW9 SW8) and write Y for each row.
-S2: ANSWER: SW0 = Y at 00,  SW1 = Y at 01,  SW2 = Y at 10,  SW3 = Y at 11.
-S3: GOAL: name the gate. Compare your truth table with what each gate does.
-S3: ANSWER - first put SW3 SW2 SW1 SW0 all DOWN, then raise only the switches of your gate:
-S3:    AND = (all down)    OR = SW0    XOR = SW1    NAND = SW1 + SW0    NOR = SW2    XNOR = SW2 + SW0
+[Q01] GATE | איזה שער מוסתר בלוח? | npub 1 | steps 4 | flat
+B: A = SW9     B = SW8     Y = LEDG0 (green)     answer: SW3..SW0
+S1: שימו את שני המתגים למטה:
+S1: SW9 = down   SW8 = down
+S1: האם הנורה הירוקה דולקת?
+S1: דולקת - הרימו:
+S1: SW0
+S1: כבויה - השאירו הכל למטה.
+S2: נסו את 4 המצבים של שני המתגים, ורשמו בכל אחד אם הנורה דולקת:
+S2: SW9 SW8:   down-down,   down-up,   up-down,   up-up
+S2: לכל מצב שהנורה דלקה - הרימו מתג:
+S2: 1st -> SW0     2nd -> SW1     3rd -> SW2     4th -> SW3
+S3: איזה שער זה? השוו את מה שרשמתם לשערים:
+S3: AND = 1 only if both are 1      OR = 0 only if both are 0
+S3: NAND = 0 only if both are 1     NOR = 1 only if both are 0
+S3: XOR = 1 when they differ        XNOR = 1 when they are equal
+S3: הרימו את המתגים של השער:
+S3: AND = all down   OR = SW0   XOR = SW1   NAND = SW1+SW0   NOR = SW2   XNOR = SW2+SW0
 
-[Q02] SIGMA | Minterms and maxterms of a hidden F | npub 1 | steps 6 | flat
-B: A = SW9, B = SW8, C = SW7 (HEX3 HEX2 HEX1).  F = LEDG0 (green).  Your answer goes on SW3..SW0.
-S1: GOAL: meet F. It has three inputs: A = SW9, B = SW8, C = SW7. F = LEDG0.
-S1: Put A B C = 0 0 0 (SW9, SW8, SW7 down). Is LEDG0 on?
-S1: ANSWER: SW0 up if LEDG0 is on, SW0 down if it is off.
-S2: GOAL: the first half of the truth table - the 4 rows where A = 0. Keep SW9 DOWN.
-S2: 1. Set SW8 SW7 like this, and write down LEDG0 (on = 1) for each row:
-S2:       row 000: SW8 down, SW7 down      row 001: SW8 down, SW7 up
-S2:       row 010: SW8 up,   SW7 down      row 011: SW8 up,   SW7 up
-S2: 2. Copy the 4 lights to the right switches (up = 1):
-S2: ANSWER: SW0 = row 000,  SW1 = row 001,  SW2 = row 010,  SW3 = row 011.
-S3: GOAL: the second half - the 4 rows where A = 1. Keep SW9 UP.
-S3: 1. Set SW8 SW7 like this, and write down LEDG0 (on = 1) for each row:
-S3:       row 100: SW8 down, SW7 down      row 101: SW8 down, SW7 up
-S3:       row 110: SW8 up,   SW7 down      row 111: SW8 up,   SW7 up
-S3: 2. Copy the 4 lights to the right switches (up = 1):
-S3: ANSWER: SW0 = row 100,  SW1 = row 101,  SW2 = row 110,  SW3 = row 111.
-S4: GOAL: minterms. A row where F = 1 is a MINTERM: F = SIGMA(those row numbers).
-S4: Count the rows of your table where F = 1.
-S4: ANSWER: the number on the switches:   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
-S5: GOAL: maxterms. A row where F = 0 is a MAXTERM: F = PI(those row numbers).
-S5: Count the rows of your table where F = 0.
-S5: ANSWER: the number on the switches:   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
+[Q02] SIGMA | מינטרמים ומקסטרמים של פונקציה מוסתרת | npub 1 | steps 6 | flat
+B: A = SW9     B = SW8     C = SW7     F = LEDG0 (green)     answer: SW3..SW0
+S1: שימו את שלושת המתגים למטה:
+S1: SW9 SW8 SW7 = down down down
+S1: הנורה הירוקה דולקת? דולקת - הרימו:
+S1: SW0
+S1: כבויה - השאירו למטה.
+S2: סבב 1 מתוך 2. החזיקו למטה:
+S2: SW9 = down
+S2: נסו 4 מצבים, ובכל אחד רשמו אם הנורה דולקת:
+S2: SW8 SW7:   down-down,   down-up,   up-down,   up-up
+S2: לכל מצב שהנורה דלקה - הרימו מתג:
+S2: 1st -> SW0     2nd -> SW1     3rd -> SW2     4th -> SW3
+S3: סבב 2 מתוך 2. אותו דבר, אבל החזיקו למעלה:
+S3: SW9 = up
+S3: SW8 SW7:   down-down,   down-up,   up-down,   up-up
+S3: לכל מצב שהנורה דלקה - הרימו מתג:
+S3: 1st -> SW0     2nd -> SW1     3rd -> SW2     4th -> SW3
+S4: כמה פעמים הנורה דלקה, בשני הסבבים יחד (מתוך 8)?
+S4: כל מצב כזה נקרא מינטרם.
+S4: שימו את המספר:
+S4: 1 = SW0    2 = SW1    3 = SW1+SW0    4 = SW2    5 = SW2+SW0    6 = SW2+SW1    7 = SW2+SW1+SW0
+S5: כמה פעמים הנורה הייתה כבויה (8 פחות התשובה הקודמת)?
+S5: כל מצב כזה נקרא מקסטרם.
+S5: שימו את המספר:
+S5: 1 = SW0    2 = SW1    3 = SW1+SW0    4 = SW2    5 = SW2+SW0    6 = SW2+SW1    7 = SW2+SW1+SW0
 
-[Q03] TERMS | Which light is a minterm, which a maxterm? | npub 1 | steps 5 | flat
-B: A = SW9, B = SW8, C = SW7 (HEX3 HEX2 HEX1).  4 terms = LEDG3..LEDG0 (green).  Your answer goes on SW3..SW0.
-S1: GOAL: meet the 4 green lights. Each one is a TERM of A B C, like  A B'  or  A + C.
-S1: Put A B C = 1 1 1 (SW9, SW8, SW7 up).
-S1: ANSWER: copy the lights - SWi up if LEDGi is on (SW3..SW0).
-S2: GOAL: ONE table of all 4 lights. Copy it to paper, go over the 8 rows once (0 = down, 1 = up),
-S2: and mark the lights that are on in each row:
-S2:    row (SW9 SW8 SW7)    LEDG3  LEDG2  LEDG1  LEDG0
-S2:    0 0 0
-S2:    0 0 1
-S2:    0 1 0
-S2:    0 1 1
-S2:    1 0 0
-S2:    1 0 1
-S2:    1 1 0
-S2:    1 1 1
-S2: ANSWER: how many 1s in the LEDG0 column?   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
-S3: GOAL: the MINTERM - all three letters ANDed, like  A B' C. It is ON in only ONE row.
-S3: In your table, find the column with a single 1.
-S3: ANSWER: one switch up - SWi for that light (LEDGi).
-S4: GOAL: the MAXTERM - all three letters ORed, like  A + B' + C. It is OFF in only ONE row.
-S4: In your table, find the column with a single 0.
-S4: ANSWER: one switch up - SWi for that light (LEDGi).
+[Q03] TERMS | איזו נורה היא מינטרם, ואיזו מקסטרם? | npub 1 | steps 5 | flat
+B: A = SW9     B = SW8     C = SW7     4 terms = LEDG3..LEDG0 (green)     answer: SW3..SW0
+S1: כל נורה ירוקה היא איבר אחד (מכפלה או סכום) של האותיות:
+S1: A, B, C
+S1: הרימו את שלושת המתגים:
+S1: SW9 SW8 SW7 = up up up
+S1: העתיקו את הנורות למתגים: נורה דולקת = מתג למעלה.
+S1: LEDGi -> SWi
+S2: עברו על 8 המצבים, ובכל מצב רשמו אילו נורות דולקות:
+S2: SW9 SW8 SW7:   000   001   010   011   100   101   110   111      (0 = down, 1 = up)
+S2: בכמה מצבים דולקת הנורה
+S2: LEDG0?
+S2: שימו את המספר:
+S2: 1 = SW0    2 = SW1    3 = SW1+SW0    4 = SW2    5 = SW2+SW0    6 = SW2+SW1    7 = SW2+SW1+SW0
+S3: מינטרם דולק במצב אחד בלבד.
+S3: איזו נורה דלקה רק פעם אחת? הרימו את המתג שלה:
+S3: LEDGi -> SWi
+S4: מקסטרם כבוי במצב אחד בלבד.
+S4: איזו נורה כבתה רק פעם אחת? הרימו את המתג שלה:
+S4: LEDGi -> SWi
 
-[Q04] MATTER | Which input does not matter? | npub 1 | steps 5 | flat
-B: A = SW9, B = SW8, C = SW7 (HEX3 HEX2 HEX1).  F = LEDG0 (green).  Your answer goes on SW3..SW0.
-S1: GOAL: the truth table of F. Copy it to paper, go over the 8 rows once (0 = down, 1 = up),
-S1: and write F (LEDG0 on = 1) in each row:
-S1:    row (SW9 SW8 SW7)    F
-S1:    0 0 0
-S1:    0 0 1
-S1:    0 1 0
-S1:    0 1 1
-S1:    1 0 0
-S1:    1 0 1
-S1:    1 1 0
-S1:    1 1 1
-S1: ANSWER: how many 1s in the F column?   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
-S2: GOAL: does A matter? Look at pairs of rows that differ ONLY in A (the first digit):
-S2:    000 - 100      001 - 101      010 - 110      011 - 111
-S2: If F is different in at least one pair, A matters.
-S2: ANSWER: SW0 up if A matters, SW0 down if F is the same in all 4 pairs.
-S3: GOAL: does B matter? Pairs that differ ONLY in B (the middle digit):
-S3:    000 - 010      001 - 011      100 - 110      101 - 111
-S3: ANSWER: SW0 up if B matters, SW0 down if F is the same in all 4 pairs.
-S4: GOAL: one input never changes F - find it. (Check C too: pairs 000-001, 010-011, 100-101, 110-111.)
-S4: ANSWER: raise ONE switch for the input that does NOT matter:   A = SW2    B = SW1    C = SW0
+[Q04] MATTER | איזו כניסה לא משנה? | npub 1 | steps 5 | flat
+B: A = SW9     B = SW8     C = SW7     F = LEDG0 (green)     answer: SW3..SW0
+S1: עברו על 8 המצבים, ובכל מצב רשמו אם הנורה דולקת:
+S1: SW9 SW8 SW7:   000   001   010   011   100   101   110   111      (0 = down, 1 = up)
+S1: בכמה מצבים היא דלקה? שימו את המספר:
+S1: 1 = SW0    2 = SW1    3 = SW1+SW0    4 = SW2    5 = SW2+SW0    6 = SW2+SW1    7 = SW2+SW1+SW0
+S2: האם הכניסה הזו משנה משהו?
+S2: A (SW9)
+S2: השוו זוגות של מצבים שנבדלים רק בה:
+S2: 000-100    001-101    010-110    011-111
+S2: אם הנורה שונה באחד הזוגות - הרימו:
+S2: SW0
+S2: אם היא תמיד אותו דבר - השאירו למטה.
+S3: אותו דבר בשביל
+S3: B (SW8):
+S3: 000-010    001-011    100-110    101-111
+S3: משנה - הרימו:
+S3: SW0
+S3: לא משנה - השאירו למטה.
+S4: כניסה אחת אף פעם לא משנה. איזו? (בדקו גם את
+S4: C:  000-001   010-011   100-101   110-111
+S4: ) הרימו מתג אחד:
+S4: A = SW2     B = SW1     C = SW0
 
-[Q05] SIGMA4 | Minterms and maxterms - four inputs | npub 1 | steps 7 | flat
-B: A = SW9, B = SW8, C = SW7, D = SW6 (HEX3..HEX0).  F = LEDG0 (green).  Answer on SW3..SW0.
-S1: WHAT YOU DO: look at the green light LEDG0 for 4 positions of the switches, and write on/off.
-S1: (16 positions in all - this is round 1 of 4.)
-S1: 1. Put SW9 DOWN and SW8 DOWN. Do not touch them in this round.
-S1: 2. SW7 down, SW6 down  - is the green light on?   write: position 1 = on / off
-S1: 3. SW7 down, SW6 UP    - is it on?                position 2
-S1: 4. SW7 UP,   SW6 down  - is it on?                position 3
-S1: 5. SW7 UP,   SW6 UP    - is it on?                position 4
-S1: ANSWER: for every position that was ON, raise one switch:
-S1:    position 1 -> SW0      position 2 -> SW1      position 3 -> SW2      position 4 -> SW3
-S2: ROUND 2 of 4 - the same as round 1, only SW9 and SW8 are different.
-S2: 1. Put SW9 DOWN and SW8 UP. Do not touch them in this round.
-S2: 2. SW7 down, SW6 down  - is the green light on?   write: position 1 = on / off
-S2: 3. SW7 down, SW6 UP    - is it on?                position 2
-S2: 4. SW7 UP,   SW6 down  - is it on?                position 3
-S2: 5. SW7 UP,   SW6 UP    - is it on?                position 4
-S2: ANSWER: for every position that was ON, raise one switch:
-S2:    position 1 -> SW0      position 2 -> SW1      position 3 -> SW2      position 4 -> SW3
-S3: ROUND 3 of 4 - the same as round 1, only SW9 and SW8 are different.
-S3: 1. Put SW9 UP and SW8 DOWN. Do not touch them in this round.
-S3: 2. SW7 down, SW6 down  - is the green light on?   write: position 1 = on / off
-S3: 3. SW7 down, SW6 UP    - is it on?                position 2
-S3: 4. SW7 UP,   SW6 down  - is it on?                position 3
-S3: 5. SW7 UP,   SW6 UP    - is it on?                position 4
-S3: ANSWER: for every position that was ON, raise one switch:
-S3:    position 1 -> SW0      position 2 -> SW1      position 3 -> SW2      position 4 -> SW3
-S4: ROUND 4 of 4 - the same as round 1, only SW9 and SW8 are different.
-S4: 1. Put SW9 UP and SW8 UP. Do not touch them in this round.
-S4: 2. SW7 down, SW6 down  - is the green light on?   write: position 1 = on / off
-S4: 3. SW7 down, SW6 UP    - is it on?                position 2
-S4: 4. SW7 UP,   SW6 down  - is it on?                position 3
-S4: 5. SW7 UP,   SW6 UP    - is it on?                position 4
-S4: ANSWER: for every position that was ON, raise one switch:
-S4:    position 1 -> SW0      position 2 -> SW1      position 3 -> SW2      position 4 -> SW3
-S5: HOW MANY TIMES WAS THE LIGHT ON? Count the ON positions you wrote in rounds 1-4 (16 positions in all).
-S5: (A position where F is on is called a MINTERM.)
-S5: ANSWER: put that number on the switches:
-S5:    1 = SW0          2 = SW1          3 = SW1+SW0       4 = SW2           5 = SW2+SW0       6 = SW2+SW1
-S5:    7 = SW2+SW1+SW0  8 = SW3          9 = SW3+SW0      10 = SW3+SW1      11 = SW3+SW1+SW0  12 = SW3+SW2
-S6: HOW MANY TIMES WAS THE LIGHT OFF? That is 16 minus your answer before.
-S6: (A position where F is off is called a MAXTERM.)
-S6: ANSWER: put that number on the switches:
-S6:    1 = SW0          2 = SW1          3 = SW1+SW0       4 = SW2           5 = SW2+SW0       6 = SW2+SW1
-S6:    7 = SW2+SW1+SW0  8 = SW3          9 = SW3+SW0      10 = SW3+SW1      11 = SW3+SW1+SW0  12 = SW3+SW2
+[Q05] SIGMA4 | מינטרמים ומקסטרמים - ארבע כניסות | npub 1 | steps 7 | flat
+B: A = SW9     B = SW8     C = SW7     D = SW6     F = LEDG0 (green)     answer: SW3..SW0
+S1: יש 16 מצבים, אז עובדים ב-4 סבבים של 4 מצבים.
+S1: סבב 1. החזיקו כל הסבב:
+S1: SW9 = down   SW8 = down
+S1: נסו 4 מצבים ורשמו בכל אחד אם הנורה דולקת:
+S1: SW7 SW6:   down-down,   down-up,   up-down,   up-up
+S1: לכל מצב שהנורה דלקה - הרימו מתג:
+S1: 1st -> SW0     2nd -> SW1     3rd -> SW2     4th -> SW3
+S2: סבב 2 - כמו סבב 1, רק החזיקו:
+S2: SW9 = down   SW8 = up
+S2: SW7 SW6:   down-down,   down-up,   up-down,   up-up
+S2: לכל מצב שהנורה דלקה - הרימו מתג:
+S2: 1st -> SW0     2nd -> SW1     3rd -> SW2     4th -> SW3
+S3: סבב 3 - כמו סבב 1, רק החזיקו:
+S3: SW9 = up   SW8 = down
+S3: SW7 SW6:   down-down,   down-up,   up-down,   up-up
+S3: לכל מצב שהנורה דלקה - הרימו מתג:
+S3: 1st -> SW0     2nd -> SW1     3rd -> SW2     4th -> SW3
+S4: סבב 4 - כמו סבב 1, רק החזיקו:
+S4: SW9 = up   SW8 = up
+S4: SW7 SW6:   down-down,   down-up,   up-down,   up-up
+S4: לכל מצב שהנורה דלקה - הרימו מתג:
+S4: 1st -> SW0     2nd -> SW1     3rd -> SW2     4th -> SW3
+S5: כמה פעמים הנורה דלקה, בכל 4 הסבבים (מתוך 16)? אלה המינטרמים.
+S5: שימו את המספר:
+S5: 1 = SW0          2 = SW1          3 = SW1+SW0       4 = SW2           5 = SW2+SW0       6 = SW2+SW1
+S5: 7 = SW2+SW1+SW0  8 = SW3          9 = SW3+SW0      10 = SW3+SW1      11 = SW3+SW1+SW0  12 = SW3+SW2
+S6: כמה פעמים היא הייתה כבויה (16 פחות התשובה הקודמת)? אלה המקסטרמים.
+S6: שימו את המספר:
+S6: 1 = SW0          2 = SW1          3 = SW1+SW0       4 = SW2           5 = SW2+SW0       6 = SW2+SW1
+S6: 7 = SW2+SW1+SW0  8 = SW3          9 = SW3+SW0      10 = SW3+SW1      11 = SW3+SW1+SW0  12 = SW3+SW2
 
-[Q06] THEOREMS | Perfect induction: which statements are true? | npub 4 | steps 4 | flat
-B: Statement number = SW9 SW8 (HEX3).  A = SW7, B = SW6 (HEX1 HEX0).  LEFT = LEDG1, RIGHT = LEDG0.  Answer on SW3..SW0.
-B: The board holds 4 statements LEFT = RIGHT, in a hidden order:   A + AB = A     A + A'B = A + B     (AB)' = A' + B'     (A + B)' = A' + B'
-P0: Your statement for the last step:  A + AB = A
-P1: Your statement for the last step:  A + A'B = A + B
-P2: Your statement for the last step:  (AB)' = A' + B'
-P3: Your statement for the last step:  (A + B)' = A' + B'
-S1: GOAL: is statement 0 true?  SW9, SW8 down = statement 0.  LEDG1 = its LEFT side, LEDG0 = its RIGHT side.
-S1: Set SW7 SW6 = down down,  down up,  up down,  up up.
-S1: In each one: are LEDG1 and LEDG0 the SAME (both on or both off)?
-S1: ANSWER: SW0 up if they were the same in all 4.  SW0 down if they were different even once.
-S2: GOAL: the same check as step 1, for all 4 statements. Copy this table to paper:
-S2:    statement   SW9 SW8      same in all 4?
-S2:        0       down down        ?
-S2:        1       down up          ?
-S2:        2       up down          ?
-S2:        3       up up            ?
-S2: For each line: set SW9 SW8, move SW7 SW6 through down down, down up, up down, up up, and watch
-S2: LEDG1 and LEDG0. The same (both on or both off) every time = yes. Different even once = no.
-S2: ANSWER: raise the switch of every 'yes':  statement 0 = SW0,  1 = SW1,  2 = SW2,  3 = SW3.
-S3: GOAL: where is YOUR statement (at the top)? Fill this table on paper from YOUR statement:
-S3:    A B (SW7 SW6)    LEFT   RIGHT
-S3:    0 0
-S3:    0 1
-S3:    1 0
-S3:    1 1
-S3: Now find the statement number whose LEDG1 (LEFT) and LEDG0 (RIGHT) show exactly your table.
-S3: ANSWER: that number:   0 = all down   1 = SW0   2 = SW1   3 = SW1+SW0
+[Q06] THEOREMS | אינדוקציה מלאה: אילו טענות נכונות? | npub 4 | steps 4 | flat
+B: statement = SW9 SW8     A = SW7     B = SW6     LEFT = LEDG1     RIGHT = LEDG0     answer: SW3..SW0
+B: statements:   A + AB = A     A + A'B = A + B     (AB)' = A' + B'     (A + B)' = A' + B'
+P0: הטענה שלכם (לשלב האחרון):
+P0: A + AB = A
+P1: הטענה שלכם (לשלב האחרון):
+P1: A + A'B = A + B
+P2: הטענה שלכם (לשלב האחרון):
+P2: (AB)' = A' + B'
+P3: הטענה שלכם (לשלב האחרון):
+P3: (A + B)' = A' + B'
+S1: כל טענה היא: צד שמאל = צד ימין. הלוח מראה את שני הצדדים בשתי נורות.
+S1: טענה נכונה = שתי הנורות תמיד שוות (שתיהן דולקות או שתיהן כבויות).
+S1: בחרו טענה 0:
+S1: SW9 = down   SW8 = down
+S1: נסו את 4 המצבים, ובכל אחד בדקו אם שתי הנורות שוות:
+S1: SW7 SW6:   down-down,   down-up,   up-down,   up-up
+S1: שוות תמיד - הרימו:
+S1: SW0
+S1: שונות אפילו פעם אחת - השאירו למטה.
+S2: אותה בדיקה לכל 4 הטענות:
+S2: statement 0 = down-down   1 = down-up   2 = up-down   3 = up-up
+S2: הרימו מתג לכל טענה נכונה:
+S2: statement 0 -> SW0   1 -> SW1   2 -> SW2   3 -> SW3
+S3: איפה הטענה שלכם (למעלה)? חשבו על דף את שני הצדדים שלה ב-4 המצבים:
+S3: A B    LEFT   RIGHT
+S3: 0 0
+S3: 0 1
+S3: 1 0
+S3: 1 1
+S3: מצאו את מספר הטענה שהנורות שלה מראות בדיוק את זה. שימו את המספר:
+S3: 0 = all down    1 = SW0    2 = SW1    3 = SW1+SW0
 
-[Q07] THEOREMS8 | Perfect induction: 8 statements of A B C | npub 8 | steps 4 | flat
-B: Statement number = SW9 SW8 SW7 (HEX3: 0-7).  A = SW6, B = SW5, C = SW4 (HEX2 HEX1 HEX0).
-B: LEFT side = LEDG1, RIGHT side = LEDG0.  Answer on SW3..SW0.
-P0: Your statement for the last step:  A(A + B) = A
-P1: Your statement for the last step:  BC + BC' = B
-P2: Your statement for the last step:  AB + A'C + BC = AB + A'C
-P3: Your statement for the last step:  (AB)' = A' + B'
-P4: Your statement for the last step:  (A + B)' = A' + B'
-P5: Your statement for the last step:  A + BC = (A + B)(A + C)
-P6: Your statement for the last step:  A + BC = (A + B)C
-P7: Your statement for the last step:  A + A'B = A + B
-S1: WHAT YOU DO: check statement 0 - are its two lights ALWAYS the same?
-S1: (Each statement is like  A(A + B) = A.  LEDG1 = its left side, LEDG0 = its right side.
-S1:  A statement is TRUE when the two lights are equal - both on, or both off - in every position.)
-S1: 1. Put SW9, SW8, SW7 DOWN. This chooses statement 0. Do not touch them.
-S1: 2. Set SW6 SW5 SW4 to each of these 8 positions. Each time look: LEDG1 and LEDG0 - equal?
-S1:      a. down down down          e. up down down
-S1:      b. down down up            f. up down up
-S1:      c. down up down            g. up up down
-S1:      d. down up up              h. up up up
-S1: ANSWER: equal in ALL 8 positions -> raise SW0.   Different even once -> leave SW0 DOWN.
-S2: WHAT YOU DO: the same check for all 8 statements, and count how many are true.
-S2: 1. Set the statement number on SW9 SW8 SW7:
-S2:    statement 0 = SW9 SW8 SW7 down down down    1 = down down up    2 = down up down    3 = down up up
-S2:              4 = up down down                  5 = up down up      6 = up up down      7 = up up up
-S2: 2. For each statement do the 8 positions of A B C, as in step 1, and write: true / false.
-S2: ANSWER: how many statements are true? Put the number:
-S2:    0 = all down   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
-S3: WHAT YOU DO: find where YOUR statement (at the top of the screen) is on the board.
-S3: 1. On paper, fill this table for YOUR statement - what its LEFT side gives, and what its RIGHT side gives:
-S3:    A B C  (SW6 SW5 SW4)    LEFT   RIGHT
-S3:    0 0 0
-S3:    0 0 1
-S3:    0 1 0
-S3:    0 1 1
-S3:    1 0 0
-S3:    1 0 1
-S3:    1 1 0
-S3:    1 1 1
-S3: 2. On the board, try statement numbers (SW9 SW8 SW7, as in step 2). For each one compare LEDG1 with
-S3:    your LEFT column and LEDG0 with your RIGHT column, in the 8 positions of SW6 SW5 SW4.
-S3: 3. The statement where BOTH lights match your table in all 8 positions is yours.
-S3: ANSWER: its number:
-S3:    0 = all down   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
+[Q07] THEOREMS8 | אינדוקציה מלאה: 8 טענות | npub 8 | steps 4 | flat
+B: statement = SW9 SW8 SW7     A = SW6     B = SW5     C = SW4     LEFT = LEDG1     RIGHT = LEDG0     answer: SW3..SW0
+P0: הטענה שלכם (לשלב האחרון):
+P0: A(A + B) = A
+P1: הטענה שלכם (לשלב האחרון):
+P1: BC + BC' = B
+P2: הטענה שלכם (לשלב האחרון):
+P2: AB + A'C + BC = AB + A'C
+P3: הטענה שלכם (לשלב האחרון):
+P3: (AB)' = A' + B'
+P4: הטענה שלכם (לשלב האחרון):
+P4: (A + B)' = A' + B'
+P5: הטענה שלכם (לשלב האחרון):
+P5: A + BC = (A + B)(A + C)
+P6: הטענה שלכם (לשלב האחרון):
+P6: A + BC = (A + B)C
+P7: הטענה שלכם (לשלב האחרון):
+P7: A + A'B = A + B
+S1: כל טענה היא: צד שמאל = צד ימין. טענה נכונה = שתי הנורות תמיד שוות.
+S1: בחרו טענה 0:
+S1: SW9 SW8 SW7 = down down down
+S1: נסו את 8 המצבים, ובכל אחד בדקו אם שתי הנורות שוות:
+S1: SW6 SW5 SW4:   ddd   ddu   dud   duu   udd   udu   uud   uuu      (d = down, u = up)
+S1: שוות תמיד - הרימו:
+S1: SW0
+S1: שונות אפילו פעם אחת - השאירו למטה.
+S2: אותה בדיקה לכל 8 הטענות. מספר הטענה:
+S2: SW9 SW8 SW7:   0 = ddd   1 = ddu   2 = dud   3 = duu   4 = udd   5 = udu   6 = uud   7 = uuu
+S2: כמה טענות נכונות? שימו את המספר:
+S2: 0 = all down   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
+S3: איפה הטענה שלכם (למעלה)? חשבו על דף את שני הצדדים שלה ב-8 המצבים:
+S3: A B C    LEFT   RIGHT
+S3: 0 0 0
+S3: 0 0 1
+S3: 0 1 0
+S3: 0 1 1
+S3: 1 0 0
+S3: 1 0 1
+S3: 1 1 0
+S3: 1 1 1
+S3: מצאו את מספר הטענה שהנורות שלה מראות בדיוק את זה. שימו את המספר:
+S3: 0 = all down   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
 
-[Q08] MINSOP | The minimal sum of products | npub 1 | steps 4 | flat
-B: A = SW9, B = SW8, C = SW7 (HEX3 HEX2 HEX1).  F = LEDG0 (green).  Answer on SW3..SW0.
-S1: GOAL: the truth table of F. Copy it to paper, go over the 8 rows once (0 = down, 1 = up), write F (LEDG0):
-S1:    row (SW9 SW8 SW7)    Y
-S1:    0 0 0
-S1:    0 0 1
-S1:    0 1 0
-S1:    0 1 1
-S1:    1 0 0
-S1:    1 0 1
-S1:    1 1 0
-S1:    1 1 1
-S1: ANSWER: how many 1s in the F column?   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
-S2: GOAL: the minimal SOP. Write F as SIGMA of its minterms, then join minterms that differ in one letter
-S2: (T10: XY + XY' = X), until no more joins - the fewest terms, each with the fewest letters.
-S2: ANSWER: how many TERMS (products) does it have?   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
-S3: GOAL: count the letters. In your minimal SOP, count every letter of every term (A'B + C = 3 letters).
-S3: ANSWER: how many LITERALS?   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
+[Q08] MINSOP | סכום מכפלות מינימלי | npub 1 | steps 4 | flat
+B: A = SW9     B = SW8     C = SW7     F = LEDG0 (green)     answer: SW3..SW0
+S1: עברו על 8 המצבים, ובכל מצב רשמו אם הנורה דולקת:
+S1: SW9 SW8 SW7:   000   001   010   011   100   101   110   111      (0 = down, 1 = up)
+S1: בכמה מצבים היא דלקה? שימו את המספר:
+S1: 1 = SW0    2 = SW1    3 = SW1+SW0    4 = SW2    5 = SW2+SW0    6 = SW2+SW1    7 = SW2+SW1+SW0
+S2: כתבו את הפונקציה כסכום של מינטרמים, ואחדו כל שני איברים שנבדלים באות אחת:
+S2: XY + XY' = X
+S2: עד שאי אפשר יותר. כמה איברים נשארו? שימו את המספר:
+S2: 1 = SW0    2 = SW1    3 = SW1+SW0    4 = SW2    5 = SW2+SW0    6 = SW2+SW1    7 = SW2+SW1+SW0
+S3: כמה אותיות יש בכל האיברים יחד? למשל
+S3: A'B + C  ->  3
+S3: שימו את המספר:
+S3: 1 = SW0    2 = SW1    3 = SW1+SW0    4 = SW2    5 = SW2+SW0    6 = SW2+SW1    7 = SW2+SW1+SW0
 
-[Q09] LITERAL | The hidden literal | npub 6 | steps 4 | flat
-B: A = SW9, B = SW8, C = SW7 (HEX3 HEX2 HEX1).  Y = LEDG0 (green).  Answer on SW3..SW0.
-P0: Your expression:   Y = (A + B)(A' + ?) + BC      - one literal is hidden: ? is A, A', B, B', C or C'.
-P1: Your expression:   Y = A'B + ?C + A'BC'      - one literal is hidden: ? is A, A', B, B', C or C'.
-P2: Your expression:   Y = (AB + C)? + A'B'      - one literal is hidden: ? is A, A', B, B', C or C'.
-P3: Your expression:   Y = A'? + BC' + AB'C      - one literal is hidden: ? is A, A', B, B', C or C'.
-P4: Your expression:   Y = (A + ?)(B' + C) + A'BC'      - one literal is hidden: ? is A, A', B, B', C or C'.
-P5: Your expression:   Y = AB + A'? + B'C'      - one literal is hidden: ? is A, A', B, B', C or C'.
-S1: GOAL: the truth table of the board's Y. Copy it to paper, go over the 8 rows once, write Y (LEDG0):
-S1:    row (SW9 SW8 SW7)    Y
-S1:    0 0 0
-S1:    0 0 1
-S1:    0 1 0
-S1:    0 1 1
-S1:    1 0 0
-S1:    1 0 1
-S1:    1 1 0
-S1:    1 1 1
-S1: ANSWER: how many 1s?   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
-S2: GOAL: find the hidden literal. Try ? = A in your expression: work out its table on paper and compare with
-S2: the board's table. Not the same? Try A', then B, B', C, C' - only one of them matches.
-S2: ANSWER:   A = SW0   A' = SW1   B = SW1+SW0   B' = SW2   C = SW2+SW0   C' = SW2+SW1
-S3: GOAL: simplify Y (with the right literal) to a minimal SOP and count its letters (A'B + C = 3).
-S3: ANSWER: how many LITERALS?   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
+[Q09] LITERAL | הליטרל המוסתר | npub 6 | steps 4 | flat
+B: A = SW9     B = SW8     C = SW7     Y = LEDG0 (green)     answer: SW3..SW0
+P0: הביטוי שלכם (אות אחת מוסתרת: A, A', B, B', C או C'):
+P0: Y = (A + B)(A' + ?) + BC
+P1: הביטוי שלכם (אות אחת מוסתרת: A, A', B, B', C או C'):
+P1: Y = A'B + ?C + A'BC'
+P2: הביטוי שלכם (אות אחת מוסתרת: A, A', B, B', C או C'):
+P2: Y = (AB + C)? + A'B'
+P3: הביטוי שלכם (אות אחת מוסתרת: A, A', B, B', C או C'):
+P3: Y = A'? + BC' + AB'C
+P4: הביטוי שלכם (אות אחת מוסתרת: A, A', B, B', C או C'):
+P4: Y = (A + ?)(B' + C) + A'BC'
+P5: הביטוי שלכם (אות אחת מוסתרת: A, A', B, B', C או C'):
+P5: Y = AB + A'? + B'C'
+S1: עברו על 8 המצבים, ובכל מצב רשמו אם הנורה דולקת:
+S1: SW9 SW8 SW7:   000   001   010   011   100   101   110   111      (0 = down, 1 = up)
+S1: בכמה מצבים היא דלקה? שימו את המספר:
+S1: 1 = SW0    2 = SW1    3 = SW1+SW0    4 = SW2    5 = SW2+SW0    6 = SW2+SW1    7 = SW2+SW1+SW0
+S2: בביטוי שלכם (למעלה) יש אות מוסתרת במקום
+S2: ?
+S2: נסו כל אחת מהאפשרויות, חשבו את הטבלה על דף, והשוו לטבלה מהלוח.
+S2: רק אחת מתאימה. הרימו את המתגים שלה:
+S2: A = SW0    A' = SW1    B = SW1+SW0    B' = SW2    C = SW2+SW0    C' = SW2+SW1
+S3: פשטו את הביטוי (עם האות הנכונה) כמה שאפשר.
+S3: כמה אותיות נשארו? למשל
+S3: A'B + C  ->  3
+S3: שימו את המספר:
+S3: 1 = SW0    2 = SW1    3 = SW1+SW0    4 = SW2    5 = SW2+SW0    6 = SW2+SW1    7 = SW2+SW1+SW0
 
-[Q10] STORY | From a story to an equation | npub 6 | steps 4 | flat
-B: Your three letters are on SW9 SW8 SW7, in the order shown below (HEX3 HEX2 HEX1).  4 students' circuits = LEDG3..LEDG0.
-B: Answer on SW3..SW0.
-P0: You go to the Park (P) if it is NOT Raining (R) and you have Sandwiches (S) or Drinks (D).
-P0: Letters:  R = SW9,  S = SW8,  D = SW7
-P1: The alarm (Y) rings when the Door (D) is open and the system is Armed (A), or when there is Smoke (S).
-P1: Letters:  D = SW9,  A = SW8,  S = SW7
-P2: The light (L) is on when it is Dark (D) and someone Moves (M) - but never when the Battery (B) is low.
-P2: Letters:  D = SW9,  M = SW8,  B = SW7
-P3: You Enter (E) with a Hat (H) and Shoes (S), or with a Hat and no Shoes (S').
-P3: Letters:  H = SW9,  S = SW8   (SW7 is not used)
-P4: The fan (F) runs when it is Hot (H) and the window is not Open (O), or when a Kid (K) presses the button.
-P4: Letters:  H = SW9,  O = SW8,  K = SW7
-P5: You Win (W) if you get a Million (M) or a Notepad (N) - but only if you Play (P).
-P5: Letters:  M = SW9,  N = SW8,  P = SW7
-S1: GOAL: meet the 4 circuits. First write the story as an equation, on paper.
-S1: Put all three letters to 1 (SW9, SW8, SW7 up).
-S1: ANSWER: copy the lights - SWi up if LEDGi is on (SW3..SW0).
-S2: GOAL: use YOUR equation. What is it when the letters are 1, 0, 1 (SW9 up, SW8 down, SW7 up)?
-S2: Work it out on paper, from the equation.
-S2: ANSWER: SW0 up if your equation gives 1, SW0 down if it gives 0.
-S3: GOAL: which circuit is your equation? Fill this table from your equation (paper), then compare it
-S3: with each light on the board, row by row:
-S3:    row (SW9 SW8 SW7)    Y
-S3:    0 0 0
-S3:    0 0 1
-S3:    0 1 0
-S3:    0 1 1
-S3:    1 0 0
-S3:    1 0 1
-S3:    1 1 0
-S3:    1 1 1
-S3: ANSWER: one switch up - SWi for the light that matches in all 8 rows.
+[Q10] STORY | מסיפור למשוואה | npub 6 | steps 4 | flat
+B: your letters = SW9 SW8 SW7 (see below)     4 students' circuits = LEDG3..LEDG0     answer: SW3..SW0
+P0: הולכים לפארק אם לא יורד גשם, ויש כריכים או שתייה.
+P0: P = park   R = rain   S = sandwiches   D = drinks
+P0: switches:  R = SW9,  S = SW8,  D = SW7
+P1: האזעקה מצלצלת כשהדלת פתוחה והמערכת דרוכה, או כשיש עשן.
+P1: Y = alarm   D = door open   A = armed   S = smoke
+P1: switches:  D = SW9,  A = SW8,  S = SW7
+P2: האור דולק כשחשוך ומישהו זז - אבל אף פעם לא כשהסוללה חלשה.
+P2: L = light   D = dark   M = someone moves   B = battery low
+P2: switches:  D = SW9,  M = SW8,  B = SW7
+P3: נכנסים עם כובע ונעליים, או עם כובע ובלי נעליים.
+P3: E = enter   H = hat   S = shoes
+P3: switches:  H = SW9,  S = SW8   (SW7 is not used)
+P4: המאוורר פועל כשחם והחלון לא פתוח, או כשילד לוחץ על הכפתור.
+P4: F = fan   H = hot   O = window open   K = kid presses
+P4: switches:  H = SW9,  O = SW8,  K = SW7
+P5: מנצחים אם מקבלים מיליון או מחברת - אבל רק אם משחקים.
+P5: W = win   M = million   N = notepad   P = play
+P5: switches:  M = SW9,  N = SW8,  P = SW7
+S1: כתבו על דף את הסיפור שלכם (למעלה) כמשוואה.
+S1: הרימו את שלושת המתגים:
+S1: SW9 SW8 SW7 = up up up
+S1: העתיקו את הנורות למתגים: נורה דולקת = מתג למעלה.
+S1: LEDGi -> SWi
+S2: לפי המשוואה שלכם (על דף): מה יוצא במצב הזה?
+S2: SW9 = up   SW8 = down   SW7 = up
+S2: יוצא 1 - הרימו:
+S2: SW0
+S2: יוצא 0 - השאירו למטה.
+S3: איזו נורה היא המשוואה שלכם? מלאו את הטבלה לפי המשוואה:
+S3: A B C    Y
+S3: 0 0 0
+S3: 0 0 1
+S3: 0 1 0
+S3: 0 1 1
+S3: 1 0 0
+S3: 1 0 1
+S3: 1 1 0
+S3: 1 1 1
+S3: והשוו לכל נורה ב-8 המצבים. הרימו את המתג של הנורה שמתאימה בכולם:
+S3: LEDGi -> SWi
 
-[Q11] DEMORGAN | De Morgan: which answer is right? | npub 6 | steps 4 | flat
-B: A = SW9, B = SW8, C = SW7 (HEX3 HEX2 HEX1).  4 students' answers = LEDG3..LEDG0.  Answer on SW3..SW0.
-P0: Your expression:   Y = ((A + B')C)'
-P1: Your expression:   Y = (A'B + C)'
-P2: Your expression:   Y = (AB + C)'
-P3: Your expression:   Y = ((A + B)C')'
-P4: Your expression:   Y = (A + B + C)'
-P5: Your expression:   Y = (A(B + C'))'
-S1: GOAL: De Morgan on paper. Remove the outer bar of your Y (outside in: (XY)' = X' + Y', (X + Y)' = X'Y').
-S1: Then fill the table of Y from your result:
-S1:    row (SW9 SW8 SW7)    Y
-S1:    0 0 0
-S1:    0 0 1
-S1:    0 1 0
-S1:    0 1 1
-S1:    1 0 0
-S1:    1 0 1
-S1:    1 1 0
-S1:    1 1 1
-S1: ANSWER: how many 1s in your Y column?   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
-S2: GOAL: meet the 4 answers on the board. Put A B C = 0 0 0 (SW9, SW8, SW7 down).
-S2: ANSWER: copy the lights - SWi up if LEDGi is on (SW3..SW0).
-S3: GOAL: the right answer. Compare each light with your table, row by row (all 8 rows).
-S3: ANSWER: one switch up - SWi for the light that matches your Y in all 8 rows.
+[Q11] DEMORGAN | דה-מורגן: איזו תשובה נכונה? | npub 6 | steps 4 | flat
+B: A = SW9     B = SW8     C = SW7     4 answers = LEDG3..LEDG0     answer: SW3..SW0
+P0: הביטוי שלכם:
+P0: Y = ((A + B')C)'
+P1: הביטוי שלכם:
+P1: Y = (A'B + C)'
+P2: הביטוי שלכם:
+P2: Y = (AB + C)'
+P3: הביטוי שלכם:
+P3: Y = ((A + B)C')'
+P4: הביטוי שלכם:
+P4: Y = (A + B + C)'
+P5: הביטוי שלכם:
+P5: Y = (A(B + C'))'
+S1: הורידו על דף את הקו העליון מהביטוי שלכם (מבחוץ פנימה):
+S1: (XY)' = X' + Y'        (X + Y)' = X'Y'
+S1: ומלאו את הטבלה של התוצאה:
+S1: A B C    Y
+S1: 0 0 0
+S1: 0 0 1
+S1: 0 1 0
+S1: 0 1 1
+S1: 1 0 0
+S1: 1 0 1
+S1: 1 1 0
+S1: 1 1 1
+S1: כמה פעמים יצא 1? שימו את המספר:
+S1: 1 = SW0    2 = SW1    3 = SW1+SW0    4 = SW2    5 = SW2+SW0    6 = SW2+SW1    7 = SW2+SW1+SW0
+S2: שימו את שלושת המתגים למטה:
+S2: SW9 SW8 SW7 = down down down
+S2: העתיקו את 4 הנורות למתגים: נורה דולקת = מתג למעלה.
+S2: LEDGi -> SWi
+S3: השוו כל נורה לטבלה שלכם, בכל 8 המצבים. הרימו את המתג של הנורה הנכונה:
+S3: LEDGi -> SWi
 
-[Q12] ERRORS | Common errors: which simplifications are wrong? | npub 6 | steps 4 | flat
-B: A = SW9, B = SW8, C = SW7 (HEX3 HEX2 HEX1).  4 students' results = LEDG3..LEDG0.  Answer on SW3..SW0.
-P0: Four students simplified your expression:   Y = A'BC + A'
-P1: Four students simplified your expression:   Y = AB + AB'
-P2: Four students simplified your expression:   Y = (A + BC)'
-P3: Four students simplified your expression:   Y = (A + B)(A + C)
-P4: Four students simplified your expression:   Y = AB + A'C + BC
-P5: Four students simplified your expression:   Y = A + A'B
-S1: GOAL: your own answer first. Work on YOUR expression (above) on paper, then fill its table:
-S1:    row (SW9 SW8 SW7)    Y
-S1:    0 0 0
-S1:    0 0 1
-S1:    0 1 0
-S1:    0 1 1
-S1:    1 0 0
-S1:    1 0 1
-S1:    1 1 0
-S1:    1 1 1
-S1: ANSWER: how many 1s in your Y column?   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
-S2: GOAL: meet the 4 results on the board. Put A B C = 0 0 0 (SW9, SW8, SW7 down).
-S2: ANSWER: copy the lights - SWi up if LEDGi is on (SW3..SW0).
-S3: GOAL: find the mistakes. Compare each light with your table, row by row (all 8 rows).
-S3: ANSWER: SWi up for every light that is WRONG (different from your Y in some row) - two lights.
+[Q12] ERRORS | טעויות נפוצות: אילו פישוטים שגויים? | npub 6 | steps 4 | flat
+B: A = SW9     B = SW8     C = SW7     4 students' results = LEDG3..LEDG0     answer: SW3..SW0
+P0: סטודנטים פישטו את הביטוי שלכם:
+P0: Y = A'BC + A'
+P1: סטודנטים פישטו את הביטוי שלכם:
+P1: Y = AB + AB'
+P2: סטודנטים פישטו את הביטוי שלכם:
+P2: Y = (A + BC)'
+P3: סטודנטים פישטו את הביטוי שלכם:
+P3: Y = (A + B)(A + C)
+P4: סטודנטים פישטו את הביטוי שלכם:
+P4: Y = AB + A'C + BC
+P5: סטודנטים פישטו את הביטוי שלכם:
+P5: Y = A + A'B
+S1: שלב 1: פתרו בעצמכם, על דף, את הביטוי שלכם (למעלה).
+S1: מלאו את הטבלה:
+S1: A B C    Y
+S1: 0 0 0
+S1: 0 0 1
+S1: 0 1 0
+S1: 0 1 1
+S1: 1 0 0
+S1: 1 0 1
+S1: 1 1 0
+S1: 1 1 1
+S1: כמה פעמים יצא 1? שימו את המספר:
+S1: 1 = SW0    2 = SW1    3 = SW1+SW0    4 = SW2    5 = SW2+SW0    6 = SW2+SW1    7 = SW2+SW1+SW0
+S2: שימו את שלושת המתגים למטה:
+S2: SW9 SW8 SW7 = down down down
+S2: העתיקו את 4 הנורות למתגים: נורה דולקת = מתג למעלה.
+S3: השוו כל נורה לטבלה שלכם, בכל 8 המצבים.
+S3: הרימו מתג לכל נורה שגויה (שונה מהטבלה שלכם במצב כלשהו) - שתי נורות:
+S3: LEDGi -> SWi
 
-[Q13] MULTIPLY | Multiplying out and factoring: which answers are right? | npub 6 | steps 4 | flat
-B: A = SW9, B = SW8, C = SW7 (HEX3 HEX2 HEX1).  4 students' results = LEDG3..LEDG0.  Answer on SW3..SW0.
-P0: Four students multiplied out (SOP) or factored (POS) your expression:   Y = (A + B')(A + C)
-P1: Four students multiplied out (SOP) or factored (POS) your expression:   Y = A(B + C')
-P2: Four students multiplied out (SOP) or factored (POS) your expression:   Y = A + BC
-P3: Four students multiplied out (SOP) or factored (POS) your expression:   Y = A + B'C'
-P4: Four students multiplied out (SOP) or factored (POS) your expression:   Y = (A' + B)(C + B)
-P5: Four students multiplied out (SOP) or factored (POS) your expression:   Y = AB + C
-S1: GOAL: your own answer first. Work on YOUR expression (above) on paper, then fill its table:
-S1:    row (SW9 SW8 SW7)    Y
-S1:    0 0 0
-S1:    0 0 1
-S1:    0 1 0
-S1:    0 1 1
-S1:    1 0 0
-S1:    1 0 1
-S1:    1 1 0
-S1:    1 1 1
-S1: ANSWER: how many 1s in your Y column?   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
-S2: GOAL: meet the 4 results on the board. Put A B C = 0 0 0 (SW9, SW8, SW7 down).
-S2: ANSWER: copy the lights - SWi up if LEDGi is on (SW3..SW0).
-S3: GOAL: find the right answers. Compare each light with your table, row by row (all 8 rows).
-S3: ANSWER: SWi up for every light that is RIGHT (equal to your Y in all 8 rows) - two lights.
+[Q13] MULTIPLY | הכפלה ופירוק: אילו תשובות נכונות? | npub 6 | steps 4 | flat
+B: A = SW9     B = SW8     C = SW7     4 students' results = LEDG3..LEDG0     answer: SW3..SW0
+P0: סטודנטים הכפילו או פירקו את הביטוי שלכם:
+P0: Y = (A + B')(A + C)
+P1: סטודנטים הכפילו או פירקו את הביטוי שלכם:
+P1: Y = A(B + C')
+P2: סטודנטים הכפילו או פירקו את הביטוי שלכם:
+P2: Y = A + BC
+P3: סטודנטים הכפילו או פירקו את הביטוי שלכם:
+P3: Y = A + B'C'
+P4: סטודנטים הכפילו או פירקו את הביטוי שלכם:
+P4: Y = (A' + B)(C + B)
+P5: סטודנטים הכפילו או פירקו את הביטוי שלכם:
+P5: Y = AB + C
+S1: שלב 1: פתרו בעצמכם, על דף, את הביטוי שלכם (למעלה).
+S1: מלאו את הטבלה:
+S1: A B C    Y
+S1: 0 0 0
+S1: 0 0 1
+S1: 0 1 0
+S1: 0 1 1
+S1: 1 0 0
+S1: 1 0 1
+S1: 1 1 0
+S1: 1 1 1
+S1: כמה פעמים יצא 1? שימו את המספר:
+S1: 1 = SW0    2 = SW1    3 = SW1+SW0    4 = SW2    5 = SW2+SW0    6 = SW2+SW1    7 = SW2+SW1+SW0
+S2: שימו את שלושת המתגים למטה:
+S2: SW9 SW8 SW7 = down down down
+S2: העתיקו את 4 הנורות למתגים: נורה דולקת = מתג למעלה.
+S3: השוו כל נורה לטבלה שלכם, בכל 8 המצבים.
+S3: הרימו מתג לכל נורה נכונה (שווה לטבלה שלכם בכל המצבים) - שתי נורות:
+S3: LEDGi -> SWi
 
-[Q14] STORY4 | From a story to an equation - four letters | npub 6 | steps 4 | flat
-B: Your four letters are on SW9 SW8 SW7 SW6, in the order shown below (HEX3..HEX0).  4 circuits = LEDG3..LEDG0.  Answer on SW3..SW0.
-P0: You can Eat delicious food (E) if you Make it yourself (M), or you have a personal Chef (C)
+[Q14] STORY4 | מסיפור למשוואה - ארבע אותיות | npub 6 | steps 4 | flat
+B: your letters = SW9 SW8 SW7 SW6 (see below)     4 circuits = LEDG3..LEDG0     answer: SW3..SW0
+P0: אפשר לאכול אוכל טעים אם מכינים לבד, או שיש שף פרטי מוכשר ולא יקר.
+P0: E = eat   M = make it yourself   C = chef   T = talented   X = expensive
 P0: who is Talented (T) and not eXpensive (X).
-P0: Letters:  M = SW9,  C = SW8,  T = SW7,  X = SW6
-P1: The alarm sounds (Y) when the Door is open (D) and the system is Armed (A),
+P1: האזעקה מצלצלת כשהדלת פתוחה והמערכת דרוכה, או כשיש עשן ולא מדובר בבדיקה.
+P1: Y = alarm   D = door open   A = armed   S = smoke   T = test
 P1: or when there is Smoke (S) and it is not a Test (T).
-P1: Letters:  D = SW9,  A = SW8,  S = SW7,  T = SW6
-P2: You pass (P) if you did the Homework (H) and the Exam (E) or the Lab (L),
+P2: עוברים אם הגישו שיעורי בית, ומבחן או מעבדה - אלא אם העתיקו.
+P2: P = pass   H = homework   E = exam   L = lab   C = cheated
 P2: unless you Cheated (C).
-P2: Letters:  H = SW9,  E = SW8,  L = SW7,  C = SW6
-P3: The light (Y) is on when it is Dark (D) and someone Moves (M), or when the Switch (S) is on -
+P3: האור דולק כשחשוך ומישהו זז, או כשהמתג דלוק - אבל אף פעם לא כשהסוללה חלשה.
+P3: Y = light   D = dark   M = moves   S = switch   B = battery low
 P3: but never when the Battery (B) is low.
-P3: Letters:  D = SW9,  M = SW8,  S = SW7,  B = SW6
-P4: You can Enter (E) with a Hat (H) and Shoes (S), or with a Hat and a Ticket (T),
+P4: נכנסים עם כובע ונעליים, או עם כובע וכרטיס, או אם אתם אורחי כבוד.
+P4: E = enter   H = hat   S = shoes   T = ticket   V = VIP
 P4: or if you are a VIP (V).
-P4: Letters:  H = SW9,  S = SW8,  T = SW7,  V = SW6
-P5: The fan (F) runs when it is Hot (H) and the window is not Open (O),
+P5: המאוורר פועל כשחם והחלון לא פתוח, או כשילד לוחץ על הכפתור.
+P5: F = fan   H = hot   O = window open   K = kid   B = button
 P5: or when a Kid (K) presses the Button (B).
-P5: Letters:  H = SW9,  O = SW8,  K = SW7,  B = SW6
-S1: GOAL: meet the 4 circuits. Write the story as an equation (paper). Put all four letters to 1 (SW9..SW6 up).
-S1: ANSWER: copy the lights - SWi up if LEDGi is on (SW3..SW0).
-S2: GOAL: use YOUR equation: what is it when the letters are 1, 0, 1, 0 (SW9 up, SW8 down, SW7 up, SW6 down)?
-S2: ANSWER: SW0 up if your equation gives 1, SW0 down if it gives 0.
-S3: GOAL: which circuit is your equation? Compare each light with your equation in all 16 rows
-S3: (rows where they differ rule a light out - start with the rows you already know).
-S3: ANSWER: one switch up - SWi for the light that matches in every row.
+S1: כתבו על דף את הסיפור שלכם (למעלה) כמשוואה.
+S1: הרימו את ארבעת המתגים:
+S1: SW9 SW8 SW7 SW6 = up up up up
+S1: העתיקו את הנורות למתגים: נורה דולקת = מתג למעלה.
+S1: LEDGi -> SWi
+S2: לפי המשוואה שלכם (על דף): מה יוצא במצב הזה?
+S2: SW9 = up   SW8 = down   SW7 = up   SW6 = down
+S2: יוצא 1 - הרימו:
+S2: SW0
+S2: יוצא 0 - השאירו למטה.
+S3: איזו נורה היא המשוואה שלכם? השוו כל נורה למשוואה ב-16 המצבים
+S3: (מצב שבו הם שונים פוסל את הנורה). הרימו את המתג של הנורה שמתאימה בכולם:
+S3: LEDGi -> SWi
 
-[Q15] DEMORGAN4 | De Morgan with four letters: which answers are right? | npub 6 | steps 4 | flat
-B: A = SW9, B = SW8, C = SW7, D = SW6 (HEX3..HEX0).  4 students' results = LEDG3..LEDG0.  Answer on SW3..SW0.
-P0: Apply De Morgan to your expression:   Y = ((A + BD)C)'
-P1: Apply De Morgan to your expression:   Y = ((A + B')C)'
-P2: Apply De Morgan to your expression:   Y = (A'B + CD')'
-P3: Apply De Morgan to your expression:   Y = ((A + B)(C + D)')'
-P4: Apply De Morgan to your expression:   Y = (A(B' + C) + D)'
-P5: Apply De Morgan to your expression:   Y = ((AB)' + C)'
-S1: GOAL: meet the 4 answers. Put A B C D = 0 0 0 0 (SW9..SW6 down).
-S1: ANSWER: copy the lights - SWi up if LEDGi is on (SW3..SW0).
-S2: GOAL: and at A B C D = 1 1 1 1 (SW9..SW6 up).
-S2: ANSWER: copy the lights (SW3..SW0).
-S3: GOAL: De Morgan on paper (outside in), then compare each light with your result row by row.
-S3: ANSWER: SWi up for every light that is RIGHT (equal to Y in all 16 rows) - one or two lights.
+[Q15] DEMORGAN4 | דה-מורגן עם ארבע אותיות | npub 6 | steps 4 | flat
+B: A = SW9     B = SW8     C = SW7     D = SW6     4 answers = LEDG3..LEDG0     answer: SW3..SW0
+P0: הביטוי שלכם:
+P0: Y = ((A + BD)C)'
+P1: הביטוי שלכם:
+P1: Y = ((A + B')C)'
+P2: הביטוי שלכם:
+P2: Y = (A'B + CD')'
+P3: הביטוי שלכם:
+P3: Y = ((A + B)(C + D)')'
+P4: הביטוי שלכם:
+P4: Y = (A(B' + C) + D)'
+P5: הביטוי שלכם:
+P5: Y = ((AB)' + C)'
+S1: שימו את ארבעת המתגים למטה:
+S1: SW9 SW8 SW7 SW6 = down down down down
+S1: העתיקו את הנורות למתגים: נורה דולקת = מתג למעלה.
+S1: LEDGi -> SWi
+S2: עכשיו את ארבעת המתגים למעלה:
+S2: SW9 SW8 SW7 SW6 = up up up up
+S2: העתיקו את הנורות למתגים: נורה דולקת = מתג למעלה.
+S2: LEDGi -> SWi
+S3: הורידו על דף את הקו העליון מהביטוי שלכם, והשוו כל נורה לתוצאה.
+S3: הרימו מתג לכל נורה נכונה (אחת או שתיים):
+S3: LEDGi -> SWi
 
-[Q16] ERRORS5 | Common errors - five simplifications | npub 6 | steps 4 | flat
-B: A = SW9, B = SW8, C = SW7 (HEX3 HEX2 HEX1).  5 students' results = LEDG4..LEDG0.  Answer on SW4..SW0.
-P0: Five students simplified your expression:   Y = A'BC + A'
-P1: Five students simplified your expression:   Y = AB + AB'
-P2: Five students simplified your expression:   Y = (A + BC)'
-P3: Five students simplified your expression:   Y = (A + B)(A + C)
-P4: Five students simplified your expression:   Y = AB + A'C + BC
-P5: Five students simplified your expression:   Y = A + A'B
-S1: GOAL: your own answer first. Simplify YOUR expression (above) on paper, then fill its table:
-S1:    row (SW9 SW8 SW7)    Y
-S1:    0 0 0
-S1:    0 0 1
-S1:    0 1 0
-S1:    0 1 1
-S1:    1 0 0
-S1:    1 0 1
-S1:    1 1 0
-S1:    1 1 1
-S1: ANSWER: how many 1s in your Y column?   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
-S2: GOAL: meet the 5 results (LEDG4..LEDG0). Put A B C = 0 0 0 (SW9, SW8, SW7 down).
-S2: ANSWER: copy the lights - SWi up if LEDGi is on (SW4..SW0).
-S3: GOAL: find the mistakes. Compare each light with your table, row by row.
-S3: ANSWER: SWi up for every light that is WRONG (different from your Y in some row).
+[Q16] ERRORS5 | טעויות נפוצות - חמישה פישוטים | npub 6 | steps 4 | flat
+B: A = SW9     B = SW8     C = SW7     5 students' results = LEDG4..LEDG0     answer: SW4..SW0
+P0: סטודנטים פישטו את הביטוי שלכם:
+P0: Y = A'BC + A'
+P1: סטודנטים פישטו את הביטוי שלכם:
+P1: Y = AB + AB'
+P2: סטודנטים פישטו את הביטוי שלכם:
+P2: Y = (A + BC)'
+P3: סטודנטים פישטו את הביטוי שלכם:
+P3: Y = (A + B)(A + C)
+P4: סטודנטים פישטו את הביטוי שלכם:
+P4: Y = AB + A'C + BC
+P5: סטודנטים פישטו את הביטוי שלכם:
+P5: Y = A + A'B
+S1: שלב 1: פתרו בעצמכם, על דף, את הביטוי שלכם (למעלה).
+S1: מלאו את הטבלה:
+S1: A B C    Y
+S1: 0 0 0
+S1: 0 0 1
+S1: 0 1 0
+S1: 0 1 1
+S1: 1 0 0
+S1: 1 0 1
+S1: 1 1 0
+S1: 1 1 1
+S1: כמה פעמים יצא 1? שימו את המספר:
+S1: 1 = SW0    2 = SW1    3 = SW1+SW0    4 = SW2    5 = SW2+SW0    6 = SW2+SW1    7 = SW2+SW1+SW0
+S2: שימו את שלושת המתגים למטה:
+S2: SW9 SW8 SW7 = down down down
+S2: העתיקו את 5 הנורות למתגים: נורה דולקת = מתג למעלה.
+S2: LEDGi -> SWi
+S3: השוו כל נורה לטבלה שלכם, בכל 8 המצבים.
+S3: הרימו מתג לכל נורה שגויה:
+S3: LEDGi -> SWi
 
-[Q17] MULTIPLY4 | Multiplying out and factoring - six answers | npub 6 | steps 4 | flat
-B: A = SW9, B = SW8, C = SW7, D = SW6 (HEX3..HEX0).  6 students' results = LEDG5..LEDG0.  Answer on SW5..SW0.
-P0: Six students multiplied out (SOP) or factored (POS) your expression:   Y = (A + C + D)(A + B)
-P1: Six students multiplied out (SOP) or factored (POS) your expression:   Y = (A + BC)(A + D)
-P2: Six students multiplied out (SOP) or factored (POS) your expression:   Y = A + B'CD
-P3: Six students multiplied out (SOP) or factored (POS) your expression:   Y = AB + C'D
-P4: Six students multiplied out (SOP) or factored (POS) your expression:   Y = (A + B)(C + D)
-P5: Six students multiplied out (SOP) or factored (POS) your expression:   Y = A + B(C' + D)
-S1: GOAL: meet the 6 answers (LEDG5..LEDG0). Put A B C D = 0 0 0 0 (SW9..SW6 down).
-S1: ANSWER: copy the lights - SWi up if LEDGi is on (SW5..SW0).
-S2: GOAL: and at A B C D = 1 1 1 1 (SW9..SW6 up).
-S2: ANSWER: copy the lights (SW5..SW0).
-S3: GOAL: multiply out or factor your expression on paper, then compare each light with it row by row.
-S3: ANSWER: SWi up for every light that is RIGHT (equal to Y in all 16 rows) - two lights.
+[Q17] MULTIPLY4 | הכפלה ופירוק - שש תשובות | npub 6 | steps 4 | flat
+B: A = SW9     B = SW8     C = SW7     D = SW6     6 answers = LEDG5..LEDG0     answer: SW5..SW0
+P0: סטודנטים הכפילו או פירקו את הביטוי שלכם:
+P0: Y = (A + C + D)(A + B)
+P1: סטודנטים הכפילו או פירקו את הביטוי שלכם:
+P1: Y = (A + BC)(A + D)
+P2: סטודנטים הכפילו או פירקו את הביטוי שלכם:
+P2: Y = A + B'CD
+P3: סטודנטים הכפילו או פירקו את הביטוי שלכם:
+P3: Y = AB + C'D
+P4: סטודנטים הכפילו או פירקו את הביטוי שלכם:
+P4: Y = (A + B)(C + D)
+P5: סטודנטים הכפילו או פירקו את הביטוי שלכם:
+P5: Y = A + B(C' + D)
+S1: שימו את ארבעת המתגים למטה:
+S1: SW9 SW8 SW7 SW6 = down down down down
+S1: העתיקו את 6 הנורות למתגים: נורה דולקת = מתג למעלה.
+S1: LEDGi -> SWi
+S2: עכשיו את ארבעת המתגים למעלה:
+S2: SW9 SW8 SW7 SW6 = up up up up
+S2: העתיקו את 6 הנורות למתגים.
+S2: LEDGi -> SWi
+S3: הכפילו או פרקו על דף את הביטוי שלכם, והשוו כל נורה לתוצאה.
+S3: הרימו מתג לכל נורה נכונה (שתיים):
+S3: LEDGi -> SWi
 
-[Q18] MUX | What is wired into the multiplexer? | npub 1 | steps 6 | flat
-B: Select S1 = SW9, S0 = SW8.  Input C = SW7.  (HEX3 HEX2 HEX1)   Y = LEDG0 (green).   Your answer goes on SW3..SW0.
-B: A 4:1 mux: S1 S0 = 00 sends D0 to Y,  01 sends D1,  10 sends D2,  11 sends D3.
-S1: GOAL: meet the mux. Put S1 S0 = 0 0 (SW9, SW8 down) - now Y shows D0.
-S1: Look at Y with C = 0 (SW7 down), then with C = 1 (SW7 up).
-S1: ANSWER: SW0 = Y with C = 0,   SW1 = Y with C = 1   (up = on).
-S2: GOAL: what is on D0? Put S1 S0 = 0 0 (SW9 down, SW8 down) - now Y shows D0.
-S2: Look at Y with C = 0 (SW7 down) and with C = 1 (SW7 up):
-S2:    Y 0 and 0 -> '0'     Y 1 and 1 -> '1'     Y = C (0 then 1) -> C     Y = opposite of C (1 then 0) -> C'
-S2: ANSWER: '0' = all down    '1' = SW0    C = SW1    C' = SW1 + SW0
-S3: GOAL: what is on D1? Put S1 S0 = 0 1 (SW9 down, SW8 up) - now Y shows D1.
-S3: Look at Y with C = 0 (SW7 down) and with C = 1 (SW7 up):
-S3:    Y 0 and 0 -> '0'     Y 1 and 1 -> '1'     Y = C (0 then 1) -> C     Y = opposite of C (1 then 0) -> C'
-S3: ANSWER: '0' = all down    '1' = SW0    C = SW1    C' = SW1 + SW0
-S4: GOAL: what is on D2? Put S1 S0 = 1 0 (SW9 up, SW8 down) - now Y shows D2.
-S4: Look at Y with C = 0 (SW7 down) and with C = 1 (SW7 up):
-S4:    Y 0 and 0 -> '0'     Y 1 and 1 -> '1'     Y = C (0 then 1) -> C     Y = opposite of C (1 then 0) -> C'
-S4: ANSWER: '0' = all down    '1' = SW0    C = SW1    C' = SW1 + SW0
-S5: GOAL: what is on D3? Put S1 S0 = 1 1 (SW9 up, SW8 up) - now Y shows D3.
-S5: Look at Y with C = 0 (SW7 down) and with C = 1 (SW7 up):
-S5:    Y 0 and 0 -> '0'     Y 1 and 1 -> '1'     Y = C (0 then 1) -> C     Y = opposite of C (1 then 0) -> C'
-S5: ANSWER: '0' = all down    '1' = SW0    C = SW1    C' = SW1 + SW0
+[Q18] MUX | מה מחובר למרבב? | npub 1 | steps 6 | flat
+B: S1 = SW9     S0 = SW8     C = SW7     Y = LEDG0 (green)     answer: SW1 SW0
+B: mux 4:1:   S1 S0 = 00 -> D0     01 -> D1     10 -> D2     11 -> D3
+S1: המרבב שולח ליציאה כניסה אחת. שימו:
+S1: SW9 = down   SW8 = down     (Y shows D0)
+S1: הסתכלו על הנורה פעמיים:
+S1: SW7 = down, then SW7 = up
+S1: הרימו מתג אם הנורה דלקה:
+S1: SW0 = with SW7 down      SW1 = with SW7 up
+S2: מה מחובר ל-
+S2: D0?
+S2: שימו:
+S2: SW9 SW8 = down down
+S2: ובדקו את הנורה פעם עם
+S2: SW7 = down, then SW7 = up
+S2: הכלל, לפי שתי הבדיקות:
+S2: 0,0 -> 0      1,1 -> 1      0,1 -> C      1,0 -> C'
+S2: הרימו:
+S2: 0 = both down     1 = SW0     C = SW1     C' = SW1 + SW0
+S3: מה מחובר ל-
+S3: D1?
+S3: שימו:
+S3: SW9 SW8 = down up
+S3: ובדקו את הנורה פעם עם
+S3: SW7 = down, then SW7 = up
+S3: הכלל, לפי שתי הבדיקות:
+S3: 0,0 -> 0      1,1 -> 1      0,1 -> C      1,0 -> C'
+S3: הרימו:
+S3: 0 = both down     1 = SW0     C = SW1     C' = SW1 + SW0
+S4: מה מחובר ל-
+S4: D2?
+S4: שימו:
+S4: SW9 SW8 = up down
+S4: ובדקו את הנורה פעם עם
+S4: SW7 = down, then SW7 = up
+S4: הכלל, לפי שתי הבדיקות:
+S4: 0,0 -> 0      1,1 -> 1      0,1 -> C      1,0 -> C'
+S4: הרימו:
+S4: 0 = both down     1 = SW0     C = SW1     C' = SW1 + SW0
+S5: מה מחובר ל-
+S5: D3?
+S5: שימו:
+S5: SW9 SW8 = up up
+S5: ובדקו את הנורה פעם עם
+S5: SW7 = down, then SW7 = up
+S5: הכלל, לפי שתי הבדיקות:
+S5: 0,0 -> 0      1,1 -> 1      0,1 -> C      1,0 -> C'
+S5: הרימו:
+S5: 0 = both down     1 = SW0     C = SW1     C' = SW1 + SW0
 
-[Q19] DECODER | A decoder: which light is which output? | npub 6 | steps 6 | flat
-B: A = SW9, B = SW8 (HEX3 HEX2).  The decoder's 4 outputs = LEDG3..LEDG0 - in a hidden order.  Answer on SW3..SW0.
-P0: Your function for the last step:  F = SIGMA(0, 1)  - F = 1 when A B = 00 or 01.
-P1: Your function for the last step:  F = SIGMA(0, 2)  - F = 1 when A B = 00 or 10.
-P2: Your function for the last step:  F = SIGMA(0, 3)  - F = 1 when A B = 00 or 11.
-P3: Your function for the last step:  F = SIGMA(1, 2)  - F = 1 when A B = 01 or 10.
-P4: Your function for the last step:  F = SIGMA(1, 3)  - F = 1 when A B = 01 or 11.
-P5: Your function for the last step:  F = SIGMA(2, 3)  - F = 1 when A B = 10 or 11.
-S1: GOAL: meet the decoder. For every input row exactly ONE output is on (one-hot).
-S1: Put A B = 0 0 (SW9 down, SW8 down). Which green light is on?
-S1: ANSWER: one switch up - SWi for the light LEDGi that is on.   Write it down: row 00 -> LEDG?
-S2: GOAL: the output of row 01.
-S2: Put A B = 0 1 (SW9 down, SW8 up). Which green light is on?
-S2: ANSWER: one switch up - SWi for the light LEDGi that is on.   Write it down: row 01 -> LEDG?
-S3: GOAL: the output of row 10.
-S3: Put A B = 1 0 (SW9 up, SW8 down). Which green light is on?
-S3: ANSWER: one switch up - SWi for the light LEDGi that is on.   Write it down: row 10 -> LEDG?
-S4: GOAL: the output of row 11.
-S4: Put A B = 1 1 (SW9 up, SW8 up). Which green light is on?
-S4: ANSWER: one switch up - SWi for the light LEDGi that is on.   Write it down: row 11 -> LEDG?
-S5: GOAL: logic using a decoder. F = SIGMA(...) = an OR of the decoder outputs of its rows (see above).
-S5: Look at your notes: which light belongs to each row of F?
-S5: ANSWER: raise the TWO switches of those lights (SWi for LEDGi).
+[Q19] DECODER | מפענח: איזו נורה היא איזו יציאה? | npub 6 | steps 6 | flat
+B: A = SW9     B = SW8     4 outputs = LEDG3..LEDG0 (hidden order)     answer: SW3..SW0
+P0: הפונקציה שלכם (לשלב האחרון):
+P0: F = SIGMA(0, 1)  - F = 1 when A B = 00 or 01.
+P1: הפונקציה שלכם (לשלב האחרון):
+P1: F = SIGMA(0, 2)  - F = 1 when A B = 00 or 10.
+P2: הפונקציה שלכם (לשלב האחרון):
+P2: F = SIGMA(0, 3)  - F = 1 when A B = 00 or 11.
+P3: הפונקציה שלכם (לשלב האחרון):
+P3: F = SIGMA(1, 2)  - F = 1 when A B = 01 or 10.
+P4: הפונקציה שלכם (לשלב האחרון):
+P4: F = SIGMA(1, 3)  - F = 1 when A B = 01 or 11.
+P5: הפונקציה שלכם (לשלב האחרון):
+P5: F = SIGMA(2, 3)  - F = 1 when A B = 10 or 11.
+S1: בכל מצב דולקת בדיוק נורה אחת.
+S1: שימו:
+S1: SW9 SW8 = down down
+S1: איזו נורה דולקת? הרימו את המתג שלה, ורשמו על דף:
+S1: LEDGi -> SWi        (row 00 -> LEDG?)
+S2: אותו דבר במצב הבא.
+S2: שימו:
+S2: SW9 SW8 = down up
+S2: איזו נורה דולקת? הרימו את המתג שלה, ורשמו על דף:
+S2: LEDGi -> SWi        (row 01 -> LEDG?)
+S3: אותו דבר במצב הבא.
+S3: שימו:
+S3: SW9 SW8 = up down
+S3: איזו נורה דולקת? הרימו את המתג שלה, ורשמו על דף:
+S3: LEDGi -> SWi        (row 10 -> LEDG?)
+S4: אותו דבר במצב הבא.
+S4: שימו:
+S4: SW9 SW8 = up up
+S4: איזו נורה דולקת? הרימו את המתג שלה, ורשמו על דף:
+S4: LEDGi -> SWi        (row 11 -> LEDG?)
+S5: הפונקציה שלכם (למעלה) היא שער או של שתי יציאות.
+S5: לפי מה שרשמתם: אילו שתי נורות? הרימו את המתגים שלהן:
+S5: LEDGi -> SWi
 
-[Q20] PRIORITY | A priority circuit: who wins? | npub 1 | steps 5 | flat
-B: Inputs A3 = SW9, A2 = SW8, A1 = SW7, A0 = SW6 (HEX3..HEX0).  Outputs Y3..Y0 = LEDG3..LEDG0.  Answer on SW3..SW0.
-B: Yi = 1 when Ai is up and no STRONGER input is up. The order of strength is hidden.
-S1: GOAL: meet the priority circuit. Raise ONLY SW9 (A3) - all of SW9..SW6 others down.
-S1: One input alone always wins. Which light is on?
-S1: ANSWER: one switch up - SWi for the light LEDGi that is on.
-S2: GOAL: two inputs together. Raise SW9 AND SW8 (A3 and A2). Only the stronger one lights its Y.
-S2: Which light is on now?
-S2: ANSWER: one switch up - SWi for that light.
-S3: GOAL: the STRONGEST input. Raise all four: SW9, SW8, SW7, SW6.
-S3: The light that is on belongs to the strongest input.
-S3: ANSWER: one switch up - SWi for that light.
-S4: GOAL: the WEAKEST input - it wins only when it is alone.
-S4: From all four up: lower the winner's switch, see who wins next, lower it too ... the last one is the weakest.
-S4: ANSWER: one switch up for the weakest input:   A3 = SW3   A2 = SW2   A1 = SW1   A0 = SW0
+[Q20] PRIORITY | מעגל עדיפויות: מי מנצח? | npub 1 | steps 5 | flat
+B: A3 = SW9     A2 = SW8     A1 = SW7     A0 = SW6     Y3..Y0 = LEDG3..LEDG0     answer: SW3..SW0
+B: Yi = 1 when Ai is up and no stronger input is up
+S1: הרימו רק את
+S1: SW9
+S1: (כל השאר למטה). איזו נורה דולקת? הרימו את המתג שלה:
+S1: LEDGi -> SWi
+S2: הרימו שניים:
+S2: SW9 + SW8
+S2: רק החזק מביניהם מדליק נורה. איזו? הרימו את המתג שלה:
+S2: LEDGi -> SWi
+S3: הרימו את כל הארבעה:
+S3: SW9 SW8 SW7 SW6
+S3: הנורה שדולקת שייכת לחזק ביותר. הרימו את המתג שלה:
+S3: LEDGi -> SWi
+S4: מי החלש ביותר? מכל הארבעה למעלה: הורידו את המנצח, ראו מי מנצח עכשיו, הורידו גם אותו...
+S4: האחרון שנשאר הוא החלש. הרימו מתג אחד:
+S4: A3 = SW3     A2 = SW2     A1 = SW1     A0 = SW0
 
-[Q21] MUXLOGIC | Build F from a multiplexer | npub 3 | steps 6 | flat
-B: A = SW9, B = SW8, C = SW7 (HEX3 HEX2 HEX1).  F = LEDG0 (green).  Answer on SW1 SW0.
-P0: Your mux: S1 = A, S0 = B, and X = C goes to the data inputs.   AB = 00 -> D0,  01 -> D1,  10 -> D2,  11 -> D3.
-P1: Your mux: S1 = A, S0 = C, and X = B goes to the data inputs.   AC = 00 -> D0,  01 -> D1,  10 -> D2,  11 -> D3.
-P2: Your mux: S1 = B, S0 = C, and X = A goes to the data inputs.   BC = 00 -> D0,  01 -> D1,  10 -> D2,  11 -> D3.
-S1: GOAL: the truth table of F. Copy it to paper, go over the 8 rows once (0 = down, 1 = up), write F (LEDG0):
-S1:    row (SW9 SW8 SW7)    Y
-S1:    0 0 0
-S1:    0 0 1
-S1:    0 1 0
-S1:    0 1 1
-S1:    1 0 0
-S1:    1 0 1
-S1:    1 1 0
-S1:    1 1 1
-S1: ANSWER: how many 1s?   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
-S2: GOAL: D0. Look at the 2 rows of your table where your S1 S0 = 0 0 (one with X = 0, one with X = 1).
-S2: F there is 0 and 0 -> D0 = '0'.   1 and 1 -> '1'.   0 then 1 (follows X) -> X.   1 then 0 -> X'.
-S2: ANSWER (on SW1 SW0):   '0' = both down   '1' = SW0   X = SW1   X' = SW1 + SW0
-S3: GOAL: D1. Look at the 2 rows of your table where your S1 S0 = 0 1 (one with X = 0, one with X = 1).
-S3: F there is 0 and 0 -> D1 = '0'.   1 and 1 -> '1'.   0 then 1 (follows X) -> X.   1 then 0 -> X'.
-S3: ANSWER (on SW1 SW0):   '0' = both down   '1' = SW0   X = SW1   X' = SW1 + SW0
-S4: GOAL: D2. Look at the 2 rows of your table where your S1 S0 = 1 0 (one with X = 0, one with X = 1).
-S4: F there is 0 and 0 -> D2 = '0'.   1 and 1 -> '1'.   0 then 1 (follows X) -> X.   1 then 0 -> X'.
-S4: ANSWER (on SW1 SW0):   '0' = both down   '1' = SW0   X = SW1   X' = SW1 + SW0
-S5: GOAL: D3. Look at the 2 rows of your table where your S1 S0 = 1 1 (one with X = 0, one with X = 1).
-S5: F there is 0 and 0 -> D3 = '0'.   1 and 1 -> '1'.   0 then 1 (follows X) -> X.   1 then 0 -> X'.
-S5: ANSWER (on SW1 SW0):   '0' = both down   '1' = SW0   X = SW1   X' = SW1 + SW0
+[Q21] MUXLOGIC | בונים פונקציה ממרבב | npub 3 | steps 6 | flat
+B: A = SW9     B = SW8     C = SW7     F = LEDG0 (green)     answer: SW1 SW0
+P0: קווי הבחירה של המרבב שלכם:
+P0: S1 = A, S0 = B, and X = C goes to the data inputs.   AB = 00 -> D0,  01 -> D1,  10 -> D2,  11 -> D3.
+P1: קווי הבחירה של המרבב שלכם:
+P1: S1 = A, S0 = C, and X = B goes to the data inputs.   AC = 00 -> D0,  01 -> D1,  10 -> D2,  11 -> D3.
+P2: קווי הבחירה של המרבב שלכם:
+P2: S1 = B, S0 = C, and X = A goes to the data inputs.   BC = 00 -> D0,  01 -> D1,  10 -> D2,  11 -> D3.
+S1: עברו על 8 המצבים, ובכל מצב רשמו אם הנורה דולקת:
+S1: SW9 SW8 SW7:   000   001   010   011   100   101   110   111      (0 = down, 1 = up)
+S1: בכמה מצבים היא דלקה? שימו את המספר:
+S1: 1 = SW0    2 = SW1    3 = SW1+SW0    4 = SW2    5 = SW2+SW0    6 = SW2+SW1    7 = SW2+SW1+SW0
+S2: מה צריך להיות ב-
+S2: D0?
+S2: בטבלה שלכם, מצאו את שני המצבים שבהם קווי הבחירה שלכם (למעלה) הם
+S2: S1 S0 = 0 0
+S2: (one with X = 0, one with X = 1)
+S2: הכלל, לפי שני המצבים:
+S2: 0,0 -> 0      1,1 -> 1      0,1 -> X      1,0 -> X'
+S2: הרימו:
+S2: 0 = both down     1 = SW0     X = SW1     X' = SW1 + SW0
+S3: מה צריך להיות ב-
+S3: D1?
+S3: בטבלה שלכם, מצאו את שני המצבים שבהם קווי הבחירה שלכם (למעלה) הם
+S3: S1 S0 = 0 1
+S3: (one with X = 0, one with X = 1)
+S3: הכלל, לפי שני המצבים:
+S3: 0,0 -> 0      1,1 -> 1      0,1 -> X      1,0 -> X'
+S3: הרימו:
+S3: 0 = both down     1 = SW0     X = SW1     X' = SW1 + SW0
+S4: מה צריך להיות ב-
+S4: D2?
+S4: בטבלה שלכם, מצאו את שני המצבים שבהם קווי הבחירה שלכם (למעלה) הם
+S4: S1 S0 = 1 0
+S4: (one with X = 0, one with X = 1)
+S4: הכלל, לפי שני המצבים:
+S4: 0,0 -> 0      1,1 -> 1      0,1 -> X      1,0 -> X'
+S4: הרימו:
+S4: 0 = both down     1 = SW0     X = SW1     X' = SW1 + SW0
+S5: מה צריך להיות ב-
+S5: D3?
+S5: בטבלה שלכם, מצאו את שני המצבים שבהם קווי הבחירה שלכם (למעלה) הם
+S5: S1 S0 = 1 1
+S5: (one with X = 0, one with X = 1)
+S5: הכלל, לפי שני המצבים:
+S5: 0,0 -> 0      1,1 -> 1      0,1 -> X      1,0 -> X'
+S5: הרימו:
+S5: 0 = both down     1 = SW0     X = SW1     X' = SW1 + SW0
 
-[Q22] DEC38 | A 3:8 decoder: which light is which output? | npub 8 | steps 4 | flat
-B: A = SW9, B = SW8, C = SW7 (HEX3 HEX2 HEX1).  The decoder's 8 outputs = LEDG7..LEDG0, in a hidden order.  Answer on SW2..SW0.
-P0: Your minterm for the last step:  m0  (A B C = 000).
-P1: Your minterm for the last step:  m1  (A B C = 001).
-P2: Your minterm for the last step:  m2  (A B C = 010).
-P3: Your minterm for the last step:  m3  (A B C = 011).
-P4: Your minterm for the last step:  m4  (A B C = 100).
-P5: Your minterm for the last step:  m5  (A B C = 101).
-P6: Your minterm for the last step:  m6  (A B C = 110).
-P7: Your minterm for the last step:  m7  (A B C = 111).
-S1: GOAL: meet the decoder. Put A B C = 0 0 0 (SW9, SW8, SW7 down). Exactly one green light is on.
-S1: ANSWER: its number in binary: SW2 = 4, SW1 = 2, SW0 = 1 - raise the ones that add up to it (0 = all down)   (LEDG5 = SW2 + SW0).
-S2: GOAL: one more. Put A B C = 1 1 1 (all three up). Which light is on now?
-S2: ANSWER: its number in binary: SW2 = 4, SW1 = 2, SW0 = 1 - raise the ones that add up to it (0 = all down).
-S3: GOAL: your minterm (above). Put its row on SW9 SW8 SW7 and see which light is on.
-S3: ANSWER: its number in binary: SW2 = 4, SW1 = 2, SW0 = 1 - raise the ones that add up to it (0 = all down).
+[Q22] DEC38 | מפענח 3:8: איזו נורה היא איזו יציאה? | npub 8 | steps 4 | flat
+B: A = SW9     B = SW8     C = SW7     8 outputs = LEDG7..LEDG0 (hidden order)     answer: SW2..SW0
+P0: המינטרם שלכם (לשלב האחרון):
+P0: m0  (A B C = 000).
+P1: המינטרם שלכם (לשלב האחרון):
+P1: m1  (A B C = 001).
+P2: המינטרם שלכם (לשלב האחרון):
+P2: m2  (A B C = 010).
+P3: המינטרם שלכם (לשלב האחרון):
+P3: m3  (A B C = 011).
+P4: המינטרם שלכם (לשלב האחרון):
+P4: m4  (A B C = 100).
+P5: המינטרם שלכם (לשלב האחרון):
+P5: m5  (A B C = 101).
+P6: המינטרם שלכם (לשלב האחרון):
+P6: m6  (A B C = 110).
+P7: המינטרם שלכם (לשלב האחרון):
+P7: m7  (A B C = 111).
+S1: שימו את שלושת המתגים למטה. דולקת בדיוק נורה אחת.
+S1: SW9 SW8 SW7 = down down down
+S1: מה המספר שלה? שימו אותו:
+S1: (for example LEDG5 -> 5)
+S1: 0 = all down   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
+S2: עכשיו את שלושתם למעלה:
+S2: SW9 SW8 SW7 = up up up
+S2: איזו נורה דולקת? שימו את המספר שלה:
+S2: 0 = all down   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
+S3: שימו את המצב של המינטרם שלכם (למעלה).
+S3: איזו נורה דולקת? שימו את המספר שלה:
+S3: 0 = all down   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
 
-[Q23] NANDNOR | Two-level logic: NAND-NAND or NOR-NOR | npub 1 | steps 4 | flat
-B: A = SW9, B = SW8, C = SW7 (HEX3 HEX2 HEX1).  n1 = LEDG2, n2 = LEDG1 (first level), Y = LEDG0 (second level).
-B: All three gates are NAND, or all three are NOR. Each first-level gate has 2 inputs: letters or their NOTs (A, A', B, ...).
-S1: GOAL: meet the circuit. Put A B C = 0 0 0 (SW9, SW8, SW7 down).
-S1: ANSWER: copy the lights - SW2 = n1 (LEDG2),  SW1 = n2 (LEDG1),  SW0 = Y (LEDG0)   (up = on).
-S2: GOAL: NAND or NOR? Go over the 8 rows and watch n1 (LEDG2).
-S2: A 2-input NAND is OFF in only 2 rows (both inputs 1).  A 2-input NOR is ON in only 2 rows (both inputs 0).
-S2: ANSWER: SW0 up if n1 is a NAND, SW0 down if it is a NOR.
-S3: GOAL: the inputs of n1. Look at the 2 special rows of n1 (NAND: where it is off, NOR: where it is on).
-S3: In those rows two letters stay the same - they are n1's inputs. NAND: a letter that is 1 there is X, 0 there is X'.
-S3: NOR: a letter that is 0 there is X, 1 there is X'.
-S3: ANSWER: two switches up:   SW5 = A   SW4 = A'   SW3 = B   SW2 = B'   SW1 = C   SW0 = C'
+[Q23] NANDNOR | שתי רמות: NAND או NOR? | npub 1 | steps 4 | flat
+B: A = SW9     B = SW8     C = SW7     n1 = LEDG2     n2 = LEDG1     Y = LEDG0     answer: SW5..SW0
+B: all three gates are NAND, or all three are NOR
+S1: שימו את שלושת המתגים למטה:
+S1: SW9 SW8 SW7 = down down down
+S1: העתיקו את שלוש הנורות:
+S1: SW2 = n1 (LEDG2)     SW1 = n2 (LEDG1)     SW0 = Y (LEDG0)
+S2: עברו על 8 המצבים והסתכלו על
+S2: n1 (LEDG2)
+S2: שער של שתי כניסות: אם הוא כבוי רק ב-2 מצבים - הוא
+S2: NAND
+S2: ואם הוא דולק רק ב-2 מצבים - הוא
+S2: NOR
+S2: הרימו:
+S2: NAND = SW0 up     NOR = SW0 down
+S3: מה נכנס ל-
+S3: n1?
+S3: הסתכלו על 2 המצבים המיוחדים שלו: שתי אותיות לא משתנות בהם - הן הכניסות.
+S3: NAND:  1 there -> X     0 there -> X'
+S3: NOR:   0 there -> X     1 there -> X'
+S3: הרימו שני מתגים:
+S3: SW5 = A   SW4 = A'   SW3 = B   SW2 = B'   SW1 = C   SW0 = C'
 
-[Q24] GATES | A multilevel circuit: find the gates | npub 1 | steps 5 | flat
-B: A = SW9, B = SW8, C = SW7, D = SW6 (HEX3..HEX0).  Answer on SW1 SW0.
-B: The circuit:  n1 = G1(A, B) on LEDG2   ->   n2 = G2(n1, C) on LEDG1   ->   Y = G3(n2, D) on LEDG0.
-S1: GOAL: meet the circuit. Put A B C D = 0 0 0 0 (SW9..SW6 down).
-S1: ANSWER: copy the lights - SW2 = n1 (LEDG2),  SW1 = n2 (LEDG1),  SW0 = Y (LEDG0)   (up = on).
-S2: GOAL: G1. n1 (LEDG2) depends only on A and B: try A B = 00, 01, 10, 11 (SW9 SW8).
-S2: AND: 1 only if both inputs are 1.  OR: 0 only if both are 0.  NAND: 0 only if both are 1.  NOR: 1 only if both are 0.
-S2: ANSWER (on SW1 SW0):   AND = both down   OR = SW0   NAND = SW1   NOR = SW1 + SW0
-S3: GOAL: G2. Its inputs are n1 (LEDG2) and C (SW7); its output is n2 (LEDG1). Try all four n1, C pairs.
-S3: AND: 1 only if both inputs are 1.  OR: 0 only if both are 0.  NAND: 0 only if both are 1.  NOR: 1 only if both are 0.
-S3: ANSWER (on SW1 SW0):   AND = both down   OR = SW0   NAND = SW1   NOR = SW1 + SW0
-S4: GOAL: G3. Its inputs are n2 (LEDG1) and D (SW6); its output is Y (LEDG0). Try all four n2, D pairs.
-S4: AND: 1 only if both inputs are 1.  OR: 0 only if both are 0.  NAND: 0 only if both are 1.  NOR: 1 only if both are 0.
-S4: ANSWER (on SW1 SW0):   AND = both down   OR = SW0   NAND = SW1   NOR = SW1 + SW0
+[Q24] GATES | מעגל רב-שלבי: מצאו את השערים | npub 1 | steps 5 | flat
+B: A = SW9     B = SW8     C = SW7     D = SW6     answer: SW1 SW0
+B: n1 = G1(A, B) on LEDG2   ->   n2 = G2(n1, C) on LEDG1   ->   Y = G3(n2, D) on LEDG0
+S1: שימו את ארבעת המתגים למטה:
+S1: SW9 SW8 SW7 SW6 = down down down down
+S1: העתיקו את שלוש הנורות:
+S1: SW2 = n1 (LEDG2)     SW1 = n2 (LEDG1)     SW0 = Y (LEDG0)
+S2: השער הראשון: נסו את 4 המצבים ותראו את
+S2: n1 (LEDG2)
+S2: SW9 SW8:   down-down,   down-up,   up-down,   up-up
+S2: AND = 1 only if both are 1      OR = 0 only if both are 0
+S2: NAND = 0 only if both are 1     NOR = 1 only if both are 0
+S2: הרימו:
+S2: AND = both down     OR = SW0     NAND = SW1     NOR = SW1 + SW0
+S3: השער השני: הכניסות שלו הן
+S3: n1 (LEDG2)  and  C (SW7)
+S3: והיציאה
+S3: n2 (LEDG1)
+S3: נסו את 4 הצירופים:
+S3: AND = 1 only if both are 1      OR = 0 only if both are 0
+S3: NAND = 0 only if both are 1     NOR = 1 only if both are 0
+S3: הרימו:
+S3: AND = both down     OR = SW0     NAND = SW1     NOR = SW1 + SW0
+S4: השער השלישי: הכניסות שלו הן
+S4: n2 (LEDG1)  and  D (SW6)
+S4: והיציאה
+S4: Y (LEDG0)
+S4: נסו את 4 הצירופים:
+S4: AND = 1 only if both are 1      OR = 0 only if both are 0
+S4: NAND = 0 only if both are 1     NOR = 1 only if both are 0
+S4: הרימו:
+S4: AND = both down     OR = SW0     NAND = SW1     NOR = SW1 + SW0
 
-[Q25] BUBBLES | Bubble pushing: which circuit is in the board? | npub 8 | steps 3 | flat
-B: A = SW9, B = SW8, C = SW7, D = SW6 (HEX3..HEX0).  Y = LEDG0 (green).  Answer on SW1 SW0.
-B: n1' means a bubble (NOT) on that input of the last gate.
-P0: The board holds ONE of these circuits:
-P0:   0: n1 = NAND(D', A');  n2 = NAND(B, C');  Y = OR(n1, n2')
-P0:   1: n1 = NAND(D, C);  n2 = NAND(C', B);  Y = NAND(n1', n2)
-P0:   2: n1 = NOR(B, A');  n2 = NOR(C, B);  Y = OR(n1, n2)
-P0:   3: n1 = NOR(A', B);  n2 = NOR(B', D');  Y = NAND(n1', n2)
-P1: The board holds ONE of these circuits:
-P1:   0: n1 = NOR(C', B');  n2 = NOR(D, B);  Y = NAND(n1', n2)
-P1:   1: n1 = NOR(B, D');  n2 = NAND(D', B');  Y = NOR(n1, n2')
-P1:   2: n1 = NAND(C', B');  n2 = NOR(C', D');  Y = NOR(n1', n2)
-P1:   3: n1 = NAND(D, A');  n2 = NOR(C', A');  Y = OR(n1', n2')
-P2: The board holds ONE of these circuits:
-P2:   0: n1 = NOR(A, C');  n2 = NOR(D', A);  Y = NAND(n1', n2')
-P2:   1: n1 = NAND(B', C);  n2 = NOR(A, B');  Y = NAND(n1', n2')
-P2:   2: n1 = NOR(C, B);  n2 = NAND(A, D);  Y = NOR(n1', n2')
-P2:   3: n1 = NAND(D, B);  n2 = NOR(B, C);  Y = AND(n1', n2')
-P3: The board holds ONE of these circuits:
-P3:   0: n1 = NAND(C, A');  n2 = NAND(B, D');  Y = OR(n1', n2)
-P3:   1: n1 = NOR(B', A);  n2 = NAND(D, C');  Y = NOR(n1, n2')
-P3:   2: n1 = NAND(A, B');  n2 = NAND(C', A');  Y = OR(n1, n2')
-P3:   3: n1 = NOR(A', C');  n2 = NAND(C', B);  Y = NOR(n1', n2')
-P4: The board holds ONE of these circuits:
-P4:   0: n1 = NOR(B', A');  n2 = NOR(A, D);  Y = OR(n1, n2')
-P4:   1: n1 = NAND(B, A);  n2 = NOR(B, C);  Y = OR(n1', n2')
-P4:   2: n1 = NAND(C, B');  n2 = NAND(A, B);  Y = NAND(n1', n2)
-P4:   3: n1 = NOR(D, C);  n2 = NAND(D', C');  Y = AND(n1, n2')
-P5: The board holds ONE of these circuits:
-P5:   0: n1 = NAND(C, B);  n2 = NOR(B', C');  Y = OR(n1', n2)
-P5:   1: n1 = NAND(C, A);  n2 = NOR(B, D);  Y = NAND(n1', n2')
-P5:   2: n1 = NAND(B, C);  n2 = NOR(B, C');  Y = OR(n1, n2)
-P5:   3: n1 = NOR(C', B);  n2 = NOR(C, A);  Y = NAND(n1', n2)
-P6: The board holds ONE of these circuits:
-P6:   0: n1 = NOR(C, A);  n2 = NAND(C', A');  Y = NOR(n1, n2')
-P6:   1: n1 = NOR(B', A);  n2 = NAND(D, C);  Y = AND(n1', n2)
-P6:   2: n1 = NAND(B', C);  n2 = NAND(D', B);  Y = AND(n1', n2)
-P6:   3: n1 = NOR(D', B');  n2 = NOR(B', A);  Y = AND(n1', n2')
-P7: The board holds ONE of these circuits:
-P7:   0: n1 = NOR(C', D');  n2 = NOR(C', D');  Y = AND(n1', n2')
-P7:   1: n1 = NAND(D, B);  n2 = NOR(D, C);  Y = NOR(n1', n2')
-P7:   2: n1 = NAND(B', D');  n2 = NOR(B', D');  Y = OR(n1', n2')
-P7:   3: n1 = NOR(D', C);  n2 = NOR(B', D');  Y = NOR(n1, n2)
-S1: GOAL: two quick looks at the board. Put A B C D = 0 0 0 0 (all down), then 1 1 1 1 (all up).
-S1: ANSWER: SW0 = Y (LEDG0) at 0000,   SW1 = Y at 1111   (up = on).
-S2: GOAL: which circuit? Push the bubbles of each circuit above to an SOP (paper), or just work out
-S2: its Y in a few rows (start with 0000 and 1111). Compare with the board until only one circuit fits.
-S2: ANSWER: its number:   0 = both down   1 = SW0   2 = SW1   3 = SW1 + SW0
+[Q25] BUBBLES | דחיפת בועות: איזה מעגל בלוח? | npub 8 | steps 3 | flat
+B: A = SW9     B = SW8     C = SW7     D = SW6     Y = LEDG0 (green)     answer: SW1 SW0
+B: n1' = a bubble (NOT) on that input of the last gate
+P0: הלוח מחזיק אחד מהמעגלים האלה:
+P0: 0: n1 = NAND(D', A');  n2 = NAND(B, C');  Y = OR(n1, n2')
+P0: 1: n1 = NAND(D, C);  n2 = NAND(C', B);  Y = NAND(n1', n2)
+P0: 2: n1 = NOR(B, A');  n2 = NOR(C, B);  Y = OR(n1, n2)
+P0: 3: n1 = NOR(A', B);  n2 = NOR(B', D');  Y = NAND(n1', n2)
+P1: הלוח מחזיק אחד מהמעגלים האלה:
+P1: 0: n1 = NOR(C', B');  n2 = NOR(D, B);  Y = NAND(n1', n2)
+P1: 1: n1 = NOR(B, D');  n2 = NAND(D', B');  Y = NOR(n1, n2')
+P1: 2: n1 = NAND(C', B');  n2 = NOR(C', D');  Y = NOR(n1', n2)
+P1: 3: n1 = NAND(D, A');  n2 = NOR(C', A');  Y = OR(n1', n2')
+P2: הלוח מחזיק אחד מהמעגלים האלה:
+P2: 0: n1 = NOR(A, C');  n2 = NOR(D', A);  Y = NAND(n1', n2')
+P2: 1: n1 = NAND(B', C);  n2 = NOR(A, B');  Y = NAND(n1', n2')
+P2: 2: n1 = NOR(C, B);  n2 = NAND(A, D);  Y = NOR(n1', n2')
+P2: 3: n1 = NAND(D, B);  n2 = NOR(B, C);  Y = AND(n1', n2')
+P3: הלוח מחזיק אחד מהמעגלים האלה:
+P3: 0: n1 = NAND(C, A');  n2 = NAND(B, D');  Y = OR(n1', n2)
+P3: 1: n1 = NOR(B', A);  n2 = NAND(D, C');  Y = NOR(n1, n2')
+P3: 2: n1 = NAND(A, B');  n2 = NAND(C', A');  Y = OR(n1, n2')
+P3: 3: n1 = NOR(A', C');  n2 = NAND(C', B);  Y = NOR(n1', n2')
+P4: הלוח מחזיק אחד מהמעגלים האלה:
+P4: 0: n1 = NOR(B', A');  n2 = NOR(A, D);  Y = OR(n1, n2')
+P4: 1: n1 = NAND(B, A);  n2 = NOR(B, C);  Y = OR(n1', n2')
+P4: 2: n1 = NAND(C, B');  n2 = NAND(A, B);  Y = NAND(n1', n2)
+P4: 3: n1 = NOR(D, C);  n2 = NAND(D', C');  Y = AND(n1, n2')
+P5: הלוח מחזיק אחד מהמעגלים האלה:
+P5: 0: n1 = NAND(C, B);  n2 = NOR(B', C');  Y = OR(n1', n2)
+P5: 1: n1 = NAND(C, A);  n2 = NOR(B, D);  Y = NAND(n1', n2')
+P5: 2: n1 = NAND(B, C);  n2 = NOR(B, C');  Y = OR(n1, n2)
+P5: 3: n1 = NOR(C', B);  n2 = NOR(C, A);  Y = NAND(n1', n2)
+P6: הלוח מחזיק אחד מהמעגלים האלה:
+P6: 0: n1 = NOR(C, A);  n2 = NAND(C', A');  Y = NOR(n1, n2')
+P6: 1: n1 = NOR(B', A);  n2 = NAND(D, C);  Y = AND(n1', n2)
+P6: 2: n1 = NAND(B', C);  n2 = NAND(D', B);  Y = AND(n1', n2)
+P6: 3: n1 = NOR(D', B');  n2 = NOR(B', A);  Y = AND(n1', n2')
+P7: הלוח מחזיק אחד מהמעגלים האלה:
+P7: 0: n1 = NOR(C', D');  n2 = NOR(C', D');  Y = AND(n1', n2')
+P7: 1: n1 = NAND(D, B);  n2 = NOR(D, C);  Y = NOR(n1', n2')
+P7: 2: n1 = NAND(B', D');  n2 = NOR(B', D');  Y = OR(n1', n2')
+P7: 3: n1 = NOR(D', C);  n2 = NOR(B', D');  Y = NOR(n1, n2)
+S1: שני מבטים מהירים. כל המתגים למטה, ואז כולם למעלה:
+S1: SW9..SW6 = all down, then all up
+S1: הרימו מתג אם הנורה דלקה:
+S1: SW0 = all down      SW1 = all up
+S2: איזה מהמעגלים (למעלה) בלוח? חשבו את
+S2: Y
+S2: של כל מעגל בכמה מצבים (התחילו מ-0000 ו-1111),
+S2: והשוו ללוח עד שנשאר מעגל אחד. שימו את המספר שלו:
+S2: 0 = all down    1 = SW0    2 = SW1    3 = SW1+SW0
 
-[Q26] NANDNOR3 | Two-level logic: three gates, NAND or NOR each | npub 1 | steps 4 | flat
-B: A = SW9, B = SW8, C = SW7 (HEX3 HEX2 HEX1).  First level: n1 = LEDG3, n2 = LEDG2, n3 = LEDG1 (2-input NAND or NOR
-B: of letters or their NOTs).  Second level: Y = LEDG0 = a 3-input NAND or NOR of n1, n2, n3.  Answer on SW3..SW0.
-S1: GOAL: meet the circuit. Put A B C = 0 0 0 (SW9, SW8, SW7 down).
-S1: ANSWER: copy the lights - SW3 = n1 (LEDG3), SW2 = n2, SW1 = n3, SW0 = Y (LEDG0).
-S2: GOAL: n1 (LEDG3): NAND or NOR? Go over the 8 rows.
-S2: A 2-input NAND is OFF in only 2 rows (both inputs 1).  A 2-input NOR is ON in only 2 rows (both inputs 0).
-S2: ANSWER: SW0 up if n1 is a NAND, SW0 down if it is a NOR.
-S3: GOAL: every gate. n2 and n3 the same way. For Y (3 inputs n1 n2 n3): watch a row where n1, n2, n3 are
-S3: NOT all equal - a NAND gives 1 there, a NOR gives 0.
-S3: ANSWER: SW3 = n1,  SW2 = n2,  SW1 = n3,  SW0 = Y:   up = NAND,  down = NOR.
+[Q26] NANDNOR3 | שתי רמות: שלושה שערים, NAND או NOR | npub 1 | steps 4 | flat
+B: A = SW9     B = SW8     C = SW7     n1 = LEDG3   n2 = LEDG2   n3 = LEDG1   Y = LEDG0     answer: SW3..SW0
+B: n1, n2, n3: 2-input NAND or NOR of letters      Y: 3-input NAND or NOR of n1, n2, n3
+S1: שימו את שלושת המתגים למטה:
+S1: SW9 SW8 SW7 = down down down
+S1: העתיקו את ארבע הנורות:
+S1: SW3 = n1     SW2 = n2     SW1 = n3     SW0 = Y
+S2: עברו על 8 המצבים והסתכלו על
+S2: n1 (LEDG3)
+S2: כבוי רק ב-2 מצבים -
+S2: NAND
+S2: דולק רק ב-2 מצבים -
+S2: NOR
+S2: הרימו:
+S2: NAND = SW0 up     NOR = SW0 down
+S3: אותו דבר בשביל
+S3: n2, n3
+S3: ובשביל
+S3: Y:
+S3: חפשו מצב שבו שלושת הצמתים לא שווים -
+S3: NAND gives 1 there     NOR gives 0 there
+S3: הרימו:
+S3: SW3 = n1   SW2 = n2   SW1 = n3   SW0 = Y      (up = NAND, down = NOR)
 
-[Q27] BUBBLES8 | Bubble pushing: which of eight circuits? | npub 8 | steps 3 | flat
-B: A = SW9, B = SW8, C = SW7, D = SW6 (HEX3..HEX0).  Y = LEDG0 (green).  Answer on SW2..SW0.
-B: n1' means a bubble (NOT) on that input of the last gate.
-P0: The board holds ONE of these circuits:
-P0:   0: n1 = NAND(D', A');  n2 = NAND(B, C');  Y = OR(n1, n2')
-P0:   1: n1 = NAND(D, C);  n2 = NAND(C', B);  Y = NAND(n1', n2)
-P0:   2: n1 = NOR(B, A');  n2 = NOR(C, B);  Y = OR(n1, n2)
-P0:   3: n1 = NOR(A', B);  n2 = NOR(B', D');  Y = NAND(n1', n2)
-P0:   4: n1 = NAND(A', B);  n2 = NAND(D', A);  Y = NOR(n1', n2')
-P0:   5: n1 = NOR(D', B);  n2 = NOR(C', B');  Y = OR(n1, n2')
-P0:   6: n1 = NOR(D', A');  n2 = NAND(B, D');  Y = OR(n1, n2)
-P0:   7: n1 = NOR(C', B');  n2 = NOR(D', C);  Y = NAND(n1', n2)
-P1: The board holds ONE of these circuits:
-P1:   0: n1 = NOR(C', B');  n2 = NOR(D, B);  Y = NAND(n1', n2)
-P1:   1: n1 = NOR(B, D');  n2 = NAND(D', B');  Y = NOR(n1, n2')
-P1:   2: n1 = NAND(C', B');  n2 = NOR(C', D');  Y = NOR(n1', n2)
-P1:   3: n1 = NAND(D, A');  n2 = NOR(C', A');  Y = OR(n1', n2')
-P1:   4: n1 = NAND(B, A);  n2 = NAND(C, B');  Y = NOR(n1', n2')
-P1:   5: n1 = NOR(A', B);  n2 = NAND(D, B);  Y = OR(n1, n2')
-P1:   6: n1 = NOR(B', C);  n2 = NAND(D', B');  Y = NOR(n1, n2')
-P1:   7: n1 = NAND(B', C);  n2 = NOR(C', B');  Y = AND(n1, n2')
-P2: The board holds ONE of these circuits:
-P2:   0: n1 = NOR(A, C');  n2 = NOR(D', A);  Y = NAND(n1', n2')
-P2:   1: n1 = NAND(B', C);  n2 = NOR(A, B');  Y = NAND(n1', n2')
-P2:   2: n1 = NOR(C, B);  n2 = NAND(A, D);  Y = NOR(n1', n2')
-P2:   3: n1 = NAND(D, B);  n2 = NOR(B, C);  Y = AND(n1', n2')
-P2:   4: n1 = NAND(A, D);  n2 = NOR(A', D);  Y = AND(n1', n2')
-P2:   5: n1 = NOR(D', B');  n2 = NOR(A, D);  Y = NAND(n1', n2')
-P2:   6: n1 = NOR(B', A');  n2 = NAND(B', D);  Y = AND(n1', n2')
-P2:   7: n1 = NAND(D', A');  n2 = NAND(B', C);  Y = OR(n1, n2')
-P3: The board holds ONE of these circuits:
-P3:   0: n1 = NAND(C, A');  n2 = NAND(B, D');  Y = OR(n1', n2)
-P3:   1: n1 = NOR(B', A);  n2 = NAND(D, C');  Y = NOR(n1, n2')
-P3:   2: n1 = NAND(A, B');  n2 = NAND(C', A');  Y = OR(n1, n2')
-P3:   3: n1 = NOR(A', C');  n2 = NAND(C', B);  Y = NOR(n1', n2')
-P3:   4: n1 = NOR(C, D');  n2 = NAND(A, D');  Y = NAND(n1, n2)
-P3:   5: n1 = NAND(C', B);  n2 = NOR(D, A);  Y = NOR(n1', n2)
-P3:   6: n1 = NAND(D', C');  n2 = NAND(B', C);  Y = NAND(n1, n2)
-P3:   7: n1 = NOR(D', B');  n2 = NAND(C', A);  Y = OR(n1, n2')
-P4: The board holds ONE of these circuits:
-P4:   0: n1 = NOR(B', A');  n2 = NOR(A, D);  Y = OR(n1, n2')
-P4:   1: n1 = NAND(B, A);  n2 = NOR(B, C);  Y = OR(n1', n2')
-P4:   2: n1 = NAND(C, B');  n2 = NAND(A, B);  Y = NAND(n1', n2)
-P4:   3: n1 = NOR(D, C);  n2 = NAND(D', C');  Y = AND(n1, n2')
-P4:   4: n1 = NOR(C', A);  n2 = NAND(A, D);  Y = AND(n1, n2)
-P4:   5: n1 = NAND(B, C);  n2 = NAND(A, D);  Y = OR(n1', n2')
-P4:   6: n1 = NOR(C', D');  n2 = NOR(D, A');  Y = NAND(n1', n2')
-P4:   7: n1 = NAND(A, D');  n2 = NOR(C, D');  Y = NOR(n1', n2')
-P5: The board holds ONE of these circuits:
-P5:   0: n1 = NAND(C, B);  n2 = NOR(B', C');  Y = OR(n1', n2)
-P5:   1: n1 = NAND(C, A);  n2 = NOR(B, D);  Y = NAND(n1', n2')
-P5:   2: n1 = NAND(B, C);  n2 = NOR(B, C');  Y = OR(n1, n2)
-P5:   3: n1 = NOR(C', B);  n2 = NOR(C, A);  Y = NAND(n1', n2)
-P5:   4: n1 = NAND(C', B);  n2 = NOR(B', C);  Y = NAND(n1, n2')
-P5:   5: n1 = NAND(A, D');  n2 = NAND(C, A');  Y = AND(n1, n2)
-P5:   6: n1 = NOR(A, C);  n2 = NOR(A, D');  Y = OR(n1, n2)
-P5:   7: n1 = NOR(D, A);  n2 = NAND(B', A');  Y = AND(n1', n2)
-P6: The board holds ONE of these circuits:
-P6:   0: n1 = NOR(C, A);  n2 = NAND(C', A');  Y = NOR(n1, n2')
-P6:   1: n1 = NOR(B', A);  n2 = NAND(D, C);  Y = AND(n1', n2)
-P6:   2: n1 = NAND(B', C);  n2 = NAND(D', B);  Y = AND(n1', n2)
-P6:   3: n1 = NOR(D', B');  n2 = NOR(B', A);  Y = AND(n1', n2')
-P6:   4: n1 = NAND(B, D);  n2 = NAND(D', B');  Y = NOR(n1', n2')
-P6:   5: n1 = NOR(C', D);  n2 = NAND(A, B');  Y = NAND(n1, n2)
-P6:   6: n1 = NOR(D', A);  n2 = NAND(C', B');  Y = NOR(n1, n2')
-P6:   7: n1 = NAND(B, C');  n2 = NOR(A', D);  Y = NAND(n1', n2')
-P7: The board holds ONE of these circuits:
-P7:   0: n1 = NOR(C', D');  n2 = NOR(C', D');  Y = AND(n1', n2')
-P7:   1: n1 = NAND(D, B);  n2 = NOR(D, C);  Y = NOR(n1', n2')
-P7:   2: n1 = NAND(B', D');  n2 = NOR(B', D');  Y = OR(n1', n2')
-P7:   3: n1 = NOR(D', C);  n2 = NOR(B', D');  Y = NOR(n1, n2)
-P7:   4: n1 = NOR(B, C);  n2 = NOR(B', A');  Y = OR(n1, n2')
-P7:   5: n1 = NAND(C, B);  n2 = NAND(C', A');  Y = NOR(n1', n2')
-P7:   6: n1 = NAND(D', A');  n2 = NAND(D', A);  Y = NAND(n1', n2)
-P7:   7: n1 = NAND(D', A');  n2 = NOR(B, C');  Y = AND(n1, n2)
-S1: GOAL: two quick looks. Put A B C D = 0 0 0 0 (all down), then 1 1 1 1 (all up).
-S1: ANSWER: SW0 = Y (LEDG0) at 0000,   SW1 = Y at 1111   (up = on).
-S2: GOAL: which circuit? Work out each circuit's Y in a few rows (paper; bubble pushing helps),
-S2: and compare with the board, until only one circuit is left.
-S2: ANSWER: its number in binary: SW2 = 4, SW1 = 2, SW0 = 1 - raise the ones that add up to it (0 = all down).
+[Q27] BUBBLES8 | דחיפת בועות: איזה מ-8 מעגלים? | npub 8 | steps 3 | flat
+B: A = SW9     B = SW8     C = SW7     D = SW6     Y = LEDG0 (green)     answer: SW2..SW0
+B: n1' = a bubble (NOT) on that input of the last gate
+P0: הלוח מחזיק אחד מהמעגלים האלה:
+P0: 0: n1 = NAND(D', A');  n2 = NAND(B, C');  Y = OR(n1, n2')
+P0: 1: n1 = NAND(D, C);  n2 = NAND(C', B);  Y = NAND(n1', n2)
+P0: 2: n1 = NOR(B, A');  n2 = NOR(C, B);  Y = OR(n1, n2)
+P0: 3: n1 = NOR(A', B);  n2 = NOR(B', D');  Y = NAND(n1', n2)
+P0: 4: n1 = NAND(A', B);  n2 = NAND(D', A);  Y = NOR(n1', n2')
+P0: 5: n1 = NOR(D', B);  n2 = NOR(C', B');  Y = OR(n1, n2')
+P0: 6: n1 = NOR(D', A');  n2 = NAND(B, D');  Y = OR(n1, n2)
+P0: 7: n1 = NOR(C', B');  n2 = NOR(D', C);  Y = NAND(n1', n2)
+P1: הלוח מחזיק אחד מהמעגלים האלה:
+P1: 0: n1 = NOR(C', B');  n2 = NOR(D, B);  Y = NAND(n1', n2)
+P1: 1: n1 = NOR(B, D');  n2 = NAND(D', B');  Y = NOR(n1, n2')
+P1: 2: n1 = NAND(C', B');  n2 = NOR(C', D');  Y = NOR(n1', n2)
+P1: 3: n1 = NAND(D, A');  n2 = NOR(C', A');  Y = OR(n1', n2')
+P1: 4: n1 = NAND(B, A);  n2 = NAND(C, B');  Y = NOR(n1', n2')
+P1: 5: n1 = NOR(A', B);  n2 = NAND(D, B);  Y = OR(n1, n2')
+P1: 6: n1 = NOR(B', C);  n2 = NAND(D', B');  Y = NOR(n1, n2')
+P1: 7: n1 = NAND(B', C);  n2 = NOR(C', B');  Y = AND(n1, n2')
+P2: הלוח מחזיק אחד מהמעגלים האלה:
+P2: 0: n1 = NOR(A, C');  n2 = NOR(D', A);  Y = NAND(n1', n2')
+P2: 1: n1 = NAND(B', C);  n2 = NOR(A, B');  Y = NAND(n1', n2')
+P2: 2: n1 = NOR(C, B);  n2 = NAND(A, D);  Y = NOR(n1', n2')
+P2: 3: n1 = NAND(D, B);  n2 = NOR(B, C);  Y = AND(n1', n2')
+P2: 4: n1 = NAND(A, D);  n2 = NOR(A', D);  Y = AND(n1', n2')
+P2: 5: n1 = NOR(D', B');  n2 = NOR(A, D);  Y = NAND(n1', n2')
+P2: 6: n1 = NOR(B', A');  n2 = NAND(B', D);  Y = AND(n1', n2')
+P2: 7: n1 = NAND(D', A');  n2 = NAND(B', C);  Y = OR(n1, n2')
+P3: הלוח מחזיק אחד מהמעגלים האלה:
+P3: 0: n1 = NAND(C, A');  n2 = NAND(B, D');  Y = OR(n1', n2)
+P3: 1: n1 = NOR(B', A);  n2 = NAND(D, C');  Y = NOR(n1, n2')
+P3: 2: n1 = NAND(A, B');  n2 = NAND(C', A');  Y = OR(n1, n2')
+P3: 3: n1 = NOR(A', C');  n2 = NAND(C', B);  Y = NOR(n1', n2')
+P3: 4: n1 = NOR(C, D');  n2 = NAND(A, D');  Y = NAND(n1, n2)
+P3: 5: n1 = NAND(C', B);  n2 = NOR(D, A);  Y = NOR(n1', n2)
+P3: 6: n1 = NAND(D', C');  n2 = NAND(B', C);  Y = NAND(n1, n2)
+P3: 7: n1 = NOR(D', B');  n2 = NAND(C', A);  Y = OR(n1, n2')
+P4: הלוח מחזיק אחד מהמעגלים האלה:
+P4: 0: n1 = NOR(B', A');  n2 = NOR(A, D);  Y = OR(n1, n2')
+P4: 1: n1 = NAND(B, A);  n2 = NOR(B, C);  Y = OR(n1', n2')
+P4: 2: n1 = NAND(C, B');  n2 = NAND(A, B);  Y = NAND(n1', n2)
+P4: 3: n1 = NOR(D, C);  n2 = NAND(D', C');  Y = AND(n1, n2')
+P4: 4: n1 = NOR(C', A);  n2 = NAND(A, D);  Y = AND(n1, n2)
+P4: 5: n1 = NAND(B, C);  n2 = NAND(A, D);  Y = OR(n1', n2')
+P4: 6: n1 = NOR(C', D');  n2 = NOR(D, A');  Y = NAND(n1', n2')
+P4: 7: n1 = NAND(A, D');  n2 = NOR(C, D');  Y = NOR(n1', n2')
+P5: הלוח מחזיק אחד מהמעגלים האלה:
+P5: 0: n1 = NAND(C, B);  n2 = NOR(B', C');  Y = OR(n1', n2)
+P5: 1: n1 = NAND(C, A);  n2 = NOR(B, D);  Y = NAND(n1', n2')
+P5: 2: n1 = NAND(B, C);  n2 = NOR(B, C');  Y = OR(n1, n2)
+P5: 3: n1 = NOR(C', B);  n2 = NOR(C, A);  Y = NAND(n1', n2)
+P5: 4: n1 = NAND(C', B);  n2 = NOR(B', C);  Y = NAND(n1, n2')
+P5: 5: n1 = NAND(A, D');  n2 = NAND(C, A');  Y = AND(n1, n2)
+P5: 6: n1 = NOR(A, C);  n2 = NOR(A, D');  Y = OR(n1, n2)
+P5: 7: n1 = NOR(D, A);  n2 = NAND(B', A');  Y = AND(n1', n2)
+P6: הלוח מחזיק אחד מהמעגלים האלה:
+P6: 0: n1 = NOR(C, A);  n2 = NAND(C', A');  Y = NOR(n1, n2')
+P6: 1: n1 = NOR(B', A);  n2 = NAND(D, C);  Y = AND(n1', n2)
+P6: 2: n1 = NAND(B', C);  n2 = NAND(D', B);  Y = AND(n1', n2)
+P6: 3: n1 = NOR(D', B');  n2 = NOR(B', A);  Y = AND(n1', n2')
+P6: 4: n1 = NAND(B, D);  n2 = NAND(D', B');  Y = NOR(n1', n2')
+P6: 5: n1 = NOR(C', D);  n2 = NAND(A, B');  Y = NAND(n1, n2)
+P6: 6: n1 = NOR(D', A);  n2 = NAND(C', B');  Y = NOR(n1, n2')
+P6: 7: n1 = NAND(B, C');  n2 = NOR(A', D);  Y = NAND(n1', n2')
+P7: הלוח מחזיק אחד מהמעגלים האלה:
+P7: 0: n1 = NOR(C', D');  n2 = NOR(C', D');  Y = AND(n1', n2')
+P7: 1: n1 = NAND(D, B);  n2 = NOR(D, C);  Y = NOR(n1', n2')
+P7: 2: n1 = NAND(B', D');  n2 = NOR(B', D');  Y = OR(n1', n2')
+P7: 3: n1 = NOR(D', C);  n2 = NOR(B', D');  Y = NOR(n1, n2)
+P7: 4: n1 = NOR(B, C);  n2 = NOR(B', A');  Y = OR(n1, n2')
+P7: 5: n1 = NAND(C, B);  n2 = NAND(C', A');  Y = NOR(n1', n2')
+P7: 6: n1 = NAND(D', A');  n2 = NAND(D', A);  Y = NAND(n1', n2)
+P7: 7: n1 = NAND(D', A');  n2 = NOR(B, C');  Y = AND(n1, n2)
+S1: שני מבטים מהירים. כל המתגים למטה, ואז כולם למעלה:
+S1: SW9..SW6 = all down, then all up
+S1: הרימו מתג אם הנורה דלקה:
+S1: SW0 = all down      SW1 = all up
+S2: איזה מהמעגלים (למעלה) בלוח? חשבו את
+S2: Y
+S2: של כל מעגל בכמה מצבים, והשוו ללוח עד שנשאר אחד.
+S2: שימו את המספר שלו:
+S2: 0 = all down   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
 
-[Q28] LATCH | A box with memory: what turns it on, what turns it off? | npub 1 | steps 4 | flat
-B: A = SW9, B = SW8 (HEX3 HEX2).  The box = LEDG0 (green).  Answer on SW1 SW0.
-B: Move ONE switch at a time - two at once pass through a row in between.
-S1: GOAL: meet the box. Start at A B = 0 0, then ONE switch at a time: SW8 up (01), SW9 up (11),
-S1: SW8 down (10), SW9 down (00). Watch LEDG0 the whole time.
-S1: ANSWER: SW0 up if LEDG0 changed at least once on the way.
-S2: GOAL: the row that turns the box ON. The box stays as it is in most rows - only ONE row switches it on.
-S2: Find it: when the light goes on, which row are you in?
-S2: ANSWER: that row A B on SW1 SW0:   00 = both down   01 = SW0   10 = SW1   11 = SW1 + SW0
-S3: GOAL: the row that turns the box OFF. (In the other two rows the box just remembers.)
-S3: ANSWER: that row A B on SW1 SW0:   00 = both down   01 = SW0   10 = SW1   11 = SW1 + SW0
+[Q28] LATCH | קופסה עם זיכרון: מה מדליק ומה מכבה? | npub 1 | steps 4 | flat
+B: A = SW9     B = SW8     the box = LEDG0 (green)     answer: SW1 SW0
+B: move ONE switch at a time
+S1: הזיזו מתג אחד בכל פעם ועברו בדרך הזו, תוך כדי הסתכלות על הנורה:
+S1: 00  ->  01  ->  11  ->  10  ->  00          (SW9 SW8)
+S1: הנורה השתנתה לפחות פעם אחת? הרימו:
+S1: SW0
+S2: רק מצב אחד מדליק את הקופסה. באיזה מצב הייתם כשהנורה נדלקה?
+S2: הרימו:
+S2: 00 = both down     01 = SW0     10 = SW1     11 = SW1 + SW0
+S3: ורק מצב אחד מכבה אותה (בשני האחרים היא זוכרת). איזה?
+S3: הרימו:
+S3: 00 = both down     01 = SW0     10 = SW1     11 = SW1 + SW0
 
-[Q29] DLATCH | A D latch: which input is the enable? | npub 1 | steps 4 | flat
-B: A = SW9, B = SW8 (HEX3 HEX2).  The box = LEDG0 (green).  Answer on SW1 SW0.
-B: Move ONE switch at a time - two at once pass through a row in between.
-S1: GOAL: a D latch: when its ENABLE is active it copies its DATA input, otherwise it remembers.
-S1: One of A, B is the enable, the other is the data. Walk 00 -> 01 -> 11 -> 10 -> 00 (one switch at a time).
-S1: ANSWER: SW0 up if LEDG0 changed at least once on the way.
-S2: GOAL: which input is the ENABLE? Set one input, then move the OTHER one up and down and watch the box.
-S2: The enable is the input that, in one of its positions, makes the box FOLLOW the other one; in its other position the box stays.
-S2: ANSWER: SW1 up if A (SW9) is the enable,  SW0 up if B (SW8) is the enable - one switch.
-S3: GOAL: is the enable active when it is 1 (up) or when it is 0 (down)?
-S3: ANSWER: SW0 up if the box follows the data while the enable is UP,  SW0 down if while it is DOWN.
+[Q29] DLATCH | נועל D: מי האפשור? | npub 1 | steps 4 | flat
+B: A = SW9     B = SW8     the box = LEDG0 (green)     answer: SW1 SW0
+B: move ONE switch at a time
+S1: לנועל יש כניסת אפשור וכניסת נתון. כשהאפשור פעיל - הוא מעתיק את הנתון; אחרת - הוא זוכר.
+S1: עברו בדרך הזו:
+S1: 00  ->  01  ->  11  ->  10  ->  00          (SW9 SW8)
+S1: הנורה השתנתה לפחות פעם אחת? הרימו:
+S1: SW0
+S2: מי האפשור? קבעו כניסה אחת והזיזו את השנייה למעלה ולמטה.
+S2: האפשור הוא הכניסה שבאחד המצבים שלה הנורה הולכת אחרי השנייה, ובמצב השני לא זזה.
+S2: הרימו:
+S2: A (SW9) = SW1      B (SW8) = SW0
+S3: האפשור פעיל כשהוא למעלה או כשהוא למטה?
+S3: הרימו:
+S3: SW0 = active when up      (down = active when down)
 
-[Q30] SEQ | Combinational or sequential? (8 boxes) | npub 1 | steps 5 | flat
-B: A = SW9, B = SW8 (HEX3 HEX2).  Box i = LEDGi (8 boxes, all get the same A and B).  Answer on SW7..SW0.
-B: Move ONE switch at a time - two at once pass through a row in between.
-S1: GOAL: read ONE box. Box 0 = LEDG0 (it has no memory).
-S1: Try the four rows of A B (SW9 SW8) and write LEDG0 for each row.
-S1: ANSWER: SW3 = LEDG0 at A B = 11,  SW2 = at 10,  SW1 = at 01,  SW0 = at 00.
-S2: GOAL: a box that REMEMBERS. Box 1 = LEDG1.
-S2: 1. A B = 00. Raise SW8, then lower it (back to 00). Write LEDG1.
-S2: 2. Raise SW9, then lower it (back to 00). Write LEDG1.
-S2: Both times A B = 00 - but LEDG1 is different: the box remembers what came before.
-S2: ANSWER: SW1 = LEDG1 after move 1,  SW0 = LEDG1 after move 2.
-S3: GOAL: which other boxes remember? Test all 8 on two long paths, one switch at a time:
-S3: Path 1 from 00: SW8 up, SW9 up, SW8 down, SW9 down. Write LEDG7..LEDG0.
-S3: Path 2 from 00: SW9 up, SW8 up, SW9 down, SW8 down. Write LEDG7..LEDG0.
-S3: ANSWER: SWi up for every box whose light is different at the end of the two paths.
-S4: GOAL: ALL boxes with memory. Some remember only in another row, not at 00.
-S4: For every row of A B, arrive at it from both neighbours (one switch at a time)
-S4: and watch whether a light depends on where you came from.
-S4: ANSWER: SWi up for every box with memory (SW7..SW0).
+[Q30] SEQ | צירופי או סדרתי? (8 קופסאות) | npub 1 | steps 5 | flat
+B: A = SW9     B = SW8     box i = LEDGi (8 boxes)     answer: SW7..SW0
+B: move ONE switch at a time
+S1: קופסה 0 בלי זיכרון. נסו את 4 המצבים ורשמו את
+S1: LEDG0:
+S1: SW9 SW8:   00   01   10   11
+S1: לכל מצב שהנורה דלקה - הרימו:
+S1: 00 -> SW0     01 -> SW1     10 -> SW2     11 -> SW3
+S2: קופסה 1 זוכרת. התחילו ב-
+S2: 00:
+S2: 1)  SW8 up, SW8 down      2)  SW9 up, SW9 down
+S2: בשתי הפעמים חזרתם ל-00, אבל הנורה שונה - היא זוכרת מה היה קודם.
+S2: הרימו מתג אם הנורה דלקה:
+S2: SW1 = after 1)      SW0 = after 2)
+S3: אילו עוד קופסאות זוכרות? עברו בשתי הדרכים ורשמו את כל הנורות בסוף:
+S3: path 1:  00 -> 01 -> 11 -> 10 -> 00
+S3: path 2:  00 -> 10 -> 11 -> 01 -> 00
+S3: הרימו מתג לכל קופסה שהנורה שלה שונה בסוף:
+S3: LEDGi -> SWi
+S4: יש קופסאות שזוכרות רק במצב אחר. הגיעו לכל מצב משני השכנים שלו,
+S4: ובדקו אם נורה תלויה במאיפה באתם. הרימו מתג לכל קופסה עם זיכרון:
+S4: LEDGi -> SWi

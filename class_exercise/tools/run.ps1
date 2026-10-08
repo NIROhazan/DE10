@@ -14,7 +14,8 @@ Set-Location (Split-Path $PSScriptRoot -Parent)
 . (Join-Path $PSScriptRoot "common.ps1")
 if ($env:CE_LESSON -ne "1") {		# questions open only through LESSON.bat (lesson.ps1 sets it)
 	Write-Host ""
-	Write-Host "  The questions open only through the lesson: double-click LESSON.bat." -ForegroundColor Yellow
+	Write-Line (U "only_lesson") Yellow
+	Write-Line (U "only_lesson_en") Yellow
 	exit 1
 }
 
@@ -37,7 +38,8 @@ $last = $q.NS - 1
 $done = Get-Progress $sid $q.Id
 if ($done -ge $last) {
 	Write-Host ""
-	Write-Host "  $($q.Id) is already done. Your code is in moodle.txt:  ce-$($q.Id): $(Get-SavedCode $q.Id)" -ForegroundColor Green
+	Write-Line (U "already") Green
+	Write-Line ("ce-$($q.Id): $(Get-SavedCode $q.Id)") Green
 	exit 0
 }
 $from = $done + 1
@@ -50,7 +52,7 @@ $sof = Join-Path (Get-Location) "sof\$($q.Id).sof"
 if (-not $qbin) { Write-Host "  Quartus II 13.0sp1 not found under C:\altera." -ForegroundColor Red; exit 1 }
 Get-Process quartus_stp -ErrorAction SilentlyContinue | Stop-Process -Force		# an old link from a closed window
 Write-Host ""
-Write-Host "  Preparing the board..."
+Write-Line (U "prep")
 $ErrorActionPreference = "Continue"
 & (Join-Path $qbin "quartus_pgm.exe") -c USB-Blaster -m JTAG -o "p;$sof" > program.log 2>&1
 if ($LASTEXITCODE -ne 0) {		# jtagd may still be starting: once more
@@ -60,7 +62,8 @@ if ($LASTEXITCODE -ne 0) {		# jtagd may still be starting: once more
 $okPgm = ($LASTEXITCODE -eq 0)
 $ErrorActionPreference = "Stop"
 if (-not $okPgm) {
-	Write-Host "  The board did not answer. Is it on, the USB cable in the BLASTER port, the switch on RUN?" -ForegroundColor Red
+	Write-Line (U "board_fail") Red
+	Write-Line (U "board_fail_en") Red
 	exit 1
 }
 
@@ -78,16 +81,17 @@ $link = [System.Diagnostics.Process]::Start($psi)
 function Show-Step($k) {
 	Clear-Host
 	Write-Host ""
-	Write-Host "  $($q.Id) - $($q.Title)          step $k of $last" -ForegroundColor Cyan
+	Write-Line "$($q.Id)" Cyan
+	Write-Line ("$($q.Title)     " + ((U "step_head") -f $k, $last)) Cyan
 	Write-Host ""
-	$q.B | ForEach-Object { Write-Host "  $_" -ForegroundColor DarkGray }
-	if ($q.P.ContainsKey($pub)) { $q.P[$pub] | ForEach-Object { Write-Host "  $_" } }
+	$q.B | ForEach-Object { Write-Line $_ DarkGray }
+	if ($q.P.ContainsKey($pub)) { Write-Host ""; $q.P[$pub] | ForEach-Object { Write-Line $_ White } }
 	Write-Host ""
-	$q.S[$k] | ForEach-Object { if ($_ -match '^(GOAL|ANSWER)') { Write-Host "  $_" -ForegroundColor Yellow } else { Write-Host "  $_" } }
+	$q.S[$k] | ForEach-Object { Write-Line $_ Yellow }
 	Write-Host ""
-	Write-Host "  Put the answer on the switches and press KEY2." -ForegroundColor Green
-	Write-Host "  The board shows PASS (this screen moves on by itself) or Err (try again)." -ForegroundColor DarkGray
-	if ($dl) { Write-Host ""; Write-Host ("  This topic ends at {0:HH:mm} (time left: see the window title)." -f $dl) -ForegroundColor DarkGray }
+	Write-Line (U "foot") Green
+	Write-Line (U "foot_en") Green
+	if ($dl) { Write-Line ((U "topic_end") -f ('{0:HH:mm}' -f $dl)) DarkGray }
 }
 
 try {
@@ -98,19 +102,19 @@ try {
 		Start-Sleep -Milliseconds 200
 		if (Test-TimeUp) {
 			Write-Host ""
-			Write-Host "  Time is up for this topic." -ForegroundColor Yellow
+			Write-Line (U "timeup") Yellow
 			exit 2
 		}
 		$line = $null
 		try { $line = ([IO.File]::ReadAllText($state)).Trim() } catch { }
 		if ($link.HasExited -or ($line -like "X*")) {
 			Write-Host ""
-			Write-Host "  The link to the board stopped (USB cable? board off?). Run $($q.Id) again - your progress is saved." -ForegroundColor Red
+			Write-Line (U "link_stop") Red
 			if ($line -like "X *") { Write-Host "  ($($line.Substring(2)))" -ForegroundColor DarkGray }
 			exit 1
 		}
 		if ($cur -eq 0 -and ((Get-Date) - $t0).TotalSeconds -gt 40) {
-			Write-Host "  The board does not answer the computer. Close this window, check the USB cable, and run $($q.Id) again." -ForegroundColor Red
+			Write-Line (U "no_answer") Red
 			exit 1
 		}
 		if (-not $line -or $line -eq $prev) { continue }
@@ -126,7 +130,7 @@ try {
 		while ($cur -lt $step) {			# a step passed on the board
 			Save-Progress $sid $q.Id $cur
 			Write-Host ""
-			Write-Host "  PASS - well done!" -ForegroundColor Green
+			Write-Line (U "pass") Green
 			Start-Sleep -Milliseconds 1500
 			$cur++
 			Show-Step $cur
@@ -136,7 +140,8 @@ try {
 			Save-Progress $sid $q.Id $last
 			Save-MoodleCode $sid $q.Id $code
 			Write-Host ""
-			Write-Host "  PASS - $($q.Id) is done!  Your code ce-$($q.Id): $code is saved in moodle.txt." -ForegroundColor Green
+			Write-Line (U "done") Green
+			Write-Line ((U "done_en") -f $q.Id, $code) Green
 			exit 0
 		}
 	}
