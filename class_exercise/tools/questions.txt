@@ -86,70 +86,22 @@ S3: ANSWER: SW0 up if B matters, SW0 down if F is the same in all 4 pairs.
 S4: GOAL: one input never changes F - find it. (Check C too: pairs 000-001, 010-011, 100-101, 110-111.)
 S4: ANSWER: raise ONE switch for the input that does NOT matter:   A = SW2    B = SW1    C = SW0
 
-[Q05] MUX | What is wired into the multiplexer? | npub 1 | steps 6 | flat
-B: Select S1 = SW9, S0 = SW8.  Input C = SW7.  (HEX3 HEX2 HEX1)   Y = LEDG0 (green).   Your answer goes on SW3..SW0.
-B: A 4:1 mux: S1 S0 = 00 sends D0 to Y,  01 sends D1,  10 sends D2,  11 sends D3.
-S1: GOAL: meet the mux. Put S1 S0 = 0 0 (SW9, SW8 down) - now Y shows D0.
-S1: Look at Y with C = 0 (SW7 down), then with C = 1 (SW7 up).
-S1: ANSWER: SW0 = Y with C = 0,   SW1 = Y with C = 1   (up = on).
-S2: GOAL: what is on D0? Put S1 S0 = 0 0 (SW9 down, SW8 down) - now Y shows D0.
-S2: Look at Y with C = 0 (SW7 down) and with C = 1 (SW7 up):
-S2:    Y 0 and 0 -> '0'     Y 1 and 1 -> '1'     Y = C (0 then 1) -> C     Y = opposite of C (1 then 0) -> C'
-S2: ANSWER: '0' = all down    '1' = SW0    C = SW1    C' = SW1 + SW0
-S3: GOAL: what is on D1? Put S1 S0 = 0 1 (SW9 down, SW8 up) - now Y shows D1.
-S3: Look at Y with C = 0 (SW7 down) and with C = 1 (SW7 up):
-S3:    Y 0 and 0 -> '0'     Y 1 and 1 -> '1'     Y = C (0 then 1) -> C     Y = opposite of C (1 then 0) -> C'
-S3: ANSWER: '0' = all down    '1' = SW0    C = SW1    C' = SW1 + SW0
-S4: GOAL: what is on D2? Put S1 S0 = 1 0 (SW9 up, SW8 down) - now Y shows D2.
-S4: Look at Y with C = 0 (SW7 down) and with C = 1 (SW7 up):
-S4:    Y 0 and 0 -> '0'     Y 1 and 1 -> '1'     Y = C (0 then 1) -> C     Y = opposite of C (1 then 0) -> C'
-S4: ANSWER: '0' = all down    '1' = SW0    C = SW1    C' = SW1 + SW0
-S5: GOAL: what is on D3? Put S1 S0 = 1 1 (SW9 up, SW8 up) - now Y shows D3.
-S5: Look at Y with C = 0 (SW7 down) and with C = 1 (SW7 up):
-S5:    Y 0 and 0 -> '0'     Y 1 and 1 -> '1'     Y = C (0 then 1) -> C     Y = opposite of C (1 then 0) -> C'
-S5: ANSWER: '0' = all down    '1' = SW0    C = SW1    C' = SW1 + SW0
+[Q05] SIGMA4 | Minterms and maxterms - four inputs | npub 1 | steps 7 | flat
+B: A = SW9, B = SW8, C = SW7, D = SW6 (HEX3..HEX0).  F = LEDG0 (green).  Answer on SW3..SW0.
+S1: GOAL: the rows where A B = 0 0 (SW9 down, SW8 down). Try C D = 00, 01, 10, 11 (SW7 SW6).
+S1: ANSWER: SW0 = F at C D = 00,  SW1 = at 01,  SW2 = at 10,  SW3 = at 11.
+S2: GOAL: the rows where A B = 0 1 (SW9 down, SW8 up). Try C D = 00, 01, 10, 11 (SW7 SW6).
+S2: ANSWER: SW0 = F at C D = 00,  SW1 = at 01,  SW2 = at 10,  SW3 = at 11.
+S3: GOAL: the rows where A B = 1 0 (SW9 up, SW8 down). Try C D = 00, 01, 10, 11 (SW7 SW6).
+S3: ANSWER: SW0 = F at C D = 00,  SW1 = at 01,  SW2 = at 10,  SW3 = at 11.
+S4: GOAL: the rows where A B = 1 1 (SW9 up, SW8 up). Try C D = 00, 01, 10, 11 (SW7 SW6).
+S4: ANSWER: SW0 = F at C D = 00,  SW1 = at 01,  SW2 = at 10,  SW3 = at 11.
+S5: GOAL: minterms. Count the rows (of all 16) where F = 1.
+S5: ANSWER: the number in binary: SW3 = 8, SW2 = 4, SW1 = 2, SW0 = 1 - raise the ones that add up to it.
+S6: GOAL: maxterms. Count the rows where F = 0.
+S6: ANSWER: the number in binary: SW3 = 8, SW2 = 4, SW1 = 2, SW0 = 1 - raise the ones that add up to it.
 
-[Q06] DECODER | A decoder: which light is which output? | npub 6 | steps 6 | flat
-B: A = SW9, B = SW8 (HEX3 HEX2).  The decoder's 4 outputs = LEDG3..LEDG0 - in a hidden order.  Answer on SW3..SW0.
-P0: Your function for the last step:  F = SIGMA(0, 1)  - F = 1 when A B = 00 or 01.
-P1: Your function for the last step:  F = SIGMA(0, 2)  - F = 1 when A B = 00 or 10.
-P2: Your function for the last step:  F = SIGMA(0, 3)  - F = 1 when A B = 00 or 11.
-P3: Your function for the last step:  F = SIGMA(1, 2)  - F = 1 when A B = 01 or 10.
-P4: Your function for the last step:  F = SIGMA(1, 3)  - F = 1 when A B = 01 or 11.
-P5: Your function for the last step:  F = SIGMA(2, 3)  - F = 1 when A B = 10 or 11.
-S1: GOAL: meet the decoder. For every input row exactly ONE output is on (one-hot).
-S1: Put A B = 0 0 (SW9 down, SW8 down). Which green light is on?
-S1: ANSWER: one switch up - SWi for the light LEDGi that is on.   Write it down: row 00 -> LEDG?
-S2: GOAL: the output of row 01.
-S2: Put A B = 0 1 (SW9 down, SW8 up). Which green light is on?
-S2: ANSWER: one switch up - SWi for the light LEDGi that is on.   Write it down: row 01 -> LEDG?
-S3: GOAL: the output of row 10.
-S3: Put A B = 1 0 (SW9 up, SW8 down). Which green light is on?
-S3: ANSWER: one switch up - SWi for the light LEDGi that is on.   Write it down: row 10 -> LEDG?
-S4: GOAL: the output of row 11.
-S4: Put A B = 1 1 (SW9 up, SW8 up). Which green light is on?
-S4: ANSWER: one switch up - SWi for the light LEDGi that is on.   Write it down: row 11 -> LEDG?
-S5: GOAL: logic using a decoder. F = SIGMA(...) = an OR of the decoder outputs of its rows (see above).
-S5: Look at your notes: which light belongs to each row of F?
-S5: ANSWER: raise the TWO switches of those lights (SWi for LEDGi).
-
-[Q07] PRIORITY | A priority circuit: who wins? | npub 1 | steps 5 | flat
-B: Inputs A3 = SW9, A2 = SW8, A1 = SW7, A0 = SW6 (HEX3..HEX0).  Outputs Y3..Y0 = LEDG3..LEDG0.  Answer on SW3..SW0.
-B: Yi = 1 when Ai is up and no STRONGER input is up. The order of strength is hidden.
-S1: GOAL: meet the priority circuit. Raise ONLY SW9 (A3) - all of SW9..SW6 others down.
-S1: One input alone always wins. Which light is on?
-S1: ANSWER: one switch up - SWi for the light LEDGi that is on.
-S2: GOAL: two inputs together. Raise SW9 AND SW8 (A3 and A2). Only the stronger one lights its Y.
-S2: Which light is on now?
-S2: ANSWER: one switch up - SWi for that light.
-S3: GOAL: the STRONGEST input. Raise all four: SW9, SW8, SW7, SW6.
-S3: The light that is on belongs to the strongest input.
-S3: ANSWER: one switch up - SWi for that light.
-S4: GOAL: the WEAKEST input - it wins only when it is alone.
-S4: From all four up: lower the winner's switch, see who wins next, lower it too ... the last one is the weakest.
-S4: ANSWER: one switch up for the weakest input:   A3 = SW3   A2 = SW2   A1 = SW1   A0 = SW0
-
-[Q08] THEOREMS | Perfect induction: which statements are true? | npub 4 | steps 4 | flat
+[Q06] THEOREMS | Perfect induction: which statements are true? | npub 4 | steps 4 | flat
 B: Statement number = SW9 SW8 (HEX3).  A = SW7, B = SW6 (HEX1 HEX0).  LEFT = LEDG1, RIGHT = LEDG0.  Answer on SW3..SW0.
 B: The board holds 4 statements LEFT = RIGHT, in a hidden order:   A + AB = A     A + A'B = A + B     (AB)' = A' + B'     (A + B)' = A' + B'
 P0: Your statement for the last step:  A + AB = A
@@ -178,7 +130,71 @@ S3:    1 1
 S3: Now find the statement number whose LEDG1 (LEFT) and LEDG0 (RIGHT) show exactly your table.
 S3: ANSWER: that number:   0 = all down   1 = SW0   2 = SW1   3 = SW1+SW0
 
-[Q09] STORY | From a story to an equation | npub 6 | steps 4 | flat
+[Q07] THEOREMS8 | Perfect induction: 8 statements of A B C | npub 8 | steps 4 | flat
+B: Statement number = SW9 SW8 SW7 (HEX3: 0-7).  A = SW6, B = SW5, C = SW4 (HEX2 HEX1 HEX0).
+B: LEFT side = LEDG1, RIGHT side = LEDG0.  Answer on SW3..SW0.
+P0: Your statement for the last step:  A(A + B) = A
+P1: Your statement for the last step:  BC + BC' = B
+P2: Your statement for the last step:  AB + A'C + BC = AB + A'C
+P3: Your statement for the last step:  (AB)' = A' + B'
+P4: Your statement for the last step:  (A + B)' = A' + B'
+P5: Your statement for the last step:  A + BC = (A + B)(A + C)
+P6: Your statement for the last step:  A + BC = (A + B)C
+P7: Your statement for the last step:  A + A'B = A + B
+S1: GOAL: is statement 0 true? SW9 SW8 SW7 down = statement 0. Go over the 8 rows of A B C (SW6 SW5 SW4).
+S1: True = LEDG1 and LEDG0 are the same (both on or both off) in ALL 8 rows.
+S1: ANSWER: SW0 up if statement 0 is true, SW0 down if not.
+S2: GOAL: check all 8 statements (SW9 SW8 SW7 = 000 ... 111) the same way.
+S2: ANSWER: how many of them are true?   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
+S3: GOAL: find YOUR statement (above). On paper, write the table of its LEFT side and of its RIGHT side (8 rows),
+S3: then find the statement number whose LEDG1 and LEDG0 show exactly those two columns.
+S3: ANSWER: its number in binary: SW2 = 4, SW1 = 2, SW0 = 1 - raise the ones that add up to it (0 = all down).
+
+[Q08] MINSOP | The minimal sum of products | npub 1 | steps 4 | flat
+B: A = SW9, B = SW8, C = SW7 (HEX3 HEX2 HEX1).  F = LEDG0 (green).  Answer on SW3..SW0.
+S1: GOAL: the truth table of F. Copy it to paper, go over the 8 rows once (0 = down, 1 = up), write F (LEDG0):
+S1:    row (SW9 SW8 SW7)    Y
+S1:    0 0 0
+S1:    0 0 1
+S1:    0 1 0
+S1:    0 1 1
+S1:    1 0 0
+S1:    1 0 1
+S1:    1 1 0
+S1:    1 1 1
+S1: ANSWER: how many 1s in the F column?   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
+S2: GOAL: the minimal SOP. Write F as SIGMA of its minterms, then join minterms that differ in one letter
+S2: (T10: XY + XY' = X), until no more joins - the fewest terms, each with the fewest letters.
+S2: ANSWER: how many TERMS (products) does it have?   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
+S3: GOAL: count the letters. In your minimal SOP, count every letter of every term (A'B + C = 3 letters).
+S3: ANSWER: how many LITERALS?   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
+
+[Q09] LITERAL | The hidden literal | npub 6 | steps 4 | flat
+B: A = SW9, B = SW8, C = SW7 (HEX3 HEX2 HEX1).  Y = LEDG0 (green).  Answer on SW3..SW0.
+P0: Your expression:   Y = (A + B)(A' + ?) + BC      - one literal is hidden: ? is A, A', B, B', C or C'.
+P1: Your expression:   Y = A'B + ?C + A'BC'      - one literal is hidden: ? is A, A', B, B', C or C'.
+P2: Your expression:   Y = (AB + C)? + A'B'      - one literal is hidden: ? is A, A', B, B', C or C'.
+P3: Your expression:   Y = A'? + BC' + AB'C      - one literal is hidden: ? is A, A', B, B', C or C'.
+P4: Your expression:   Y = (A + ?)(B' + C) + A'BC'      - one literal is hidden: ? is A, A', B, B', C or C'.
+P5: Your expression:   Y = AB + A'? + B'C'      - one literal is hidden: ? is A, A', B, B', C or C'.
+S1: GOAL: the truth table of the board's Y. Copy it to paper, go over the 8 rows once, write Y (LEDG0):
+S1:    row (SW9 SW8 SW7)    Y
+S1:    0 0 0
+S1:    0 0 1
+S1:    0 1 0
+S1:    0 1 1
+S1:    1 0 0
+S1:    1 0 1
+S1:    1 1 0
+S1:    1 1 1
+S1: ANSWER: how many 1s?   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
+S2: GOAL: find the hidden literal. Try ? = A in your expression: work out its table on paper and compare with
+S2: the board's table. Not the same? Try A', then B, B', C, C' - only one of them matches.
+S2: ANSWER:   A = SW0   A' = SW1   B = SW1+SW0   B' = SW2   C = SW2+SW0   C' = SW2+SW1
+S3: GOAL: simplify Y (with the right literal) to a minimal SOP and count its letters (A'B + C = 3).
+S3: ANSWER: how many LITERALS?   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
+
+[Q10] STORY | From a story to an equation | npub 6 | steps 4 | flat
 B: Your three letters are on SW9 SW8 SW7, in the order shown below (HEX3 HEX2 HEX1).  4 students' circuits = LEDG3..LEDG0.
 B: Answer on SW3..SW0.
 P0: You go to the Park (P) if it is NOT Raining (R) and you have Sandwiches (S) or Drinks (D).
@@ -212,7 +228,7 @@ S3:    1 1 0
 S3:    1 1 1
 S3: ANSWER: one switch up - SWi for the light that matches in all 8 rows.
 
-[Q10] DEMORGAN | De Morgan: which answer is right? | npub 6 | steps 4 | flat
+[Q11] DEMORGAN | De Morgan: which answer is right? | npub 6 | steps 4 | flat
 B: A = SW9, B = SW8, C = SW7 (HEX3 HEX2 HEX1).  4 students' answers = LEDG3..LEDG0.  Answer on SW3..SW0.
 P0: Your expression:   Y = ((A + B')C)'
 P1: Your expression:   Y = (A'B + C)'
@@ -237,7 +253,7 @@ S2: ANSWER: copy the lights - SWi up if LEDGi is on (SW3..SW0).
 S3: GOAL: the right answer. Compare each light with your table, row by row (all 8 rows).
 S3: ANSWER: one switch up - SWi for the light that matches your Y in all 8 rows.
 
-[Q11] ERRORS | Common errors: which simplifications are wrong? | npub 6 | steps 4 | flat
+[Q12] ERRORS | Common errors: which simplifications are wrong? | npub 6 | steps 4 | flat
 B: A = SW9, B = SW8, C = SW7 (HEX3 HEX2 HEX1).  4 students' results = LEDG3..LEDG0.  Answer on SW3..SW0.
 P0: Four students simplified your expression:   Y = A'BC + A'
 P1: Four students simplified your expression:   Y = AB + AB'
@@ -261,7 +277,7 @@ S2: ANSWER: copy the lights - SWi up if LEDGi is on (SW3..SW0).
 S3: GOAL: find the mistakes. Compare each light with your table, row by row (all 8 rows).
 S3: ANSWER: SWi up for every light that is WRONG (different from your Y in some row) - two lights.
 
-[Q12] MULTIPLY | Multiplying out and factoring: which answers are right? | npub 6 | steps 4 | flat
+[Q13] MULTIPLY | Multiplying out and factoring: which answers are right? | npub 6 | steps 4 | flat
 B: A = SW9, B = SW8, C = SW7 (HEX3 HEX2 HEX1).  4 students' results = LEDG3..LEDG0.  Answer on SW3..SW0.
 P0: Four students multiplied out (SOP) or factored (POS) your expression:   Y = (A + B')(A + C)
 P1: Four students multiplied out (SOP) or factored (POS) your expression:   Y = A(B + C')
@@ -285,9 +301,58 @@ S2: ANSWER: copy the lights - SWi up if LEDGi is on (SW3..SW0).
 S3: GOAL: find the right answers. Compare each light with your table, row by row (all 8 rows).
 S3: ANSWER: SWi up for every light that is RIGHT (equal to your Y in all 8 rows) - two lights.
 
-[Q13] MINSOP | The minimal sum of products | npub 1 | steps 4 | flat
-B: A = SW9, B = SW8, C = SW7 (HEX3 HEX2 HEX1).  F = LEDG0 (green).  Answer on SW3..SW0.
-S1: GOAL: the truth table of F. Copy it to paper, go over the 8 rows once (0 = down, 1 = up), write F (LEDG0):
+[Q14] STORY4 | From a story to an equation - four letters | npub 6 | steps 4 | flat
+B: Your four letters are on SW9 SW8 SW7 SW6, in the order shown below (HEX3..HEX0).  4 circuits = LEDG3..LEDG0.  Answer on SW3..SW0.
+P0: You can Eat delicious food (E) if you Make it yourself (M), or you have a personal Chef (C)
+P0: who is Talented (T) and not eXpensive (X).
+P0: Letters:  M = SW9,  C = SW8,  T = SW7,  X = SW6
+P1: The alarm sounds (Y) when the Door is open (D) and the system is Armed (A),
+P1: or when there is Smoke (S) and it is not a Test (T).
+P1: Letters:  D = SW9,  A = SW8,  S = SW7,  T = SW6
+P2: You pass (P) if you did the Homework (H) and the Exam (E) or the Lab (L),
+P2: unless you Cheated (C).
+P2: Letters:  H = SW9,  E = SW8,  L = SW7,  C = SW6
+P3: The light (Y) is on when it is Dark (D) and someone Moves (M), or when the Switch (S) is on -
+P3: but never when the Battery (B) is low.
+P3: Letters:  D = SW9,  M = SW8,  S = SW7,  B = SW6
+P4: You can Enter (E) with a Hat (H) and Shoes (S), or with a Hat and a Ticket (T),
+P4: or if you are a VIP (V).
+P4: Letters:  H = SW9,  S = SW8,  T = SW7,  V = SW6
+P5: The fan (F) runs when it is Hot (H) and the window is not Open (O),
+P5: or when a Kid (K) presses the Button (B).
+P5: Letters:  H = SW9,  O = SW8,  K = SW7,  B = SW6
+S1: GOAL: meet the 4 circuits. Write the story as an equation (paper). Put all four letters to 1 (SW9..SW6 up).
+S1: ANSWER: copy the lights - SWi up if LEDGi is on (SW3..SW0).
+S2: GOAL: use YOUR equation: what is it when the letters are 1, 0, 1, 0 (SW9 up, SW8 down, SW7 up, SW6 down)?
+S2: ANSWER: SW0 up if your equation gives 1, SW0 down if it gives 0.
+S3: GOAL: which circuit is your equation? Compare each light with your equation in all 16 rows
+S3: (rows where they differ rule a light out - start with the rows you already know).
+S3: ANSWER: one switch up - SWi for the light that matches in every row.
+
+[Q15] DEMORGAN4 | De Morgan with four letters: which answers are right? | npub 6 | steps 4 | flat
+B: A = SW9, B = SW8, C = SW7, D = SW6 (HEX3..HEX0).  4 students' results = LEDG3..LEDG0.  Answer on SW3..SW0.
+P0: Apply De Morgan to your expression:   Y = ((A + BD)C)'
+P1: Apply De Morgan to your expression:   Y = ((A + B')C)'
+P2: Apply De Morgan to your expression:   Y = (A'B + CD')'
+P3: Apply De Morgan to your expression:   Y = ((A + B)(C + D)')'
+P4: Apply De Morgan to your expression:   Y = (A(B' + C) + D)'
+P5: Apply De Morgan to your expression:   Y = ((AB)' + C)'
+S1: GOAL: meet the 4 answers. Put A B C D = 0 0 0 0 (SW9..SW6 down).
+S1: ANSWER: copy the lights - SWi up if LEDGi is on (SW3..SW0).
+S2: GOAL: and at A B C D = 1 1 1 1 (SW9..SW6 up).
+S2: ANSWER: copy the lights (SW3..SW0).
+S3: GOAL: De Morgan on paper (outside in), then compare each light with your result row by row.
+S3: ANSWER: SWi up for every light that is RIGHT (equal to Y in all 16 rows) - one or two lights.
+
+[Q16] ERRORS5 | Common errors - five simplifications | npub 6 | steps 4 | flat
+B: A = SW9, B = SW8, C = SW7 (HEX3 HEX2 HEX1).  5 students' results = LEDG4..LEDG0.  Answer on SW4..SW0.
+P0: Five students simplified your expression:   Y = A'BC + A'
+P1: Five students simplified your expression:   Y = AB + AB'
+P2: Five students simplified your expression:   Y = (A + BC)'
+P3: Five students simplified your expression:   Y = (A + B)(A + C)
+P4: Five students simplified your expression:   Y = AB + A'C + BC
+P5: Five students simplified your expression:   Y = A + A'B
+S1: GOAL: your own answer first. Simplify YOUR expression (above) on paper, then fill its table:
 S1:    row (SW9 SW8 SW7)    Y
 S1:    0 0 0
 S1:    0 0 1
@@ -297,42 +362,91 @@ S1:    1 0 0
 S1:    1 0 1
 S1:    1 1 0
 S1:    1 1 1
-S1: ANSWER: how many 1s in the F column?   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
-S2: GOAL: the minimal SOP. Write F as SIGMA of its minterms, then join minterms that differ in one letter
-S2: (T10: XY + XY' = X), until no more joins - the fewest terms, each with the fewest letters.
-S2: ANSWER: how many TERMS (products) does it have?   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
-S3: GOAL: count the letters. In your minimal SOP, count every letter of every term (A'B + C = 3 letters).
-S3: ANSWER: how many LITERALS?   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
+S1: ANSWER: how many 1s in your Y column?   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
+S2: GOAL: meet the 5 results (LEDG4..LEDG0). Put A B C = 0 0 0 (SW9, SW8, SW7 down).
+S2: ANSWER: copy the lights - SWi up if LEDGi is on (SW4..SW0).
+S3: GOAL: find the mistakes. Compare each light with your table, row by row.
+S3: ANSWER: SWi up for every light that is WRONG (different from your Y in some row).
 
-[Q14] NANDNOR | Two-level logic: NAND-NAND or NOR-NOR | npub 1 | steps 4 | flat
-B: A = SW9, B = SW8, C = SW7 (HEX3 HEX2 HEX1).  n1 = LEDG2, n2 = LEDG1 (first level), Y = LEDG0 (second level).
-B: All three gates are NAND, or all three are NOR. Each first-level gate has 2 inputs: letters or their NOTs (A, A', B, ...).
-S1: GOAL: meet the circuit. Put A B C = 0 0 0 (SW9, SW8, SW7 down).
-S1: ANSWER: copy the lights - SW2 = n1 (LEDG2),  SW1 = n2 (LEDG1),  SW0 = Y (LEDG0)   (up = on).
-S2: GOAL: NAND or NOR? Go over the 8 rows and watch n1 (LEDG2).
-S2: A 2-input NAND is OFF in only 2 rows (both inputs 1).  A 2-input NOR is ON in only 2 rows (both inputs 0).
-S2: ANSWER: SW0 up if n1 is a NAND, SW0 down if it is a NOR.
-S3: GOAL: the inputs of n1. Look at the 2 special rows of n1 (NAND: where it is off, NOR: where it is on).
-S3: In those rows two letters stay the same - they are n1's inputs. NAND: a letter that is 1 there is X, 0 there is X'.
-S3: NOR: a letter that is 0 there is X, 1 there is X'.
-S3: ANSWER: two switches up:   SW5 = A   SW4 = A'   SW3 = B   SW2 = B'   SW1 = C   SW0 = C'
+[Q17] MULTIPLY4 | Multiplying out and factoring - six answers | npub 6 | steps 4 | flat
+B: A = SW9, B = SW8, C = SW7, D = SW6 (HEX3..HEX0).  6 students' results = LEDG5..LEDG0.  Answer on SW5..SW0.
+P0: Six students multiplied out (SOP) or factored (POS) your expression:   Y = (A + C + D)(A + B)
+P1: Six students multiplied out (SOP) or factored (POS) your expression:   Y = (A + BC)(A + D)
+P2: Six students multiplied out (SOP) or factored (POS) your expression:   Y = A + B'CD
+P3: Six students multiplied out (SOP) or factored (POS) your expression:   Y = AB + C'D
+P4: Six students multiplied out (SOP) or factored (POS) your expression:   Y = (A + B)(C + D)
+P5: Six students multiplied out (SOP) or factored (POS) your expression:   Y = A + B(C' + D)
+S1: GOAL: meet the 6 answers (LEDG5..LEDG0). Put A B C D = 0 0 0 0 (SW9..SW6 down).
+S1: ANSWER: copy the lights - SWi up if LEDGi is on (SW5..SW0).
+S2: GOAL: and at A B C D = 1 1 1 1 (SW9..SW6 up).
+S2: ANSWER: copy the lights (SW5..SW0).
+S3: GOAL: multiply out or factor your expression on paper, then compare each light with it row by row.
+S3: ANSWER: SWi up for every light that is RIGHT (equal to Y in all 16 rows) - two lights.
 
-[Q15] GATES | A multilevel circuit: find the gates | npub 1 | steps 5 | flat
-B: A = SW9, B = SW8, C = SW7, D = SW6 (HEX3..HEX0).  Answer on SW1 SW0.
-B: The circuit:  n1 = G1(A, B) on LEDG2   ->   n2 = G2(n1, C) on LEDG1   ->   Y = G3(n2, D) on LEDG0.
-S1: GOAL: meet the circuit. Put A B C D = 0 0 0 0 (SW9..SW6 down).
-S1: ANSWER: copy the lights - SW2 = n1 (LEDG2),  SW1 = n2 (LEDG1),  SW0 = Y (LEDG0)   (up = on).
-S2: GOAL: G1. n1 (LEDG2) depends only on A and B: try A B = 00, 01, 10, 11 (SW9 SW8).
-S2: AND: 1 only if both inputs are 1.  OR: 0 only if both are 0.  NAND: 0 only if both are 1.  NOR: 1 only if both are 0.
-S2: ANSWER (on SW1 SW0):   AND = both down   OR = SW0   NAND = SW1   NOR = SW1 + SW0
-S3: GOAL: G2. Its inputs are n1 (LEDG2) and C (SW7); its output is n2 (LEDG1). Try all four n1, C pairs.
-S3: AND: 1 only if both inputs are 1.  OR: 0 only if both are 0.  NAND: 0 only if both are 1.  NOR: 1 only if both are 0.
-S3: ANSWER (on SW1 SW0):   AND = both down   OR = SW0   NAND = SW1   NOR = SW1 + SW0
-S4: GOAL: G3. Its inputs are n2 (LEDG1) and D (SW6); its output is Y (LEDG0). Try all four n2, D pairs.
-S4: AND: 1 only if both inputs are 1.  OR: 0 only if both are 0.  NAND: 0 only if both are 1.  NOR: 1 only if both are 0.
-S4: ANSWER (on SW1 SW0):   AND = both down   OR = SW0   NAND = SW1   NOR = SW1 + SW0
+[Q18] MUX | What is wired into the multiplexer? | npub 1 | steps 6 | flat
+B: Select S1 = SW9, S0 = SW8.  Input C = SW7.  (HEX3 HEX2 HEX1)   Y = LEDG0 (green).   Your answer goes on SW3..SW0.
+B: A 4:1 mux: S1 S0 = 00 sends D0 to Y,  01 sends D1,  10 sends D2,  11 sends D3.
+S1: GOAL: meet the mux. Put S1 S0 = 0 0 (SW9, SW8 down) - now Y shows D0.
+S1: Look at Y with C = 0 (SW7 down), then with C = 1 (SW7 up).
+S1: ANSWER: SW0 = Y with C = 0,   SW1 = Y with C = 1   (up = on).
+S2: GOAL: what is on D0? Put S1 S0 = 0 0 (SW9 down, SW8 down) - now Y shows D0.
+S2: Look at Y with C = 0 (SW7 down) and with C = 1 (SW7 up):
+S2:    Y 0 and 0 -> '0'     Y 1 and 1 -> '1'     Y = C (0 then 1) -> C     Y = opposite of C (1 then 0) -> C'
+S2: ANSWER: '0' = all down    '1' = SW0    C = SW1    C' = SW1 + SW0
+S3: GOAL: what is on D1? Put S1 S0 = 0 1 (SW9 down, SW8 up) - now Y shows D1.
+S3: Look at Y with C = 0 (SW7 down) and with C = 1 (SW7 up):
+S3:    Y 0 and 0 -> '0'     Y 1 and 1 -> '1'     Y = C (0 then 1) -> C     Y = opposite of C (1 then 0) -> C'
+S3: ANSWER: '0' = all down    '1' = SW0    C = SW1    C' = SW1 + SW0
+S4: GOAL: what is on D2? Put S1 S0 = 1 0 (SW9 up, SW8 down) - now Y shows D2.
+S4: Look at Y with C = 0 (SW7 down) and with C = 1 (SW7 up):
+S4:    Y 0 and 0 -> '0'     Y 1 and 1 -> '1'     Y = C (0 then 1) -> C     Y = opposite of C (1 then 0) -> C'
+S4: ANSWER: '0' = all down    '1' = SW0    C = SW1    C' = SW1 + SW0
+S5: GOAL: what is on D3? Put S1 S0 = 1 1 (SW9 up, SW8 up) - now Y shows D3.
+S5: Look at Y with C = 0 (SW7 down) and with C = 1 (SW7 up):
+S5:    Y 0 and 0 -> '0'     Y 1 and 1 -> '1'     Y = C (0 then 1) -> C     Y = opposite of C (1 then 0) -> C'
+S5: ANSWER: '0' = all down    '1' = SW0    C = SW1    C' = SW1 + SW0
 
-[Q16] MUXLOGIC | Build F from a multiplexer | npub 3 | steps 6 | flat
+[Q19] DECODER | A decoder: which light is which output? | npub 6 | steps 6 | flat
+B: A = SW9, B = SW8 (HEX3 HEX2).  The decoder's 4 outputs = LEDG3..LEDG0 - in a hidden order.  Answer on SW3..SW0.
+P0: Your function for the last step:  F = SIGMA(0, 1)  - F = 1 when A B = 00 or 01.
+P1: Your function for the last step:  F = SIGMA(0, 2)  - F = 1 when A B = 00 or 10.
+P2: Your function for the last step:  F = SIGMA(0, 3)  - F = 1 when A B = 00 or 11.
+P3: Your function for the last step:  F = SIGMA(1, 2)  - F = 1 when A B = 01 or 10.
+P4: Your function for the last step:  F = SIGMA(1, 3)  - F = 1 when A B = 01 or 11.
+P5: Your function for the last step:  F = SIGMA(2, 3)  - F = 1 when A B = 10 or 11.
+S1: GOAL: meet the decoder. For every input row exactly ONE output is on (one-hot).
+S1: Put A B = 0 0 (SW9 down, SW8 down). Which green light is on?
+S1: ANSWER: one switch up - SWi for the light LEDGi that is on.   Write it down: row 00 -> LEDG?
+S2: GOAL: the output of row 01.
+S2: Put A B = 0 1 (SW9 down, SW8 up). Which green light is on?
+S2: ANSWER: one switch up - SWi for the light LEDGi that is on.   Write it down: row 01 -> LEDG?
+S3: GOAL: the output of row 10.
+S3: Put A B = 1 0 (SW9 up, SW8 down). Which green light is on?
+S3: ANSWER: one switch up - SWi for the light LEDGi that is on.   Write it down: row 10 -> LEDG?
+S4: GOAL: the output of row 11.
+S4: Put A B = 1 1 (SW9 up, SW8 up). Which green light is on?
+S4: ANSWER: one switch up - SWi for the light LEDGi that is on.   Write it down: row 11 -> LEDG?
+S5: GOAL: logic using a decoder. F = SIGMA(...) = an OR of the decoder outputs of its rows (see above).
+S5: Look at your notes: which light belongs to each row of F?
+S5: ANSWER: raise the TWO switches of those lights (SWi for LEDGi).
+
+[Q20] PRIORITY | A priority circuit: who wins? | npub 1 | steps 5 | flat
+B: Inputs A3 = SW9, A2 = SW8, A1 = SW7, A0 = SW6 (HEX3..HEX0).  Outputs Y3..Y0 = LEDG3..LEDG0.  Answer on SW3..SW0.
+B: Yi = 1 when Ai is up and no STRONGER input is up. The order of strength is hidden.
+S1: GOAL: meet the priority circuit. Raise ONLY SW9 (A3) - all of SW9..SW6 others down.
+S1: One input alone always wins. Which light is on?
+S1: ANSWER: one switch up - SWi for the light LEDGi that is on.
+S2: GOAL: two inputs together. Raise SW9 AND SW8 (A3 and A2). Only the stronger one lights its Y.
+S2: Which light is on now?
+S2: ANSWER: one switch up - SWi for that light.
+S3: GOAL: the STRONGEST input. Raise all four: SW9, SW8, SW7, SW6.
+S3: The light that is on belongs to the strongest input.
+S3: ANSWER: one switch up - SWi for that light.
+S4: GOAL: the WEAKEST input - it wins only when it is alone.
+S4: From all four up: lower the winner's switch, see who wins next, lower it too ... the last one is the weakest.
+S4: ANSWER: one switch up for the weakest input:   A3 = SW3   A2 = SW2   A1 = SW1   A0 = SW0
+
+[Q21] MUXLOGIC | Build F from a multiplexer | npub 3 | steps 6 | flat
 B: A = SW9, B = SW8, C = SW7 (HEX3 HEX2 HEX1).  F = LEDG0 (green).  Answer on SW1 SW0.
 P0: Your mux: S1 = A, S0 = B, and X = C goes to the data inputs.   AB = 00 -> D0,  01 -> D1,  10 -> D2,  11 -> D3.
 P1: Your mux: S1 = A, S0 = C, and X = B goes to the data inputs.   AC = 00 -> D0,  01 -> D1,  10 -> D2,  11 -> D3.
@@ -361,32 +475,52 @@ S5: GOAL: D3. Look at the 2 rows of your table where your S1 S0 = 1 1 (one with 
 S5: F there is 0 and 0 -> D3 = '0'.   1 and 1 -> '1'.   0 then 1 (follows X) -> X.   1 then 0 -> X'.
 S5: ANSWER (on SW1 SW0):   '0' = both down   '1' = SW0   X = SW1   X' = SW1 + SW0
 
-[Q17] LITERAL | The hidden literal | npub 6 | steps 4 | flat
-B: A = SW9, B = SW8, C = SW7 (HEX3 HEX2 HEX1).  Y = LEDG0 (green).  Answer on SW3..SW0.
-P0: Your expression:   Y = (A + B)(A' + ?) + BC      - one literal is hidden: ? is A, A', B, B', C or C'.
-P1: Your expression:   Y = A'B + ?C + A'BC'      - one literal is hidden: ? is A, A', B, B', C or C'.
-P2: Your expression:   Y = (AB + C)? + A'B'      - one literal is hidden: ? is A, A', B, B', C or C'.
-P3: Your expression:   Y = A'? + BC' + AB'C      - one literal is hidden: ? is A, A', B, B', C or C'.
-P4: Your expression:   Y = (A + ?)(B' + C) + A'BC'      - one literal is hidden: ? is A, A', B, B', C or C'.
-P5: Your expression:   Y = AB + A'? + B'C'      - one literal is hidden: ? is A, A', B, B', C or C'.
-S1: GOAL: the truth table of the board's Y. Copy it to paper, go over the 8 rows once, write Y (LEDG0):
-S1:    row (SW9 SW8 SW7)    Y
-S1:    0 0 0
-S1:    0 0 1
-S1:    0 1 0
-S1:    0 1 1
-S1:    1 0 0
-S1:    1 0 1
-S1:    1 1 0
-S1:    1 1 1
-S1: ANSWER: how many 1s?   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
-S2: GOAL: find the hidden literal. Try ? = A in your expression: work out its table on paper and compare with
-S2: the board's table. Not the same? Try A', then B, B', C, C' - only one of them matches.
-S2: ANSWER:   A = SW0   A' = SW1   B = SW1+SW0   B' = SW2   C = SW2+SW0   C' = SW2+SW1
-S3: GOAL: simplify Y (with the right literal) to a minimal SOP and count its letters (A'B + C = 3).
-S3: ANSWER: how many LITERALS?   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
+[Q22] DEC38 | A 3:8 decoder: which light is which output? | npub 8 | steps 4 | flat
+B: A = SW9, B = SW8, C = SW7 (HEX3 HEX2 HEX1).  The decoder's 8 outputs = LEDG7..LEDG0, in a hidden order.  Answer on SW2..SW0.
+P0: Your minterm for the last step:  m0  (A B C = 000).
+P1: Your minterm for the last step:  m1  (A B C = 001).
+P2: Your minterm for the last step:  m2  (A B C = 010).
+P3: Your minterm for the last step:  m3  (A B C = 011).
+P4: Your minterm for the last step:  m4  (A B C = 100).
+P5: Your minterm for the last step:  m5  (A B C = 101).
+P6: Your minterm for the last step:  m6  (A B C = 110).
+P7: Your minterm for the last step:  m7  (A B C = 111).
+S1: GOAL: meet the decoder. Put A B C = 0 0 0 (SW9, SW8, SW7 down). Exactly one green light is on.
+S1: ANSWER: its number in binary: SW2 = 4, SW1 = 2, SW0 = 1 - raise the ones that add up to it (0 = all down)   (LEDG5 = SW2 + SW0).
+S2: GOAL: one more. Put A B C = 1 1 1 (all three up). Which light is on now?
+S2: ANSWER: its number in binary: SW2 = 4, SW1 = 2, SW0 = 1 - raise the ones that add up to it (0 = all down).
+S3: GOAL: your minterm (above). Put its row on SW9 SW8 SW7 and see which light is on.
+S3: ANSWER: its number in binary: SW2 = 4, SW1 = 2, SW0 = 1 - raise the ones that add up to it (0 = all down).
 
-[Q18] BUBBLES | Bubble pushing: which circuit is in the board? | npub 8 | steps 3 | flat
+[Q23] NANDNOR | Two-level logic: NAND-NAND or NOR-NOR | npub 1 | steps 4 | flat
+B: A = SW9, B = SW8, C = SW7 (HEX3 HEX2 HEX1).  n1 = LEDG2, n2 = LEDG1 (first level), Y = LEDG0 (second level).
+B: All three gates are NAND, or all three are NOR. Each first-level gate has 2 inputs: letters or their NOTs (A, A', B, ...).
+S1: GOAL: meet the circuit. Put A B C = 0 0 0 (SW9, SW8, SW7 down).
+S1: ANSWER: copy the lights - SW2 = n1 (LEDG2),  SW1 = n2 (LEDG1),  SW0 = Y (LEDG0)   (up = on).
+S2: GOAL: NAND or NOR? Go over the 8 rows and watch n1 (LEDG2).
+S2: A 2-input NAND is OFF in only 2 rows (both inputs 1).  A 2-input NOR is ON in only 2 rows (both inputs 0).
+S2: ANSWER: SW0 up if n1 is a NAND, SW0 down if it is a NOR.
+S3: GOAL: the inputs of n1. Look at the 2 special rows of n1 (NAND: where it is off, NOR: where it is on).
+S3: In those rows two letters stay the same - they are n1's inputs. NAND: a letter that is 1 there is X, 0 there is X'.
+S3: NOR: a letter that is 0 there is X, 1 there is X'.
+S3: ANSWER: two switches up:   SW5 = A   SW4 = A'   SW3 = B   SW2 = B'   SW1 = C   SW0 = C'
+
+[Q24] GATES | A multilevel circuit: find the gates | npub 1 | steps 5 | flat
+B: A = SW9, B = SW8, C = SW7, D = SW6 (HEX3..HEX0).  Answer on SW1 SW0.
+B: The circuit:  n1 = G1(A, B) on LEDG2   ->   n2 = G2(n1, C) on LEDG1   ->   Y = G3(n2, D) on LEDG0.
+S1: GOAL: meet the circuit. Put A B C D = 0 0 0 0 (SW9..SW6 down).
+S1: ANSWER: copy the lights - SW2 = n1 (LEDG2),  SW1 = n2 (LEDG1),  SW0 = Y (LEDG0)   (up = on).
+S2: GOAL: G1. n1 (LEDG2) depends only on A and B: try A B = 00, 01, 10, 11 (SW9 SW8).
+S2: AND: 1 only if both inputs are 1.  OR: 0 only if both are 0.  NAND: 0 only if both are 1.  NOR: 1 only if both are 0.
+S2: ANSWER (on SW1 SW0):   AND = both down   OR = SW0   NAND = SW1   NOR = SW1 + SW0
+S3: GOAL: G2. Its inputs are n1 (LEDG2) and C (SW7); its output is n2 (LEDG1). Try all four n1, C pairs.
+S3: AND: 1 only if both inputs are 1.  OR: 0 only if both are 0.  NAND: 0 only if both are 1.  NOR: 1 only if both are 0.
+S3: ANSWER (on SW1 SW0):   AND = both down   OR = SW0   NAND = SW1   NOR = SW1 + SW0
+S4: GOAL: G3. Its inputs are n2 (LEDG1) and D (SW6); its output is Y (LEDG0). Try all four n2, D pairs.
+S4: AND: 1 only if both inputs are 1.  OR: 0 only if both are 0.  NAND: 0 only if both are 1.  NOR: 1 only if both are 0.
+S4: ANSWER (on SW1 SW0):   AND = both down   OR = SW0   NAND = SW1   NOR = SW1 + SW0
+
+[Q25] BUBBLES | Bubble pushing: which circuit is in the board? | npub 8 | steps 3 | flat
 B: A = SW9, B = SW8, C = SW7, D = SW6 (HEX3..HEX0).  Y = LEDG0 (green).  Answer on SW1 SW0.
 B: n1' means a bubble (NOT) on that input of the last gate.
 P0: The board holds ONE of these circuits:
@@ -435,173 +569,7 @@ S2: GOAL: which circuit? Push the bubbles of each circuit above to an SOP (paper
 S2: its Y in a few rows (start with 0000 and 1111). Compare with the board until only one circuit fits.
 S2: ANSWER: its number:   0 = both down   1 = SW0   2 = SW1   3 = SW1 + SW0
 
-[Q19] LATCH | A box with memory: what turns it on, what turns it off? | npub 1 | steps 4 | flat
-B: A = SW9, B = SW8 (HEX3 HEX2).  The box = LEDG0 (green).  Answer on SW1 SW0.
-B: Move ONE switch at a time - two at once pass through a row in between.
-S1: GOAL: meet the box. Start at A B = 0 0, then ONE switch at a time: SW8 up (01), SW9 up (11),
-S1: SW8 down (10), SW9 down (00). Watch LEDG0 the whole time.
-S1: ANSWER: SW0 up if LEDG0 changed at least once on the way.
-S2: GOAL: the row that turns the box ON. The box stays as it is in most rows - only ONE row switches it on.
-S2: Find it: when the light goes on, which row are you in?
-S2: ANSWER: that row A B on SW1 SW0:   00 = both down   01 = SW0   10 = SW1   11 = SW1 + SW0
-S3: GOAL: the row that turns the box OFF. (In the other two rows the box just remembers.)
-S3: ANSWER: that row A B on SW1 SW0:   00 = both down   01 = SW0   10 = SW1   11 = SW1 + SW0
-
-[Q20] SEQ | Combinational or sequential? (8 boxes) | npub 1 | steps 5 | flat
-B: A = SW9, B = SW8 (HEX3 HEX2).  Box i = LEDGi (8 boxes, all get the same A and B).  Answer on SW7..SW0.
-B: Move ONE switch at a time - two at once pass through a row in between.
-S1: GOAL: read ONE box. Box 0 = LEDG0 (it has no memory).
-S1: Try the four rows of A B (SW9 SW8) and write LEDG0 for each row.
-S1: ANSWER: SW3 = LEDG0 at A B = 11,  SW2 = at 10,  SW1 = at 01,  SW0 = at 00.
-S2: GOAL: a box that REMEMBERS. Box 1 = LEDG1.
-S2: 1. A B = 00. Raise SW8, then lower it (back to 00). Write LEDG1.
-S2: 2. Raise SW9, then lower it (back to 00). Write LEDG1.
-S2: Both times A B = 00 - but LEDG1 is different: the box remembers what came before.
-S2: ANSWER: SW1 = LEDG1 after move 1,  SW0 = LEDG1 after move 2.
-S3: GOAL: which other boxes remember? Test all 8 on two long paths, one switch at a time:
-S3: Path 1 from 00: SW8 up, SW9 up, SW8 down, SW9 down. Write LEDG7..LEDG0.
-S3: Path 2 from 00: SW9 up, SW8 up, SW9 down, SW8 down. Write LEDG7..LEDG0.
-S3: ANSWER: SWi up for every box whose light is different at the end of the two paths.
-S4: GOAL: ALL boxes with memory. Some remember only in another row, not at 00.
-S4: For every row of A B, arrive at it from both neighbours (one switch at a time)
-S4: and watch whether a light depends on where you came from.
-S4: ANSWER: SWi up for every box with memory (SW7..SW0).
-
-[Q21] SIGMA4 | Minterms and maxterms - four inputs | npub 1 | steps 7 | flat
-B: A = SW9, B = SW8, C = SW7, D = SW6 (HEX3..HEX0).  F = LEDG0 (green).  Answer on SW3..SW0.
-S1: GOAL: the rows where A B = 0 0 (SW9 down, SW8 down). Try C D = 00, 01, 10, 11 (SW7 SW6).
-S1: ANSWER: SW0 = F at C D = 00,  SW1 = at 01,  SW2 = at 10,  SW3 = at 11.
-S2: GOAL: the rows where A B = 0 1 (SW9 down, SW8 up). Try C D = 00, 01, 10, 11 (SW7 SW6).
-S2: ANSWER: SW0 = F at C D = 00,  SW1 = at 01,  SW2 = at 10,  SW3 = at 11.
-S3: GOAL: the rows where A B = 1 0 (SW9 up, SW8 down). Try C D = 00, 01, 10, 11 (SW7 SW6).
-S3: ANSWER: SW0 = F at C D = 00,  SW1 = at 01,  SW2 = at 10,  SW3 = at 11.
-S4: GOAL: the rows where A B = 1 1 (SW9 up, SW8 up). Try C D = 00, 01, 10, 11 (SW7 SW6).
-S4: ANSWER: SW0 = F at C D = 00,  SW1 = at 01,  SW2 = at 10,  SW3 = at 11.
-S5: GOAL: minterms. Count the rows (of all 16) where F = 1.
-S5: ANSWER: the number in binary: SW3 = 8, SW2 = 4, SW1 = 2, SW0 = 1 - raise the ones that add up to it.
-S6: GOAL: maxterms. Count the rows where F = 0.
-S6: ANSWER: the number in binary: SW3 = 8, SW2 = 4, SW1 = 2, SW0 = 1 - raise the ones that add up to it.
-
-[Q22] DEC38 | A 3:8 decoder: which light is which output? | npub 8 | steps 4 | flat
-B: A = SW9, B = SW8, C = SW7 (HEX3 HEX2 HEX1).  The decoder's 8 outputs = LEDG7..LEDG0, in a hidden order.  Answer on SW2..SW0.
-P0: Your minterm for the last step:  m0  (A B C = 000).
-P1: Your minterm for the last step:  m1  (A B C = 001).
-P2: Your minterm for the last step:  m2  (A B C = 010).
-P3: Your minterm for the last step:  m3  (A B C = 011).
-P4: Your minterm for the last step:  m4  (A B C = 100).
-P5: Your minterm for the last step:  m5  (A B C = 101).
-P6: Your minterm for the last step:  m6  (A B C = 110).
-P7: Your minterm for the last step:  m7  (A B C = 111).
-S1: GOAL: meet the decoder. Put A B C = 0 0 0 (SW9, SW8, SW7 down). Exactly one green light is on.
-S1: ANSWER: its number in binary: SW2 = 4, SW1 = 2, SW0 = 1 - raise the ones that add up to it (0 = all down)   (LEDG5 = SW2 + SW0).
-S2: GOAL: one more. Put A B C = 1 1 1 (all three up). Which light is on now?
-S2: ANSWER: its number in binary: SW2 = 4, SW1 = 2, SW0 = 1 - raise the ones that add up to it (0 = all down).
-S3: GOAL: your minterm (above). Put its row on SW9 SW8 SW7 and see which light is on.
-S3: ANSWER: its number in binary: SW2 = 4, SW1 = 2, SW0 = 1 - raise the ones that add up to it (0 = all down).
-
-[Q23] THEOREMS8 | Perfect induction: 8 statements of A B C | npub 8 | steps 4 | flat
-B: Statement number = SW9 SW8 SW7 (HEX3: 0-7).  A = SW6, B = SW5, C = SW4 (HEX2 HEX1 HEX0).
-B: LEFT side = LEDG1, RIGHT side = LEDG0.  Answer on SW3..SW0.
-P0: Your statement for the last step:  A(A + B) = A
-P1: Your statement for the last step:  BC + BC' = B
-P2: Your statement for the last step:  AB + A'C + BC = AB + A'C
-P3: Your statement for the last step:  (AB)' = A' + B'
-P4: Your statement for the last step:  (A + B)' = A' + B'
-P5: Your statement for the last step:  A + BC = (A + B)(A + C)
-P6: Your statement for the last step:  A + BC = (A + B)C
-P7: Your statement for the last step:  A + A'B = A + B
-S1: GOAL: is statement 0 true? SW9 SW8 SW7 down = statement 0. Go over the 8 rows of A B C (SW6 SW5 SW4).
-S1: True = LEDG1 and LEDG0 are the same (both on or both off) in ALL 8 rows.
-S1: ANSWER: SW0 up if statement 0 is true, SW0 down if not.
-S2: GOAL: check all 8 statements (SW9 SW8 SW7 = 000 ... 111) the same way.
-S2: ANSWER: how many of them are true?   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
-S3: GOAL: find YOUR statement (above). On paper, write the table of its LEFT side and of its RIGHT side (8 rows),
-S3: then find the statement number whose LEDG1 and LEDG0 show exactly those two columns.
-S3: ANSWER: its number in binary: SW2 = 4, SW1 = 2, SW0 = 1 - raise the ones that add up to it (0 = all down).
-
-[Q24] STORY4 | From a story to an equation - four letters | npub 6 | steps 4 | flat
-B: Your four letters are on SW9 SW8 SW7 SW6, in the order shown below (HEX3..HEX0).  4 circuits = LEDG3..LEDG0.  Answer on SW3..SW0.
-P0: You can Eat delicious food (E) if you Make it yourself (M), or you have a personal Chef (C)
-P0: who is Talented (T) and not eXpensive (X).
-P0: Letters:  M = SW9,  C = SW8,  T = SW7,  X = SW6
-P1: The alarm sounds (Y) when the Door is open (D) and the system is Armed (A),
-P1: or when there is Smoke (S) and it is not a Test (T).
-P1: Letters:  D = SW9,  A = SW8,  S = SW7,  T = SW6
-P2: You pass (P) if you did the Homework (H) and the Exam (E) or the Lab (L),
-P2: unless you Cheated (C).
-P2: Letters:  H = SW9,  E = SW8,  L = SW7,  C = SW6
-P3: The light (Y) is on when it is Dark (D) and someone Moves (M), or when the Switch (S) is on -
-P3: but never when the Battery (B) is low.
-P3: Letters:  D = SW9,  M = SW8,  S = SW7,  B = SW6
-P4: You can Enter (E) with a Hat (H) and Shoes (S), or with a Hat and a Ticket (T),
-P4: or if you are a VIP (V).
-P4: Letters:  H = SW9,  S = SW8,  T = SW7,  V = SW6
-P5: The fan (F) runs when it is Hot (H) and the window is not Open (O),
-P5: or when a Kid (K) presses the Button (B).
-P5: Letters:  H = SW9,  O = SW8,  K = SW7,  B = SW6
-S1: GOAL: meet the 4 circuits. Write the story as an equation (paper). Put all four letters to 1 (SW9..SW6 up).
-S1: ANSWER: copy the lights - SWi up if LEDGi is on (SW3..SW0).
-S2: GOAL: use YOUR equation: what is it when the letters are 1, 0, 1, 0 (SW9 up, SW8 down, SW7 up, SW6 down)?
-S2: ANSWER: SW0 up if your equation gives 1, SW0 down if it gives 0.
-S3: GOAL: which circuit is your equation? Compare each light with your equation in all 16 rows
-S3: (rows where they differ rule a light out - start with the rows you already know).
-S3: ANSWER: one switch up - SWi for the light that matches in every row.
-
-[Q25] DEMORGAN4 | De Morgan with four letters: which answers are right? | npub 6 | steps 4 | flat
-B: A = SW9, B = SW8, C = SW7, D = SW6 (HEX3..HEX0).  4 students' results = LEDG3..LEDG0.  Answer on SW3..SW0.
-P0: Apply De Morgan to your expression:   Y = ((A + BD)C)'
-P1: Apply De Morgan to your expression:   Y = ((A + B')C)'
-P2: Apply De Morgan to your expression:   Y = (A'B + CD')'
-P3: Apply De Morgan to your expression:   Y = ((A + B)(C + D)')'
-P4: Apply De Morgan to your expression:   Y = (A(B' + C) + D)'
-P5: Apply De Morgan to your expression:   Y = ((AB)' + C)'
-S1: GOAL: meet the 4 answers. Put A B C D = 0 0 0 0 (SW9..SW6 down).
-S1: ANSWER: copy the lights - SWi up if LEDGi is on (SW3..SW0).
-S2: GOAL: and at A B C D = 1 1 1 1 (SW9..SW6 up).
-S2: ANSWER: copy the lights (SW3..SW0).
-S3: GOAL: De Morgan on paper (outside in), then compare each light with your result row by row.
-S3: ANSWER: SWi up for every light that is RIGHT (equal to Y in all 16 rows) - one or two lights.
-
-[Q26] MULTIPLY4 | Multiplying out and factoring - six answers | npub 6 | steps 4 | flat
-B: A = SW9, B = SW8, C = SW7, D = SW6 (HEX3..HEX0).  6 students' results = LEDG5..LEDG0.  Answer on SW5..SW0.
-P0: Six students multiplied out (SOP) or factored (POS) your expression:   Y = (A + C + D)(A + B)
-P1: Six students multiplied out (SOP) or factored (POS) your expression:   Y = (A + BC)(A + D)
-P2: Six students multiplied out (SOP) or factored (POS) your expression:   Y = A + B'CD
-P3: Six students multiplied out (SOP) or factored (POS) your expression:   Y = AB + C'D
-P4: Six students multiplied out (SOP) or factored (POS) your expression:   Y = (A + B)(C + D)
-P5: Six students multiplied out (SOP) or factored (POS) your expression:   Y = A + B(C' + D)
-S1: GOAL: meet the 6 answers (LEDG5..LEDG0). Put A B C D = 0 0 0 0 (SW9..SW6 down).
-S1: ANSWER: copy the lights - SWi up if LEDGi is on (SW5..SW0).
-S2: GOAL: and at A B C D = 1 1 1 1 (SW9..SW6 up).
-S2: ANSWER: copy the lights (SW5..SW0).
-S3: GOAL: multiply out or factor your expression on paper, then compare each light with it row by row.
-S3: ANSWER: SWi up for every light that is RIGHT (equal to Y in all 16 rows) - two lights.
-
-[Q27] ERRORS5 | Common errors - five simplifications | npub 6 | steps 4 | flat
-B: A = SW9, B = SW8, C = SW7 (HEX3 HEX2 HEX1).  5 students' results = LEDG4..LEDG0.  Answer on SW4..SW0.
-P0: Five students simplified your expression:   Y = A'BC + A'
-P1: Five students simplified your expression:   Y = AB + AB'
-P2: Five students simplified your expression:   Y = (A + BC)'
-P3: Five students simplified your expression:   Y = (A + B)(A + C)
-P4: Five students simplified your expression:   Y = AB + A'C + BC
-P5: Five students simplified your expression:   Y = A + A'B
-S1: GOAL: your own answer first. Simplify YOUR expression (above) on paper, then fill its table:
-S1:    row (SW9 SW8 SW7)    Y
-S1:    0 0 0
-S1:    0 0 1
-S1:    0 1 0
-S1:    0 1 1
-S1:    1 0 0
-S1:    1 0 1
-S1:    1 1 0
-S1:    1 1 1
-S1: ANSWER: how many 1s in your Y column?   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
-S2: GOAL: meet the 5 results (LEDG4..LEDG0). Put A B C = 0 0 0 (SW9, SW8, SW7 down).
-S2: ANSWER: copy the lights - SWi up if LEDGi is on (SW4..SW0).
-S3: GOAL: find the mistakes. Compare each light with your table, row by row.
-S3: ANSWER: SWi up for every light that is WRONG (different from your Y in some row).
-
-[Q28] NANDNOR3 | Two-level logic: three gates, NAND or NOR each | npub 1 | steps 4 | flat
+[Q26] NANDNOR3 | Two-level logic: three gates, NAND or NOR each | npub 1 | steps 4 | flat
 B: A = SW9, B = SW8, C = SW7 (HEX3 HEX2 HEX1).  First level: n1 = LEDG3, n2 = LEDG2, n3 = LEDG1 (2-input NAND or NOR
 B: of letters or their NOTs).  Second level: Y = LEDG0 = a 3-input NAND or NOR of n1, n2, n3.  Answer on SW3..SW0.
 S1: GOAL: meet the circuit. Put A B C = 0 0 0 (SW9, SW8, SW7 down).
@@ -613,7 +581,7 @@ S3: GOAL: every gate. n2 and n3 the same way. For Y (3 inputs n1 n2 n3): watch a
 S3: NOT all equal - a NAND gives 1 there, a NOR gives 0.
 S3: ANSWER: SW3 = n1,  SW2 = n2,  SW1 = n3,  SW0 = Y:   up = NAND,  down = NOR.
 
-[Q29] BUBBLES8 | Bubble pushing: which of eight circuits? | npub 8 | steps 3 | flat
+[Q27] BUBBLES8 | Bubble pushing: which of eight circuits? | npub 8 | steps 3 | flat
 B: A = SW9, B = SW8, C = SW7, D = SW6 (HEX3..HEX0).  Y = LEDG0 (green).  Answer on SW2..SW0.
 B: n1' means a bubble (NOT) on that input of the last gate.
 P0: The board holds ONE of these circuits:
@@ -694,7 +662,19 @@ S2: GOAL: which circuit? Work out each circuit's Y in a few rows (paper; bubble 
 S2: and compare with the board, until only one circuit is left.
 S2: ANSWER: its number in binary: SW2 = 4, SW1 = 2, SW0 = 1 - raise the ones that add up to it (0 = all down).
 
-[Q30] DLATCH | A D latch: which input is the enable? | npub 1 | steps 4 | flat
+[Q28] LATCH | A box with memory: what turns it on, what turns it off? | npub 1 | steps 4 | flat
+B: A = SW9, B = SW8 (HEX3 HEX2).  The box = LEDG0 (green).  Answer on SW1 SW0.
+B: Move ONE switch at a time - two at once pass through a row in between.
+S1: GOAL: meet the box. Start at A B = 0 0, then ONE switch at a time: SW8 up (01), SW9 up (11),
+S1: SW8 down (10), SW9 down (00). Watch LEDG0 the whole time.
+S1: ANSWER: SW0 up if LEDG0 changed at least once on the way.
+S2: GOAL: the row that turns the box ON. The box stays as it is in most rows - only ONE row switches it on.
+S2: Find it: when the light goes on, which row are you in?
+S2: ANSWER: that row A B on SW1 SW0:   00 = both down   01 = SW0   10 = SW1   11 = SW1 + SW0
+S3: GOAL: the row that turns the box OFF. (In the other two rows the box just remembers.)
+S3: ANSWER: that row A B on SW1 SW0:   00 = both down   01 = SW0   10 = SW1   11 = SW1 + SW0
+
+[Q29] DLATCH | A D latch: which input is the enable? | npub 1 | steps 4 | flat
 B: A = SW9, B = SW8 (HEX3 HEX2).  The box = LEDG0 (green).  Answer on SW1 SW0.
 B: Move ONE switch at a time - two at once pass through a row in between.
 S1: GOAL: a D latch: when its ENABLE is active it copies its DATA input, otherwise it remembers.
@@ -705,3 +685,23 @@ S2: The enable is the input that, in one of its positions, makes the box FOLLOW 
 S2: ANSWER: SW1 up if A (SW9) is the enable,  SW0 up if B (SW8) is the enable - one switch.
 S3: GOAL: is the enable active when it is 1 (up) or when it is 0 (down)?
 S3: ANSWER: SW0 up if the box follows the data while the enable is UP,  SW0 down if while it is DOWN.
+
+[Q30] SEQ | Combinational or sequential? (8 boxes) | npub 1 | steps 5 | flat
+B: A = SW9, B = SW8 (HEX3 HEX2).  Box i = LEDGi (8 boxes, all get the same A and B).  Answer on SW7..SW0.
+B: Move ONE switch at a time - two at once pass through a row in between.
+S1: GOAL: read ONE box. Box 0 = LEDG0 (it has no memory).
+S1: Try the four rows of A B (SW9 SW8) and write LEDG0 for each row.
+S1: ANSWER: SW3 = LEDG0 at A B = 11,  SW2 = at 10,  SW1 = at 01,  SW0 = at 00.
+S2: GOAL: a box that REMEMBERS. Box 1 = LEDG1.
+S2: 1. A B = 00. Raise SW8, then lower it (back to 00). Write LEDG1.
+S2: 2. Raise SW9, then lower it (back to 00). Write LEDG1.
+S2: Both times A B = 00 - but LEDG1 is different: the box remembers what came before.
+S2: ANSWER: SW1 = LEDG1 after move 1,  SW0 = LEDG1 after move 2.
+S3: GOAL: which other boxes remember? Test all 8 on two long paths, one switch at a time:
+S3: Path 1 from 00: SW8 up, SW9 up, SW8 down, SW9 down. Write LEDG7..LEDG0.
+S3: Path 2 from 00: SW9 up, SW8 up, SW9 down, SW8 down. Write LEDG7..LEDG0.
+S3: ANSWER: SWi up for every box whose light is different at the end of the two paths.
+S4: GOAL: ALL boxes with memory. Some remember only in another row, not at 00.
+S4: For every row of A B, arrive at it from both neighbours (one switch at a time)
+S4: and watch whether a light depends on where you came from.
+S4: ANSWER: SWi up for every box with memory (SW7..SW0).
