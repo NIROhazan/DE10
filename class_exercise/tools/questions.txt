@@ -172,14 +172,37 @@ P4: Your statement for the last step:  (A + B)' = A' + B'
 P5: Your statement for the last step:  A + BC = (A + B)(A + C)
 P6: Your statement for the last step:  A + BC = (A + B)C
 P7: Your statement for the last step:  A + A'B = A + B
-S1: GOAL: is statement 0 true? SW9 SW8 SW7 down = statement 0. Go over the 8 rows of A B C (SW6 SW5 SW4).
-S1: True = LEDG1 and LEDG0 are the same (both on or both off) in ALL 8 rows.
-S1: ANSWER: SW0 up if statement 0 is true, SW0 down if not.
-S2: GOAL: check all 8 statements (SW9 SW8 SW7 = 000 ... 111) the same way.
-S2: ANSWER: how many of them are true?   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
-S3: GOAL: find YOUR statement (above). On paper, write the table of its LEFT side and of its RIGHT side (8 rows),
-S3: then find the statement number whose LEDG1 and LEDG0 show exactly those two columns.
-S3: ANSWER: its number in binary: SW2 = 4, SW1 = 2, SW0 = 1 - raise the ones that add up to it (0 = all down).
+S1: WHAT YOU DO: check if statement 0 is TRUE. Each statement is LEFT = RIGHT:
+S1: LEDG1 shows its LEFT side, LEDG0 its RIGHT side.
+S1: 1. Put SW9, SW8, SW7 DOWN (= statement 0). Do not touch them.
+S1: 2. Go over the 8 positions of A B C:
+S1:    SW6 SW5 SW4 = down down down,  down down up,  down up down,  down up up,
+S1:                  up down down,    up down up,    up up down,    up up up
+S1: 3. In each position: are LEDG1 and LEDG0 the SAME (both on, or both off)?
+S1: ANSWER: the same in all 8 positions -> SW0 UP (true).   Different even once -> SW0 DOWN (false).
+S2: WHAT YOU DO: the same check for all 8 statements, and count how many are true.
+S2: 1. Set the statement number on SW9 SW8 SW7:
+S2:    statement 0 = SW9 SW8 SW7 down down down    1 = down down up    2 = down up down    3 = down up up
+S2:              4 = up down down                  5 = up down up      6 = up up down      7 = up up up
+S2: 2. For each statement do the 8 positions of A B C, as in step 1, and write: true / false.
+S2: ANSWER: how many statements are true? Put the number:
+S2:    0 = all down   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
+S3: WHAT YOU DO: find where YOUR statement (at the top of the screen) is on the board.
+S3: 1. On paper, fill this table for YOUR statement - what its LEFT side gives, and what its RIGHT side gives:
+S3:    A B C  (SW6 SW5 SW4)    LEFT   RIGHT
+S3:    0 0 0
+S3:    0 0 1
+S3:    0 1 0
+S3:    0 1 1
+S3:    1 0 0
+S3:    1 0 1
+S3:    1 1 0
+S3:    1 1 1
+S3: 2. On the board, try statement numbers (SW9 SW8 SW7, as in step 2). For each one compare LEDG1 with
+S3:    your LEFT column and LEDG0 with your RIGHT column, in the 8 positions of SW6 SW5 SW4.
+S3: 3. The statement where BOTH lights match your table in all 8 positions is yours.
+S3: ANSWER: its number:
+S3:    0 = all down   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2   5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0
 
 [Q08] MINSOP | The minimal sum of products | npub 1 | steps 4 | flat
 B: A = SW9, B = SW8, C = SW7 (HEX3 HEX2 HEX1).  F = LEDG0 (green).  Answer on SW3..SW0.
