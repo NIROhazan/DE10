@@ -1,11 +1,12 @@
 @echo off
 rem ============================================================
-rem  Class lesson - runs the whole lesson by the clock (tools\lesson.txt):
-rem  topic after topic, each with its questions from easy to hard.
-rem  Double-click once at the start of the lesson and leave it open.
+rem  The class lesson - the only way to the questions.
+rem  goto.txt empty: the lesson by the class clock.
+rem  goto.txt with TOPIC 2 or TOPIC 1 QUESTION 3: start there.
+rem  Your progress is kept; closing and opening again goes on.
 rem ============================================================
 setlocal
 cd /d "%~dp0"
-powershell -NoProfile -ExecutionPolicy Bypass -File "tools\lesson.ps1"
+powershell -NoProfile -ExecutionPolicy Bypass -File "tools\goto.ps1"
 echo.
 pause

@@ -1,6 +1,9 @@
-# GOTO.bat = goto.ps1: reads goto.txt - TOPIC n, or TOPIC n QUESTION k (the k-th question of topic n) - starts topic n
-# now with its full time (lesson_start.txt, which lesson.ps1 prefers over START) and opens that question first
-# (lesson.ps1 -First). No choosing of minutes. The progress stays. Kept ASCII for PowerShell 5.1.
+# LESSON.bat = goto.ps1, the students' only way in. Reads goto.txt:
+#   no line                     -> the lesson by the class clock (START in lesson.txt), like before
+#   TOPIC n / TOPIC n QUESTION k -> a NEW line: topic n starts now with its full time (lesson_start.txt, which lesson.ps1
+#                                  prefers over START) and its k-th question opens first (lesson.ps1 -First).
+#                                  The same line as last time (goto_applied.txt): just go on - no new jump, the clock runs on.
+# No choosing of minutes. The progress stays. Kept ASCII for PowerShell 5.1.
 $ErrorActionPreference = "Stop"
 Set-Location (Split-Path $PSScriptRoot -Parent)
 
@@ -19,7 +22,7 @@ function Fail($t) {
 		Write-Host ("    TOPIC {0}: {1}  ({2} questions)" -f ($i + 1), $topics[$i].Name, $topics[$i].Qs.Count)
 	}
 	Write-Host ""
-	Write-Host "  Fix goto.txt (open it in Notepad) and run GOTO.bat again." -ForegroundColor Yellow
+	Write-Host "  Fix goto.txt (open it in Notepad) and run LESSON.bat again." -ForegroundColor Yellow
 	exit 1
 }
 
@@ -27,7 +30,17 @@ $f = Join-Path (Get-Location) "goto.txt"
 if (-not (Test-Path $f)) { Fail "goto.txt is missing." }
 # every non-comment line together: "TOPIC 1 QUESTION 3" on one line, or TOPIC 1 and QUESTION 3 on two lines
 $line = (@([IO.File]::ReadAllLines($f) | Where-Object { $_ -notmatch '^\s*(#|$)' } | ForEach-Object { $_.Trim() }) -join " ")
-if (-not $line) { Fail "goto.txt has no line - write for example:  TOPIC 2   or   TOPIC 1 QUESTION 3" }
+$applied = Join-Path (Get-Location) "goto_applied.txt"
+$lesson = Join-Path $PSScriptRoot "lesson.ps1"
+if (-not $line) {				# nothing chosen: the lesson by the class clock
+	Remove-Item $applied, (Join-Path (Get-Location) "lesson_start.txt") -ErrorAction SilentlyContinue
+	& $lesson
+	exit $LASTEXITCODE
+}
+if ((Test-Path $applied) -and (([IO.File]::ReadAllText($applied)).Trim() -eq $line.Trim())) {
+	& $lesson				# the same choice as last time: go on where you are
+	exit $LASTEXITCODE
+}
 if ($line -notmatch '^\s*TOPIC\s+(\d+)(?:\s+QUESTION\s+(\d+))?\s*$') {
 	Fail "I do not understand '$($line.Trim())'. Write  TOPIC 2   or   TOPIC 1 QUESTION 3"
 }
@@ -42,8 +55,9 @@ $offset = 0
 for ($i = 0; $i -lt $n - 1; $i++) { $offset += $topics[$i].Min }
 $start = (Get-Date).AddMinutes(-$offset)
 [IO.File]::WriteAllText((Join-Path (Get-Location) "lesson_start.txt"), $start.ToString("o"))
+[IO.File]::WriteAllText($applied, $line.Trim())
 Write-Host ""
 Write-Host "  Topic $n ($($tp.Name)) starts now, with its question $k of $($tp.Qs.Count) ($first)." -ForegroundColor Green
 Start-Sleep -Seconds 2
-& (Join-Path $PSScriptRoot "lesson.ps1") -First $first
+& $lesson -First $first
 exit $LASTEXITCODE
