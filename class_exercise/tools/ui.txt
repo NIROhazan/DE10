@@ -8,6 +8,7 @@ only_lesson = נכנסים לשאלות רק דרך
 only_lesson_en = LESSON.bat
 already = השאלה הזו כבר הסתיימה. הקוד שלה:
 step_head = שלב {0} מתוך {1}
+mine = הנתונים האישיים שלכם:
 foot = שימו את התשובה על המתגים ולחצו:
 foot_en = KEY2          PASS = correct (this screen moves on by itself)          Err = not yet, try again
 topic_end = הנושא נגמר בשעה {0}

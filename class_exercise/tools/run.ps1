@@ -85,9 +85,15 @@ function Show-Step($k) {
 	Write-Line ("$($q.Title)     " + ((U "step_head") -f $k, $last)) Cyan
 	Write-Host ""
 	$q.B | ForEach-Object { Write-Line $_ DarkGray }
-	if ($q.P.ContainsKey($pub)) { Write-Host ""; $q.P[$pub] | ForEach-Object { Write-Line $_ White } }
+	# the student's own text (statement, expression, story...): inside the step where a line is "@P", else at the top
+	# (a question that has an "@P" step shows it only there; otherwise at the top of every step, with a label)
+	$mine = if ($q.P.ContainsKey($pub)) { @($q.P[$pub]) } else { @() }
+	$anyInline = @($q.S.Values | Where-Object { @($_) -contains "@P" }).Count -gt 0
+	if ($mine.Count -and -not $anyInline) { Write-Host ""; Write-Line (U "mine") White; $mine | ForEach-Object { Write-Line $_ White } }
 	Write-Host ""
-	$q.S[$k] | ForEach-Object { Write-Line $_ Yellow }
+	foreach ($l in $q.S[$k]) {
+		if ($l -eq "@P") { $mine | ForEach-Object { Write-Line $_ White } } else { Write-Line $l Yellow }
+	}
 	Write-Host ""
 	Write-Line (U "foot") Green
 	Write-Line (U "foot_en") Green
