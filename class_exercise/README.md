@@ -19,7 +19,8 @@
 - סיימו מוקדם - "Well done", והמתנה לנושא הבא. מאחרים או שהמחשב נפל - נכנסים ישר לנושא שרץ עכשיו.
 - **יציאה וחזרה:** כל שלב שעבר נשמר מיד (`progress.txt`), והזמן ממשיך לרוץ גם כשהחלון סגור. מי שחוזר מקבל
   "Welcome back" ונכנס לנושא שרץ עכשיו, בשאלה ובשלב שבהם עצר. ב-`START now` שעת ההתחלה נשמרת בפעם הראשונה
-  (`lesson_start.txt`), אז גם שם יציאה לא מאפסת את השעון. איפוס (למרצה): `C:\DE10_solutions\class_exercise
+  (`lesson_start.txt`), אז גם שם יציאה לא מאפסת את השעון. **איפוס ידני של הזמן לסטודנט** (פספס, תקלה): המרצה מריץ במחשב שלו
+  `C:\DE10_solutions\class_exerciseeset_time.bat` - הנושא הראשון מתחיל עכשיו (או `reset_time.bat 2` - מנושא 2); ההתקדמות נשמרת. איפוס (למרצה): `C:\DE10_solutions\class_exercise
 eset_lesson.bat`.
 - הכל לפי השעון של המחשב, אז כל הכיתה עוברת נושא יחד. לפני השיעור: לשנות את `START` (ואת הדקות / השאלות) ב-`tools/lesson.txt`.
   `START now` = השיעור מתחיל כשמפעילים (לתרגול בבית).
@@ -78,6 +79,9 @@ eset_lesson.bat`.
 
 - Questions open only through LESSON.bat: lesson.ps1 sets CE_LESSON=1, run.ps1 refuses without it, gen.py writes no Qnn BATs.
   Instructor, one question directly: `C:/DE10_solutions/class_exercise/question.bat Q05`; reset: `reset_lesson.bat` there.
+- A student's own clock (missed the lesson, a technical problem): on their computer `reset_time.bat` (topic 1 starts now) or
+  `reset_time.bat 2` (topic 2 starts now); the progress stays. It writes lesson_start.txt, which wins over START;
+  `reset_lesson.bat` deletes it - back to the class clock, progress too.
 - Source: `C:/DE10_solutions/class_exercise/gen.py` - the new list is `NEW` (ids Q01, Q02, ...; easy -> hard, in steps).
   `python gen.py` simulates the new questions in iverilog, `--compile` builds `sof/Qnn.sof`, `--id <ID>` (= `answers.bat ce <ID>`)
   prints the login number, every step's answer and the codes. The first-format puzzles stay in gen.py as o01..o25.

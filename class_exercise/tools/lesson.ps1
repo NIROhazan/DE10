@@ -18,17 +18,17 @@ foreach ($l in [IO.File]::ReadAllLines($Schedule, $script:utf8)) {
 }
 if ($Start) { $startText = $Start }
 if ($topics.Count -eq 0) { Write-Host "No TOPIC lines in $Schedule." -ForegroundColor Red; exit 1 }
-# START now: the first launch fixes the start (lesson_start.txt) - leaving and coming back does not restart the clock.
+# lesson_start.txt = this computer's own start: written on the first launch of a START now lesson (leaving and
+# coming back does not restart the clock), or by the instructor's reset_time.bat (a personal clock, e.g. after a
+# technical problem). When it exists it wins over START; reset_lesson.bat deletes it (back to the class clock).
 $startFile = Join-Path (Get-Location) "lesson_start.txt"
 $back = $false
-if ($startText -eq "now") {
-	if (Test-Path $startFile) {
-		$t = [datetime]::Parse(([IO.File]::ReadAllText($startFile)).Trim(), $null, [Globalization.DateTimeStyles]::RoundtripKind).ToLocalTime()
-		$back = $true
-	} else {
-		$t = Get-Date
-		[IO.File]::WriteAllText($startFile, $t.ToString("o"))
-	}
+if (Test-Path $startFile) {
+	$t = [datetime]::Parse(([IO.File]::ReadAllText($startFile)).Trim(), $null, [Globalization.DateTimeStyles]::RoundtripKind).ToLocalTime()
+	$back = $true
+} elseif ($startText -eq "now") {
+	$t = Get-Date
+	[IO.File]::WriteAllText($startFile, $t.ToString("o"))
 } else {
 	$t = [datetime]::ParseExact($startText, "HH:mm", $null)
 }
