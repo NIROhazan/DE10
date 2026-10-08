@@ -172,14 +172,16 @@ P4: Your statement for the last step:  (A + B)' = A' + B'
 P5: Your statement for the last step:  A + BC = (A + B)(A + C)
 P6: Your statement for the last step:  A + BC = (A + B)C
 P7: Your statement for the last step:  A + A'B = A + B
-S1: WHAT YOU DO: check if statement 0 is TRUE. Each statement is LEFT = RIGHT:
-S1: LEDG1 shows its LEFT side, LEDG0 its RIGHT side.
-S1: 1. Put SW9, SW8, SW7 DOWN (= statement 0). Do not touch them.
-S1: 2. Go over the 8 positions of A B C:
-S1:    SW6 SW5 SW4 = down down down,  down down up,  down up down,  down up up,
-S1:                  up down down,    up down up,    up up down,    up up up
-S1: 3. In each position: are LEDG1 and LEDG0 the SAME (both on, or both off)?
-S1: ANSWER: the same in all 8 positions -> SW0 UP (true).   Different even once -> SW0 DOWN (false).
+S1: WHAT YOU DO: check statement 0 - are its two lights ALWAYS the same?
+S1: (Each statement is like  A(A + B) = A.  LEDG1 = its left side, LEDG0 = its right side.
+S1:  A statement is TRUE when the two lights are equal - both on, or both off - in every position.)
+S1: 1. Put SW9, SW8, SW7 DOWN. This chooses statement 0. Do not touch them.
+S1: 2. Set SW6 SW5 SW4 to each of these 8 positions. Each time look: LEDG1 and LEDG0 - equal?
+S1:      a. down down down          e. up down down
+S1:      b. down down up            f. up down up
+S1:      c. down up down            g. up up down
+S1:      d. down up up              h. up up up
+S1: ANSWER: equal in ALL 8 positions -> raise SW0.   Different even once -> leave SW0 DOWN.
 S2: WHAT YOU DO: the same check for all 8 statements, and count how many are true.
 S2: 1. Set the statement number on SW9 SW8 SW7:
 S2:    statement 0 = SW9 SW8 SW7 down down down    1 = down down up    2 = down up down    3 = down up up
