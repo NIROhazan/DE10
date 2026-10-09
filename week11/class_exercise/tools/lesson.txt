@@ -1,0 +1,8 @@
+# The lesson schedule of week 11 (lecture 11) - read by LESSON.bat (tools\lesson.ps1). Edit it before the lesson.
+# START hh:mm (or START now), then TOPIC <minutes> | <name, Hebrew, no English letters> | <questions, easy -> hard>.
+
+START 10:00
+
+TOPIC 30 | נקודה קבועה ונקודה צפה | Q01 Q02 Q03 Q04 Q05 Q06 Q07 Q08
+TOPIC 30 | מונים ואוגרי הזזה | Q09 Q10 Q11 Q12 Q13
+TOPIC 30 | זיכרונות | Q14 Q15 Q16 Q17 Q18 Q19 Q20
