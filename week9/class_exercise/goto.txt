@@ -1,0 +1,9 @@
+# Where do you want to start? Write ONE line below (or leave none), save, then double-click LESSON.bat.
+#
+#   (no line)             the lesson by the class clock
+#   TOPIC 2               topic 2, from its first question
+#   TOPIC 1 QUESTION 3    topic 1, starting with its 3rd question
+#
+# The chosen topic starts now, with its full time. A NEW line = a new jump; the same line again = go on where you are.
+# Your progress (steps already passed) is kept.
+# The topics:   TOPIC 1 - 5 questions     TOPIC 2 - 7 questions     TOPIC 3 - 8 questions
