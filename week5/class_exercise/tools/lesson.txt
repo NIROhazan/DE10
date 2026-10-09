@@ -1,0 +1,8 @@
+# The lesson schedule of week 5 (lecture 5) - read by LESSON.bat (tools\lesson.ps1). Edit it before the lesson.
+# START hh:mm (or START now), then TOPIC <minutes> | <name, Hebrew, no English letters> | <questions, easy -> hard>.
+
+START 10:00
+
+TOPIC 30 | תפסנים, דלגלגים ומצב | Q01 Q02 Q03 Q04 Q05 Q06
+TOPIC 30 | אפשור, איפוס, קביעה ואוגרים | Q07 Q08 Q09 Q10 Q11 Q12 Q13
+TOPIC 30 | תיאור חומרה סדרתי | Q14 Q15 Q16 Q17 Q18 Q19 Q20

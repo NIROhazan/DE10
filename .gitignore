@@ -74,3 +74,5 @@ goto_applied.txt
 !week2/class_exercise/sof/*.sof
 # week 4 class exercise: the prebuilt board of each question
 !week4/class_exercise/sof/*.sof
+# class exercises of every week: the prebuilt board of each question
+!week*/class_exercise/sof/*.sof

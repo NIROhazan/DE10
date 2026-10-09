@@ -1,0 +1,47 @@
+# The fixed screen texts (read by common.ps1, U "key"). A line is either Hebrew or English - never both.
+# {0}, {1} ... are filled in by the scripts.
+
+prep = מכין את הלוח...
+board_fail = הלוח לא עונה. בדקו שהוא דלוק ושהכבל מחובר:
+board_fail_en = USB cable in the BLASTER port, the switch on RUN
+only_lesson = נכנסים לשאלות רק דרך
+only_lesson_en = LESSON.bat
+already = השאלה הזו כבר הסתיימה. הקוד שלה:
+step_head = שלב {0} מתוך {1}
+mine = הנתונים האישיים שלכם:
+foot = שימו את התשובה על המתגים ולחצו:
+foot_en = KEY2          PASS = correct (this screen moves on by itself)          Err = not yet, try again
+topic_end = הנושא נגמר בשעה {0}
+nav = חץ שמאלה = לשלב הקודם        חץ ימינה = לשלב הבא שכבר הגעתם אליו
+nav_go = עוברים לשלב {0}...
+pass = כל הכבוד! עוברים לשלב הבא.
+done = השאלה הסתיימה! הקוד נשמר בקובץ
+done_en = moodle.txt:     {2}-{0}: {1}
+timeup = נגמר הזמן של הנושא.
+link_stop = החיבור ללוח נעצר (הכבל? הלוח כבוי?). הריצו שוב - ההתקדמות נשמרה.
+no_answer = הלוח לא עונה למחשב. בדקו את הכבל והריצו שוב.
+
+starts_at = השיעור מתחיל בשעה {0}. התוכנית:
+countdown = מתחיל בעוד
+topic_now = נושא {0} מתוך {1}: {2}
+next_q = next question: {0}
+plan_row = {0}-{1}     {2}     {3} מתוך {4}
+end_topic = כל הכבוד - הגעתם לסוף הנושא!
+next_topic_at = הנושא הבא מתחיל בשעה {0}.
+last_topic = זה היה הנושא האחרון.
+over = השיעור הסתיים. הקודים שלכם נמצאים בקובץ
+over_en = moodle.txt  - hand it in on Moodle
+welcome = ברוכים השבים! ההתקדמות נשמרה, והשיעור המשיך בזמן שלא הייתם. עכשיו נושא {0}, עד {1}.
+timeup_next = נגמר הזמן של הנושא - ההתקדמות נשמרה. ממשיכים לנושא הבא.
+wrong = משהו השתבש (ראו למעלה). כדי לנסות שוב לחצו
+wrong_en = Enter
+already_done_go = השאלה הזו כבר הסתיימה - ממשיכים בנושא.
+
+goto_fix = תקנו את הקובץ והריצו שוב:
+goto_fix_en = goto.txt  (Notepad),  then LESSON.bat
+goto_bad = לא הבנתי את מה שכתוב בקובץ. כתבו למשל:
+goto_bad_en = TOPIC 2        or        TOPIC 1 QUESTION 3
+goto_no_topic = אין נושא כזה. בשיעור יש נושאים 1 עד {0}.
+goto_no_q = בנושא {0} יש {1} שאלות - מספר שאלה 1 עד {1}.
+goto_list = נושא {0}: {1}  ({2} שאלות)
+goto_jump = נושא {0} מתחיל עכשיו, מהשאלה ה-{1} שלו (מתוך {2}).

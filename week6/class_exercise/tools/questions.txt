@@ -1,0 +1,286 @@
+# Class exercise - the questions (written by C:/DE10_solutions/class_exercise/gen.py, do not edit).
+# [Qnn] NAME | title | npub n [| steps n];  B: board;  Pk: printed for login numbers with pub = k;
+# with steps: Sk: the screen of step k (step 0 = login, in run.ps1);  without: L: question, F: answer format
+
+[Q01] FFCOUNT | כמה דלגלגים? | npub 1 | steps 3 | flat
+B: the number of states = HEX1 HEX0     answer: SW4..SW0
+S1: בתצוגה מספר המצבים של מכונה. כמה דלגלגים צריך בקידוד אחד-חם (ביט לכל מצב)?
+S1: 16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0
+S2: וכמה בקידוד בינארי?
+S2: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2
+
+[Q02] DIVN | מחלק ב-N | npub 1 | steps 4 | flat
+B: q = LEDG0     clock = KEY1, reset = KEY0     answer: SW3..SW0
+S1: בלוח מכונת מצבים בלי כניסות: היא עוברת מצב בכל לחיצה, והנורה דולקת רק במצב אחד.
+S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
+S1: כל כמה לחיצות הנורה נדלקת?
+S1: divide by N:   N = ?
+S1: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0 8 = SW3 9 = SW3+SW0
+S2: אפסו. אחרי כמה לחיצות הנורה נדלקת בפעם הראשונה?
+S2: 0 = all down
+S2: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0 8 = SW3
+S3: כמה דלגלגים צריך לפחות לקידוד בינארי של המצבים?
+S3: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2
+
+[Q03] NEXT2 | טבלת מעברים של שני מצבים | npub 1 | steps 3 | flat
+B: a = SW9 (HEX3)     state S = LEDG1     clock = KEY1, reset = KEY0     answer: SW3..SW0
+S1: בלוח מכונה של שני מצבים. המצב מוצג בנורה, והכניסה על מתג:
+S1: S = LEDG1     a = SW9
+S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
+S1: לכל מצב ולכל ערך של הכניסה: לאן עוברים בלחיצה? מצב 1 - הרימו:
+S1: S=0 a=0 -> SW3     S=0 a=1 -> SW2     S=1 a=0 -> SW1     S=1 a=1 -> SW0
+S2: בכמה מארבעת המקרים המכונה נשארת באותו מצב?
+S2: 0 = all down
+S2: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2
+
+[Q04] OUTTAB | טבלת יציאות של מכונת מור | npub 1 | steps 3 | flat
+B: S1 S0 = LEDG3 LEDG2     Y1 Y0 = LEDG1 LEDG0     clock = KEY1     answer: SW3..SW0
+S1: בלוח מכונת מור שעוברת על 4 מצבים. ביטי המצב והיציאות מוצגים:
+S1: S1 S0 = LEDG3 LEDG2     Y1 Y0 = LEDG1 LEDG0
+S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
+S1: בכל מצב שבו
+S1: Y0 = 1
+S1: הרימו את המתג שלו:
+S1: S = 00 -> SW0     01 -> SW1     10 -> SW2     11 -> SW3
+S2: אותו דבר בשביל
+S2: Y1 = 1
+S2: S = 00 -> SW0     01 -> SW1     10 -> SW2     11 -> SW3
+
+[Q05] MOOREMEALY | מור או מילי? | npub 1 | steps 2 | flat
+B: a = SW9 (HEX3)     y = LEDG0     clock = KEY1, reset = KEY0     answer: SW3..SW0
+S1: בלוח מכונת מצבים עם כניסה ויציאה:
+S1: a = SW9     y = LEDG0
+S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
+S1: במכונת מור היציאה תלויה רק במצב. במכונת מילי היא תלויה גם בכניסה, ויכולה להשתנות בלי לחיצה.
+S1: נסו כמה מצבים: הזיזו את המתג בלי ללחוץ. איזו מכונה?
+S1: Moore = all down     Mealy = SW0
+
+[Q06] STATEDIAG | דיאגרמת מצבים של 4 מצבים | npub 1 | steps 5 | flat
+B: a = SW9 (HEX3)     the state = HEX0     clock = KEY1, reset = KEY0     answer: SW3..SW0
+S1: בלוח מכונה של 4 מצבים (0 עד 3, מוצג בתצוגה), עם כניסה אחת. ציירו את הדיאגרמה.
+S1: S = 0  (HEX0)
+S1: a = SW9
+S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
+S1: לאן עוברים ממנו כש-
+S1: a = 0
+S1: ולאן כש-
+S1: a = 1
+S1: ?
+S1: SW3 SW2 = next when a = 0     SW1 SW0 = next when a = 1     (binary)
+S2: המצב הבא בדיאגרמה:
+S2: S = 1  (HEX0)
+S2: a = SW9
+S2: KEY1 = clock (one rising edge per press)     KEY0 = reset
+S2: לאן עוברים ממנו כש-
+S2: a = 0
+S2: ולאן כש-
+S2: a = 1
+S2: ?
+S2: SW3 SW2 = next when a = 0     SW1 SW0 = next when a = 1     (binary)
+S3: המצב הבא בדיאגרמה:
+S3: S = 2  (HEX0)
+S3: a = SW9
+S3: KEY1 = clock (one rising edge per press)     KEY0 = reset
+S3: לאן עוברים ממנו כש-
+S3: a = 0
+S3: ולאן כש-
+S3: a = 1
+S3: ?
+S3: SW3 SW2 = next when a = 0     SW1 SW0 = next when a = 1     (binary)
+S4: המצב הבא בדיאגרמה:
+S4: S = 3  (HEX0)
+S4: a = SW9
+S4: KEY1 = clock (one rising edge per press)     KEY0 = reset
+S4: לאן עוברים ממנו כש-
+S4: a = 0
+S4: ולאן כש-
+S4: a = 1
+S4: ?
+S4: SW3 SW2 = next when a = 0     SW1 SW0 = next when a = 1     (binary)
+
+[Q07] SHORTEST | הדרך הקצרה ביותר | npub 1 | steps 2 | flat
+B: a = SW9 (HEX3)     the state = HEX0     clock = KEY1, reset = KEY0     answer: SW3..SW0
+S1: בלוח מכונה של 4 מצבים, המצב בתצוגה, כניסה אחת:
+S1: a = SW9     HEX0 = S
+S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
+S1: מה המספר הקטן ביותר של לחיצות שמביא ממצב 0 (אחרי איפוס) למצב 3?
+S1: S = 3
+S1: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2
+
+[Q08] ENCODING | קידוד מצבים | npub 1 | steps 4 | flat
+B: the state bits = LEDG3..LEDG0     clock = KEY1, reset = KEY0     answer: SW3..SW0
+S1: בלוח מכונה שעוברת על כמה מצבים. הנורות מראות את ביטי המצב (הדלגלגים).
+S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
+S1: כמה מצבים יש?
+S1: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2
+S2: כמה דלגלגים משתמשים בהם? (נורות שנדלקות לפחות פעם אחת, ואפשר גם נורה שתמיד כבויה בקידוד בינארי)
+S2: binary / Gray: 2     one-hot: one per state
+S2: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2
+S3: איזה קידוד? בגריי רק ביט אחד משתנה בכל מעבר.
+S3: binary = all down     one-hot = SW0     Gray = SW1
+
+[Q09] TRAFFIC | בקר הרמזור | npub 1 | steps 3 | flat
+B: TA, TB = SW9, SW8 (in some order)     lights = LEDG7..5, LEDG2..0     clock = KEY1     answer: SW3..SW0
+S1: בלוח בקר הרמזור מההרצאה. חיישני התנועה על המתגים, והרמזורים בנורות:
+S1: LA:  green = LEDG7   yellow = LEDG6   red = LEDG5
+S1: LB:  green = LEDG2   yellow = LEDG1   red = LEDG0
+S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
+S1: איזה מתג הוא
+S1: TA
+S1: (כשהוא למעלה, הירוק של הרחוב הראשון נשאר)?
+S1: SW9 = all down     SW8 = SW0
+S2: כמה לחיצות נמשך הצהוב?
+S2: 1 = SW0 2 = SW1 3 = SW1+SW0
+
+[Q10] TRAFFICRESET | מצב ההתחלה של הרמזור | npub 1 | steps 3 | flat
+B: TA, TB = SW9, SW8 (in some order)     lights = LEDG7..5, LEDG2..0     clock = KEY1, reset = KEY0     answer: SW3..SW0
+S1: בלוח בקר הרמזור, אבל מצב האיפוס (העיגול הכפול) שונה אולי.
+S1: LA:  green = LEDG7   yellow = LEDG6   red = LEDG5
+S1: LB:  green = LEDG2   yellow = LEDG1   red = LEDG0
+S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
+S1: אפסו. איזה רחוב ירוק?
+S1: A = all down     B = SW0
+S2: איזה מתג הוא
+S2: TA
+S2: ?
+S2: SW9 = all down     SW8 = SW0
+
+[Q11] LIGHTCODE | קידוד הצבעים | npub 1 | steps 4 | flat
+B: TA = SW9     TB = SW8     LA1 LA0 = LEDG3 LEDG2     LB1 LB0 = LEDG1 LEDG0     clock = KEY1     answer: SW1 SW0
+S1: בלוח בקר הרמזור, והרמזורים מוצגים בשני ביטים כל אחד:
+S1: LA1 LA0 = LEDG3 LEDG2     LB1 LB0 = LEDG1 LEDG0
+S1: TA = SW9     TB = SW8
+S1: S0: TA -> S0, else S1
+S1: S1 -> S2
+S1: S2: TB -> S2, else S3
+S1: S3 -> S0
+S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
+S1: אחרי איפוס הרחוב הראשון ירוק. מה הקוד של ירוק?
+S1: SW1 SW0
+S2: מה הקוד של אדום?
+S2: SW1 SW0
+S3: ומה הקוד של צהוב?
+S3: SW1 SW0
+
+[Q12] ONEHOT | קידוד אחד-חם של הרמזור | npub 1 | steps 4 | flat
+B: TA = SW9     TB = SW8     the one-hot state bits = LEDG3..LEDG0     clock = KEY1     answer: SW3..SW0
+S1: בלוח בקר הרמזור בקידוד אחד-חם: ביט אחד לכל מצב, ותמיד בדיוק אחד דולק.
+S1: TA = SW9     TB = SW8
+S1: S0: TA -> S0, else S1
+S1: S1 -> S2
+S1: S2: TB -> S2, else S3
+S1: S3 -> S0
+S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
+S1: איזו נורה היא
+S1: S0
+S1: (אחרי איפוס)?
+S1: LEDG0 = all down     LEDG1 = SW0     LEDG2 = SW1     LEDG3 = SW1+SW0
+S2: איזו נורה היא
+S2: S1
+S2: ?
+S2: LEDG0 = all down     LEDG1 = SW0     LEDG2 = SW1     LEDG3 = SW1+SW0
+S3: איזו נורה היא
+S3: S2
+S3: ?
+S3: LEDG0 = all down     LEDG1 = SW0     LEDG2 = SW1     LEDG3 = SW1+SW0
+
+[Q13] TRAFFICBUG | מעבר שגוי ברמזור | npub 1 | steps 2 | flat
+B: TA = SW9     TB = SW8     lights = LEDG7..5, LEDG2..0     clock = KEY1     answer: SW3..SW0
+S1: בלוח בקר הרמזור, אבל מעבר אחד שונה מהשקופית:
+S1: S0: TA -> S0, else S1
+S1: S1 -> S2
+S1: S2: TB -> S2, else S3
+S1: S3 -> S0
+S1: TA = SW9     TB = SW8
+S1: LA:  green = LEDG7   yellow = LEDG6   red = LEDG5
+S1: LB:  green = LEDG2   yellow = LEDG1   red = LEDG0
+S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
+S1: מאיזה מצב יוצא המעבר השגוי?
+S1: S0: A green     S1: A yellow     S2: B green     S3: B yellow
+S1: S0 = all down     S1 = SW0     S2 = SW1     S3 = SW1+SW0
+
+[Q14] SEQDET | גלאי רצף | npub 1 | steps 3 | flat
+B: a = SW9 (HEX3)     smile = LEDG0     clock = KEY1, reset = KEY0     answer: SW3..SW0
+S1: בלוח גלאי רצף: הנורה נדלקת כשנכנס רצף מסוים של 3 ביטים (ביט אחד בכל לחיצה).
+S1: a = SW9     smile = LEDG0
+S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
+S1: האם הנורה יכולה להשתנות כשמזיזים את המתג בלי ללחוץ?
+S1: Moore (no) = all down     Mealy (yes) = SW0
+S2: מה הרצף? (אחרי איפוס המכונה כאילו ראתה אפסים)
+S2: SW2 = first bit     SW1 = second     SW0 = last
+
+[Q15] TWODET | מור ומילי זה ליד זה | npub 1 | steps 3 | flat
+B: a = SW9 (HEX3)     two detectors = LEDG1 LEDG0     clock = KEY1, reset = KEY0     answer: SW3..SW0
+S1: בלוח שני גלאים של אותו רצף של 2 ביטים: אחד מור ואחד מילי.
+S1: a = SW9     LEDG1 LEDG0
+S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
+S1: איזו נורה היא גלאי המילי (מגיבה לכניסה עוד לפני הלחיצה)?
+S1: LEDG0 = all down     LEDG1 = SW0
+S2: מה הרצף?
+S2: SW1 = first bit     SW0 = second bit
+
+[Q16] OVERLAP | רצף חופף או לא? | npub 1 | steps 3 | flat
+B: a = SW9 (HEX3)     smile = LEDG0     clock = KEY1, reset = KEY0     answer: SW3..SW0
+S1: בלוח גלאי מור של רצף של 2 ביטים.
+S1: a = SW9     smile = LEDG0
+S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
+S1: מה הרצף?
+S1: SW1 = first bit     SW0 = second bit
+S2: השאירו את הכניסה כך שהרצף חוזר שוב ושוב (למשל 1111 בשביל 11). האם הנורה נדלקת שוב מיד (חופף)?
+S2: overlapping: 1111 -> hit, hit, hit     not overlapping: hit, -, hit
+S2: חופף - הרימו:
+S2: SW0
+S2: לא חופף - השאירו למטה.
+
+[Q17] MEALYOUT | טבלת יציאות של מכונת מילי | npub 1 | steps 2 | flat
+B: a = SW9 (HEX3)     S = LEDG1     y = LEDG0     clock = KEY1, reset = KEY0     answer: SW3..SW0
+S1: בלוח מכונת מילי של שני מצבים: המצב בנורה אחת, היציאה בשנייה.
+S1: a = SW9     S = LEDG1     y = LEDG0
+S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
+S1: לכל מצב וכניסה: מתי
+S1: y = 1
+S1: ? הרימו את המתג שלו:
+S1: S=0 a=0 -> SW0     S=0 a=1 -> SW1     S=1 a=0 -> SW2     S=1 a=1 -> SW3
+
+[Q18] ENUM | קידוד של enum | npub 1 | steps 4 | flat
+B: the state bits = LEDG1 LEDG0     clock = KEY1, reset = KEY0     answer: SW1 SW0
+S1: בלוח המחלק ב-3 מהשקופית. ביטי המצב מוצגים:
+S1: S0 -> S1 -> S2 -> S0     the state bits = LEDG1 LEDG0
+S1: typedef enum logic [1:0] {?, ?, ?} statetype;     (the first name = 00, the second = 01, the third = 10)
+S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
+S1: אפסו. מה הקוד של
+S1: S0
+S1: ?
+S1: SW1 SW0 = LEDG1 LEDG0
+S2: מה הקוד של
+S2: S1
+S2: ?
+S2: SW1 SW0
+S3: ומה הקוד של
+S3: S2
+S3: ?
+S3: SW1 SW0
+
+[Q19] DIVCODE | שורה שגויה במכונת המצבים | npub 1 | steps 4 | flat
+B: the state = HEX0     clock = KEY1, reset = KEY0     answer: SW3..SW0
+S1: בלוח מחלק כמו בשקופית, והמצב מוצג בתצוגה. אבל באחת השורות של
+S1: S0 -> S1 -> ... -> S0     case (state)
+S1: המצב הבא שגוי.
+S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
+S1: כמה מצבים יש בקוד? (המספר הגדול שמופיע ועוד 1)
+S1: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0
+S2: מאיזה מצב יש מעבר שגוי?
+S2: 0 = all down
+S2: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2
+S3: ולאיזה מצב הוא הולך במקום?
+S3: 0 = all down
+S3: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2
+
+[Q20] UPDOWN | מונה למעלה ולמטה | npub 1 | steps 3 | flat
+B: up, down = SW9, SW8 (in some order)     count = HEX0     clock = KEY1, reset = KEY0     answer: SW3..SW0
+S1: בלוח מכונה שסופרת: מתג אחד סופר למעלה ואחד למטה (בכל לחיצה). המספר בתצוגה.
+S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
+S1: איזה מתג סופר למעלה?
+S1: SW9 = all down     SW8 = SW0
+S2: כמה מצבים יש? (אחרי המספר הגדול הוא חוזר ל-0)
+S2: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0 8 = SW3 9 = SW3+SW0
