@@ -1,0 +1,8 @@
+# The lesson schedule of week 4 (lecture 4) - read by LESSON.bat (tools\lesson.ps1). Edit it before the lesson.
+# START hh:mm (or START now), then TOPIC <minutes> | <name, Hebrew, no English letters> | <questions, easy -> hard>.
+
+START 10:00
+
+TOPIC 30 | מפות קרנו | Q01 Q02 Q03 Q04 Q05
+TOPIC 30 | לא אכפת, השהיה ותקלות רגעיות | Q06 Q07 Q08 Q09 Q10
+TOPIC 30 | תיאור חומרה: תנאים, בחירה ועדיפות | Q11 Q12 Q13 Q14 Q15

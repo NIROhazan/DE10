@@ -72,3 +72,5 @@ lesson_pos.txt
 goto_applied.txt
 # week 2 class exercise: the prebuilt board of each question
 !week2/class_exercise/sof/*.sof
+# week 4 class exercise: the prebuilt board of each question
+!week4/class_exercise/sof/*.sof
