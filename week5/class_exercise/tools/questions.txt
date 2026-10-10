@@ -23,7 +23,24 @@ S4: NAND
 S4: כשהכניסה 0. איזה זה?
 S4: NOR = all down     NAND = SW0
 
-[Q02] DLATCH | תפסן D - שעון ונתון | npub 1 | steps 4 | flat
+[Q02] SRENABLE | תפסן קביעה-איפוס עם אפשור | npub 1 | steps 4 | flat
+B: S, R, EN = SW9, SW8, SW7 (in some order)     Q = LEDG1     Q' = LEDG0     answer: SW1 SW0
+S1: בלוח תפסן קביעה-איפוס עם אפשור על שלושה מתגים:
+S1: S, R, EN = SW9, SW8, SW7 (in some order)
+S1: Q = LEDG1     Q' = LEDG0
+S1: איזה מתג הוא האפשור? (במצב אחד שלו הנורות קפואות, מה שלא תעשו בשני האחרים)
+S1: SW9 = all down     SW8 = SW0     SW7 = SW1
+S2: האפשור פעיל כשהמתג שלו
+S2: EN
+S2: למעלה - הרימו:
+S2: SW0
+S2: למטה - השאירו למטה.
+S3: כשהאפשור פעיל: איזה מתג מדליק את
+S3: Q = LEDG1
+S3: (קביעה)?
+S3: SW9 = all down     SW8 = SW0     SW7 = SW1
+
+[Q03] DLATCH | תפסן D - שעון ונתון | npub 1 | steps 4 | flat
 B: SW9 SW8 SW7     Q = LEDG0     answer: SW3..SW0
 S1: בלוח תפסן
 S1: D
@@ -37,7 +54,26 @@ S3: כשהשעון למעלה - הרימו:
 S3: SW0
 S3: כשהשעון למטה - השאירו למטה.
 
-[Q03] LATCHMIX | ארבעה תפסנים - מי זה מי? | npub 1 | steps 5 | flat
+[Q04] DLATCHIN | תפסן D מבפנים | npub 1 | steps 4 | flat
+B: CLK, D = SW9, SW8 (in some order)     S, R, Q = LEDG2..LEDG0 (in some order)     answer: SW1 SW0
+S1: בלוח תפסן
+S1: D
+S1: שבנוי מתפסן קביעה-איפוס ושני שערי וגם:
+S1: S = CLK & D     R = CLK & ~D
+S1: CLK, D = SW9, SW8 (in some order)
+S1: LEDG2 LEDG1 LEDG0 = S, R, Q (in some order)
+S1: איזה מתג הוא השעון? (כשהוא למטה שום נורה לא משתנה)
+S1: SW9 = all down     SW8 = SW0
+S2: איזו נורה היא היציאה
+S2: Q
+S2: ? (היחידה שזוכרת ערך קודם)
+S2: LEDG0 = all down     LEDG1 = SW0     LEDG2 = SW1
+S3: איזו נורה היא
+S3: S = CLK & D
+S3: ?
+S3: LEDG0 = all down     LEDG1 = SW0     LEDG2 = SW1
+
+[Q05] LATCHMIX | ארבעה תפסנים - מי זה מי? | npub 1 | steps 5 | flat
 B: SW9 SW8     four latches = LEDG3..LEDG0     answer: SW1 SW0
 S1: בלוח ארבעה תפסנים על שני המתגים. איזו נורה היא תפסן
 S1: SR
@@ -66,7 +102,7 @@ S4: SW8
 S4: ?
 S4: LEDG0 = all down     LEDG1 = SW0     LEDG2 = SW1     LEDG3 = SW1+SW0
 
-[Q04] LATCHFF | תפסן מול דלגלג | npub 1 | steps 3 | flat
+[Q06] LATCHFF | תפסן מול דלגלג | npub 1 | steps 3 | flat
 B: D = SW8     latch enable = SW9     clock = KEY1     LEDG1 LEDG0     answer: SW3..SW0
 S1: בלוח תפסן ודלגלג, שניהם עם אותו נתון:
 S1: D = SW8     latch enable = SW9
@@ -78,7 +114,22 @@ S2: כשמתג האפשור למעלה - הרימו:
 S2: SW0
 S2: כשהוא למטה - השאירו למטה.
 
-[Q05] DFF | דלגלג D | npub 1 | steps 3 | flat
+[Q07] LATCHFF4 | שני תפסנים ודלגלג | npub 1 | steps 4 | flat
+B: D = SW8     EN = SW9     LEDG3..LEDG0     clock = KEY1, reset = KEY0     answer: SW1 SW0
+S1: בלוח ארבע נורות עם אותו נתון: שני תפסנים, ודלגלג שמוצג פעמיים (היציאה וההפוכה שלה).
+S1: D = SW8     latch enable = SW9     LEDG3..LEDG0
+S1: KEY1 = the flip-flop clock     KEY0 = reset
+S1: איזו נורה היא התפסן שקוף כשהאפשור למעלה?
+S1: LEDG0 = all down     LEDG1 = SW0     LEDG2 = SW1     LEDG3 = SW1+SW0
+S2: איזו נורה היא התפסן שקוף כשהאפשור למטה?
+S2: D = SW8     latch enable = SW9
+S2: LEDG0 = all down     LEDG1 = SW0     LEDG2 = SW1     LEDG3 = SW1+SW0
+S3: איזו נורה היא ההפוכה של הדלגלג? (לחצו על האיפוס: הדלגלג מתאפס ל-0)
+S3: Q'
+S3: KEY0 = reset
+S3: LEDG0 = all down     LEDG1 = SW0     LEDG2 = SW1     LEDG3 = SW1+SW0
+
+[Q08] DFF | דלגלג D | npub 1 | steps 3 | flat
 B: SW9 SW8 SW7     LEDG0     clock = KEY1, reset = KEY0     answer: SW3..SW0
 S1: בלוח דלגלג
 S1: D
@@ -90,7 +141,7 @@ S2: לחצו על האיפוס. הנורה מראה את היציאה או את 
 S2: KEY0
 S2: Q = all down     Q' = SW0
 
-[Q06] STATEBITS | כמה מצבים, כמה ביטים? | npub 1 | steps 3 | flat
+[Q09] STATEBITS | כמה מצבים, כמה ביטים? | npub 1 | steps 3 | flat
 B: the state = HEX0     clock = KEY1, reset = KEY0     answer: SW3..SW0
 S1: בכל לחיצה על השעון הלוח עובר למצב הבא, ומציג ספרה:
 S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
@@ -100,7 +151,21 @@ S1: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0 
 S2: כמה ביטים של מצב צריך לפחות כדי לזכור את כל המצבים האלה?
 S2: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2
 
-[Q07] ENABLE | דלגלג עם אפשור | npub 1 | steps 3 | flat
+[Q10] OSCRING | טבעת של מהפכים - יציבה או מתנדנדת? | npub 1 | steps 3 | flat
+B: inverters = HEX0     their outputs = LEDG0, LEDG1, ...     KEY1 = one gate delay, KEY0 = reset     answer: SW3..SW0
+S1: בלוח טבעת של מהפכים: היציאה של כל מהפך היא הכניסה של הבא.
+S1: number of inverters = HEX0     their outputs = LEDG0, LEDG1, ...
+S1: כל לחיצה על השעון = השהיה של שער אחד:
+S1: KEY1 = one gate delay     KEY0 = reset
+S1: לחצו כמה פעמים. האם התבנית ממשיכה להשתנות בלי סוף?
+S1: כן - הרימו:
+S1: SW0
+S1: לא - השאירו למטה.
+S2: אחרי כמה לחיצות התבנית חוזרת להתחלה? (אם היא לא משתנה בכלל - השאירו הכל למטה)
+S2: KEY1 = one gate delay     KEY0 = reset     LEDG0, LEDG1, ...
+S2: 0 = all down 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0 8 = SW3
+
+[Q11] ENABLE | דלגלג עם אפשור | npub 1 | steps 3 | flat
 B: SW9 SW8 (D and EN)     Q = LEDG0     clock = KEY1     answer: SW3..SW0
 S1: בלוח דלגלג עם אפשור: הוא שומר נתון חדש בלחיצה רק כשהאפשור פעיל.
 S1: EN, D = SW9, SW8 (in some order)
@@ -113,7 +178,7 @@ S2: למעלה - הרימו:
 S2: SW0
 S2: למטה - השאירו למטה.
 
-[Q08] RESETSYNC | איפוס סינכרוני או אסינכרוני | npub 1 | steps 3 | flat
+[Q12] RESETSYNC | איפוס סינכרוני או אסינכרוני | npub 1 | steps 3 | flat
 B: SW9 SW8 (D and Reset)     Q = LEDG0     clock = KEY1     answer: SW3..SW0
 S1: בלוח דלגלג עם איפוס על אחד המתגים (איפוס = 1):
 S1: Reset, D = SW9, SW8 (in some order)
@@ -126,7 +191,7 @@ S2: כבתה מיד - הרימו:
 S2: SW0
 S2: רק בלחיצה - השאירו למטה.
 
-[Q09] SETRESET | קביעה ואיפוס - מי מנצח? | npub 1 | steps 3 | flat
+[Q13] SETRESET | קביעה ואיפוס - מי מנצח? | npub 1 | steps 3 | flat
 B: SW9 SW8 (Set and Reset)     Q = LEDG0     clock = KEY1     answer: SW3..SW0
 S1: בלוח דלגלג עם קביעה ואיפוס סינכרוניים (בלחיצה על השעון):
 S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
@@ -135,7 +200,21 @@ S1: SW9 = all down     SW8 = SW0
 S2: הרימו את שניהם ולחצו. מי מנצח?
 S2: Set = all down     Reset = SW0
 
-[Q10] TOGGLE | דלגלג שמתהפך | npub 1 | steps 3 | flat
+[Q14] REGINIT | אוגר עם קביעה ואיפוס | npub 1 | steps 3 | flat
+B: D[3:0] = SW9..SW6 (HEX0)     set/reset = SW5     Q[3:0] = LEDG3..LEDG0     clock = KEY1     answer: SW3..SW0
+S1: בלוח אוגר של 4 ביטים. בחלק מהדלגלגים יש קביעה ובחלק איפוס, וכולם מחוברים לאותו מתג (סינכרוני).
+S1: D[3:0] = SW9..SW6 (HEX0)     set/reset = SW5     Q[3:0] = LEDG3..LEDG0     KEY1 = clock
+S1: שימו
+S1: D = 0000
+S1: הרימו את
+S1: SW5
+S1: ולחצו על השעון. כמה נורות דולקות? (כמה דלגלגים עם קביעה)
+S1: 0 = all down 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2
+S2: אילו דלגלגים עם קביעה? העתיקו את הנורות אחרי לחיצה עם
+S2: set/reset = SW5 up
+S2: SW3..SW0 = LEDG3..LEDG0
+
+[Q15] TOGGLE | דלגלג שמתהפך | npub 1 | steps 3 | flat
 B: SW9 SW8     Q = LEDG0     clock = KEY1     answer: SW3..SW0
 S1: בלוח דלגלג עם משוב:
 S1: q <= q ^ T
@@ -152,7 +231,7 @@ S2: למעלה - הרימו:
 S2: SW0
 S2: למטה - השאירו למטה.
 
-[Q11] PIPE | אוגרים בטור | npub 1 | steps 3 | flat
+[Q16] PIPE | אוגרים בטור | npub 1 | steps 3 | flat
 B: D = SW9 (HEX3)     LEDG0     clock = KEY1, reset = KEY0     answer: SW3..SW0
 S1: בין המתג לנורה יש כמה דלגלגים בטור. אפסו, שנו את המתג, ולחצו על השעון שוב ושוב:
 S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
@@ -163,7 +242,23 @@ S2: כן - הרימו:
 S2: SW0
 S2: לא - השאירו למטה.
 
-[Q12] RING | טבעת של דלגלגים | npub 1 | steps 3 | flat
+[Q17] SHIFTREG | אוגר הזזה | npub 1 | steps 4 | flat
+B: serial in = SW9 or SW8     LEDG3..LEDG0     clock = KEY1, reset = KEY0     answer: SW3..SW0
+S1: בלוח אוגר הזזה: בכל לחיצה כל ביט זז נורה אחת, וביט חדש נכנס מאחד המתגים.
+S1: serial in = SW9 or SW8     LEDG3..LEDG0
+S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
+S1: איזה מתג הוא הכניסה?
+S1: SW9 = all down     SW8 = SW0
+S2: באיזו נורה נכנס הביט החדש?
+S2: KEY1 = clock (one rising edge per press)     KEY0 = reset
+S2: LEDG0 = all down     LEDG3 = SW0
+S3: יש מהפך בכניסה? (נכנסת נורה דולקת כשמתג הכניסה למטה)
+S3: KEY1 = clock (one rising edge per press)     KEY0 = reset
+S3: כן - הרימו:
+S3: SW0
+S3: לא - השאירו למטה.
+
+[Q18] RING | טבעת של דלגלגים | npub 1 | steps 3 | flat
 B: LEDG3..LEDG0     clock = KEY1, reset = KEY0     answer: SW3..SW0
 S1: בלוח כמה דלגלגים שמחוברים בטבעת: היציאה של כל אחד היא הכניסה של הבא.
 S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
@@ -172,7 +267,7 @@ S1: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2
 S2: אחרי כמה לחיצות הנורות חוזרות לתבנית של ההתחלה?
 S2: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0 8 = SW3
 
-[Q13] REGPERM | אוגר של 4 ביטים | npub 1 | steps 4 | flat
+[Q19] REGPERM | אוגר של 4 ביטים | npub 1 | steps 4 | flat
 B: D[3:0] = SW9..SW6 (HEX0)     Q[3:0] = LEDG3..LEDG0     clock = KEY1     answer: SW3..SW0
 S1: בלוח אוגר של 4 ביטים, אבל החוטים מעורבבים.
 S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
@@ -189,7 +284,20 @@ S3: D = 0010  (SW7)
 S3: לחצו, והעתיקו:
 S3: SW3..SW0 = LEDG3..LEDG0
 
-[Q14] FLOPR | דלגלג עם איפוס בקוד | npub 1 | steps 3 | flat
+[Q20] ACCUM | אוגר עם משוב דרך מחבר | npub 1 | steps 3 | flat
+B: q = HEX0     clock = KEY1, reset = KEY0     answer: SW3..SW0
+S1: בלוח אוגר של ספרה, ומחבר במשוב מהיציאה שלו לכניסה שלו:
+S1: always_ff @(posedge clk)  q <= (q + K) % 10;
+S1: q = HEX0     clk = KEY1     KEY0 = reset (q = 0)
+S1: אפסו ולחצו פעם אחת. מה
+S1: K
+S1: ?
+S1: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0 8 = SW3 9 = SW3+SW0
+S2: אחרי כמה לחיצות מהאיפוס התצוגה חוזרת ל-0?
+S2: q = HEX0     clk = KEY1     KEY0 = reset (q = 0)
+S2: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0 8 = SW3 9 = SW3+SW0 10 = SW3+SW1
+
+[Q21] FLOPR | דלגלג עם איפוס בקוד | npub 1 | steps 3 | flat
 B: reset = SW9     d = SW8     q = LEDG0     clock = KEY1     answer: SW3..SW0
 S1: בלוח אחד משני הקודים:
 S1: A:  always_ff @(posedge clk)              if (reset) q <= R; else q <= d;
@@ -203,7 +311,29 @@ S1: 0 - השאירו למטה.
 S2: איזה קוד? (בדקו: האם האיפוס פועל גם בלי לחיצה)
 S2: A = all down     B = SW0
 
-[Q15] FLOPREN | איפוס ואפשור - באיזה סדר? | npub 1 | steps 3 | flat
+[Q22] COUNTR | מונה עם ערך איפוס | npub 1 | steps 4 | flat
+B: reset = SW9     q = HEX0     clk = KEY1     answer: SW3..SW0
+S1: בלוח מונה של 4 ביטים עם איפוס לערך
+S1: R
+S1: (ולא ל-0):
+S1: reset = SW9     q = HEX0 (hex)     clk = KEY1
+S1: הרימו את האיפוס ולחצו על השעון. מה
+S1: R
+S1: ? (בבינארי)
+S1: 8 = SW3     4 = SW2     2 = SW1     1 = SW0
+S2: בלוח אחד הקודים:
+S2: A:  always_ff @(posedge clk)  if (reset) q <= R; else q <= q + 1;
+S2: B:  always_ff @(posedge clk, posedge reset)  if (reset) q <= R; else q <= q + 1;
+S2: reset = SW9     q = HEX0     clk = KEY1
+S2: הורידו את האיפוס ולחצו כמה פעמים. אחר כך הרימו אותו בלי ללחוץ. איזה קוד?
+S2: A = all down     B = SW0
+S3: הורידו את האיפוס. אחרי כמה לחיצות מהערך
+S3: R
+S3: התצוגה מראה 0?
+S3: reset = SW9     q = HEX0     clk = KEY1
+S3: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0 8 = SW3 9 = SW3+SW0 10 = SW3+SW1 11 = SW3+SW1+SW0 12 = SW3+SW2 13 = SW3+SW2+SW0 14 = SW3+SW2+SW1 15 = SW3+SW2+SW1+SW0
+
+[Q23] FLOPREN | איפוס ואפשור - באיזה סדר? | npub 1 | steps 3 | flat
 B: reset = SW9     en = SW8     d = SW7     q = LEDG0     clock = KEY1     answer: SW3..SW0
 S1: בלוח אחד משלושת הקודים:
 S1: A:  always_ff @(posedge clk)  if (reset) q <= 0; else if (en) q <= d;
@@ -220,7 +350,7 @@ S2: B:  always_ff @(posedge clk, posedge reset)  if (reset) q <= 0; else if (en)
 S2: C:  always_ff @(posedge clk)  if (en) begin if (reset) q <= 0; else q <= d; end
 S2: A = all down     B = SW0     C = SW1
 
-[Q16] LATCHCODE | תפסן בקוד | npub 1 | steps 4 | flat
+[Q24] LATCHCODE | תפסן בקוד | npub 1 | steps 4 | flat
 B: clk = SW9     d = SW8     q = LEDG0     answer: SW1 SW0
 S1: בלוח:
 S1: always_latch  if (?clk) q <= ?d;
@@ -236,7 +366,31 @@ S2: d = all down     ~d = SW0
 S3: כתבו את הקוד: שני ביטים
 S3: SW1 = 1 if (clk), 0 if (!clk)     SW0 = 1 for ~d, 0 for d
 
-[Q17] COMBORFF | צירופי או סדרתי? | npub 1 | steps 3 | flat
+[Q25] INFERLATCH | תפסן שנוצר בטעות | npub 1 | steps 3 | flat
+B: s = SW9     a = SW8     b = SW7     y = LEDG0     answer: SW3..SW0
+S1: בלוח אחד הקודים, בתוך
+S1: always_comb begin ... end
+S1: 1:  if (s) y = a; else y = b;
+S1: 2:  if (s) y = a;
+S1: 3:  if (!s) y = b;
+S1: 4:  if (s) y = a; else if (b) y = 0;
+S1: 5:  if (a) y = 1; else if (b) y = 0;
+S1: s = SW9     a = SW8     b = SW7     y = LEDG0
+S1: יש בלוח תפסן? (יש מצב של המתגים שבו הנורה זוכרת ערך קודם)
+S1: כן - הרימו:
+S1: SW0
+S1: לא - השאירו למטה.
+S2: איזה קוד בלוח?
+S2: 1:  if (s) y = a; else y = b;
+S2: 2:  if (s) y = a;
+S2: 3:  if (!s) y = b;
+S2: 4:  if (s) y = a; else if (b) y = 0;
+S2: 5:  if (a) y = 1; else if (b) y = 0;
+S2: s = SW9     a = SW8     b = SW7     y = LEDG0
+S2: 1 = all down     2 = SW0     3 = SW1     4 = SW1+SW0
+S2: 5 = SW2
+
+[Q26] COMBORFF | צירופי או סדרתי? | npub 1 | steps 3 | flat
 B: a = SW9     b = SW8     y = LEDG0     clock = KEY1     answer: SW3..SW0
 S1: בלוח אחד מהשניים:
 S1: always_comb                y = a ? b;
@@ -249,7 +403,31 @@ S1: מיד - השאירו למטה.
 S2: איזה שער? (אם צריך, לחצו על השעון אחרי כל שינוי)
 S2: AND = all down   OR = SW0   XOR = SW1   NAND = SW1+SW0   NOR = SW2   XNOR = SW2+SW0
 
-[Q18] BLOCKING | השמה חוסמת ולא חוסמת | npub 1 | steps 3 | flat
+[Q27] FFOPS | דלגלג עם ארבע פעולות | npub 1 | steps 4 | flat
+B: sel = SW9 SW8     d = SW7     q = LEDG0     clk = KEY1     answer: SW3..SW0
+S1: בלוח דלגלג שהפעולה שלו נבחרת לפי
+S1: sel
+S1: always_ff @(posedge clk)  case (sel)  2'b00: ...  2'b01: ...  2'b10: ...  2'b11: ...  endcase
+S1: the four actions (in a hidden order):   q <= d;   q <= ~q;   q <= 0;   q <= q;
+S1: sel = SW9 SW8     d = SW7     q = LEDG0     clk = KEY1
+S1: איזה ערך של
+S1: sel
+S1: הופך את הנורה בכל לחיצה?
+S1: 00 = all down     01 = SW0     10 = SW1     11 = SW1+SW0
+S2: איזה ערך שומר את הנורה כמו שהיא? (הדליקו אותה קודם - אחרת אי אפשר להבדיל מאיפוס)
+S2: always_ff @(posedge clk)  case (sel)  2'b00: ...  2'b01: ...  2'b10: ...  2'b11: ...  endcase
+S2: the four actions (in a hidden order):   q <= d;   q <= ~q;   q <= 0;   q <= q;
+S2: sel = SW9 SW8     d = SW7     q = LEDG0     clk = KEY1
+S2: 00 = all down     01 = SW0     10 = SW1     11 = SW1+SW0
+S3: איזה ערך טוען את
+S3: d
+S3: ?
+S3: always_ff @(posedge clk)  case (sel)  2'b00: ...  2'b01: ...  2'b10: ...  2'b11: ...  endcase
+S3: the four actions (in a hidden order):   q <= d;   q <= ~q;   q <= 0;   q <= q;
+S3: sel = SW9 SW8     d = SW7     q = LEDG0     clk = KEY1
+S3: 00 = all down     01 = SW0     10 = SW1     11 = SW1+SW0
+
+[Q28] BLOCKING | השמה חוסמת ולא חוסמת | npub 1 | steps 3 | flat
 B: d = SW9 (HEX3)     q = LEDG0     clock = KEY1, reset = KEY0     answer: SW3..SW0
 S1: בלוח אחד מארבעת הקודים, בתוך
 S1: always_ff @(posedge clk) begin ... end
@@ -267,7 +445,7 @@ S1: 1 = SW0 2 = SW1
 S2: אילו מהקודים מתנהגים כך? הרימו מתג לכל קוד מתאים:
 S2: 1 -> SW0     2 -> SW1     3 -> SW2     4 -> SW3
 
-[Q19] NBSWAP | החלפה בין שני אוגרים | npub 1 | steps 4 | flat
+[Q29] NBSWAP | החלפה בין שני אוגרים | npub 1 | steps 4 | flat
 B: a = LEDG1     b = LEDG0     clock = KEY1, reset = KEY0     answer: SW3..SW0
 S1: בלוח שני אוגרים, ואחד הקודים בתוך
 S1: always_ff @(posedge clk) begin ... end
@@ -285,7 +463,33 @@ S3: 2:  a = b; b = a;
 S3: 3:  b = a; a = b;
 S3: 1 = all down     2 = SW0     3 = SW1
 
-[Q20] WHICHMOD | איזה מודול מהשקופיות? | npub 1 | steps 3 | flat
+[Q30] CONCAT | הזזה וסיבוב בשרשור | npub 1 | steps 4 | flat
+B: d = SW9     q[3:0] = LEDG3..LEDG0     clk = KEY1, reset = KEY0     answer: SW3..SW0
+S1: בלוח אוגר של 4 ביטים עם אחד הקודים, בתוך
+S1: always_ff @(posedge clk)
+S1: 1:  q <= {q[2:0], d};
+S1: 2:  q <= {d, q[3:1]};
+S1: 3:  q <= {q[2:0], q[3]};
+S1: 4:  q <= {q[0], q[3:1]};
+S1: d = SW9     q[3:0] = LEDG3..LEDG0     clk = KEY1     KEY0 = reset
+S1: אפסו, השאירו את
+S1: d = 0
+S1: ולחצו 4 פעמים. התבנית חזרה?
+S1: כן - הרימו:
+S1: SW0
+S1: לא - השאירו למטה.
+S2: לאיזה כיוון הנורות זזות?
+S2: d = SW9     q[3:0] = LEDG3..LEDG0     clk = KEY1     KEY0 = reset
+S2: LEDG0 -> LEDG3 = all down     LEDG3 -> LEDG0 = SW0
+S3: איזה קוד בלוח?
+S3: 1:  q <= {q[2:0], d};
+S3: 2:  q <= {d, q[3:1]};
+S3: 3:  q <= {q[2:0], q[3]};
+S3: 4:  q <= {q[0], q[3:1]};
+S3: d = SW9     q[3:0] = LEDG3..LEDG0     clk = KEY1     KEY0 = reset
+S3: 1 = all down     2 = SW0     3 = SW1     4 = SW1+SW0
+
+[Q31] WHICHMOD | איזה מודול מהשקופיות? | npub 1 | steps 3 | flat
 B: reset = SW9     d = SW8     en (or the latch clk) = SW7     q = LEDG0     clock = KEY1     answer: SW3..SW0
 S1: בלוח אחד המודולים מהשקופיות:
 S1: flop:     always_ff @(posedge clk) q <= d;
