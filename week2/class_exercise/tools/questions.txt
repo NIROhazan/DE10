@@ -56,7 +56,21 @@ S3: ומה ספרת האחדות?
 S3: 0 = all down    1 = SW0    2 = SW1    3 = SW1+SW0    4 = SW2
 S3: 5 = SW2+SW0    6 = SW2+SW1    7 = SW2+SW1+SW0    8 = SW3    9 = SW3+SW0
 
-[Q05] BYTE | בייט: הביט המשמעותי, הפחות משמעותי וכמה אחדות | npub 1 | steps 4 | flat
+[Q05] BINCOUNT | ספירה בבינארי | npub 1 | steps 4 | flat
+B: the number = LEDG7..LEDG0 (binary)     answer: SW7..SW0
+S1: בנורות הירוקות מספר בינארי של 8 ביטים:
+S1: LEDG7..LEDG0
+S1: מה המספר הבא בספירה (המספר ועוד 1)? כתבו אותו בבינארי:
+S1: SW7..SW0
+S2: כמה ביטים משתנים מהמספר שבנורות למספר הבא?
+S2: רמז: כל ה-1 בצד ימין הופכים ל-0, וה-0 הראשון משמאלם הופך ל-1.
+S2: LEDG7..LEDG0
+S2: 8 = SW3     4 = SW2     2 = SW1     1 = SW0
+S3: ועכשיו המספר הקודם (המספר שבנורות פחות 1), בבינארי:
+S3: LEDG7..LEDG0
+S3: SW7..SW0
+
+[Q06] BYTE | בייט: הביט המשמעותי, הפחות משמעותי וכמה אחדות | npub 1 | steps 4 | flat
 B: the byte = HEX1 HEX0 (hex)     answer: SW3..SW0
 S1: בלוח בייט בשתי ספרות הקס. מה הביט השמאלי ביותר שלו (המשמעותי ביותר)?
 S1: 1 - הרימו:
@@ -70,7 +84,7 @@ S2: 0 - השאירו למטה.
 S3: כמה ביטים של 1 יש בבייט כולו? שימו את המספר:
 S3: 8 = SW3     4 = SW2     2 = SW1     1 = SW0
 
-[Q06] HEX2DEC | מהקסדצימלי לעשרוני | npub 1 | steps 4 | flat
+[Q07] HEX2DEC | מהקסדצימלי לעשרוני | npub 1 | steps 4 | flat
 B: the number = HEX1 HEX0 (hex)     answer: SW3..SW0
 S1: בלוח מספר הקסדצימלי בשתי ספרות. הערך שלו:
 S1: HEX1 x 16 + HEX0
@@ -86,7 +100,24 @@ S3: HEX1 x 16 + HEX0
 S3: 0 = all down    1 = SW0    2 = SW1    3 = SW1+SW0    4 = SW2
 S3: 5 = SW2+SW0    6 = SW2+SW1    7 = SW2+SW1+SW0    8 = SW3    9 = SW3+SW0
 
-[Q07] BITS | כמה ביטים צריך? | npub 1 | steps 3 | flat
+[Q08] DEC2HEX | מעשרוני להקסדצימלי | npub 1 | steps 4 | flat
+B: the number = HEX2 HEX1 HEX0 (decimal)     answer: SW7..SW0
+S1: בלוח מספר עשרוני בשלוש ספרות:
+S1: HEX2 HEX1 HEX0
+S1: חלקו אותו ב-16. המנה היא הספרה השמאלית בהקס. שימו אותה:
+S1: SW3..SW0
+S1: 8 = SW3     4 = SW2     2 = SW1     1 = SW0
+S1: A = 10   B = 11   C = 12   D = 13   E = 14   F = 15
+S2: השארית מהחלוקה ב-16 היא הספרה הימנית בהקס. שימו אותה:
+S2: HEX2 HEX1 HEX0
+S2: SW3..SW0
+S2: 8 = SW3     4 = SW2     2 = SW1     1 = SW0
+S2: A = 10   B = 11   C = 12   D = 13   E = 14   F = 15
+S3: כל המספר בבינארי (בייט): הספרה השמאלית על ארבעת המתגים העליונים.
+S3: HEX2 HEX1 HEX0
+S3: left hex digit -> SW7 SW6 SW5 SW4      right hex digit -> SW3 SW2 SW1 SW0
+
+[Q09] BITS | כמה ביטים צריך? | npub 1 | steps 3 | flat
 B: the number = HEX2 HEX1 HEX0 (decimal)     answer: SW3..SW0
 S1: בלוח מוצג מספר עשרוני בשלוש ספרות.
 S1: כמה ביטים צריך כדי לכתוב אותו בבינארי?
@@ -97,7 +128,7 @@ S1: 7 = SW2+SW1+SW0     8 = SW3     9 = SW3+SW0     10 = SW3+SW1
 S2: כמה ספרות הקס צריך? כל ספרת הקס היא 4 ביטים.
 S2: 2 = SW1     3 = SW1 + SW0
 
-[Q08] POW2 | חזקות גדולות של 2 | npub 1 | steps 3 | flat
+[Q10] POW2 | חזקות גדולות של 2 | npub 1 | steps 3 | flat
 B: N = HEX1 HEX0 (decimal)     answer: SW8..SW0
 S1: בלוח מספר. מעריכים את 2 בחזקת המספר הזה:
 S1: 2^N = 2^(N - 10k) x 2^(10k)
@@ -109,7 +140,7 @@ S2: 2^(N - 10k)
 S2: 1 = SW0   2 = SW1   4 = SW2   8 = SW3   16 = SW4
 S2: 32 = SW5   64 = SW6   128 = SW7   256 = SW8
 
-[Q09] ADDER | מחבר עם מספר מוסתר | npub 1 | steps 4 | flat
+[Q11] ADDER | מחבר עם מספר מוסתר | npub 1 | steps 4 | flat
 B: A = SW9 SW8 SW7 SW6 (HEX0)     sum = LEDG3..LEDG0     carry = LEDG4     answer: SW3..SW0
 S1: הלוח מחבר לכניסה מספר מוסתר, ומראה את הסכום (4 ביטים) ואת הנשא.
 S1: שימו את ארבעת מתגי הכניסה למטה:
@@ -126,7 +157,7 @@ S3: SW9 SW8 SW7 SW6 = 1111
 S3: מה מראות ארבע נורות הסכום? העתיקו:
 S3: SW3..SW0 = LEDG3..LEDG0
 
-[Q10] COLADD | חיבור בינארי, עמודה אחרי עמודה | npub 1 | steps 4 | flat
+[Q12] COLADD | חיבור בינארי, עמודה אחרי עמודה | npub 1 | steps 4 | flat
 B: A = LEDG7..LEDG4     B = LEDG3..LEDG0     answer: SW3..SW0
 S1: בנורות הירוקות שני מספרים של 4 ביטים:
 S1: A = LEDG7..LEDG4     B = LEDG3..LEDG0
@@ -142,7 +173,7 @@ S3: גלישה - הרימו:
 S3: SW0
 S3: אין - השאירו למטה.
 
-[Q11] SIGNMAG | סימן וגודל | npub 1 | steps 4 | flat
+[Q13] SIGNMAG | סימן וגודל | npub 1 | steps 4 | flat
 B: the number = LEDG3..LEDG0 (LEDG3 = sign, LEDG2..LEDG0 = magnitude)     answer: SW3..SW0
 S1: בנורות מספר בשיטת סימן וגודל (4 ביטים): הנורה השמאלית היא הסימן.
 S1: האם הוא שלילי? (סימן 1 = שלילי) שלילי - הרימו:
@@ -155,7 +186,7 @@ S3: חיובי - אותם ביטים. שלילי - כתבו את הגודל ב-4
 S3: SW3..SW0
 S3: 8 = SW3     4 = SW2     2 = SW1     1 = SW0
 
-[Q12] SMFAIL | למה חיבור לא עובד בסימן וגודל | npub 1 | steps 4 | flat
+[Q14] SMFAIL | למה חיבור לא עובד בסימן וגודל | npub 1 | steps 4 | flat
 B: X = LEDG3..LEDG0 (sign / magnitude)     answer: SW3..SW0
 S1: בנורות מספר בשיטת סימן וגודל (4 ביטים, הנורה השמאלית היא הסימן).
 S1: כתבו את המספר הנגדי שלו, בסימן וגודל (הופכים רק את ביט הסימן):
@@ -169,7 +200,7 @@ S3: האם יצא 0? יצא 0 - הרימו:
 S3: SW0
 S3: לא יצא 0 - השאירו למטה.
 
-[Q13] TWOS | משלים ל-2 | npub 1 | steps 4 | flat
+[Q15] TWOS | משלים ל-2 | npub 1 | steps 4 | flat
 B: the number = LEDG3..LEDG0 (two's complement, 4 bits)     answer: SW3..SW0
 S1: בנורות מספר במשלים ל-2 (4 ביטים). הנורה השמאלית 1 = שלילי.
 S1: שלילי - הרימו:
@@ -182,7 +213,7 @@ S2: 8 = SW3     4 = SW2     2 = SW1     1 = SW0
 S3: הפכו את הסימן שלו (הפכו את כל הביטים והוסיפו 1), ב-4 ביטים:
 S3: SW3..SW0
 
-[Q14] NEGATIVE | מספר שלילי בבינארי | npub 1 | steps 3 | flat
+[Q16] NEGATIVE | מספר שלילי בבינארי | npub 1 | steps 3 | flat
 B: the number = HEX1 HEX0 (decimal, a minus on HEX1 if negative)     answer: SW7..SW0
 S1: בלוח מספר עשרוני עם סימן. כתבו אותו במשלים ל-2, ב-4 ביטים:
 S1: שלילי: כתבו את הערך המוחלט, הפכו את כל הביטים והוסיפו 1.
@@ -191,7 +222,27 @@ S1: 8 = SW3     4 = SW2     2 = SW1     1 = SW0
 S2: ועכשיו ב-8 ביטים: העתיקו את 4 הביטים, ומלאו את 4 העליונים בביט הסימן (הביט השמאלי):
 S2: SW7..SW0
 
-[Q15] RANGES | הטווח של N ביטים | npub 1 | steps 5 | flat
+[Q17] SIGNED8 | משלים ל-2 ב-8 ביטים - לעשרוני | npub 1 | steps 5 | flat
+B: the number = LEDG7..LEDG0 (two's complement, 8 bits)     answer: SW7..SW0
+S1: בנורות הירוקות מספר במשלים ל-2, ב-8 ביטים:
+S1: LEDG7..LEDG0
+S1: הנורה השמאלית 1 = שלילי. שלילי - הרימו:
+S1: SW0
+S1: חיובי - השאירו למטה.
+S2: מה הערך המוחלט שלו, בבינארי?
+S2: LEDG7..LEDG0
+S2: שלילי - הפכו את כל 8 הביטים והוסיפו 1. חיובי - הוא כמו שהוא.
+S2: SW7..SW0
+S3: מה ספרת העשרות של הערך המוחלט שלו, בעשרוני?
+S3: LEDG7..LEDG0
+S3: 0 = all down    1 = SW0    2 = SW1    3 = SW1+SW0    4 = SW2
+S3: 5 = SW2+SW0    6 = SW2+SW1    7 = SW2+SW1+SW0    8 = SW3    9 = SW3+SW0
+S4: ומה ספרת האחדות שלו?
+S4: LEDG7..LEDG0
+S4: 0 = all down    1 = SW0    2 = SW1    3 = SW1+SW0    4 = SW2
+S4: 5 = SW2+SW0    6 = SW2+SW1    7 = SW2+SW1+SW0    8 = SW3    9 = SW3+SW0
+
+[Q18] RANGES | הטווח של N ביטים | npub 1 | steps 5 | flat
 B: N = HEX0     answer: SW7..SW0 (binary)
 S1: בלוח מספר הביטים. מה המספר הגדול ביותר בלי סימן שנכנס בכמה ביטים כאלה?
 S1: כתבו אותו בבינארי:
@@ -203,7 +254,7 @@ S3: SW7..SW0
 S4: ומה המספר הגדול ביותר בשיטת סימן וגודל, באותו מספר ביטים?
 S4: SW7..SW0
 
-[Q16] OPS | איזו פעולה מוסתרת בלוח? | npub 1 | steps 4 | flat
+[Q19] OPS | איזו פעולה מוסתרת בלוח? | npub 1 | steps 4 | flat
 B: A = SW9 SW8 SW7 SW6 (HEX0)     Y = LEDG3..LEDG0     answer: SW3..SW0
 S1: הלוח עושה פעולה מוסתרת על הכניסה ומראה את התוצאה (4 ביטים) בנורות.
 S1: שימו כניסה 0:
@@ -218,7 +269,7 @@ S3: איזו פעולה זו? נסו עוד כניסות אם צריך.
 S3: -A = all down     NOT A = SW0     A + 1 = SW1
 S3: A - 1 = SW1 + SW0     2A = SW2     A / 2 = SW2 + SW0
 
-[Q17] SUBTRACT | חיסור במשלים ל-2 | npub 1 | steps 3 | flat
+[Q20] SUBTRACT | חיסור במשלים ל-2 | npub 1 | steps 3 | flat
 B: the exercise = HEX3 - HEX1     answer: SW3..SW0 (two's complement, 4 bits)
 S1: בלוח תרגיל חיסור. חיסור = חיבור של המספר הנגדי.
 S1: שלב 1: כתבו את המספר הנגדי למספר הימני (הפכו את כל הביטים והוסיפו 1), ב-4 ביטים:
@@ -227,7 +278,7 @@ S1: 8 = SW3     4 = SW2     2 = SW1     1 = SW0
 S2: שלב 2: חברו את המספר השמאלי ואת התוצאה של שלב 1. שמרו רק 4 ביטים (הנשא נזרק):
 S2: SW3..SW0
 
-[Q18] OVERFLOW | גלישה במספרים עם סימן | npub 1 | steps 5 | flat
+[Q21] OVERFLOW | גלישה במספרים עם סימן | npub 1 | steps 5 | flat
 B: A = HEX3 HEX2     B = HEX1 HEX0 (decimal, with a minus)     answer: SW3..SW0
 S1: בלוח שני מספרים עם סימן. המספר השמאלי במשלים ל-2, ב-4 ביטים:
 S1: SW3..SW0
@@ -243,7 +294,7 @@ S4: גלישה - הרימו:
 S4: SW0
 S4: אין גלישה - השאירו למטה.
 
-[Q19] EXTEND | הרחבת סימן והרחבה באפסים | npub 1 | steps 3 | flat
+[Q22] EXTEND | הרחבת סימן והרחבה באפסים | npub 1 | steps 3 | flat
 B: the number = LEDG3..LEDG0 (4 bits)     answer: SW7..SW0
 S1: בנורות מספר של 4 ביטים. הרחבת סימן ל-8 ביטים:
 S1: העתיקו את 4 הביטים למתגים התחתונים, ומלאו את 4 העליונים בביט השמאלי (ביט הסימן):
@@ -251,7 +302,49 @@ S1: SW7..SW0
 S2: הרחבה באפסים ל-8 ביטים: 4 הביטים למטה, ו-4 העליונים תמיד 0:
 S2: SW7..SW0
 
-[Q20] GATE2 | איזה שער מוסתר בלוח? | npub 1 | steps 3 | flat
+[Q23] EXTBOX | איזו הרחבה מוסתרת בלוח? | npub 1 | steps 5 | flat
+B: A = SW9 SW8 SW7 SW6 (HEX0, 4 bits)     Y = LEDG7..LEDG0 (8 bits)     answer: SW3..SW0
+S1: הלוח מרחיב את הכניסה מ-4 ביטים ל-8 ביטים, בשיטה מוסתרת.
+S1: שימו כניסה:
+S1: SW9 SW8 SW7 SW6 = 1101
+S1: העתיקו את ארבע הנורות העליונות:
+S1: SW3..SW0 = LEDG7..LEDG4
+S2: הכניסה 1101 היא מינוס 3 במשלים ל-2 (4 ביטים).
+S2: SW9 SW8 SW7 SW6 = 1101
+S2: האם 8 הנורות הן עדיין מינוס 3 במשלים ל-2 (8 ביטים)?
+S2: LEDG7..LEDG0
+S2: כן - הרימו:
+S2: SW0
+S2: לא - השאירו למטה.
+S3: עכשיו כניסה חיובית:
+S3: SW9 SW8 SW7 SW6 = 0011
+S3: העתיקו את ארבע הנורות העליונות:
+S3: SW3..SW0 = LEDG7..LEDG4
+S4: איזו שיטה זו? נסו עוד כניסות אם צריך.
+S4: sign extension = all down     zero extension = SW0
+S4: fill with ones = SW1     shift left 4 = SW1 + SW0
+
+[Q24] NOTBUF | מהפך או חוצץ? | npub 1 | steps 4 | flat
+B: A = SW9 (HEX3)     four gates = LEDG3..LEDG0     answer: SW4..SW0
+S1: בלוח ארבעה שערים של כניסה אחת, כולם מקבלים את אותה כניסה:
+S1: A = SW9     LEDG0..LEDG3
+S1: כל שער הוא מהפך או חוצץ:
+S1: NOT: Y = not A     BUF: Y = A
+S1: שימו את הכניסה למטה:
+S1: SW9 = down
+S1: איזו נורה דולקת - הרימו את המתג שלה:
+S1: LEDG0 -> SW0     LEDG1 -> SW1     LEDG2 -> SW2     LEDG3 -> SW3
+S2: עכשיו הכניסה למעלה:
+S2: SW9 = up
+S2: איזו נורה דולקת - הרימו את המתג שלה:
+S2: LEDG0 -> SW0     LEDG1 -> SW1     LEDG2 -> SW2     LEDG3 -> SW3
+S3: כמה טרנזיסטורים בארבעת השערים יחד?
+S3: NOT = 2 transistors     BUF = two NOTs = 4 transistors
+S3: השערים: מהפך = נורה שדולקת כשהכניסה למטה.
+S3: A = SW9     LEDG0..LEDG3
+S3: 8 = SW3     10 = SW3+SW1     12 = SW3+SW2     14 = SW3+SW2+SW1     16 = SW4
+
+[Q25] GATE2 | איזה שער מוסתר בלוח? | npub 1 | steps 3 | flat
 B: A = SW9     B = SW8     Y = LEDG0 (green)     answer: SW3..SW0
 S1: בלוח שער של שתי כניסות. נסו את 4 המצבים ורשמו בכל אחד אם הנורה דולקת:
 S1: SW9 SW8:   down-down,   down-up,   up-down,   up-up
@@ -260,7 +353,7 @@ S1: 1st -> SW0     2nd -> SW1     3rd -> SW2     4th -> SW3
 S2: איזה שער זה? הרימו את המתגים שלו:
 S2: AND = all down   OR = SW0   XOR = SW1   NAND = SW1+SW0   NOR = SW2   XNOR = SW2+SW0
 
-[Q21] GATESET | שישה שערים - מי זה מי? | npub 1 | steps 5 | flat
+[Q26] GATESET | שישה שערים - מי זה מי? | npub 1 | steps 5 | flat
 B: A = SW9     B = SW8     six gates = LEDG5..LEDG0     answer: SW3..SW0
 S1: בלוח שישה שערים של שתי כניסות, כל אחד בנורה ירוקה אחרת:
 S1: A = SW9     B = SW8     LEDG0..LEDG5
@@ -285,7 +378,7 @@ S4: (דולקת רק כששתי הכניסות 1)?
 S4: LEDG0 = all down     LEDG1 = SW0     LEDG2 = SW1
 S4: LEDG3 = SW1+SW0     LEDG4 = SW2     LEDG5 = SW2+SW0
 
-[Q22] GATE3 | שער של שלוש כניסות | npub 1 | steps 4 | flat
+[Q27] GATE3 | שער של שלוש כניסות | npub 1 | steps 4 | flat
 B: A = SW9     B = SW8     C = SW7     Y = LEDG0 (green)     answer: SW3..SW0
 S1: בלוח שער של שלוש כניסות. חצי ראשון: החזיקו למטה:
 S1: SW9 = down
@@ -301,7 +394,7 @@ S2: 1st -> SW0     2nd -> SW1     3rd -> SW2     4th -> SW3
 S3: איזה שער זה? זוגיות: שער שנותן 1 כשמספר ה-1 בכניסות אי-זוגי.
 S3: AND3 = all down   OR3 = SW0   XOR3 (odd) = SW1   NAND3 = SW1+SW0   NOR3 = SW2   XNOR3 (even) = SW2+SW0
 
-[Q23] GATE4 | שער של ארבע כניסות | npub 1 | steps 5 | flat
+[Q28] GATE4 | שער של ארבע כניסות | npub 1 | steps 5 | flat
 B: A = SW9   B = SW8   C = SW7   D = SW6   Y = LEDG0 (green)     answer: SW3..SW0
 S1: בלוח שער של ארבע כניסות. שימו את כל הכניסות למטה:
 S1: SW9 SW8 SW7 SW6 = 0000
@@ -322,7 +415,27 @@ S4: איזה שער זה? זוגיות: שער שנותן 1 כשמספר ה-1 ב
 S4: AND4 = all down   OR4 = SW0   XOR4 (odd) = SW1
 S4: NAND4 = SW1+SW0   NOR4 = SW2   XNOR4 (even) = SW2+SW0
 
-[Q24] ONOFF | אילו טרנזיסטורים דולקים? | npub 1 | steps 4 | flat
+[Q29] PARITY | זוגיות: אילו כניסות מחוברות? | npub 1 | steps 4 | flat
+B: A = SW9   B = SW8   C = SW7   D = SW6   Y = LEDG0 (green)     answer: SW3..SW0
+S1: בלוח שער זוגיות של חלק מארבע הכניסות (השאר לא מחוברות):
+S1: XOR or XNOR
+S1: A = SW9   B = SW8   C = SW7   D = SW6   Y = LEDG0
+S1: שימו את כל הכניסות למטה:
+S1: SW9 SW8 SW7 SW6 = 0000
+S1: הנורה דולקת - הרימו:
+S1: SW0
+S1: כבויה - השאירו למטה.
+S2: אילו כניסות מחוברות? מהמצב שכולן למטה, הרימו כל פעם כניסה אחת בלבד.
+S2: A = SW9   B = SW8   C = SW7   D = SW6   Y = LEDG0
+S2: הנורה השתנתה = הכניסה מחוברת. הרימו את המתג שלה:
+S2: A -> SW3     B -> SW2     C -> SW1     D -> SW0
+S3: איזה שער זה? הספרה = מספר הכניסות המחוברות.
+S3: XOR: Y = 1 when an odd number of its inputs are 1     XNOR: even
+S3: A = SW9   B = SW8   C = SW7   D = SW6   Y = LEDG0
+S3: XOR2 = all down     XOR3 = SW0     XOR4 = SW1
+S3: XNOR2 = SW1+SW0     XNOR3 = SW2     XNOR4 = SW2+SW0
+
+[Q30] ONOFF | אילו טרנזיסטורים דולקים? | npub 1 | steps 4 | flat
 B: A = SW9 (HEX3)     B = SW8 (HEX2)     Y = LEDG0     the inputs to set = HEX1 HEX0     answer: SW3..SW0
 S1: בלוח שער של שתי כניסות. נסו את 4 המצבים וזהו אותו:
 S1: SW9 SW8:   down-down,   down-up,   up-down,   up-up
@@ -337,7 +450,7 @@ S3: מחוברת למתח - הרימו:
 S3: SW0
 S3: מחוברת לאדמה - השאירו למטה.
 
-[Q25] CMOS | שער מטרנזיסטורים | npub 1 | steps 5 | flat
+[Q31] CMOS | שער מטרנזיסטורים | npub 1 | steps 5 | flat
 B: A = SW9     B = SW8     C = SW7     Y = LEDG0 (green)     answer: SW3..SW0
 S1: בלוח שער אחד. עברו על 8 המצבים וזהו אותו:
 S1: SW9 SW8 SW7:   000   001   010   011   100   101   110   111      (0 = down, 1 = up)
@@ -361,7 +474,7 @@ S4: AND / OR
 S4: מוסיפים עוד מהפך של שני טרנזיסטורים.
 S4: 4 = SW2     6 = SW2 + SW1
 
-[Q26] COMPLEX | שער CMOS מורכב | npub 1 | steps 5 | flat
+[Q32] COMPLEX | שער CMOS מורכב | npub 1 | steps 5 | flat
 B: A = SW9     B = SW8     C = SW7     Y = LEDG0 (green)     answer: SW3..SW0
 S1: בלוח שער מטרנזיסטורים, של שלוש כניסות. חצי ראשון: החזיקו למטה:
 S1: SW9 = down

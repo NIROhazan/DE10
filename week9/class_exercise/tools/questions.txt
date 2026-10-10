@@ -21,7 +21,34 @@ S2: Cout
 S2: (דולקת כששתיים או יותר מהכניסות 1)?
 S2: LEDG0 = all down     LEDG1 = SW0     LEDG2 = SW1
 
-[Q03] RIPPLE | מחבר אדווה עם מספר מוסתר | npub 1 | steps 3 | flat
+[Q03] FACIN | מחבר מלא עם נשא כניסה קבוע | npub 1 | steps 3 | flat
+B: A = SW9     B = SW8     Cin = hidden constant     LEDG1 LEDG0     answer: SW3..SW0
+S1: בלוח מחבר מלא. נשא הכניסה מחובר בפנים לקבוע מוסתר (0 או 1).
+S1: A = SW9     B = SW8
+S1: S = A ^ B ^ Cin     Cout = AB + ACin + BCin
+S1: נורה אחת היא הסכום ואחת הנשא.
+S1: איזו נורה היא הסכום? (משתנה בכל פעם שמזיזים מתג אחד)
+S1: LEDG0 = all down     LEDG1 = SW0
+S2: מה הקבוע שמחובר לנשא הכניסה?
+S2: Cin = ?
+S2: 0 = all down     1 = SW0
+
+[Q04] INVERTEDIN | מחבר מלא עם מהפך מוסתר | npub 1 | steps 3 | flat
+B: A = SW9     B = SW8     Cin = SW7     LEDG1 LEDG0     answer: SW3..SW0
+S1: בלוח מחבר מלא, אבל כניסה אחת עוברת דרך מהפך מוסתר.
+S1: A = SW9     B = SW8     Cin = SW7
+S1: S = A ^ B ^ Cin     Cout = AB + ACin + BCin
+S1: נורה אחת היא הסכום ואחת הנשא.
+S1: כשכל המתגים למטה, המחבר רואה בדיוק כניסה אחת שהיא 1.
+S1: איזו נורה היא
+S1: Cout
+S1: ?
+S1: LEDG0 = all down     LEDG1 = SW0
+S2: איזו כניסה עוברת דרך המהפך? הרימו מתג אחד בכל פעם: מתי שתי הנורות כבות?
+S2: A = SW9     B = SW8     Cin = SW7
+S2: A = all down     B = SW0     Cin = SW1
+
+[Q05] RIPPLE | מחבר אדווה עם מספר מוסתר | npub 1 | steps 3 | flat
 B: A = SW9..SW6 (HEX0)     Cin = SW5     S = LEDG3..LEDG0     Cout = LEDG4     answer: SW4..SW0
 S1: בלוח מחבר אדווה של 4 ביטים:
 S1: S = A + B + Cin
@@ -35,7 +62,7 @@ S2: מה הכניסה הקטנה ביותר שמדליקה את הנשא?
 S2: the smallest A with Cout = 1 (Cin = 0)
 S2: 16 = SW4   8 = SW3   4 = SW2   2 = SW1   1 = SW0
 
-[Q04] BROKENFA | מחבר מלא מקולקל | npub 1 | steps 3 | flat
+[Q06] BROKENFA | מחבר מלא מקולקל | npub 1 | steps 3 | flat
 B: A = SW9..SW6 (HEX0)     B = HEX2     S = LEDG3..LEDG0     Cout = LEDG4     answer: SW3..SW0
 S1: בלוח מחבר אדווה של 4 מחברים מלאים, והמספר השני מוצג בתצוגה. אחד המחברים המלאים מקולקל.
 S1: S = A + B     A = SW9..SW6     B = HEX2     S = LEDG3..0, Cout = LEDG4
@@ -45,7 +72,7 @@ S1: 1 = SW0 2 = SW1 3 = SW1+SW0
 S2: מה התקלה בו?
 S2: carry out stuck at 0 = all down     sum inverted = SW0
 
-[Q05] RIPPLEDELAY | השהיה של מחבר אדווה | npub 1 | steps 2 | flat
+[Q07] RIPPLEDELAY | השהיה של מחבר אדווה | npub 1 | steps 2 | flat
 B: HEX3 HEX2 = N bits     HEX1 = tFA     answer: SW8..SW0
 S1: בתצוגה מחבר אדווה:
 S1: HEX3 HEX2 = N bits     HEX1 = tFA (ns)
@@ -54,7 +81,16 @@ S1: t_ripple = N tFA
 S1: 256 = SW8   128 = SW7   64 = SW6   32 = SW5   16 = SW4   8 = SW3
 S1: 4 = SW2   2 = SW1   1 = SW0
 
-[Q06] GENKILL | מייצר, מעביר או הורג | npub 1 | steps 2 | flat
+[Q08] OVERFLOW | גלישה בחיבור עם סימן | npub 1 | steps 3 | flat
+B: A = SW9..SW6 (HEX0)     overflow = LEDG0     answer: SW3..SW0
+S1: בלוח מחבר של 4 ביטים עם סימן (משלים ל-2). המספר השני מוסתר, ורק נורת הגלישה מוצגת.
+S1: S = A + B     A = SW9..SW6     overflow = LEDG0
+S1: גלישה קורית רק כששני המספרים באותו סימן. נסו את כל הכניסות: האם המספר המוסתר חיובי או שלילי?
+S1: B > 0 = all down     B < 0 = SW0
+S2: מה המספר המוסתר? (ספרו כמה כניסות גורמות לגלישה)
+S2: B = ?     SW3..SW0 (4 bits, two's complement)
+
+[Q09] GENKILL | מייצר, מעביר או הורג | npub 1 | steps 2 | flat
 B: Ai = SW9     Bi = SW8     LEDG1 LEDG0     answer: SW3..SW0
 S1: בלוח עמודה אחת של מחבר: נורה אחת היא
 S1: Gi = Ai Bi
@@ -67,7 +103,7 @@ S1: Gi
 S1: ?
 S1: LEDG0 = all down     LEDG1 = SW0
 
-[Q07] GENPROP | אותות מייצר ומעביר | npub 1 | steps 3 | flat
+[Q10] GENPROP | אותות מייצר ומעביר | npub 1 | steps 3 | flat
 B: HEX3 = A (hex)     HEX2 = B (hex)     answer: SW8..SW0
 S1: בתצוגה שני מספרים של 4 ביטים:
 S1: HEX3 = A (hex)     HEX2 = B (hex)
@@ -78,7 +114,7 @@ S2: ומה אותות המעביר?
 S2: Pi = Ai + Bi
 S2: SW3..SW0 = P3..P0
 
-[Q08] BLOCKGP | מייצר ומעביר של בלוק | npub 1 | steps 3 | flat
+[Q11] BLOCKGP | מייצר ומעביר של בלוק | npub 1 | steps 3 | flat
 B: HEX3 = A (hex)     HEX2 = B (hex)     answer: SW8..SW0
 S1: בתצוגה שני מספרים של 4 ביטים:
 S1: HEX3 = A (hex)     HEX2 = B (hex)
@@ -93,7 +129,21 @@ S2: כן - הרימו:
 S2: SW0
 S2: לא - השאירו למטה.
 
-[Q09] CARRIES | הנשאים של כל העמודות | npub 1 | steps 3 | flat
+[Q12] BLOCKHIDDEN | מייצר ומעביר של בלוק עם מספר מוסתר | npub 1 | steps 4 | flat
+B: A = SW9..SW6 (HEX0)     P3:0 = LEDG0     G3:0 = LEDG1     answer: SW4..SW0
+S1: בלוח בלוק של 4 ביטים, והמספר השני מוסתר:
+S1: P3:0 = P3 P2 P1 P0 = LEDG0     Pi = Ai + Bi
+S1: A = SW9..SW6
+S1: באילו ביטים הכניסה חייבת להיות 1 כדי שהבלוק יעביר נשא?
+S1: SW3..SW0 = the bits of A that must be 1
+S2: לכמה כניסות שונות הבלוק מעביר נשא?
+S2: P3:0 = LEDG0     A = SW9..SW6
+S2: 16 = SW4   8 = SW3   4 = SW2   2 = SW1   1 = SW0
+S3: מה הכניסה הקטנה ביותר שבה הבלוק מייצר נשא?
+S3: G3:0 = G3 + P3 (G2 + P2 (G1 + P1 G0)) = LEDG1     A = SW9..SW6
+S3: 16 = SW4   8 = SW3   4 = SW2   2 = SW1   1 = SW0
+
+[Q13] CARRIES | הנשאים של כל העמודות | npub 1 | steps 3 | flat
 B: HEX3 = A (hex)     HEX2 = B (hex)     HEX1 = Cin     answer: SW8..SW0
 S1: בתצוגה שני מספרים של 4 ביטים ונשא כניסה:
 S1: HEX3 = A (hex)     HEX2 = B (hex)     HEX1 = Cin
@@ -103,7 +153,22 @@ S1: SW3..SW0 = C3 C2 C1 C0
 S2: ומה הסכום (4 ביטים)?
 S2: SW3..SW0
 
-[Q10] CLADELAY | השהיה של מחבר הצצה קדימה | npub 1 | steps 2 | flat
+[Q14] PBUG | מעביר שנבנה משער אחר | npub 1 | steps 3 | flat
+B: A = SW9..SW6 (HEX0)     B = HEX2     S = LEDG3..LEDG0     Cout = LEDG4     answer: SW3..SW0
+S1: בלוח מחבר הצצה קדימה של 4 ביטים, והמספר השני מוצג בתצוגה:
+S1: Ci = Gi + Pi C(i-1)     Si = Ai ^ Bi ^ C(i-1)
+S1: A = SW9..SW6     B = HEX2     S = LEDG3..0     Cout = LEDG4
+S1: בעמודה אחת המעביר נבנה משער מוסתר, אחד מאלה:
+S1: Pi = Ai + Bi     or     Pi = Ai ^ Bi     or     Pi = Ai Bi
+S1: נסו כמה ערכים והשוו לחשבון. האם המחבר נכון תמיד?
+S1: נכון תמיד - הרימו:
+S1: SW0
+S1: טועה לפעמים - השאירו למטה.
+S2: באיזו עמודה התקלה? (0 = הימנית)
+S2: correct = all down     column 0 = SW0     column 1 = SW1     column 2 = SW1+SW0
+S2: column 3 = SW2
+
+[Q15] CLADELAY | השהיה של מחבר הצצה קדימה | npub 1 | steps 2 | flat
 B: tpg tpg_block tAND_OR tFA / N k     SW9 = page 2     answer: SW8..SW0
 S1: בתצוגה שני דפים של מחבר הצצה קדימה עם בלוקים:
 S1: page 1 (SW9 down):  HEX3 = tpg   HEX2 = tpg_block   HEX1 = tAND_OR   HEX0 = tFA
@@ -113,7 +178,7 @@ S1: tCLA = tpg + tpg_block + (N/k - 1) tAND_OR + k tFA
 S1: 128 = SW7   64 = SW6   32 = SW5   16 = SW4   8 = SW3   4 = SW2
 S1: 2 = SW1   1 = SW0
 
-[Q11] PREFIXCELL | תא של מחבר תחיליות | npub 1 | steps 3 | flat
+[Q16] PREFIXCELL | תא של מחבר תחיליות | npub 1 | steps 3 | flat
 B: G_i:k = SW9   P_i:k = SW8   G_k-1:j = SW7   P_k-1:j = SW6     LEDG1 LEDG0     answer: SW3..SW0
 S1: בלוח תא אחד של מחבר תחיליות:
 S1: G_i:j = G_i:k + P_i:k G_k-1:j     P_i:j = P_i:k P_k-1:j
@@ -127,7 +192,19 @@ S2: G
 S2: . איזה תא?
 S2: gray = all down     black = SW0
 
-[Q12] PREFIXDELAY | השהיה של מחבר תחיליות | npub 1 | steps 2 | flat
+[Q17] PREFIXTREE | עץ התחיליות | npub 1 | steps 3 | flat
+B: HEX3 = A (hex)     HEX2 = B (hex)     answer: SW8..SW0
+S1: בתצוגה שני מספרים של 4 ביטים:
+S1: HEX3 = A (hex)     HEX2 = B (hex)
+S1: מחבר תחיליות, רמה 1: מה המייצר והמעביר של זוגות העמודות?
+S1: G_i:j = G_i:k + P_i:k G_k-1:j     P_i:j = P_i:k P_k-1:j     Gi = Ai Bi     Pi = Ai + Bi
+S1: SW3 = G3:2     SW2 = P3:2     SW1 = G1:0     SW0 = P1:0
+S2: רמה 2: מה המייצר והמעביר של כל הבלוק?
+S2: HEX3 = A (hex)     HEX2 = B (hex)
+S2: G3:0 = G3:2 + P3:2 G1:0     P3:0 = P3:2 P1:0
+S2: SW1 = G3:0     SW0 = P3:0
+
+[Q18] PREFIXDELAY | השהיה של מחבר תחיליות | npub 1 | steps 2 | flat
 B: tpg tpg_prefix tXOR / N     SW9 = page 2     answer: SW8..SW0
 S1: בתצוגה שני דפים של מחבר תחיליות:
 S1: page 1 (SW9 down):  HEX3 = tpg   HEX2 = tpg_prefix   HEX1 = tXOR
@@ -137,7 +214,29 @@ S1: tPA = tpg + log2(N) tpg_prefix + tXOR
 S1: 64 = SW6   32 = SW5   16 = SW4   8 = SW3   4 = SW2   2 = SW1
 S1: 1 = SW0
 
-[Q13] SUBTRACTER | מחסר עם מספר מוסתר | npub 1 | steps 3 | flat
+[Q19] ADDERRACE | מרוץ המחברים | npub 1 | steps 5 | flat
+B: HEX3 HEX2 = N bits     HEX1 = tgate     HEX0 = tFA     answer: SW8..SW0
+S1: בתצוגה מספר הביטים, השהיית שער של 2 כניסות והשהיית מחבר מלא (בננו-שניות):
+S1: HEX3 HEX2 = N bits     HEX1 = tgate     HEX0 = tFA
+S1: מה ההשהיה של מחבר אדווה?
+S1: t_ripple = N tFA
+S1: 256 = SW8   128 = SW7   64 = SW6   32 = SW5   16 = SW4   8 = SW3
+S1: 4 = SW2   2 = SW1   1 = SW0
+S2: מה ההשהיה של מחבר תחיליות?
+S2: HEX3 HEX2 = N bits     HEX1 = tgate     HEX0 = tFA
+S2: tPA = tpg + log2(N) tpg_prefix + tXOR     tpg = tXOR = tgate     tpg_prefix = 2 tgate
+S2: 128 = SW7   64 = SW6   32 = SW5   16 = SW4   8 = SW3   4 = SW2
+S2: 2 = SW1   1 = SW0
+S3: מה ההשהיה של מחבר הצצה קדימה עם בלוקים של 4 ביטים?
+S3: HEX3 HEX2 = N bits     HEX1 = tgate     HEX0 = tFA
+S3: tCLA = tpg + tpg_block + (N/4 - 1) tAND_OR + 4 tFA     tpg = tgate     tpg_block = 6 tgate     tAND_OR = 2 tgate
+S3: 128 = SW7   64 = SW6   32 = SW5   16 = SW4   8 = SW3   4 = SW2
+S3: 2 = SW1   1 = SW0
+S4: איזה מחבר הכי מהיר? (לפי שלוש ההשהיות שחישבתם)
+S4: HEX3 HEX2 = N bits     HEX1 = tgate     HEX0 = tFA
+S4: ripple = all down     CLA = SW0     prefix = SW1
+
+[Q20] SUBTRACTER | מחסר עם מספר מוסתר | npub 1 | steps 3 | flat
 B: A = SW9..SW6 (HEX0)     Y = LEDG3..LEDG0     Cout = LEDG4     answer: SW3..SW0
 S1: בלוח מחסר:
 S1: Y = A - B = A + ~B + 1
@@ -149,7 +248,7 @@ S1: SW3..SW0 = LEDG3..LEDG0
 S2: מה המספר המוסתר? (מצאו כניסה שנותנת תוצאה 0)
 S2: B = ?     SW3..SW0
 
-[Q14] NOBORROW | הנשא של המחסר | npub 1 | steps 2 | flat
+[Q21] NOBORROW | הנשא של המחסר | npub 1 | steps 2 | flat
 B: A = SW9..SW6 (HEX0)     Cout = LEDG4     answer: SW3..SW0
 S1: בלוח מחסר, ורק הנשא שלו מוצג:
 S1: A - B = A + ~B + 1     Cout = LEDG4
@@ -157,7 +256,22 @@ S1: A = SW9..SW6
 S1: הנשא דולק כשאין לווה, כלומר כשהכניסה גדולה או שווה למספר המוסתר. מה המספר המוסתר?
 S1: B = the smallest A with Cout = 1     SW3..SW0
 
-[Q15] EQBUG | משווה עם באג | npub 1 | steps 2 | flat
+[Q22] SUBBUG | מחסר עם באג | npub 1 | steps 3 | flat
+B: A = SW9..SW6 (HEX0)     B = HEX2     Y = LEDG3..LEDG0     answer: SW3..SW0
+S1: בלוח מחסר של 4 ביטים, והמספר השני מוצג בתצוגה:
+S1: Y = A - B = A + ~B + 1
+S1: A = SW9..SW6     B = HEX2     Y = LEDG3..0
+S1: אולי יש בו באג. נסו כמה ערכים והשוו לחשבון. האם המחסר נכון?
+S1: נכון - הרימו:
+S1: SW0
+S1: לא נכון - השאירו למטה.
+S2: מה הבאג? (בכמה התוצאה רחוקה מהנכונה?)
+S2: A = SW9..SW6     B = HEX2     Y = LEDG3..0
+S2: correct = all down     missing +1 = SW0
+S2: bit 0 of B not inverted = SW1     bit 1 of B not inverted = SW1+SW0
+S2: bit 2 of B not inverted = SW2     bit 3 of B not inverted = SW2+SW0
+
+[Q23] EQBUG | משווה עם באג | npub 1 | steps 2 | flat
 B: A = SW9..SW6 (HEX0)     A == B = LEDG0     answer: SW3..SW0
 S1: בלוח משווה שוויון:
 S1: LEDG0 = (A == B)
@@ -167,7 +281,7 @@ S1: איזה ביט לא נבדק? (0 = הימני)
 S1: 0 = all down
 S1: 1 = SW0 2 = SW1 3 = SW1+SW0
 
-[Q16] COMPARE3 | משווה עם שלוש יציאות | npub 1 | steps 3 | flat
+[Q24] COMPARE3 | משווה עם שלוש יציאות | npub 1 | steps 3 | flat
 B: A = SW9..SW6 (HEX0)     LEDG2 LEDG1 LEDG0     answer: SW3..SW0
 S1: בלוח משווה של הכניסה עם מספר מוסתר (בלי סימן). שלוש נורות:
 S1: A == B,  A < B,  A > B  (in some order)
@@ -179,7 +293,29 @@ S1: LEDG0 = all down     LEDG1 = SW0     LEDG2 = SW1
 S2: מה המספר המוסתר?
 S2: B = ?     SW3..SW0
 
-[Q17] SIGNEDCMP | השוואה עם סימן או בלי | npub 1 | steps 3 | flat
+[Q25] MINMAX | משווה ובורר: מינימום או מקסימום | npub 1 | steps 3 | flat
+B: A = SW9..SW6 (HEX0)     y = LEDG3..LEDG0     answer: SW3..SW0
+S1: בלוח משווה ובורר (בלי סימן), והמספר השני מוסתר. אחד משני המעגלים:
+S1: y = (A < B) ? A : B     or     y = (A < B) ? B : A
+S1: A = SW9..SW6     y = LEDG3..0
+S1: מה המעגל מחשב?
+S1: min(A, B) = all down     max(A, B) = SW0
+S2: מה המספר המוסתר?
+S2: A = SW9..SW6     y = LEDG3..0
+S2: B = ?     SW3..SW0
+
+[Q26] LTWIRING | ארבעה מופעים של משווה קטן-מ | npub 1 | steps 3 | flat
+B: A = SW9..SW6 (HEX0)     B = HEX2     LEDG0     answer: SW3..SW0
+S1: בלוח מודול משווה (בלי סימן), והמספר השני מוצג בתצוגה:
+S1: lt(x, y) = (x < y)
+S1: A = SW9..SW6     B = HEX2     LEDG0
+S1: הנורה מחוברת למופע אחד של המודול, אולי עם מהפך. איזה יחס היא מראה?
+S1: A < B = all down     A > B = SW0     A >= B = SW1     A <= B = SW1+SW0
+S2: איזה מופע מחובר לנורה?
+S2: lt(x, y) = (x < y)
+S2: lt(B, A) = all down     ~lt(A, B) = SW0     lt(A, B) = SW1     ~lt(B, A) = SW1+SW0
+
+[Q27] SIGNEDCMP | השוואה עם סימן או בלי | npub 1 | steps 3 | flat
 B: A = SW9..SW6 (HEX0)     A < B = LEDG0     answer: SW3..SW0
 S1: בלוח משווה:
 S1: LEDG0 = (A < B)
@@ -191,7 +327,7 @@ S2: ההשוואה עם סימן (משלים ל-2) או בלי? בדקו
 S2: A = 1000
 S2: unsigned = all down     signed = SW0
 
-[Q18] SLT | קטן-מ עם סימן: האם יש באג גלישה? | npub 1 | steps 2 | flat
+[Q28] SLT | קטן-מ עם סימן: האם יש באג גלישה? | npub 1 | steps 2 | flat
 B: A = SW9..SW6 (HEX0)     A < B = LEDG0 (signed)     answer: SW3..SW0
 S1: בלוח משווה עם סימן:
 S1: A < B  if  A - B < 0
@@ -204,7 +340,7 @@ S1: נכון תמיד - הרימו:
 S1: SW0
 S1: טועה לפעמים - השאירו למטה.
 
-[Q19] WIDTH | מודול עם פרמטר | npub 1 | steps 2 | flat
+[Q29] WIDTH | מודול עם פרמטר | npub 1 | steps 2 | flat
 B: a = SW9 SW8 SW7     b = SW6 SW5 SW4     y = LEDG3..LEDG0     answer: SW3..SW0
 S1: בלוח מחבר מודול עם פרמטר:
 S1: module adder #(parameter width = 8) (input logic [width-1:0] a, b, output logic [width-1:0] y);
@@ -214,7 +350,7 @@ S1: y
 S1: ?
 S1: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2
 
-[Q20] MUXPARAM | בורר עם פרמטר | npub 1 | steps 3 | flat
+[Q30] MUXPARAM | בורר עם פרמטר | npub 1 | steps 3 | flat
 B: d0 = SW9 SW8 SW7     d1 = SW6 SW5 SW4     s = SW3     y = LEDG2..LEDG0     answer: SW1 SW0
 S1: בלוח בורר עם פרמטר:
 S1: mux2 #(width) (d0, d1, s, y)

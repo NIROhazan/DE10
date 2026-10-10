@@ -42,7 +42,36 @@ S4: B
 S4: ?
 S4: SW3..SW0
 
-[Q03] FLAGLEDS | דגלי ה-ALU | npub 1 | steps 4 | flat
+[Q03] ZEROAND | דגל האפס בפעולת וגם | npub 1 | steps 4 | flat
+B: A = SW9..SW6 (HEX0)     Z = LEDG0 (of A AND B, B hidden)     answer: SW4..SW0
+S1: בלוח
+S1: ALU
+S1: שעושה
+S1: AND
+S1: בין
+S1: A
+S1: למספר מוסתר, ורק דגל האפס מוצג:
+S1: Result = A AND B     Z = LEDG0     A = SW9..SW6
+S1: שימו
+S1: A = 0001
+S1: . האם
+S1: Z
+S1: דולק?
+S1: דולק - הרימו:
+S1: SW0
+S1: כבוי - השאירו למטה.
+S2: Z = LEDG0     A = SW9..SW6
+S2: מה המספר המוסתר?
+S2: B = ?     SW3..SW0
+S3: Z = LEDG0     A = SW9..SW6
+S3: לכמה ערכים של
+S3: A
+S3: הדגל
+S3: Z
+S3: דולק?
+S3: 16 = SW4   8 = SW3   4 = SW2   2 = SW1   1 = SW0
+
+[Q04] FLAGLEDS | דגלי ה-ALU | npub 1 | steps 4 | flat
 B: A = SW9..SW6 (HEX0)     Result = LEDG7..LEDG4     flags = LEDG3..LEDG0 (hidden order)     answer: SW3..SW0
 S1: בלוח
 S1: ALU
@@ -61,7 +90,25 @@ S2: LEDG0 = all down     LEDG1 = SW0     LEDG2 = SW1     LEDG3 = SW1+SW0
 S3: מה המספר המוסתר?
 S3: B = ?     SW3..SW0
 
-[Q04] OVERFLOWV | דגל הגלישה | npub 1 | steps 3 | flat
+[Q05] CARRYC | דגל הנשא בחיסור | npub 1 | steps 3 | flat
+B: A = SW9..SW6 (HEX0)     C = LEDG0 (of A - B, B hidden)     answer: SW4..SW0
+S1: בלוח
+S1: ALU
+S1: שמחסר מ-
+S1: A
+S1: מספר מוסתר, ורק דגל הנשא מוצג:
+S1: Result = A - B = A + ~B + 1     C = LEDG0     A = SW9..SW6
+S1: מה הערך הקטן ביותר של
+S1: A
+S1: שנותן נשא?
+S1: SW3..SW0
+S2: C = LEDG0     A = SW9..SW6
+S2: לכמה ערכים של
+S2: A
+S2: יש נשא?
+S2: 16 = SW4   8 = SW3   4 = SW2   2 = SW1   1 = SW0
+
+[Q06] OVERFLOWV | דגל הגלישה | npub 1 | steps 3 | flat
 B: A = SW9..SW6 (HEX0)     Result = LEDG3..LEDG0     V = LEDG4     answer: SW3..SW0
 S1: בלוח
 S1: ALU
@@ -78,7 +125,30 @@ S2: יש - הרימו:
 S2: SW0
 S2: אין - השאירו למטה.
 
-[Q05] CMPFLAGS | השוואה לפי הדגלים | npub 1 | steps 4 | flat
+[Q07] OVFSUB | גלישה בחיסור | npub 1 | steps 4 | flat
+B: A = SW9..SW6 (HEX0, signed)     V = LEDG0 (of A - B, B hidden)     answer: SW3..SW0
+S1: בלוח
+S1: ALU
+S1: שמחסר מ-
+S1: A
+S1: מספר מוסתר עם סימן, ורק דגל הגלישה מוצג:
+S1: Result = A - B     V = LEDG0     A = SW9..SW6
+S1: שימו
+S1: A = 1000
+S1: (מינוס 8). האם יש גלישה?
+S1: יש - הרימו:
+S1: SW0
+S1: אין - השאירו למטה.
+S2: V = LEDG0     A = SW9..SW6
+S2: לכמה ערכים של
+S2: A
+S2: יש גלישה?
+S2: 8 = SW3   4 = SW2   2 = SW1   1 = SW0
+S3: V = LEDG0     A = SW9..SW6
+S3: מה המספר המוסתר, במשלים ל-2?
+S3: B = ?     SW3..SW0
+
+[Q08] CMPFLAGS | השוואה לפי הדגלים | npub 1 | steps 4 | flat
 B: N Z C V = LEDG3 LEDG2 LEDG1 LEDG0 (of A - B)     answer: SW3..SW0
 S1: ה-
 S1: ALU
@@ -104,7 +174,24 @@ S3: כן - הרימו:
 S3: SW0
 S3: לא - השאירו למטה.
 
-[Q06] SLTFIX | SLT: עם תיקון הגלישה או בלי | npub 1 | steps 2 | flat
+[Q09] FLAGFORM | איזו השוואה בנורה? | npub 1 | steps 4 | flat
+B: A = SW9..SW6 (HEX0)     B = HEX1     LEDG0 = a comparison of A and B (from the flags of A - B)     answer: SW3..SW0
+S1: בלוח השוואה אחת בין
+S1: A
+S1: ל-
+S1: B
+S1: , מחושבת מהדגלים של החיסור:
+S1: A = SW9..SW6 (HEX0)     B = HEX1     LEDG0 = (A ? B)
+S1: ההשוואה עם סימן או בלי סימן? (נסו גם מספרים שהביט השמאלי שלהם 1)
+S1: signed = all down     unsigned = SW0
+S2: A = SW9..SW6 (HEX0)     B = HEX1     LEDG0 = (A ? B)
+S2: איזה יחס?
+S2: A < B = all down     A <= B = SW0     A > B = SW1     A >= B = SW1+SW0
+S3: איזו נוסחה של הדגלים מדליקה את הנורה?
+S3: N ^ V = all down     ~C = SW0     Z | (N ^ V) = SW1     Z | ~C = SW1+SW0
+S3: ~Z & ~(N ^ V) = SW2     ~Z & C = SW2+SW0     ~(N ^ V) = SW2+SW1     C = SW2+SW1+SW0
+
+[Q10] SLTFIX | SLT: עם תיקון הגלישה או בלי | npub 1 | steps 2 | flat
 B: A = SW9..SW6 (HEX0)     SLT result = LEDG0     answer: SW3..SW0
 S1: בלוח הפעולה
 S1: SLT
@@ -117,7 +204,7 @@ S1: no fix: N     fixed: N ^ V
 S1: A = SW9..SW6
 S1: N (no fix) = all down     N ^ V (fixed) = SW0
 
-[Q07] SHIFTKIND | איזו הזזה? | npub 1 | steps 3 | flat
+[Q11] SHIFTKIND | איזו הזזה? | npub 1 | steps 3 | flat
 B: A = SW9..SW6 (HEX0)     Y = LEDG3..LEDG0     answer: SW3..SW0
 S1: בלוח מזיז של 4 ביטים:
 S1: A = SW9..SW6     Y = LEDG3..LEDG0
@@ -126,7 +213,23 @@ S1: sll (<<) = all down     srl (>>) = SW0     sra (>>>) = SW1
 S2: בכמה מקומות הוא מזיז?
 S2: 1 = SW0 2 = SW1 3 = SW1+SW0
 
-[Q08] SHIFTMUL | הזזה שמאלה = כפל | npub 1 | steps 2 | flat
+[Q12] SHIFTSEQ | הזזה בכל לחיצה | npub 1 | steps 4 | flat
+B: q = LEDG3..LEDG0     clock = KEY1, reset = KEY0     answer: SW3..SW0
+S1: בלוח אוגר שמזיז את עצמו במקום אחד בכל לחיצה, וערך האיפוס שלו מוסתר:
+S1: q = LEDG3..LEDG0
+S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
+S1: מה ערך האיפוס?
+S1: SW3..SW0 = q
+S2: q = LEDG3..LEDG0
+S2: KEY1 = clock (one rising edge per press)     KEY0 = reset
+S2: איזו הזזה?
+S2: sll (<<) = all down     srl (>>) = SW0     sra (>>>) = SW1
+S3: q = LEDG3..LEDG0
+S3: KEY1 = clock (one rising edge per press)     KEY0 = reset
+S3: אחרי האיפוס: אחרי כמה לחיצות הוא מפסיק להשתנות?
+S3: 0 = all down 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2
+
+[Q13] SHIFTMUL | הזזה שמאלה = כפל | npub 1 | steps 2 | flat
 B: HEX3 = A (hex)     HEX2 = N     answer: SW8..SW0
 S1: בתצוגה מספר וכמה מקומות להזיז:
 S1: HEX3 = A (hex)     HEX2 = N
@@ -137,7 +240,7 @@ S1: A << N = A x 2^N
 S1: 64 = SW6   32 = SW5   16 = SW4   8 = SW3   4 = SW2   2 = SW1
 S1: 1 = SW0
 
-[Q09] SHIFTDIV | הזזה לוגית ימינה = חילוק שלם | npub 1 | steps 2 | flat
+[Q14] SHIFTDIV | הזזה לוגית ימינה = חילוק שלם | npub 1 | steps 2 | flat
 B: HEX3 HEX2 = A (decimal)     HEX1 = N     answer: SW8..SW0
 S1: בתצוגה מספר בלי סימן וכמה מקומות להזיז:
 S1: HEX3 HEX2 = A (decimal)     HEX1 = N
@@ -147,7 +250,7 @@ S1: ? (חילוק שלם, בלי שארית)
 S1: A >> N = A / 2^N
 S1: 32 = SW5   16 = SW4   8 = SW3   4 = SW2   2 = SW1   1 = SW0
 
-[Q10] SRADIV | הזזה אריתמטית ימינה = חילוק | npub 1 | steps 3 | flat
+[Q15] SRADIV | הזזה אריתמטית ימינה = חילוק | npub 1 | steps 3 | flat
 B: A = HEX3 HEX2 (decimal, signed)     N = HEX1     answer: SW3..SW0
 S1: בתצוגה מספר שלילי וכמה מקומות להזיז:
 S1: HEX3 = minus if A is negative     HEX2 = |A|     HEX1 = N
@@ -158,7 +261,38 @@ S2: הזיזו אותו אריתמטית ימינה (ממלאים בביט הס�
 S2: A >>> N
 S2: SW3..SW0
 
-[Q11] PARTIAL | מכפלות חלקיות | npub 1 | steps 3 | flat
+[Q16] SLLNEG | הזזה שמאלה של מספר שלילי | npub 1 | steps 4 | flat
+B: A = HEX3 HEX2 (decimal, negative)     N = HEX1     answer: SW4..SW0
+S1: בתצוגה מספר שלילי וכמה מקומות להזיז:
+S1: HEX3 = minus     HEX2 = |A|     HEX1 = N
+S1: כתבו אותו במשלים ל-2 ב-5 ביטים:
+S1: A
+S1: 16 = SW4   8 = SW3   4 = SW2   2 = SW1   1 = SW0
+S2: הזיזו אותו שמאלה (5 ביטים, ממלאים ב-0):
+S2: HEX3 = minus     HEX2 = |A|     HEX1 = N
+S2: A << N
+S2: 16 = SW4   8 = SW3   4 = SW2   2 = SW1   1 = SW0
+S3: האם התוצאה ב-5 ביטים עדיין שווה לכפל?
+S3: HEX3 = minus     HEX2 = |A|     HEX1 = N
+S3: A << N == A x 2^N
+S3: שווה - הרימו:
+S3: SW0
+S3: לא (גלישה) - השאירו למטה.
+
+[Q17] SHIFTBUG | מזיז עם יציאה תקועה | npub 1 | steps 4 | flat
+B: A = SW9..SW6 (HEX0)     shamt = SW5 SW4 (HEX1)     Y = LEDG3..LEDG0     answer: SW3..SW0
+S1: בלוח מזיז של 4 ביטים, ואחת היציאות שלו תקועה:
+S1: A = SW9..SW6     shamt = SW5 SW4     Y = LEDG3..LEDG0
+S1: לאיזה כיוון הוא מזיז?
+S1: sll (<<) = all down     srl (>>) = SW0
+S2: A = SW9..SW6     shamt = SW5 SW4     Y = LEDG3..LEDG0
+S2: איזו יציאה תקועה?
+S2: LEDG0 = all down     LEDG1 = SW0     LEDG2 = SW1     LEDG3 = SW1+SW0
+S3: A = SW9..SW6     shamt = SW5 SW4     Y = LEDG3..LEDG0
+S3: על איזה ערך היא תקועה?
+S3: 0 = all down     1 = SW0
+
+[Q18] PARTIAL | מכפלות חלקיות | npub 1 | steps 3 | flat
 B: HEX3 = A (hex)     HEX2 = B (hex)     answer: SW8..SW0
 S1: בתצוגה שני מספרים של 4 ביטים:
 S1: HEX3 = A (hex)     HEX2 = B (hex)
@@ -172,7 +306,7 @@ S2: A x B
 S2: 128 = SW7   64 = SW6   32 = SW5   16 = SW4   8 = SW3   4 = SW2
 S2: 2 = SW1   1 = SW0
 
-[Q12] MULTHIDDEN | מכפל עם מספר מוסתר | npub 1 | steps 3 | flat
+[Q19] MULTHIDDEN | מכפל עם מספר מוסתר | npub 1 | steps 3 | flat
 B: A = SW9..SW6 (HEX0)     P = LEDG7..LEDG0     answer: SW3..SW0
 S1: בלוח מכפל של 4 על 4 ביטים, והמספר השני מוסתר:
 S1: P = A x B     A = SW9..SW6     P = LEDG7..LEDG0
@@ -181,7 +315,19 @@ S1: B = ?     SW3..SW0
 S2: כמה ביטים צריך למכפלה של שני מספרים של 4 ביטים?
 S2: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0 8 = SW3
 
-[Q13] DIVIDE | חילוק: מנה ושארית | npub 1 | steps 3 | flat
+[Q20] ARRAYBUG | מכפל מערך עם שורה שבורה | npub 1 | steps 3 | flat
+B: A = SW9..SW6 (HEX3)     B = SW5..SW2 (HEX2)     P = LEDG7..LEDG0     answer: SW1 SW0
+S1: בלוח מכפל מערך של 4 על 4, ואחת מארבע השורות של המכפלות החלקיות שבורה:
+S1: A = SW9..SW6 (HEX3)     B = SW5..SW2 (HEX2)     P = LEDG7..LEDG0
+S1: PPk = (Bk ? A : 0) << k
+S1: איזו שורה שבורה?
+S1: PP0 = all down     PP1 = SW0     PP2 = SW1     PP3 = SW1+SW0
+S2: A = SW9..SW6 (HEX3)     B = SW5..SW2 (HEX2)     P = LEDG7..LEDG0
+S2: PPk = (Bk ? A : 0) << k
+S2: השורה השבורה תמיד אפס, או תמיד מוסיפה את המספר הראשון?
+S2: PPk = 0 = all down     PPk = A << k = SW0
+
+[Q21] DIVIDE | חילוק: מנה ושארית | npub 1 | steps 3 | flat
 B: HEX3 = A (hex)     HEX2 = B (hex)     answer: SW8..SW0
 S1: בתצוגה מחולק ומחלק:
 S1: HEX3 = A (hex)     HEX2 = B (hex)
@@ -191,7 +337,19 @@ S1: Q = ?     SW3..SW0
 S2: ומה השארית?
 S2: R = ?     SW3..SW0
 
-[Q14] DIVSTEP | האלגוריתם של המחלק | npub 1 | steps 4 | flat
+[Q22] REMHIDDEN | מחלק שמראה רק שארית | npub 1 | steps 4 | flat
+B: A = SW9..SW6 (HEX0)     R = LEDG3..LEDG0 (A / B, B hidden)     answer: SW3..SW0
+S1: בלוח מחלק עם מחלק מוסתר, ורק השארית מוצגת:
+S1: A / B = Q + R / B     A = SW9..SW6     R = LEDG3..LEDG0
+S1: מה השארית הגדולה ביותר שרואים?
+S1: SW3..SW0
+S2: A = SW9..SW6     R = LEDG3..LEDG0
+S2: מה המחלק המוסתר?
+S2: B = ?     SW3..SW0
+S3: מה המנה כשהמחולק הוא 15?
+S3: A = 1111:   Q = ?     SW3..SW0
+
+[Q23] DIVSTEP | האלגוריתם של המחלק | npub 1 | steps 4 | flat
 B: HEX3 = A (hex)     HEX2 = B (hex)     answer: SW8..SW0
 S1: בתצוגה מחולק ומחלק. האלגוריתם מהשקופית:
 S1: HEX3 = A (hex)     HEX2 = B (hex)
@@ -206,7 +364,7 @@ S2: i = 3, 2:   R' = ?     SW3..SW0
 S3: מה המנה בסוף?
 S3: Q = ?     SW3..SW0
 
-[Q15] DIVARRAY | מערך המחלק | npub 1 | steps 3 | flat
+[Q24] DIVARRAY | מערך המחלק | npub 1 | steps 3 | flat
 B: HEX3 = N (bits)     answer: SW8..SW0
 S1: בתצוגה הרוחב של מחלק מערך (כמו המחלק של 4 על 4 בשקופית):
 S1: HEX3 = N (bits)
@@ -216,7 +374,7 @@ S2: כמה ביטים במכפלה של שני מספרים ברוחב הזה?
 S2: 2N
 S2: 16 = SW4   8 = SW3   4 = SW2   2 = SW1   1 = SW0
 
-[Q16] VECLINE | שורה בקובץ הווקטורים | npub 1 | steps 2 | flat
+[Q25] VECLINE | שורה בקובץ הווקטורים | npub 1 | steps 2 | flat
 B: a = SW9   b = SW8   c = SW7   y = LEDG0   the line to write = HEX3 HEX2 HEX1 (a b c)   answer: SW3..SW0
 S1: הלוח הוא מעגל, ואתם כותבים לו קובץ וקטורים. כל שורה היא
 S1: abc_yexpected
@@ -225,7 +383,23 @@ S1: כתבו את השורה של הכניסות שבתצוגה:
 S1: HEX3 HEX2 HEX1 = a b c
 S1: SW3 SW2 SW1 = a b c     SW0 = y
 
-[Q17] TESTFAIL | איזה וקטור נכשל? | npub 1 | steps 2 | flat
+[Q26] TBTIME | מה הבודק רואה בזמן נתון? | npub 1 | steps 3 | flat
+B: a = SW9   b = SW8   c = SW7   y = LEDG0 (dut)     t = HEX3 HEX2 (decimal)     answer: SW2..SW0
+S1: בודק פשוט נותן את הכניסות אחת אחרי השנייה, כל אחת אחרי 10 יחידות זמן:
+S1: 000 at #0     001 at #10     010 at #20     ...     111 at #70
+S1: בתצוגה זמן:
+S1: t = HEX3 HEX2 (decimal)
+S1: אילו כניסות מקבל המעגל בזמן הזה?
+S1: SW2 SW1 SW0 = a b c
+S2: הלוח הוא המעגל הנבדק:
+S2: a = SW9   b = SW8   c = SW7   y = LEDG0 (dut)
+S2: מה היציאה בזמן שבתצוגה?
+S2: t = HEX3 HEX2 (decimal)
+S2: 1 - הרימו:
+S2: SW0
+S2: 0 - השאירו למטה.
+
+[Q27] TESTFAIL | איזה וקטור נכשל? | npub 1 | steps 2 | flat
 B: a = SW9     b = SW8     c = SW7     y = LEDG0 (the device under test)     answer: SW2..SW0
 S1: הלוח הוא המעגל הנבדק
 S1: (dut)
@@ -237,7 +411,7 @@ S1: a = SW9     b = SW8     c = SW7     y = LEDG0
 S1: באיזה וקטור הבדיקה נכשלת? כתבו את הכניסות שלו:
 S1: SW2 SW1 SW0 = a b c
 
-[Q18] ERRORS | כמה הודעות שגיאה? | npub 1 | steps 2 | flat
+[Q28] ERRORS | כמה הודעות שגיאה? | npub 1 | steps 2 | flat
 B: a = SW9     b = SW8     c = SW7     y = LEDG0     answer: SW3..SW0
 S1: הלוח הוא המעגל הנבדק. בודק עצמי מהשקופית בודק את כל 8 השורות של
 S1: y = ~b ~c + a ~b
@@ -248,7 +422,7 @@ S1: כמה הודעות יודפסו?
 S1: 0 = all down
 S1: 1 = SW0 2 = SW1 3 = SW1+SW0
 
-[Q19] TBCLOCK | שעון בבודק | npub 1 | steps 3 | flat
+[Q29] TBCLOCK | שעון בבודק | npub 1 | steps 3 | flat
 B: HEX3 = high time     HEX2 = low time     (ns)     answer: SW8..SW0
 S1: השעון בבודק:
 S1: always begin clk = 1; #H; clk = 0; #L; end
@@ -259,7 +433,31 @@ S2: השעון עולה בזמן 0. מתי העלייה השלישית?
 S2: 0, T, 2T, ...
 S2: 32 = SW5   16 = SW4   8 = SW3   4 = SW2   2 = SW1   1 = SW0
 
-[Q20] NVECTORS | כמה וקטורי בדיקה? | npub 1 | steps 3 | flat
+[Q30] TBCOMPARE | מתי הבודק משווה? | npub 1 | steps 4 | flat
+B: HEX3 = high time     HEX2 = low time     HEX1 = k     (ns)     answer: SW8..SW0
+S1: השעון בבודק עם וקטורים:
+S1: always begin clk = 1; #H; clk = 0; #L; end
+S1: HEX3 = high time     HEX2 = low time     HEX1 = k     (ns)
+S1: הכניסות נכנסות בעלייה, והיציאות נבדקות בירידה.
+S1: מתי הבדיקה הראשונה?
+S1: 8 = SW3   4 = SW2   2 = SW1   1 = SW0
+S2: השעון עולה בזמן 0, ואז נכנס הווקטור הראשון.
+S2: always begin clk = 1; #H; clk = 0; #L; end
+S2: HEX3 = high time     HEX2 = low time     HEX1 = k     (ns)
+S2: מתי נכנס הווקטור
+S2: k
+S2: ?
+S2: 64 = SW6   32 = SW5   16 = SW4   8 = SW3   4 = SW2   2 = SW1
+S2: 1 = SW0
+S3: מתי נבדקת היציאה של הווקטור
+S3: k
+S3: ?
+S3: always begin clk = 1; #H; clk = 0; #L; end
+S3: HEX3 = high time     HEX2 = low time     HEX1 = k     (ns)
+S3: 64 = SW6   32 = SW5   16 = SW4   8 = SW3   4 = SW2   2 = SW1
+S3: 1 = SW0
+
+[Q31] NVECTORS | כמה וקטורי בדיקה? | npub 1 | steps 3 | flat
 B: HEX3 = inputs     HEX2 = outputs     answer: SW8..SW0
 S1: בתצוגה מעגל צירופי שבודקים אותו עם כל הצירופים:
 S1: HEX3 = inputs     HEX2 = outputs

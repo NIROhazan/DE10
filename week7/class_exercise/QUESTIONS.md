@@ -4,7 +4,7 @@
 
 ## נושא 1 - החילזון: מור ומילי
 
-30 דקות, 7 שאלות: Q01-Q07
+30 דקות, 11 שאלות: Q01-Q11
 
 ### Q01 - כמה מצבים לגלאי?
 
@@ -64,7 +64,39 @@
 - מה הקוד של המצב שבו הוא מחייך?
 - `SW1 SW0 = LEDG3 LEDG2`
 
-### Q04 - טבלת היציאה של חילזון מילי
+### Q04 - טבלת המעברים של חילזון מור
+
+- **מתגים ונורות:** `A = SW9 (HEX3)     S1 S0 = LEDG3 LEDG2     Y = LEDG0     clock = KEY1, reset = KEY0     answer: SW1 SW0`
+- **שלבים:** 3
+
+**שלב 1**
+
+- בלוח חילזון מור של שלושה מצבים, עם הקידוד של ההרצאה, והמצב מוצג בנורות.
+- `S0 = 00     S1 = 01     S2 = 10`
+- `A = SW9     S1 S0 = LEDG3 LEDG2     Y = LEDG0`
+- `KEY1 = clock (one rising edge per press)     KEY0 = reset`
+- מה הרצף שמחייך?
+- `SW1 = first bit     SW0 = second bit`
+
+**שלב 2**
+
+- הגיעו למצב
+- `S2 = 10`
+- (הוא מחייך), שימו 0 בכניסה ולחצו. לאיזה מצב עברתם?
+- `A = SW9     S1 S0 = LEDG3 LEDG2`
+- `KEY1 = clock (one rising edge per press)     KEY0 = reset`
+- `SW1 SW0 = LEDG3 LEDG2`
+
+**שלב 3**
+
+- חזרו למצב
+- `S2 = 10`
+- , שימו 1 בכניסה ולחצו. לאיזה מצב עברתם?
+- `A = SW9     S1 S0 = LEDG3 LEDG2`
+- `KEY1 = clock (one rising edge per press)     KEY0 = reset`
+- `SW1 SW0 = LEDG3 LEDG2`
+
+### Q05 - טבלת היציאה של חילזון מילי
 
 - **מתגים ונורות:** `A = SW9 (HEX3)     S0 = LEDG1     Y = LEDG0     clock = KEY1, reset = KEY0     answer: SW3..SW0`
 - **שלבים:** 1
@@ -79,7 +111,29 @@
 - ? הרימו את המתג של כל מקרה:
 - `S0 A = 00 -> SW0     01 -> SW1     10 -> SW2     11 -> SW3`
 
-### Q05 - כמה חיוכים על הסרט?
+### Q06 - מתי החיוך הראשון?
+
+- **מתגים ונורות:** `A = SW9 (HEX3)     Y = LEDG0     clock = KEY1, reset = KEY0     answer: SW3..SW0`
+- **שלבים:** 2
+
+**שלב 1**
+
+- בלוח חילזון (רצף נסתר של שני ביטים).
+- `A = SW9     Y = LEDG0`
+- `KEY1 = clock (one rising edge per press)     KEY0 = reset`
+- האם החיוך מופיע כבר כשמזיזים את המתג (לפני הלחיצה)?
+- `Moore (no) = all down     Mealy (yes) = SW0`
+
+**שלב 2**
+
+- אפסו והעבירו אותו על הסרט: בכל פעם שימו את הביט הבא, הסתכלו על הנורה, ורק אז לחצו.
+- `the tape:   1 1 0 1 0 0 1 1`
+- `A = SW9     Y = LEDG0`
+- `KEY1 = clock (one rising edge per press)     KEY0 = reset`
+- כמה לחיצות כבר עשיתם כשהנורה נדלקה בפעם הראשונה?
+- `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0`
+
+### Q07 - כמה חיוכים על הסרט?
 
 - **מתגים ונורות:** `A = SW9 (HEX3)     Y = LEDG0     clock = KEY1, reset = KEY0     answer: SW3..SW0`
 - **שלבים:** 1
@@ -94,7 +148,27 @@
 - `0 = all down`
 - `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1`
 
-### Q06 - כמה אחדות ברצף?
+### Q08 - שני חלזונות על אותו סרט
+
+- **מתגים ונורות:** `A = SW9 (HEX3)     LEDG1, LEDG0 = the two snails     clock = KEY1, reset = KEY0     answer: SW3..SW0`
+- **שלבים:** 2
+
+**שלב 1**
+
+- בלוח שני חלזונות שמחייכים על אותו רצף של שלושה ביטים: אחד מור ואחד מילי.
+- `A = SW9     snails: LEDG1, LEDG0`
+- `KEY1 = clock (one rising edge per press)     KEY0 = reset`
+- איזו נורה היא חילזון מילי (נדלקת לפני הלחיצה)?
+- `LEDG1 = all down     LEDG0 = SW0`
+
+**שלב 2**
+
+- מה הרצף שעליו הם מחייכים?
+- `A = SW9     snails: LEDG1, LEDG0`
+- `KEY1 = clock (one rising edge per press)     KEY0 = reset`
+- `SW2 = first bit     SW1 = second     SW0 = third`
+
+### Q09 - כמה אחדות ברצף?
 
 - **מתגים ונורות:** `A = SW9 (HEX3)     Y = LEDG0     clock = KEY1, reset = KEY0     answer: SW3..SW0`
 - **שלבים:** 3
@@ -117,7 +191,7 @@
 - וכמה כמכונת מילי? (היציאה נקבעת כבר עם הביט האחרון)
 - `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1`
 
-### Q07 - גלאי שינוי
+### Q10 - גלאי שינוי
 
 - **מתגים ונורות:** `A = SW9 (HEX3)     Y = LEDG0     clock = KEY1, reset = KEY0     answer: SW3..SW0`
 - **שלבים:** 2
@@ -135,11 +209,34 @@
 - האם הנורה נדלקת כבר כשמזיזים את המתג, לפני הלחיצה?
 - `Moore (no) = all down     Mealy (yes) = SW0`
 
+### Q11 - גלאי חופף או לא חופף
+
+- **מתגים ונורות:** `A = SW9 (HEX3)     Y = LEDG0     clock = KEY1, reset = KEY0     answer: SW3..SW0`
+- **שלבים:** 2
+
+**שלב 1**
+
+- בלוח גלאי מור של רצף של שלושה ביטים.
+- `A = SW9     Y = LEDG0`
+- `KEY1 = clock (one rising edge per press)     KEY0 = reset`
+- מה הרצף?
+- `SW2 = first bit     SW1 = second     SW0 = third`
+
+**שלב 2**
+
+- אחרי חיוך, האם הביטים האחרונים של הרצף נספרים גם לחיוך הבא (חפיפה)?
+- בדקו: הכניסו את הרצף, ואז המשיכו כאילו הסוף שלו הוא ההתחלה של הבא.
+- `A = SW9     Y = LEDG0`
+- `KEY1 = clock (one rising edge per press)     KEY0 = reset`
+- חופף - הרימו:
+- `SW0`
+- לא חופף - השאירו למטה.
+
 ## נושא 2 - פירוק מכונות: התהלוכה
 
-30 דקות, 4 שאלות: Q08-Q11
+30 דקות, 7 שאלות: Q12-Q18
 
-### Q08 - מכונת המצב של התהלוכה
+### Q12 - מכונת המצב של התהלוכה
 
 - **מתגים ונורות:** `P / R on SW7 SW6     M = LEDG4     clock = KEY1     answer: SW3..SW0`
 - **שלבים:** 3
@@ -170,7 +267,7 @@
 - הרימו את שניהם ולחצו. מי מנצח?
 - `P = all down     R = SW0`
 
-### Q09 - מצב תהלוכה
+### Q13 - מצב תהלוכה
 
 - **מתגים ונורות:** `TA SW9, TB SW8, P / R on SW7 SW6     lights LEDG7..5, LEDG2..0     M = LEDG4     clock = KEY1     answer: SW3..SW0`
 - **שלבים:** 2
@@ -194,7 +291,45 @@
 - בזמן תהלוכה, איזה רחוב נשאר ירוק (גם בלי מכוניות)?
 - `A = all down     B = SW0`
 
-### Q10 - כמה זמן עד שהתהלוכה עוברת?
+### Q14 - מי מחובר לאיזה מתג?
+
+- **מתגים ונורות:** `TA, TB, P, R on SW9..SW6 (hidden order)     lights LEDG7..5, LEDG2..0     M = LEDG4     clock = KEY1, reset = KEY0     answer: SW1 SW0`
+- **שלבים:** 3
+
+**שלב 1**
+
+- בלוח בקר הרמזור עם תהלוכה, אבל ארבע הכניסות מחוברות בסדר נסתר.
+- `TA, TB, P, R = SW9, SW8, SW7, SW6 (in some order)     M = LEDG4`
+- `KEY1 = clock (one rising edge per press)     KEY0 = reset`
+- איזה מתג הוא
+- `P`
+- (מדליק את
+- `M`
+- בלחיצה)?
+- `SW9 = all down     SW8 = SW0     SW7 = SW1     SW6 = SW1+SW0`
+
+**שלב 2**
+
+- איזה מתג הוא
+- `R`
+- (מכבה את
+- `M`
+- `)?`
+- `TA, TB, P, R = SW9, SW8, SW7, SW6 (in some order)     M = LEDG4`
+- `KEY1 = clock (one rising edge per press)     KEY0 = reset`
+- `SW9 = all down     SW8 = SW0     SW7 = SW1     SW6 = SW1+SW0`
+
+**שלב 3**
+
+- אפסו (רחוב א' ירוק, בלי תהלוכה). איזה מתג הוא
+- `TA`
+- (כשהוא למעלה, הירוק של רחוב א' נשאר)?
+- `TA, TB, P, R = SW9, SW8, SW7, SW6 (in some order)     M = LEDG4`
+- `LA:  green = LEDG7   yellow = LEDG6   red = LEDG5`
+- `KEY1 = clock (one rising edge per press)     KEY0 = reset`
+- `SW9 = all down     SW8 = SW0     SW7 = SW1     SW6 = SW1+SW0`
+
+### Q15 - כמה זמן עד שהתהלוכה עוברת?
 
 - **מתגים ונורות:** `TA SW9, TB SW8, P = SW7, R = SW6     lights LEDG7..5, LEDG2..0     M = LEDG4     clock = KEY1     answer: SW3..SW0`
 - **שלבים:** 1
@@ -213,7 +348,7 @@
 - ולחצו פעם אחת. אחרי כמה לחיצות נוספות הרחוב השני ירוק?
 - `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2`
 
-### Q11 - כמה מצבים עם פירוק ובלי?
+### Q16 - כמה מצבים עם פירוק ובלי?
 
 - **מתגים ונורות:** `TA = SW9     TB = SW8     lights LEDG7..5, LEDG2..0     clock = KEY1     answer: SW3..SW0`
 - **שלבים:** 3
@@ -239,11 +374,93 @@
 - `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0 8 = SW3 9 = SW3+SW0`
 - `10 = SW3+SW1`
 
+### Q17 - רמזור עם מכונת טיימר
+
+- **מתגים ונורות:** `run = SW9     lights LEDG7..5, LEDG2..0     timer = HEX0     clock = KEY1, reset = KEY0     answer: SW3..SW0`
+- **שלבים:** 3
+
+**שלב 1**
+
+- בלוח רמזור מפורק לשתי מכונות: מכונת הרמזורים, ומכונת טיימר (בתצוגה) שאומרת לה מתי לעבור.
+- `run = SW9 (up)     timer = HEX0`
+- `LA:  green = LEDG7   yellow = LEDG6   red = LEDG5`
+- `KEY1 = clock (one rising edge per press)     KEY0 = reset`
+- אפסו. כמה לחיצות רחוב א' ירוק?
+- `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0`
+
+**שלב 2**
+
+- כמה לחיצות רחוב ב' ירוק?
+- `run = SW9 (up)`
+- `LB:  green = LEDG2   yellow = LEDG1   red = LEDG0`
+- `KEY1 = clock (one rising edge per press)     KEY0 = reset`
+- `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0`
+
+**שלב 3**
+
+- כמה מצבים צריך מכונת הטיימר (היא צריכה לספור את הירוק הארוך)?
+- `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0`
+
+### Q18 - מונה של שתי ספרות: שתי מכונות
+
+- **מתגים ונורות:** `count = SW9     tens = HEX1     units = HEX0     clock = KEY1, reset = KEY0     answer: SW4..SW0`
+- **שלבים:** 4
+
+**שלב 1**
+
+- בלוח מונה של שתי ספרות, בנוי משתי מכונות: מכונת היחידות מודיעה למכונת העשרות מתי להתקדם.
+- `count = SW9 (up)     tens = HEX1     units = HEX0`
+- `KEY1 = clock (one rising edge per press)     KEY0 = reset`
+- כמה מצבים יש למכונת היחידות?
+- `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0`
+
+**שלב 2**
+
+- כמה מצבים יש למכונת העשרות?
+- `count = SW9 (up)     tens = HEX1`
+- `KEY1 = clock (one rising edge per press)     KEY0 = reset`
+- `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2`
+
+**שלב 3**
+
+- כמה מצבים צריך מכונה אחת בלי פירוק (כל צירוף של שתי הספרות)?
+- `16 = SW4   8 = SW3   4 = SW2   2 = SW1   1 = SW0`
+
+**שלב 4**
+
+- וכמה מצבים בסך הכול בשתי המכונות המפורקות?
+- `8 = SW3     4 = SW2     2 = SW1     1 = SW0`
+
 ## נושא 3 - תכנון מכונות מצבים
 
-30 דקות, 9 שאלות: Q12-Q20
+30 דקות, 13 שאלות: Q19-Q31
 
-### Q12 - זוגיות טורית
+### Q19 - מהבהב
+
+- **מתגים ונורות:** `run = SW9     LEDG0     clock = KEY1, reset = KEY0     answer: SW3..SW0`
+- **שלבים:** 3
+
+**שלב 1**
+
+- בלוח מכונה שמהבהבת: הנורה דולקת כמה לחיצות וכבויה כמה לחיצות, וחוזר חלילה.
+- `run = SW9 (up)     LEDG0`
+- `KEY1 = clock (one rising edge per press)     KEY0 = reset`
+- אפסו. כמה לחיצות היא דולקת?
+- `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2`
+
+**שלב 2**
+
+- כמה לחיצות היא כבויה?
+- `run = SW9 (up)     LEDG0`
+- `KEY1 = clock (one rising edge per press)     KEY0 = reset`
+- `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2`
+
+**שלב 3**
+
+- כמה מצבים יש למכונה (מצב לכל לחיצה במחזור)?
+- `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0 8 = SW3`
+
+### Q20 - זוגיות טורית
 
 - **מתגים ונורות:** `SW9 SW8 (one is the input)     LEDG0     clock = KEY1, reset = KEY0     answer: SW3..SW0`
 - **שלבים:** 2
@@ -263,7 +480,7 @@
 - `SW0`
 - כבויה - השאירו למטה.
 
-### Q13 - מונה אחדות
+### Q21 - מונה אחדות
 
 - **מתגים ונורות:** `SW9 SW8     the count = HEX0     clock = KEY1, reset = KEY0     answer: SW3..SW0`
 - **שלבים:** 2
@@ -280,7 +497,7 @@
 - אחרי איזה מספר הוא חוזר ל-0? כתבו כמה מצבים יש.
 - `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0 8 = SW3 9 = SW3+SW0`
 
-### Q14 - מונה שנעצר או חוזר
+### Q22 - מונה שנעצר או חוזר
 
 - **מתגים ונורות:** `the count = HEX0     clock = KEY1, reset = KEY0     answer: SW3..SW0`
 - **שלבים:** 2
@@ -299,7 +516,57 @@
 - `SW0`
 - חוזר ל-0 - השאירו למטה.
 
-### Q15 - מסנן קפיצות
+### Q23 - מונה למעלה ולמטה
+
+- **מתגים ונורות:** `SW9 SW8 (enable, direction)     the count = HEX0     clock = KEY1, reset = KEY0     answer: SW3..SW0`
+- **שלבים:** 3
+
+**שלב 1**
+
+- בלוח מונה עם שתי כניסות: אחת מאפשרת לספור, והשנייה קובעת כיוון (למעלה או למטה).
+- `SW9 SW8     the count = HEX0`
+- `KEY1 = clock (one rising edge per press)     KEY0 = reset`
+- איזה מתג מאפשר לספור (כשהוא למטה המונה עומד)?
+- `SW9 = all down     SW8 = SW0`
+
+**שלב 2**
+
+- כשמתג הכיוון למעלה, המונה סופר למעלה?
+- `SW9 SW8     the count = HEX0`
+- `KEY1 = clock (one rising edge per press)     KEY0 = reset`
+- כן - הרימו:
+- `SW0`
+- לא, למטה - השאירו למטה.
+
+**שלב 3**
+
+- אפסו (0) וספרו פעם אחת למטה. איזה מספר מופיע?
+- `SW9 SW8     the count = HEX0`
+- `KEY1 = clock (one rising edge per press)     KEY0 = reset`
+- `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0 8 = SW3 9 = SW3+SW0`
+
+### Q24 - באיזה קוד המונה סופר?
+
+- **מתגים ונורות:** `run = SW9     the state = LEDG3..LEDG0     clock = KEY1, reset = KEY0     answer: SW4..SW0`
+- **שלבים:** 2
+
+**שלב 1**
+
+- בלוח מונה, והמצב שלו מוצג בנורות הירוקות.
+- `run = SW9 (up)     the state = LEDG3..LEDG0`
+- `KEY1 = clock (one rising edge per press)     KEY0 = reset`
+- כמה מצבים שונים יש עד שהוא חוזר להתחלה?
+- `16 = SW4   8 = SW3   4 = SW2   2 = SW1   1 = SW0`
+
+**שלב 2**
+
+- באיזה קוד הוא סופר?
+- `binary: +1     Gray: one bit changes     one-hot: one LED on`
+- `run = SW9 (up)     the state = LEDG3..LEDG0`
+- `KEY1 = clock (one rising edge per press)     KEY0 = reset`
+- `binary = all down     Gray = SW0     one-hot = SW1`
+
+### Q25 - מסנן קפיצות
 
 - **מתגים ונורות:** `the button = SW9 (HEX3)     clean = LEDG0     clock = KEY1, reset = KEY0     answer: SW3..SW0`
 - **שלבים:** 2
@@ -317,7 +584,7 @@
 - כמה מצבים יש למכונה? (מונה מ-0 עד המספר הזה)
 - `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0`
 
-### Q16 - מנעול של שלושה ביטים
+### Q26 - מנעול של שלושה ביטים
 
 - **מתגים ונורות:** `the bit = SW9 (HEX3)     open = LEDG0     clock = KEY1, reset = KEY0     answer: SW3..SW0`
 - **שלבים:** 1
@@ -330,7 +597,7 @@
 - מה הקוד?
 - `SW2 = first bit     SW1 = second     SW0 = third`
 
-### Q17 - מנעול צירופים
+### Q27 - מנעול צירופים
 
 - **מתגים ונורות:** `the symbol = SW9 SW8     open = LEDG0     clock = KEY1, reset = KEY0     answer: SW1 SW0`
 - **שלבים:** 2
@@ -348,7 +615,34 @@
 - ומה הסמל השני?
 - `SW1 SW0 = SW9 SW8`
 
-### Q18 - מכונת שתייה
+### Q28 - מתחלק או לא?
+
+- **מתגים ונורות:** `the bit = SW9 (HEX3)     LEDG0     clock = KEY1, reset = KEY0     answer: SW3..SW0`
+- **שלבים:** 3
+
+**שלב 1**
+
+- בלוח מכונה שקוראת מספר בינארי, ביט בכל לחיצה, מהביט הגבוה. הנורה דולקת כשהמספר עד עכשיו מתחלק במספר נסתר.
+- `the bit = SW9     LEDG0`
+- `KEY1 = clock (one rising edge per press)     KEY0 = reset`
+- אפסו והכניסו 1, 1, 0 (המספר 6). הנורה דולקת?
+- דולקת - הרימו:
+- `SW0`
+- כבויה - השאירו למטה.
+
+**שלב 2**
+
+- במה המספר מתחלק כשהנורה דולקת?
+- `the bit = SW9     LEDG0`
+- `KEY1 = clock (one rising edge per press)     KEY0 = reset`
+- `2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0`
+
+**שלב 3**
+
+- כמה מצבים יש למכונה? (המצב = השארית)
+- `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0 8 = SW3`
+
+### Q29 - מכונת שתייה
 
 - **מתגים ונורות:** `SW9 SW8 (nickel 5, dime 10)     paid = HEX1 HEX0     drink = LEDG0     clock = KEY1, reset = KEY0     answer: SW3..SW0`
 - **שלבים:** 2
@@ -365,7 +659,7 @@
 - כמה עולה שתייה (הנורה נדלקת)? כתבו את המחיר חלקי 5.
 - `15 = SW1+SW0     20 = SW2     25 = SW2+SW0     30 = SW2+SW1`
 
-### Q19 - שתי מכונות שמדברות
+### Q30 - שתי מכונות שמדברות
 
 - **מתגים ונורות:** `machine A = LEDG0     machine B = HEX0     clock = KEY1, reset = KEY0     answer: SW3..SW0`
 - **שלבים:** 2
@@ -385,7 +679,7 @@
 - `SW0`
 - כבויה - השאירו למטה.
 
-### Q20 - בורר בקשות
+### Q31 - בורר בקשות
 
 - **מתגים ונורות:** `request 1 = SW9     request 0 = SW8     grant 1 = LEDG1     grant 0 = LEDG0     clock = KEY1, reset = KEY0     answer: SW3..SW0`
 - **שלבים:** 2

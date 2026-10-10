@@ -6,4 +6,4 @@
 #
 # The chosen topic starts now, with its full time. A NEW line = a new jump; the same line again = go on where you are.
 # Your progress (steps already passed) is kept.
-# The topics:   TOPIC 1 - 5 questions     TOPIC 2 - 7 questions     TOPIC 3 - 8 questions
+# The topics:   TOPIC 1 - 8 questions     TOPIC 2 - 11 questions     TOPIC 3 - 11 questions

@@ -27,7 +27,19 @@ S2: 8 = SW3     4 = SW2     2 = SW1     1 = SW0
 S3: וכמה שישה-עשריות בחלק השבור של הערך המוחלט?
 S3: 8 = SW3     4 = SW2     2 = SW1     1 = SW0
 
-[Q03] TOFIXED | לכתוב בנקודה קבועה | npub 1 | steps 2 | flat
+[Q03] QNEG | מספר נגדי בנקודה קבועה | npub 1 | steps 3 | flat
+B: x = LEDG7..LEDG0 (Q4.4, positive)     answer: SW7..SW0
+S1: בנורות מספר חיובי בפורמט
+S1: Q4.4
+S1: x = LEDG7..LEDG0
+S1: שלב 1 בהיפוך הסימן: הפכו את כל הביטים שלו.
+S1: SW7..SW0 = not x
+S2: בנורות אותו מספר:
+S2: x = LEDG7..LEDG0     (Q4.4)
+S2: שלב 2: הוסיפו 1 לביט הימני. כתבו את המספר הנגדי:
+S2: SW7..SW0 = -x
+
+[Q04] TOFIXED | לכתוב בנקודה קבועה | npub 1 | steps 2 | flat
 B: HEX3 = integer     HEX2 HEX1 = hundredths     answer: SW8..SW0
 S1: בתצוגה מספר עשרוני:
 S1: HEX3 = the integer part (hex)     HEX2 HEX1 = hundredths
@@ -36,7 +48,7 @@ S1: U4.4
 S1: :
 S1: SW7..SW4 = integer     SW3..SW0 = fraction x 16
 
-[Q04] SATURATE | חשבון רוויה | npub 1 | steps 3 | flat
+[Q05] SATURATE | חשבון רוויה | npub 1 | steps 3 | flat
 B: HEX3 = A (hex)     HEX2 = B (hex)     (unsigned 4 bits)     answer: SW8..SW0
 S1: בתצוגה שני מספרים של 4 ביטים בלי סימן:
 S1: HEX3 = A (hex)     HEX2 = B (hex)     (unsigned 4 bits)
@@ -45,7 +57,20 @@ S1: SW3..SW0
 S2: ומה החיבור ברוויה (אם הסכום גדול מ-15, התוצאה 15)?
 S2: SW3..SW0
 
-[Q05] FPDECODE | לפענח מספר נקודה צפה | npub 1 | steps 5 | flat
+[Q06] SATU44 | חיבור ברוויה בנקודה קבועה | npub 1 | steps 3 | flat
+B: HEX3 HEX2 = A (hex)     HEX1 HEX0 = B (hex)     (U4.4)     answer: SW8..SW0
+S1: בתצוגה שני מספרים בנקודה קבועה בלי סימן:
+S1: HEX3 HEX2 = A (hex)     HEX1 HEX0 = B (hex)     (U4.4)
+S1: האם החיבור שלהם גולש (לא נכנס ב-8 ביטים)?
+S1: גולש - הרימו:
+S1: SW0
+S1: לא גולש - השאירו למטה.
+S2: בתצוגה אותם שני מספרים:
+S2: HEX3 HEX2 = A (hex)     HEX1 HEX0 = B (hex)     (U4.4)
+S2: מה החיבור ברוויה? (בגלישה התוצאה היא הערך הגדול ביותר)
+S2: SW7..SW0 = A + B (U4.4, saturated)
+
+[Q07] FPDECODE | לפענח מספר נקודה צפה | npub 1 | steps 5 | flat
 B: the float in hex, high / low 16 bits     SW9 = page 2     answer: SW8..SW0
 S1: בתצוגה מספר נקודה צפה של 32 ביטים, בהקס, בשני דפים:
 S1: page 1 (SW9 down): the high 16 bits (hex)     page 2 (SW9 up): the low 16 bits
@@ -65,7 +90,7 @@ S4: |value| = 1.fraction x 2^exponent
 S4: 128 = SW7   64 = SW6   32 = SW5   16 = SW4   8 = SW3   4 = SW2
 S4: 2 = SW1   1 = SW0
 
-[Q06] FPENCODE | לקודד מספר בנקודה צפה | npub 1 | steps 3 | flat
+[Q08] FPENCODE | לקודד מספר בנקודה צפה | npub 1 | steps 3 | flat
 B: HEX2 HEX1 HEX0 = N (decimal)     answer: SW8..SW0
 S1: בתצוגה מספר שלם:
 S1: HEX2 HEX1 HEX0 = N (decimal)
@@ -78,7 +103,7 @@ S1: 2 = SW1   1 = SW0
 S2: מה 8 הביטים הראשונים של השבר (אחרי ה-1 שלא נכתב)?
 S2: SW7 = the first fraction bit
 
-[Q07] FPSPECIAL | מקרים מיוחדים בנקודה צפה | npub 1 | steps 2 | flat
+[Q09] FPSPECIAL | מקרים מיוחדים בנקודה צפה | npub 1 | steps 2 | flat
 B: the float in hex: high 16 bits / low 16 bits (SW9)     answer: SW3..SW0
 S1: בתצוגה מספר נקודה צפה בהקס, בשני דפים:
 S1: page 1 (SW9 down): the high 16 bits (hex)     page 2 (SW9 up): the low 16 bits
@@ -87,7 +112,38 @@ S1: מה הוא?
 S1: 0 = all down     -0 = SW0     infinity = SW1
 S1: -infinity = SW1+SW0     NaN = SW2     a normal number = SW2+SW0
 
-[Q08] FPADD | חיבור בנקודה צפה | npub 1 | steps 3 | flat
+[Q10] FPCOMPARE | השוואת מספרים בנקודה צפה | npub 1 | steps 4 | flat
+B: N1 / N2 high 16 bits     SW9 = page 2     answer: SW8..SW0
+S1: בתצוגה שני מספרים בנקודה צפה (רק 16 הביטים העליונים, השאר 0):
+S1: page 1 (SW9 down): N1, the high 16 bits     page 2 (SW9 up): N2, the high 16 bits     (the low 16 bits are 0)
+S1: מה הסימנים שלהם?
+S1: N1+ N2+ = all down     N1+ N2- = SW0     N1- N2+ = SW1     N1- N2- = SW1+SW0
+S2: בתצוגה אותם שני מספרים:
+S2: page 1 (SW9 down): N1, the high 16 bits     page 2 (SW9 up): N2, the high 16 bits     (the low 16 bits are 0)
+S2: למי יש מעריך מוטה גדול יותר?
+S2: N1 = all down     N2 = SW0     equal = SW1
+S3: בתצוגה אותם שני מספרים:
+S3: page 1 (SW9 down): N1, the high 16 bits     page 2 (SW9 up): N2, the high 16 bits     (the low 16 bits are 0)
+S3: מי המספר הגדול יותר (עם הסימן)?
+S3: N1 = all down     N2 = SW0
+
+[Q11] FPROUND | עיגול בנקודה צפה | npub 1 | steps 4 | flat
+B: LEDG6 = the leading 1     LEDG5..LEDG0 = the 6 fraction bits     answer: SW2..SW0
+S1: בנורות מנטיסה חיובית עם 6 ביטי שבר:
+S1: 1.f
+S1: LEDG6 = the leading 1     LEDG5..LEDG0 = the 6 fraction bits
+S1: עגלו אותה ל-3 ביטי שבר כלפי מטה. מה 3 ביטי השבר?
+S1: SW2..SW0
+S2: בנורות אותה מנטיסה:
+S2: LEDG6 = the leading 1     LEDG5..LEDG0 = the 6 fraction bits
+S2: עגלו אותה ל-3 ביטי שבר כלפי מעלה:
+S2: SW2..SW0
+S3: בנורות אותה מנטיסה:
+S3: LEDG6 = the leading 1     LEDG5..LEDG0 = the 6 fraction bits
+S3: עגלו אותה ל-3 ביטי שבר לקרוב ביותר:
+S3: SW2..SW0
+
+[Q12] FPADD | חיבור בנקודה צפה | npub 1 | steps 3 | flat
 B: N1 / N2 high 16 bits     SW9 = page 2     answer: SW8..SW0
 S1: בתצוגה שני מספרים בנקודה צפה (רק 16 הביטים העליונים, השאר 0):
 S1: page 1 (SW9 down): N1, the high 16 bits     page 2 (SW9 up): N2, the high 16 bits     (the low 16 bits are 0)
@@ -97,7 +153,7 @@ S2: מה המעריך המוטה של הסכום (אחרי נרמול)?
 S2: 128 = SW7   64 = SW6   32 = SW5   16 = SW4   8 = SW3   4 = SW2
 S2: 2 = SW1   1 = SW0
 
-[Q09] DIVBY2N | מחלק ב-2 בחזקת N | npub 1 | steps 3 | flat
+[Q13] DIVBY2N | מחלק ב-2 בחזקת N | npub 1 | steps 3 | flat
 B: LEDG0 = one bit of a hidden counter     clock = KEY1, reset = KEY0     answer: SW3..SW0
 S1: בלוח מונה בינארי מוסתר, והנורה מחוברת לאחד הביטים שלו.
 S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
@@ -107,7 +163,7 @@ S2: לאיזה ביט של המונה היא מחוברת?
 S2: q[k]:   k = ?
 S2: 0 = all down 1 = SW0 2 = SW1 3 = SW1+SW0
 
-[Q10] RESETCNT | מונה עם ערך איפוס | npub 1 | steps 3 | flat
+[Q14] RESETCNT | מונה עם ערך איפוס | npub 1 | steps 3 | flat
 B: q = HEX0 (hex)     clock = KEY1, reset = KEY0     answer: SW3..SW0
 S1: בלוח מונה:
 S1: always_ff @(posedge clk) if (reset) q <= R; else q <= q +- 1;
@@ -117,7 +173,20 @@ S1: R = ?     SW3..SW0
 S2: הוא סופר למעלה או למטה?
 S2: up = all down     down = SW0
 
-[Q11] DCO | מתנד בשליטה ספרתית | npub 1 | steps 3 | flat
+[Q15] MODCNT | מונה עם מחזור מוסתר | npub 1 | steps 3 | flat
+B: q = HEX0 (hex)     clock = KEY1, reset = KEY0     answer: SW4..SW0
+S1: בלוח מונה שחוזר ל-0 אחרי ערך מוסתר:
+S1: q = HEX0 (hex)
+S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
+S1: מה הערך הגדול ביותר שהוא מגיע אליו?
+S1: SW3..SW0
+S2: בלוח אותו מונה:
+S2: q = HEX0 (hex)
+S2: KEY1 = clock (one rising edge per press)     KEY0 = reset
+S2: כמה ערכים שונים יש במחזור שלו?
+S2: 16 = SW4   8 = SW3   4 = SW2   2 = SW1   1 = SW0
+
+[Q16] DCO | מתנד בשליטה ספרתית | npub 1 | steps 3 | flat
 B: the counter = LEDG3..LEDG0     clock = KEY1, reset = KEY0     answer: SW4..SW0
 S1: בלוח מונה של 4 ביטים שמוסיף מספר מוסתר בכל לחיצה (במקום 1).
 S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
@@ -126,7 +195,7 @@ S1: p = ?     SW3..SW0
 S2: אחרי כמה לחיצות הוא חוזר ל-0 בפעם הראשונה?
 S2: 16 = SW4   8 = SW3   4 = SW2   2 = SW1   1 = SW0
 
-[Q12] SHIFTDIR | אוגר הזזה | npub 1 | steps 3 | flat
+[Q17] SHIFTDIR | אוגר הזזה | npub 1 | steps 3 | flat
 B: serial in = SW9 (HEX3)     Q = LEDG3..LEDG0     clock = KEY1, reset = KEY0     answer: SW3..SW0
 S1: בלוח אוגר הזזה של 4 ביטים עם כניסה טורית:
 S1: Sin = SW9     Q = LEDG3..LEDG0
@@ -136,7 +205,41 @@ S1: LEDG0 = all down     LEDG3 = SW0
 S2: הוא נכנס כמו שהוא, או הפוך?
 S2: as is = all down     inverted = SW0
 
-[Q13] PARLOAD | אוגר הזזה עם טעינה מקבילית | npub 1 | steps 3 | flat
+[Q18] SHIFTDELAY | אוגר הזזה כקו השהיה | npub 1 | steps 3 | flat
+B: Sin = SW9 (HEX3)     out = LEDG0     clock = KEY1, reset = KEY0     answer: SW3..SW0
+S1: בלוח אוגר הזזה של 4 ביטים. כל לחיצה מכניסה את הכניסה הטורית לביט הראשון ומזיזה את השאר הלאה.
+S1: Sin -> Q[0] -> Q[1] -> Q[2] -> Q[3]
+S1: הנורה מחוברת לאחת היציאות שלו.
+S1: Sin = SW9     out = LEDG0
+S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
+S1: אפסו, הרימו את
+S1: SW9
+S1: ולחצו עד שהנורה נדלקת. כמה לחיצות?
+S1: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2
+S2: בלוח אותו אוגר:
+S2: Sin -> Q[0] -> Q[1] -> Q[2] -> Q[3]
+S2: Sin = SW9     out = LEDG0
+S2: KEY1 = clock (one rising edge per press)     KEY0 = reset
+S2: לאיזו יציאה מחוברת הנורה?
+S2: Q[k]:   k = ?
+S2: 0 = all down 1 = SW0 2 = SW1 3 = SW1+SW0
+
+[Q19] PAR2SER | ממקבילי לטורי | npub 1 | steps 3 | flat
+B: Sout = LEDG0 (= Q3)     clock = KEY1, reset = KEY0     answer: SW3..SW0
+S1: בלוח אוגר הזזה שטוען באיפוס מילה מוסתרת של 4 ביטים, ומוציא אותה בטור: הביט השמאלי קודם.
+S1: Sout = LEDG0
+S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
+S1: אפסו. מה הביט הראשון שיוצא?
+S1: 1 - הרימו:
+S1: SW0
+S1: 0 - השאירו למטה.
+S2: בלוח אותו אוגר:
+S2: Sout = LEDG0
+S2: KEY1 = clock (one rising edge per press)     KEY0 = reset
+S2: אפסו, ולחצו 3 פעמים. מה המילה שנטענה?
+S2: SW3 = the first bit out   ...   SW0 = the last bit out
+
+[Q20] PARLOAD | אוגר הזזה עם טעינה מקבילית | npub 1 | steps 3 | flat
 B: D = SW9..SW6 (HEX0)     Load, Sin = SW5, SW4 (in some order)     Q = LEDG3..LEDG0     clock = KEY1     answer: SW3..SW0
 S1: בלוח אוגר הזזה עם טעינה מקבילית: כש-
 S1: Load = 1
@@ -151,7 +254,7 @@ S1: SW5 = all down     SW4 = SW0
 S2: לאיזה כיוון הוא מזיז?
 S2: left (into LEDG0) = all down     right (into LEDG3) = SW0
 
-[Q14] MEMARRAY | גודל מערך זיכרון | npub 1 | steps 3 | flat
+[Q21] MEMARRAY | גודל מערך זיכרון | npub 1 | steps 3 | flat
 B: HEX3 = N address bits     HEX2 = M data bits     answer: SW8..SW0
 S1: בתצוגה מערך זיכרון:
 S1: HEX3 = N address bits     HEX2 = M data bits
@@ -163,7 +266,7 @@ S2: M x 2^N
 S2: 256 = SW8   128 = SW7   64 = SW6   32 = SW5   16 = SW4   8 = SW3
 S2: 4 = SW2   2 = SW1   1 = SW0
 
-[Q15] ADDRBITS | כמה ביטי כתובת? | npub 1 | steps 2 | flat
+[Q22] ADDRBITS | כמה ביטי כתובת? | npub 1 | steps 2 | flat
 B: HEX2 HEX1 HEX0 = the number of words     answer: SW8..SW0
 S1: בתצוגה מספר המילים בזיכרון:
 S1: HEX2 HEX1 HEX0 = the number of words
@@ -171,7 +274,18 @@ S1: logic [31:0] mem [words-1:0];
 S1: כמה ביטי כתובת צריך?
 S1: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0 8 = SW3 9 = SW3+SW0
 
-[Q16] ROMREAD | לקרוא זיכרון לקריאה בלבד | npub 1 | steps 5 | flat
+[Q23] WORDLINE | קווי מילה | npub 1 | steps 3 | flat
+B: address = SW9 SW8 SW7 (HEX3)     wordline i = LEDGi     answer: SW2..SW0
+S1: בלוח מפענח הכתובות של זיכרון של 8 מילים: כל כתובת צריכה להעלות בדיוק קו מילה אחד.
+S1: address = SW9 SW8 SW7 (HEX3)     wordline i = LEDGi
+S1: המפענח שבור בכתובת אחת. עברו על כל הכתובות: מה התקלה?
+S1: no wordline HIGH = all down     two wordlines HIGH = SW0
+S2: בלוח אותו מפענח:
+S2: address = SW9 SW8 SW7 (HEX3)     wordline i = LEDGi
+S2: באיזו כתובת התקלה?
+S2: 4 = SW2   2 = SW1   1 = SW0
+
+[Q24] ROMREAD | לקרוא זיכרון לקריאה בלבד | npub 1 | steps 5 | flat
 B: address = SW9 SW8 (HEX3)     data = LEDG2..LEDG0     answer: SW2..SW0
 S1: בלוח זיכרון לקריאה בלבד של 4 מילים של 3 ביטים. מה כתוב בכתובת:
 S1: address = 00
@@ -186,7 +300,42 @@ S4: ובכתובת:
 S4: address = 11
 S4: SW2..SW0 = LEDG2..LEDG0
 
-[Q17] ROMLOGIC | לוגיקה בזיכרון | npub 1 | steps 3 | flat
+[Q25] ROMDOTS | סימון נקודות בזיכרון | npub 1 | steps 4 | flat
+B: address = SW9 SW8 (HEX3)     data = LEDG3..LEDG0     answer: SW4..SW0
+S1: בלוח זיכרון לקריאה בלבד של 4 מילים של 4 ביטים. בסימון נקודות, נקודה היא ביט 1.
+S1: address = SW9 SW8 (HEX3)     data = LEDG3..LEDG0
+S1: כמה נקודות יש בשורה של כתובת 00?
+S1: 0 = all down 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2
+S2: בלוח אותו זיכרון:
+S2: address = SW9 SW8 (HEX3)     data = LEDG3..LEDG0
+S2: כמה נקודות יש בעמודה של
+S2: Data0 = LEDG0
+S2: (בכל 4 הכתובות)?
+S2: 0 = all down 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2
+S3: בלוח אותו זיכרון:
+S3: address = SW9 SW8 (HEX3)     data = LEDG3..LEDG0
+S3: כמה נקודות יש בכל הזיכרון?
+S3: 16 = SW4   8 = SW3   4 = SW2   2 = SW1   1 = SW0
+
+[Q26] MEMFILE | זיכרון מקובץ | npub 1 | steps 4 | flat
+B: address = SW9..SW6 (HEX3)     data = HEX0     answer: SW3..SW0
+S1: בלוח זיכרון לקריאה בלבד של 16 מילים של 4 ביטים, שאותחל מקובץ:
+S1: logic [3:0] ROM[15:0];     initial $readmemh("memfile.dat", ROM);
+S1: address = SW9..SW6 (HEX3)     data = HEX0
+S1: מה כתוב בשורה הראשונה של הקובץ (כתובת 0)?
+S1: SW3..SW0
+S2: בלוח אותו זיכרון:
+S2: address = SW9..SW6 (HEX3)     data = HEX0
+S2: מה כתוב בשורה האחרונה של הקובץ (השורה ה-16)?
+S2: SW3..SW0
+S3: בלוח אותו זיכרון:
+S3: address = SW9..SW6 (HEX3)     data = HEX0
+S3: כל ערך מופיע בקובץ פעם אחת. באיזו כתובת כתוב
+S3: F
+S3: ?
+S3: SW3..SW0 = the address
+
+[Q27] ROMLOGIC | לוגיקה בזיכרון | npub 1 | steps 3 | flat
 B: A1 = SW9     A0 = SW8     Data2..0 = LEDG2..LEDG0     answer: SW3..SW0
 S1: בלוח זיכרון של 4 מילים של 3 ביטים שמממש שלוש פונקציות של הכתובת (כמו בשקופית):
 S1: A1 = SW9     A0 = SW8     Data2 Data1 Data0 = LEDG2 LEDG1 LEDG0
@@ -199,7 +348,7 @@ S2: A1 + A0
 S2: (OR)?
 S2: Data0 = all down     Data1 = SW0     Data2 = SW1
 
-[Q18] LUT | טבלת חיפוש | npub 1 | steps 3 | flat
+[Q28] LUT | טבלת חיפוש | npub 1 | steps 3 | flat
 B: the address = SW9 SW8 SW7     out = LEDG0     answer: SW7..SW0
 S1: בלוח טבלת חיפוש
 S1: (LUT)
@@ -211,7 +360,7 @@ S2: כמה ביטים צריך לטבלת חיפוש של 4 כניסות?
 S2: 2^4
 S2: 16 = SW4   8 = SW3   4 = SW2   2 = SW1   1 = SW0
 
-[Q19] RAM | זיכרון לקריאה וכתיבה | npub 1 | steps 4 | flat
+[Q29] RAM | זיכרון לקריאה וכתיבה | npub 1 | steps 4 | flat
 B: a = SW9     wd = SW8 SW7     we = SW6     rd = LEDG1 LEDG0     clock = KEY1, reset = KEY0     answer: SW1 SW0
 S1: בלוח זיכרון של 2 מילים של 2 ביטים. הקריאה מיידית, הכתיבה בלחיצה על השעון.
 S1: a = SW9     wd = SW8 SW7     we = SW6     rd = LEDG1 LEDG0
@@ -227,7 +376,23 @@ S3: למעלה - הרימו:
 S3: SW0
 S3: למטה - השאירו למטה.
 
-[Q20] REGFILE | קובץ אוגרים | npub 1 | steps 2 | flat
+[Q30] DRAMLEAK | תא זיכרון דינמי | npub 1 | steps 3 | flat
+B: wd = SW9     we = SW8     the bit = LEDG0     clock = KEY1, reset = KEY0     answer: SW3..SW0
+S1: בלוח תא זיכרון דינמי: הביט נשמר בקבל, והמטען דולף אחרי כמה לחיצות בלי כתיבה.
+S1: wd = SW9     we = SW8     the bit = LEDG0
+S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
+S1: כתבו 1: הרימו את שני המתגים ולחצו פעם אחת. אחר כך הורידו את
+S1: we = SW8
+S1: וספרו לחיצות עד שהנורה כבה. כמה לחיצות?
+S1: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0
+S2: בלוח אותו תא:
+S2: wd = SW9     we = SW8     the bit = LEDG0
+S2: KEY1 = clock (one rising edge per press)     KEY0 = reset
+S2: כדי לא לאבד את הביט צריך לרענן אותו (לכתוב שוב).
+S2: אחרי כמה לחיצות בלי כתיבה, לכל היותר, צריך לרענן?
+S2: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0
+
+[Q31] REGFILE | קובץ אוגרים | npub 1 | steps 2 | flat
 B: A1 = SW9 SW8 (HEX3)     A3 = SW7 SW6 (HEX2)     WD3 = SW5     WE3 = SW4     RD1 = LEDG0     clock = KEY1     answer: SW3..SW0
 S1: בלוח קובץ אוגרים של 4 אוגרים של ביט אחד: פורט קריאה ופורט כתיבה.
 S1: read: A1 = SW9 SW8 -> RD1 = LEDG0     write: A3 = SW7 SW6, WD3 = SW5, WE3 = SW4 (at KEY1)
