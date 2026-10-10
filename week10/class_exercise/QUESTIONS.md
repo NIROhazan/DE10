@@ -330,31 +330,32 @@
 - בכמה מקומות הוא מזיז?
 - `1 = SW0 2 = SW1 3 = SW1+SW0`
 
-### Q12 - הזזה בכל לחיצה
+### Q12 - הזזה בכל עליית שעון
 
-- **מתגים ונורות:** `q = LEDG3..LEDG0     clock = KEY1, reset = KEY0     answer: SW3..SW0`
+- **מתגים ונורות:** `q = SW9..SW6 (HEX0)     q after the next clock edge = LEDG3..LEDG0     HEX3 = the start value     answer: SW3..SW0`
 - **שלבים:** 3
 
 **שלב 1**
 
-- בלוח אוגר שמזיז את עצמו במקום אחד בכל לחיצה, וערך האיפוס שלו מוסתר:
-- `q = LEDG3..LEDG0`
-- `KEY1 = clock (one rising edge per press)     KEY0 = reset`
-- מה ערך האיפוס?
-- `SW3..SW0 = q`
-
-**שלב 2**
-
-- `q = LEDG3..LEDG0`
-- `KEY1 = clock (one rising edge per press)     KEY0 = reset`
+- בלוח אוגר שמזיז את עצמו במקום אחד בכל עליית שעון. במתגים הערך עכשיו, ובנורות הערך אחרי עליית השעון הבאה:
+- `q = SW9..SW6 (HEX0)     q after the next clock edge = LEDG3..LEDG0`
 - איזו הזזה?
 - `sll (<<) = all down     srl (>>) = SW0     sra (>>>) = SW1`
 
+**שלב 2**
+
+- בלוח אותו אוגר:
+- `q = SW9..SW6 (HEX0)     q after the next clock edge = LEDG3..LEDG0`
+- `HEX3 = the start value`
+- מתחילים בערך שבתצוגה. מה הערך אחרי שתי עליות שעון?
+- `SW3..SW0 = q`
+
 **שלב 3**
 
-- `q = LEDG3..LEDG0`
-- `KEY1 = clock (one rising edge per press)     KEY0 = reset`
-- אחרי האיפוס: אחרי כמה לחיצות הוא מפסיק להשתנות?
+- בלוח אותו אוגר:
+- `q = SW9..SW6 (HEX0)     q after the next clock edge = LEDG3..LEDG0`
+- `HEX3 = the start value`
+- מתחילים בערך שבתצוגה. אחרי כמה עליות שעון הוא מפסיק להשתנות?
 - `0 = all down 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2`
 
 ### Q13 - הזזה שמאלה = כפל

@@ -153,104 +153,132 @@ S2: מה המעריך המוטה של הסכום (אחרי נרמול)?
 S2: 128 = SW7   64 = SW6   32 = SW5   16 = SW4   8 = SW3   4 = SW2
 S2: 2 = SW1   1 = SW0
 
-[Q13] DIVBY2N | מחלק ב-2 בחזקת N | npub 1 | steps 3 | flat
-B: LEDG0 = one bit of a hidden counter     clock = KEY1, reset = KEY0     answer: SW3..SW0
-S1: בלוח מונה בינארי מוסתר, והנורה מחוברת לאחד הביטים שלו.
-S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
-S1: כל כמה לחיצות הנורה משתנה?
+[Q13] DIVBY2N | מחלק ב-2 בחזקת N | npub 1 | steps 4 | flat
+B: q = SW9..SW6 (HEX3)     LEDG0 = one bit of q     answer: SW4..SW0
+S1: בלוח מונה בינארי, והנורה מחוברת לאחד הביטים שלו.
+S1: q = SW9..SW6 (HEX3)     LEDG0 = one bit of q
+S1: שימו במתגים את ערכי המונה לפי הסדר: 0, 1, 2, 3, ... כל כמה ספירות הנורה משתנה?
 S1: 1 = SW0     2 = SW1     4 = SW2     8 = SW3
-S2: לאיזה ביט של המונה היא מחוברת?
+S2: בלוח אותו מונה:
+S2: q = SW9..SW6 (HEX3)     LEDG0 = one bit of q
+S2: לאיזה ביט של המונה הנורה מחוברת?
 S2: q[k]:   k = ?
 S2: 0 = all down 1 = SW0 2 = SW1 3 = SW1+SW0
+S3: בלוח אותו מונה:
+S3: q = SW9..SW6 (HEX3)     LEDG0 = one bit of q
+S3: המונה סופר 1 בכל עליית שעון. כמה עליות שעון נמשך מחזור שלם של הנורה (דולקת וכבויה)?
+S3: 16 = SW4   8 = SW3   4 = SW2   2 = SW1   1 = SW0
 
 [Q14] RESETCNT | מונה עם ערך איפוס | npub 1 | steps 3 | flat
-B: q = HEX0 (hex)     clock = KEY1, reset = KEY0     answer: SW3..SW0
+B: reset = SW9     q = SW8..SW5 (HEX3)     q after the next clock edge = HEX0     answer: SW3..SW0
 S1: בלוח מונה:
 S1: always_ff @(posedge clk) if (reset) q <= R; else q <= q +- 1;
-S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
+S1: במתגים הכניסות עכשיו, ובתצוגה הערך אחרי עליית השעון הבאה:
+S1: reset = SW9     q = SW8..SW5 (HEX3)     q after the next clock edge = HEX0
 S1: מה ערך האיפוס?
 S1: R = ?     SW3..SW0
+S2: בלוח אותו מונה:
+S2: always_ff @(posedge clk) if (reset) q <= R; else q <= q +- 1;
+S2: reset = SW9     q = SW8..SW5 (HEX3)     q after the next clock edge = HEX0
 S2: הוא סופר למעלה או למטה?
 S2: up = all down     down = SW0
 
 [Q15] MODCNT | מונה עם מחזור מוסתר | npub 1 | steps 3 | flat
-B: q = HEX0 (hex)     clock = KEY1, reset = KEY0     answer: SW4..SW0
-S1: בלוח מונה שחוזר ל-0 אחרי ערך מוסתר:
-S1: q = HEX0 (hex)
-S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
-S1: מה הערך הגדול ביותר שהוא מגיע אליו?
+B: q = SW9..SW6 (HEX3)     q after the next clock edge = HEX0     answer: SW4..SW0
+S1: בלוח מונה שחוזר ל-0 אחרי ערך מוסתר. במתגים הערך עכשיו, ובתצוגה הערך אחרי עליית השעון הבאה:
+S1: q = SW9..SW6 (HEX3)     q after the next clock edge = HEX0
+S1: התחילו ב-0 ועקבו אחרי המונה. מה הערך הגדול ביותר שהוא מגיע אליו?
 S1: SW3..SW0
 S2: בלוח אותו מונה:
-S2: q = HEX0 (hex)
-S2: KEY1 = clock (one rising edge per press)     KEY0 = reset
+S2: q = SW9..SW6 (HEX3)     q after the next clock edge = HEX0
 S2: כמה ערכים שונים יש במחזור שלו?
 S2: 16 = SW4   8 = SW3   4 = SW2   2 = SW1   1 = SW0
 
 [Q16] DCO | מתנד בשליטה ספרתית | npub 1 | steps 3 | flat
-B: the counter = LEDG3..LEDG0     clock = KEY1, reset = KEY0     answer: SW4..SW0
-S1: בלוח מונה של 4 ביטים שמוסיף מספר מוסתר בכל לחיצה (במקום 1).
-S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
+B: q = SW9..SW6 (HEX3)     q after the next clock edge = LEDG3..LEDG0     answer: SW4..SW0
+S1: בלוח מונה של 4 ביטים שמוסיף מספר מוסתר בכל עליית שעון (במקום 1).
+S1: במתגים הערך של המונה עכשיו, ובנורות הערך אחרי עליית השעון הבאה:
+S1: q = SW9..SW6 (HEX3)     q after the next clock edge = LEDG3..LEDG0
 S1: מה המספר שהוא מוסיף?
 S1: p = ?     SW3..SW0
-S2: אחרי כמה לחיצות הוא חוזר ל-0 בפעם הראשונה?
+S2: בלוח אותו מונה:
+S2: q = SW9..SW6 (HEX3)     q after the next clock edge = LEDG3..LEDG0
+S2: הוא מתחיל ב-0. אחרי כמה עליות שעון הוא חוזר ל-0 בפעם הראשונה?
 S2: 16 = SW4   8 = SW3   4 = SW2   2 = SW1   1 = SW0
 
 [Q17] SHIFTDIR | אוגר הזזה | npub 1 | steps 3 | flat
-B: serial in = SW9 (HEX3)     Q = LEDG3..LEDG0     clock = KEY1, reset = KEY0     answer: SW3..SW0
-S1: בלוח אוגר הזזה של 4 ביטים עם כניסה טורית:
-S1: Sin = SW9     Q = LEDG3..LEDG0
-S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
+B: Q = SW9..SW6 (HEX3)     Sin = SW5 (HEX2)     q after the next clock edge = LEDG3..LEDG0     answer: SW3..SW0
+S1: בלוח אוגר הזזה של 4 ביטים עם כניסה טורית. במתגים הערך עכשיו והכניסה, ובנורות הערך אחרי עליית השעון הבאה:
+S1: Q = SW9..SW6 (HEX3)     Sin = SW5 (HEX2)     q after the next clock edge = LEDG3..LEDG0
 S1: באיזו נורה נכנס הביט החדש?
 S1: LEDG0 = all down     LEDG3 = SW0
-S2: הוא נכנס כמו שהוא, או הפוך?
+S2: בלוח אותו אוגר:
+S2: Q = SW9..SW6 (HEX3)     Sin = SW5 (HEX2)     q after the next clock edge = LEDG3..LEDG0
+S2: הביט נכנס כמו שהוא, או הפוך?
 S2: as is = all down     inverted = SW0
 
-[Q18] SHIFTDELAY | אוגר הזזה כקו השהיה | npub 1 | steps 3 | flat
-B: Sin = SW9 (HEX3)     out = LEDG0     clock = KEY1, reset = KEY0     answer: SW3..SW0
-S1: בלוח אוגר הזזה של 4 ביטים. כל לחיצה מכניסה את הכניסה הטורית לביט הראשון ומזיזה את השאר הלאה.
+[Q18] SHIFTDELAY | אוגר הזזה כקו השהיה | npub 1 | steps 4 | flat
+B: Sin = SW9     Q[0] Q[1] Q[2] = SW8 SW7 SW6 (now)     LEDG0 = one output, after the next clock edge     answer: SW3..SW0
+S1: בלוח אוגר הזזה של 4 ביטים. בכל עליית שעון הכניסה הטורית נכנסת לביט הראשון והשאר זזים הלאה.
 S1: Sin -> Q[0] -> Q[1] -> Q[2] -> Q[3]
-S1: הנורה מחוברת לאחת היציאות שלו.
-S1: Sin = SW9     out = LEDG0
-S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
-S1: אפסו, הרימו את
-S1: SW9
-S1: ולחצו עד שהנורה נדלקת. כמה לחיצות?
-S1: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2
+S1: הנורה מחוברת לאחת היציאות, ומראה אותה אחרי עליית השעון הבאה.
+S1: Sin = SW9     Q[0] Q[1] Q[2] = SW8 SW7 SW6 (now)
+S1: LEDG0 = one output, after the next clock edge
+S1: את איזה ערך הנורה מעתיקה?
+S1: Sin = all down     Q[0] = SW0     Q[1] = SW1     Q[2] = SW1+SW0
 S2: בלוח אותו אוגר:
 S2: Sin -> Q[0] -> Q[1] -> Q[2] -> Q[3]
-S2: Sin = SW9     out = LEDG0
-S2: KEY1 = clock (one rising edge per press)     KEY0 = reset
+S2: Sin = SW9     Q[0] Q[1] Q[2] = SW8 SW7 SW6 (now)
+S2: LEDG0 = one output, after the next clock edge
 S2: לאיזו יציאה מחוברת הנורה?
 S2: Q[k]:   k = ?
 S2: 0 = all down 1 = SW0 2 = SW1 3 = SW1+SW0
+S3: בלוח אותו אוגר:
+S3: Sin -> Q[0] -> Q[1] -> Q[2] -> Q[3]
+S3: LEDG0 = Q[k]
+S3: ביט חדש נכנס ב-
+S3: Sin
+S3: . אחרי כמה עליות שעון הוא מגיע לנורה?
+S3: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2
 
-[Q19] PAR2SER | ממקבילי לטורי | npub 1 | steps 3 | flat
-B: Sout = LEDG0 (= Q3)     clock = KEY1, reset = KEY0     answer: SW3..SW0
-S1: בלוח אוגר הזזה שטוען באיפוס מילה מוסתרת של 4 ביטים, ומוציא אותה בטור: הביט השמאלי קודם.
-S1: Sout = LEDG0
-S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
-S1: אפסו. מה הביט הראשון שיוצא?
-S1: 1 - הרימו:
-S1: SW0
-S1: 0 - השאירו למטה.
+[Q19] PAR2SER | ממקבילי לטורי | npub 1 | steps 4 | flat
+B: Load = SW9     Q = SW8..SW5 (HEX3)     q after the next clock edge = LEDG3..LEDG0     Load = 1: Q <= W (hidden)     Load = 0: shift (0 enters)     answer: SW3..SW0
+S1: בלוח ממיר ממקבילי לטורי: אוגר הזזה שטוען מילה מוסתרת ומוציא אותה ביט אחרי ביט.
+S1: במתגים הכניסות עכשיו, ובנורות הערך אחרי עליית השעון הבאה:
+S1: Load = SW9     Q = SW8..SW5 (HEX3)
+S1: q after the next clock edge = LEDG3..LEDG0
+S1: Load = 1: Q <= W (hidden)     Load = 0: shift (0 enters)
+S1: מה המילה שנטענת?
+S1: SW3..SW0 = W
 S2: בלוח אותו אוגר:
-S2: Sout = LEDG0
-S2: KEY1 = clock (one rising edge per press)     KEY0 = reset
-S2: אפסו, ולחצו 3 פעמים. מה המילה שנטענה?
-S2: SW3 = the first bit out   ...   SW0 = the last bit out
+S2: Load = SW9     Q = SW8..SW5 (HEX3)
+S2: q after the next clock edge = LEDG3..LEDG0
+S2: Load = 1: Q <= W (hidden)     Load = 0: shift (0 enters)
+S2: לאיזה כיוון הוא מזיז?
+S2: left: Sout = Q3 = all down     right: Sout = Q0 = SW0
+S3: בלוח אותו אוגר:
+S3: Load = SW9     Q = SW8..SW5 (HEX3)
+S3: q after the next clock edge = LEDG3..LEDG0
+S3: Load = 1: Q <= W (hidden)     Load = 0: shift (0 enters)
+S3: טוענים את המילה, ואחר כך היא יוצאת ביט אחרי ביט. מה סדר היציאה?
+S3: SW3 = the first bit out   ...   SW0 = the last bit out
 
 [Q20] PARLOAD | אוגר הזזה עם טעינה מקבילית | npub 1 | steps 3 | flat
-B: D = SW9..SW6 (HEX0)     Load, Sin = SW5, SW4 (in some order)     Q = LEDG3..LEDG0     clock = KEY1     answer: SW3..SW0
+B: D = HEX0     Q = SW9..SW6 (HEX3)     Load, Sin = SW5, SW4 (in some order)     q after the next clock edge = LEDG3..LEDG0     answer: SW3..SW0
 S1: בלוח אוגר הזזה עם טעינה מקבילית: כש-
 S1: Load = 1
 S1: הוא טוען את הכניסה המקבילית, ואחרת הוא מזיז ומכניס את הביט הטורי.
 S1: Load = 1: Q <= D     Load = 0: shift in Sin
-S1: D = SW9..SW6     Load, Sin = SW5, SW4 (in some order)     Q = LEDG3..LEDG0
-S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
+S1: במתגים הערך עכשיו והכניסות, ובנורות הערך אחרי עליית השעון הבאה:
+S1: D = HEX0     Q = SW9..SW6 (HEX3)     Load, Sin = SW5, SW4 (in some order)
+S1: q after the next clock edge = LEDG3..LEDG0
 S1: איזה מתג הוא
 S1: Load
 S1: ?
 S1: SW5 = all down     SW4 = SW0
+S2: בלוח אותו אוגר:
+S2: D = HEX0     Q = SW9..SW6 (HEX3)     Load, Sin = SW5, SW4 (in some order)
+S2: q after the next clock edge = LEDG3..LEDG0
 S2: לאיזה כיוון הוא מזיז?
 S2: left (into LEDG0) = all down     right (into LEDG3) = SW0
 
@@ -348,27 +376,35 @@ S2: A1 + A0
 S2: (OR)?
 S2: Data0 = all down     Data1 = SW0     Data2 = SW1
 
-[Q28] LUT | טבלת חיפוש | npub 1 | steps 3 | flat
-B: the address = SW9 SW8 SW7     out = LEDG0     answer: SW7..SW0
+[Q28] LUT | טבלת חיפוש | npub 1 | steps 4 | flat
+B: address = SW9 SW8 SW7     out = LEDG0     answer: SW4..SW0
 S1: בלוח טבלת חיפוש
 S1: (LUT)
 S1: של 3 כניסות: זיכרון של 8 ביטים, והכניסות הן הכתובת.
 S1: address = SW9 SW8 SW7     out = LEDG0
-S1: כתבו את התוכן: לכל כתובת שבה הנורה דולקת הרימו את המתג שלה:
-S1: address 7 -> SW7   ...   address 0 -> SW0
-S2: כמה ביטים צריך לטבלת חיפוש של 4 כניסות?
-S2: 2^4
-S2: 16 = SW4   8 = SW3   4 = SW2   2 = SW1   1 = SW0
+S1: כתבו את התוכן בכתובות 3 עד 0: לכל כתובת שבה הנורה דולקת הרימו את המתג שלה:
+S1: address 3 -> SW3   ...   address 0 -> SW0
+S2: בלוח אותה טבלה:
+S2: address = SW9 SW8 SW7     out = LEDG0
+S2: עכשיו התוכן בכתובות 7 עד 4: לכל כתובת שבה הנורה דולקת הרימו את המתג שלה:
+S2: address 7 -> SW3   ...   address 4 -> SW0
+S3: כמה ביטים צריך לטבלת חיפוש של 4 כניסות?
+S3: 2^4
+S3: 16 = SW4   8 = SW3   4 = SW2   2 = SW1   1 = SW0
 
 [Q29] RAM | זיכרון לקריאה וכתיבה | npub 1 | steps 4 | flat
-B: a = SW9     wd = SW8 SW7     we = SW6     rd = LEDG1 LEDG0     clock = KEY1, reset = KEY0     answer: SW1 SW0
-S1: בלוח זיכרון של 2 מילים של 2 ביטים. הקריאה מיידית, הכתיבה בלחיצה על השעון.
-S1: a = SW9     wd = SW8 SW7     we = SW6     rd = LEDG1 LEDG0
-S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
-S1: אפסו (האיפוס טוען תוכן התחלתי). מה כתוב במילה 0?
+B: a = SW9     rd = LEDG1 LEDG0 (the word at a, now)     a = SW9     wd = SW8 SW7     we = SW6     LEDG3 LEDG2 = the word at a after the next clock edge     answer: SW1 SW0
+S1: בלוח זיכרון של 2 מילים של 2 ביטים. הקריאה מיידית, והכתיבה קורית בעליית השעון.
+S1: a = SW9     rd = LEDG1 LEDG0 (the word at a, now)
+S1: מה כתוב עכשיו במילה 0?
 S1: a = 0:   SW1 SW0 = rd
-S2: ומה כתוב במילה 1?
+S2: בלוח אותו זיכרון:
+S2: a = SW9     rd = LEDG1 LEDG0 (the word at a, now)
+S2: מה כתוב עכשיו במילה 1?
 S2: a = 1:   SW1 SW0 = rd
+S3: בלוח אותו זיכרון. הנורות העליונות מראות את המילה אחרי עליית השעון הבאה:
+S3: a = SW9     wd = SW8 SW7     we = SW6
+S3: LEDG3 LEDG2 = the word at a after the next clock edge
 S3: הכתיבה קורית כש-
 S3: we
 S3: ?
@@ -377,26 +413,29 @@ S3: SW0
 S3: למטה - השאירו למטה.
 
 [Q30] DRAMLEAK | תא זיכרון דינמי | npub 1 | steps 3 | flat
-B: wd = SW9     we = SW8     the bit = LEDG0     clock = KEY1, reset = KEY0     answer: SW3..SW0
-S1: בלוח תא זיכרון דינמי: הביט נשמר בקבל, והמטען דולף אחרי כמה לחיצות בלי כתיבה.
-S1: wd = SW9     we = SW8     the bit = LEDG0
-S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
-S1: כתבו 1: הרימו את שני המתגים ולחצו פעם אחת. אחר כך הורידו את
-S1: we = SW8
-S1: וספרו לחיצות עד שהנורה כבה. כמה לחיצות?
+B: the bit written = SW9     clock edges since the write = SW8..SW6 (HEX3)     the bit read = LEDG0     answer: SW3..SW0
+S1: בלוח תא זיכרון דינמי: הביט נשמר בקבל, והמטען דולף אחרי כמה עליות שעון בלי כתיבה.
+S1: במתגים הביט שנכתב, וכמה עליות שעון עברו מאז הכתיבה. בנורה מה שנקרא עכשיו:
+S1: the bit written = SW9     clock edges since the write = SW8..SW6 (HEX3)
+S1: the bit read = LEDG0
+S1: כתבו 1. אחרי כמה עליות שעון הביט נעלם?
 S1: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0
 S2: בלוח אותו תא:
-S2: wd = SW9     we = SW8     the bit = LEDG0
-S2: KEY1 = clock (one rising edge per press)     KEY0 = reset
+S2: the bit written = SW9     clock edges since the write = SW8..SW6 (HEX3)
+S2: the bit read = LEDG0
 S2: כדי לא לאבד את הביט צריך לרענן אותו (לכתוב שוב).
-S2: אחרי כמה לחיצות בלי כתיבה, לכל היותר, צריך לרענן?
+S2: אחרי כמה עליות שעון בלי כתיבה, לכל היותר, צריך לרענן?
 S2: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0
 
-[Q31] REGFILE | קובץ אוגרים | npub 1 | steps 2 | flat
-B: A1 = SW9 SW8 (HEX3)     A3 = SW7 SW6 (HEX2)     WD3 = SW5     WE3 = SW4     RD1 = LEDG0     clock = KEY1     answer: SW3..SW0
+[Q31] REGFILE | קובץ אוגרים | npub 1 | steps 3 | flat
+B: read: A1 = SW5 SW4 (HEX1)     RD1 = LEDG0 (now)     write: A3 = SW9 SW8 (HEX3)     WD3 = SW7     WE3 = SW6     LEDG7..LEDG4 = R3..R0 after the next clock edge     answer: SW3..SW0
 S1: בלוח קובץ אוגרים של 4 אוגרים של ביט אחד: פורט קריאה ופורט כתיבה.
-S1: read: A1 = SW9 SW8 -> RD1 = LEDG0     write: A3 = SW7 SW6, WD3 = SW5, WE3 = SW4 (at KEY1)
-S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
-S1: כתבו 1 לכל ארבעת האוגרים וקראו אותם. אולי אחד מחובר תמיד ל-0. איזה?
-S1: R0 = all down     R1 = SW0     R2 = SW1
-S1: R3 = SW1+SW0     none = SW2
+S1: read: A1 = SW5 SW4 (HEX1)     RD1 = LEDG0 (now)
+S1: מה כתוב עכשיו בארבעת האוגרים? קראו את כולם.
+S1: SW3..SW0 = R3..R0
+S2: בלוח אותו קובץ אוגרים. הנורות העליונות מראות את האוגרים אחרי עליית השעון הבאה:
+S2: write: A3 = SW9 SW8 (HEX3)     WD3 = SW7     WE3 = SW6
+S2: LEDG7..LEDG4 = R3..R0 after the next clock edge
+S2: כתבו 1 לכל אחד מארבעת האוגרים. אולי אחד מחובר תמיד ל-0. איזה?
+S2: R0 = all down     R1 = SW0     R2 = SW1
+S2: R3 = SW1+SW0     none = SW2

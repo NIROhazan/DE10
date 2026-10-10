@@ -213,20 +213,21 @@ S1: sll (<<) = all down     srl (>>) = SW0     sra (>>>) = SW1
 S2: בכמה מקומות הוא מזיז?
 S2: 1 = SW0 2 = SW1 3 = SW1+SW0
 
-[Q12] SHIFTSEQ | הזזה בכל לחיצה | npub 1 | steps 4 | flat
-B: q = LEDG3..LEDG0     clock = KEY1, reset = KEY0     answer: SW3..SW0
-S1: בלוח אוגר שמזיז את עצמו במקום אחד בכל לחיצה, וערך האיפוס שלו מוסתר:
-S1: q = LEDG3..LEDG0
-S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
-S1: מה ערך האיפוס?
-S1: SW3..SW0 = q
-S2: q = LEDG3..LEDG0
-S2: KEY1 = clock (one rising edge per press)     KEY0 = reset
-S2: איזו הזזה?
-S2: sll (<<) = all down     srl (>>) = SW0     sra (>>>) = SW1
-S3: q = LEDG3..LEDG0
-S3: KEY1 = clock (one rising edge per press)     KEY0 = reset
-S3: אחרי האיפוס: אחרי כמה לחיצות הוא מפסיק להשתנות?
+[Q12] SHIFTSEQ | הזזה בכל עליית שעון | npub 1 | steps 4 | flat
+B: q = SW9..SW6 (HEX0)     q after the next clock edge = LEDG3..LEDG0     HEX3 = the start value     answer: SW3..SW0
+S1: בלוח אוגר שמזיז את עצמו במקום אחד בכל עליית שעון. במתגים הערך עכשיו, ובנורות הערך אחרי עליית השעון הבאה:
+S1: q = SW9..SW6 (HEX0)     q after the next clock edge = LEDG3..LEDG0
+S1: איזו הזזה?
+S1: sll (<<) = all down     srl (>>) = SW0     sra (>>>) = SW1
+S2: בלוח אותו אוגר:
+S2: q = SW9..SW6 (HEX0)     q after the next clock edge = LEDG3..LEDG0
+S2: HEX3 = the start value
+S2: מתחילים בערך שבתצוגה. מה הערך אחרי שתי עליות שעון?
+S2: SW3..SW0 = q
+S3: בלוח אותו אוגר:
+S3: q = SW9..SW6 (HEX0)     q after the next clock edge = LEDG3..LEDG0
+S3: HEX3 = the start value
+S3: מתחילים בערך שבתצוגה. אחרי כמה עליות שעון הוא מפסיק להשתנות?
 S3: 0 = all down 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2
 
 [Q13] SHIFTMUL | הזזה שמאלה = כפל | npub 1 | steps 2 | flat

@@ -233,16 +233,25 @@ S3: מה ההטיה הגדולה ביותר ששני האילוצים יחד ע�
 S3: tskew <= min(Tc - (tpcq + tpd + tsetup), tccq + tcd - thold)
 S3: 8 = SW3     4 = SW2     2 = SW1     1 = SW0
 
-[Q17] SYNC | מסנכרן | npub 1 | steps 3 | flat
-B: the asynchronous input = SW9 (HEX3)     the synchronized output = LEDG0     clock = KEY1, reset = KEY0     answer: SW3..SW0
-S1: בלוח מסנכרן: המתג הוא כניסה אסינכרונית (כמו לחצן של משתמש), והנורה היא הכניסה אחרי הסנכרון.
-S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
-S1: כמה דלגלגים יש במסנכרן? (אחרי כמה לחיצות הנורה מגיבה לשינוי של המתג)
-S1: 1 = SW0 2 = SW1 3 = SW1+SW0
-S2: מסנכרן טוב בנוי משני דלגלגים לפחות. הוא מספיק?
-S2: כן - הרימו:
-S2: SW0
-S2: לא - השאירו למטה.
+[Q17] SYNC | מסנכרן | npub 1 | steps 4 | flat
+B: A = SW9 (the asynchronous input)     Q1 Q2 Q3 = SW8 SW7 SW6 (the flip-flops, now)     Y = LEDG0 = the synchronized output after the next clock edge     answer: SW3..SW0
+S1: בלוח מסנכרן: שרשרת של דלגלגים. הכניסה האסינכרונית נכנסת לדלגלג הראשון, והיציאה היא הדלגלג האחרון.
+S1: A -> Q1 -> Q2 -> Q3 -> ...
+S1: A = SW9 (the asynchronous input)     Q1 Q2 Q3 = SW8 SW7 SW6 (the flip-flops, now)
+S1: Y = LEDG0 = the synchronized output after the next clock edge
+S1: את איזה ערך היציאה מעתיקה בעליית השעון הבאה?
+S1: A = all down     Q1 = SW0     Q2 = SW1
+S2: בלוח אותו מסנכרן:
+S2: A -> Q1 -> Q2 -> Q3 -> ...
+S2: A = SW9 (the asynchronous input)     Q1 Q2 Q3 = SW8 SW7 SW6 (the flip-flops, now)
+S2: Y = LEDG0 = the synchronized output after the next clock edge
+S2: כמה דלגלגים יש במסנכרן? (היציאה היא הדלגלג האחרון)
+S2: 1 = SW0 2 = SW1 3 = SW1+SW0
+S3: בלוח אותו מסנכרן.
+S3: מסנכרן טוב בנוי משני דלגלגים לפחות. הוא מספיק?
+S3: כן - הרימו:
+S3: SW0
+S3: לא - השאירו למטה.
 
 [Q18] SYNCLAT | כמה זמן לוקח לסנכרן? | npub 1 | steps 2 | flat
 B: HEX3 = flip-flops in the synchronizer     HEX2 HEX1 = Tc (ns)     answer: SW8..SW0
@@ -418,22 +427,26 @@ S3: Tc = max(stage 1, stage 2) + tpcq + tsetup
 S3: 32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0
 
 [Q29] PIPESIM | צנרת על הלוח | npub 1 | steps 3 | flat
-B: a new token = SW9 (HEX3)     the stages = LEDG0.. (left to right)     clock = KEY1, reset = KEY0     answer: SW3..SW0
-S1: בלוח צנרת: בכל לחיצה כל אסימון עובר לשלב הבא. נורה דולקת = יש אסימון בשלב.
-S1: new token = SW9
-S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
+B: new token = SW9     stages 1..5 now = SW8..SW4 (1 = a token)     stages 1..5 after the next clock edge = LEDG4..LEDG0     answer: SW3..SW0
+S1: בלוח צנרת: בכל עליית שעון כל אסימון עובר לשלב הבא. במתגים השלבים עכשיו, ובנורות השלבים אחרי עליית השעון הבאה.
+S1: בלוח יש מקום ל-5 שלבים, אבל רק חלק מהם קיימים.
+S1: new token = SW9     stages 1..5 now = SW8..SW4 (1 = a token)
+S1: stages 1..5 after the next clock edge = LEDG4..LEDG0
 S1: כמה שלבים יש?
 S1: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0
-S2: הכניסו אסימון בכל לחיצה. כמה אסימונים נמצאים בצנרת בבת אחת, כשהיא מלאה?
+S2: בלוח אותה צנרת:
+S2: new token = SW9     stages 1..5 now = SW8..SW4 (1 = a token)
+S2: stages 1..5 after the next clock edge = LEDG4..LEDG0
+S2: מכניסים אסימון חדש בכל עליית שעון. כמה אסימונים נמצאים בצנרת בבת אחת, כשהיא מלאה?
 S2: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0
 
 [Q30] PIPELAT | זמן האחזור של צנרת נסתרת | npub 1 | steps 3 | flat
-B: a token = SW9 (HEX3)     the output = LEDG0     HEX0 = Tc (ns)     clock = KEY1, reset = KEY0     answer: SW5..SW0
-S1: בלוח צנרת נסתרת: המתג מכניס אסימון, והנורה דולקת כשהוא יוצא מהשלב האחרון.
-S1: token = SW9     output = LEDG0
-S1: KEY1 = clock (one rising edge per press)     KEY0 = reset
-S1: אחרי כמה לחיצות האסימון יוצא? (כמה שלבים יש)
-S1: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0
+B: stage registers 1..4 = SW9 SW8 SW7 SW6 (1 = a token)     Y = LEDG0 = the output of the last stage     HEX0 = Tc (ns)     answer: SW5..SW0
+S1: בלוח צנרת נסתרת: בכל עליית שעון אסימון עובר שלב אחד, והיציאה היא האוגר של השלב האחרון.
+S1: בלוח מקום ל-4 שלבים, אבל רק חלק מהם קיימים.
+S1: stage registers 1..4 = SW9 SW8 SW7 SW6 (1 = a token)     Y = LEDG0 = the output of the last stage
+S1: כמה שלבים יש? (כמה עליות שעון לוקח לאסימון לעבור מהכניסה ליציאה)
+S1: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2
 S2: בתצוגה זמן המחזור:
 S2: HEX0 = Tc (ns)
 S2: מה זמן האחזור בננו-שניות?

@@ -365,18 +365,30 @@
 
 ### Q17 - מסנכרן
 
-- **מתגים ונורות:** `the asynchronous input = SW9 (HEX3)     the synchronized output = LEDG0     clock = KEY1, reset = KEY0     answer: SW3..SW0`
-- **שלבים:** 2
+- **מתגים ונורות:** `A = SW9 (the asynchronous input)     Q1 Q2 Q3 = SW8 SW7 SW6 (the flip-flops, now)     Y = LEDG0 = the synchronized output after the next clock edge     answer: SW3..SW0`
+- **שלבים:** 3
 
 **שלב 1**
 
-- בלוח מסנכרן: המתג הוא כניסה אסינכרונית (כמו לחצן של משתמש), והנורה היא הכניסה אחרי הסנכרון.
-- `KEY1 = clock (one rising edge per press)     KEY0 = reset`
-- כמה דלגלגים יש במסנכרן? (אחרי כמה לחיצות הנורה מגיבה לשינוי של המתג)
-- `1 = SW0 2 = SW1 3 = SW1+SW0`
+- בלוח מסנכרן: שרשרת של דלגלגים. הכניסה האסינכרונית נכנסת לדלגלג הראשון, והיציאה היא הדלגלג האחרון.
+- `A -> Q1 -> Q2 -> Q3 -> ...`
+- `A = SW9 (the asynchronous input)     Q1 Q2 Q3 = SW8 SW7 SW6 (the flip-flops, now)`
+- `Y = LEDG0 = the synchronized output after the next clock edge`
+- את איזה ערך היציאה מעתיקה בעליית השעון הבאה?
+- `A = all down     Q1 = SW0     Q2 = SW1`
 
 **שלב 2**
 
+- בלוח אותו מסנכרן:
+- `A -> Q1 -> Q2 -> Q3 -> ...`
+- `A = SW9 (the asynchronous input)     Q1 Q2 Q3 = SW8 SW7 SW6 (the flip-flops, now)`
+- `Y = LEDG0 = the synchronized output after the next clock edge`
+- כמה דלגלגים יש במסנכרן? (היציאה היא הדלגלג האחרון)
+- `1 = SW0 2 = SW1 3 = SW1+SW0`
+
+**שלב 3**
+
+- בלוח אותו מסנכרן.
 - מסנכרן טוב בנוי משני דלגלגים לפחות. הוא מספיק?
 - כן - הרימו:
 - `SW0`
@@ -658,34 +670,38 @@
 
 ### Q29 - צנרת על הלוח
 
-- **מתגים ונורות:** `a new token = SW9 (HEX3)     the stages = LEDG0.. (left to right)     clock = KEY1, reset = KEY0     answer: SW3..SW0`
+- **מתגים ונורות:** `new token = SW9     stages 1..5 now = SW8..SW4 (1 = a token)     stages 1..5 after the next clock edge = LEDG4..LEDG0     answer: SW3..SW0`
 - **שלבים:** 2
 
 **שלב 1**
 
-- בלוח צנרת: בכל לחיצה כל אסימון עובר לשלב הבא. נורה דולקת = יש אסימון בשלב.
-- `new token = SW9`
-- `KEY1 = clock (one rising edge per press)     KEY0 = reset`
+- בלוח צנרת: בכל עליית שעון כל אסימון עובר לשלב הבא. במתגים השלבים עכשיו, ובנורות השלבים אחרי עליית השעון הבאה.
+- בלוח יש מקום ל-5 שלבים, אבל רק חלק מהם קיימים.
+- `new token = SW9     stages 1..5 now = SW8..SW4 (1 = a token)`
+- `stages 1..5 after the next clock edge = LEDG4..LEDG0`
 - כמה שלבים יש?
 - `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0`
 
 **שלב 2**
 
-- הכניסו אסימון בכל לחיצה. כמה אסימונים נמצאים בצנרת בבת אחת, כשהיא מלאה?
+- בלוח אותה צנרת:
+- `new token = SW9     stages 1..5 now = SW8..SW4 (1 = a token)`
+- `stages 1..5 after the next clock edge = LEDG4..LEDG0`
+- מכניסים אסימון חדש בכל עליית שעון. כמה אסימונים נמצאים בצנרת בבת אחת, כשהיא מלאה?
 - `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0`
 
 ### Q30 - זמן האחזור של צנרת נסתרת
 
-- **מתגים ונורות:** `a token = SW9 (HEX3)     the output = LEDG0     HEX0 = Tc (ns)     clock = KEY1, reset = KEY0     answer: SW5..SW0`
+- **מתגים ונורות:** `stage registers 1..4 = SW9 SW8 SW7 SW6 (1 = a token)     Y = LEDG0 = the output of the last stage     HEX0 = Tc (ns)     answer: SW5..SW0`
 - **שלבים:** 2
 
 **שלב 1**
 
-- בלוח צנרת נסתרת: המתג מכניס אסימון, והנורה דולקת כשהוא יוצא מהשלב האחרון.
-- `token = SW9     output = LEDG0`
-- `KEY1 = clock (one rising edge per press)     KEY0 = reset`
-- אחרי כמה לחיצות האסימון יוצא? (כמה שלבים יש)
-- `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0`
+- בלוח צנרת נסתרת: בכל עליית שעון אסימון עובר שלב אחד, והיציאה היא האוגר של השלב האחרון.
+- בלוח מקום ל-4 שלבים, אבל רק חלק מהם קיימים.
+- `stage registers 1..4 = SW9 SW8 SW7 SW6 (1 = a token)     Y = LEDG0 = the output of the last stage`
+- כמה שלבים יש? (כמה עליות שעון לוקח לאסימון לעבור מהכניסה ליציאה)
+- `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2`
 
 **שלב 2**
 
