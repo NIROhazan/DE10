@@ -194,7 +194,10 @@
 - 2. סמנו על דף מפת קרנו: תא לכל מצב שהנורה דולקת.
 - `Y = LEDG0`
 - 3. בכמה מצבים הנורה דולקת? הרימו את המספר:
-- `8 = SW3     4 = SW2     2 = SW1     1 = SW0`
+- `0 = all down   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2`
+- `5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0   8 = SW3   9 = SW3+SW0`
+- `10 = SW3+SW1   11 = SW3+SW1+SW0   12 = SW3+SW2   13 = SW3+SW2+SW0`
+- `14 = SW3+SW2+SW1   15 = SW3+SW2+SW1+SW0`
 
 **שלב 2**
 
@@ -906,7 +909,8 @@
 - `e = bottom left     f = top left     g = middle`
 - `a = LEDG6   b = LEDG5   c = LEDG4   d = LEDG3   e = LEDG2   f = LEDG1   g = LEDG0`
 - איזו ספרה יצאה? שימו אותה:
-- `8 = SW3     4 = SW2     2 = SW1     1 = SW0`
+- `0 = all down   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2`
+- `5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0   8 = SW3   9 = SW3+SW0`
 
 **שלב 3**
 
@@ -1133,7 +1137,8 @@
 - `a = top     b = top right     c = bottom right     d = bottom`
 - `e = bottom left     f = top left     g = middle`
 - 3. הרימו את הספרה השגויה:
-- `8 = SW3     4 = SW2     2 = SW1     1 = SW0`
+- `0 = all down   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2`
+- `5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0   8 = SW3   9 = SW3+SW0`
 
 **שלב 3**
 

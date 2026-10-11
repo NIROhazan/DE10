@@ -113,7 +113,10 @@ S1: A = SW9     B = SW8     C = SW7     D = SW6
 S1: 2. סמנו על דף מפת קרנו: תא לכל מצב שהנורה דולקת.
 S1: Y = LEDG0
 S1: 3. בכמה מצבים הנורה דולקת? הרימו את המספר:
-S1: 8 = SW3     4 = SW2     2 = SW1     1 = SW0
+S1: 0 = all down   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2
+S1: 5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0   8 = SW3   9 = SW3+SW0
+S1: 10 = SW3+SW1   11 = SW3+SW1+SW0   12 = SW3+SW2   13 = SW3+SW2+SW0
+S1: 14 = SW3+SW2+SW1   15 = SW3+SW2+SW1+SW0
 S2: עגלו את ה-1 שבמפה בשני עיגולים גדולים ככל האפשר (גם מעבר לקצוות ולפינות).
 S2: כמה תאים יש בעיגול הגדול? הרימו את המספר:
 S2: 2 = SW1     4 = SW2     8 = SW3
@@ -588,7 +591,8 @@ S2: a = top     b = top right     c = bottom right     d = bottom
 S2: e = bottom left     f = top left     g = middle
 S2: a = LEDG6   b = LEDG5   c = LEDG4   d = LEDG3   e = LEDG2   f = LEDG1   g = LEDG0
 S2: איזו ספרה יצאה? שימו אותה:
-S2: 8 = SW3     4 = SW2     2 = SW1     1 = SW0
+S2: 0 = all down   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2
+S2: 5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0   8 = SW3   9 = SW3+SW0
 S3: 3. עכשיו הספרה הבאה (הספרה שמצאתם ועוד 1). אילו מקטעים דולקים בה?
 S3: לכל מקטע שצריך לדלוק - הרימו את המתג שלו:
 S3: a = top     b = top right     c = bottom right     d = bottom
@@ -729,7 +733,8 @@ S2: segments = LEDG6..LEDG0     a = LEDG6   b = LEDG5   c = LEDG4   d = LEDG3   
 S2: a = top     b = top right     c = bottom right     d = bottom
 S2: e = bottom left     f = top left     g = middle
 S2: 3. הרימו את הספרה השגויה:
-S2: 8 = SW3     4 = SW2     2 = SW1     1 = SW0
+S2: 0 = all down   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2
+S2: 5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0   8 = SW3   9 = SW3+SW0
 S3: בספרה השגויה מקטע אחד הפוך. איזה מקטע?
 S3: 1. שימו את הספרה השגויה על המתגים:
 S3: data = SW9 SW8 SW7 SW6     (HEX0)
