@@ -89,6 +89,8 @@ function Get-NavKey {
 			$key = [Console]::ReadKey($true)
 			if ($key.Key -eq "LeftArrow") { return -1 }
 			if ($key.Key -eq "RightArrow") { return 1 }
+			if ($key.Key -eq "DownArrow") { return 10 }		# the next question (even if this one is not finished)
+			if ($key.Key -eq "UpArrow") { return -10 }		# the previous question
 		}
 	} catch { }
 	return 0
@@ -113,6 +115,7 @@ function Show-Step($k) {
 	Write-Line (U "foot_en") Green
 	if ($dl) { Write-Line ((U "topic_end") -f ('{0:HH:mm}' -f $dl)) DarkGray }
 	Write-Line (U "nav") DarkGray
+	if ($env:CE_LESSON) { Write-Line (U "nav_q") DarkGray }
 }
 
 try {
@@ -135,7 +138,12 @@ try {
 			exit 1
 		}
 		$nav = Get-NavKey
-		if ($nav -ne 0 -and $cur -gt 0) {		# go to another step: a new link puts the board there
+		if ([Math]::Abs($nav) -eq 10 -and $env:CE_LESSON) {	# another question: the lesson (lesson.ps1) opens it
+			Write-Host ""
+			Write-Line (U $(if ($nav -gt 0) { "q_next" } else { "q_prev" })) Cyan
+			exit $(if ($nav -gt 0) { 3 } else { 4 })
+		}
+		if ([Math]::Abs($nav) -eq 1 -and $cur -gt 0) {		# go to another step: a new link puts the board there
 			$reach = $last				# any step up to the last one (skipping is allowed)
 			$want = [Math]::Max(1, [Math]::Min($reach, $cur + $nav))
 			if ($want -ne $cur) {

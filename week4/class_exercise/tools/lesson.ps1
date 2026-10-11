@@ -114,6 +114,16 @@ while ($true) {
 	Start-Sleep -Seconds 2
 	& (Join-Path $PSScriptRoot "run.ps1") -Only $next -Deadline $tp.End.ToString("o") -Review:([bool]$review)
 	$code = $LASTEXITCODE
+	$ix = [array]::IndexOf($tp.Qs, $next)
+	if ($code -eq 3) {			# down arrow: the next question of the topic (this one stays unfinished - it comes
+		$to = $tp.Qs[($ix + 1) % $tp.Qs.Count]	# back after the topic's last question, like any skipped one)
+		[IO.File]::WriteAllText($posFile, $to)
+		continue
+	}
+	if ($code -eq 4) {			# up arrow: the previous question (a finished one opens again for review)
+		if ($ix -gt 0) { $First = $tp.Qs[$ix - 1] }
+		continue
+	}
 	if ($code -eq 2) {
 		Write-Host ""
 		Write-Line (U "timeup_next") Yellow
