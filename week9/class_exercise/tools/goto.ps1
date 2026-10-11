@@ -8,6 +8,19 @@ $ErrorActionPreference = "Stop"
 Set-Location (Split-Path $PSScriptRoot -Parent)
 . (Join-Path $PSScriptRoot "common.ps1")		# Write-Line, U (the Hebrew screen texts)
 
+# Quartus 13 cannot program or talk to the board from a folder whose path has Hebrew (or other non-ASCII) letters,
+# e.g. the Hebrew desktop folder of OneDrive: say so at once instead of failing later.
+if ((Get-Location).Path -match '[^\x00-\x7F]') {
+	$wk = Split-Path (Split-Path (Get-Location).Path -Parent) -Leaf
+	if ($wk -notmatch '^[A-Za-z0-9_]+$') { $wk = "week" }
+	Write-Host ""
+	Write-Line (U "path_he") Red
+	Write-Line (U "path_he_copy") Yellow
+	Write-Line ((U "path_he_en") -f "C:\DE10\$wk\class_exercise") Yellow
+	Write-Host ""
+	exit 1
+}
+
 $topics = @()
 foreach ($l in [IO.File]::ReadAllLines((Join-Path $PSScriptRoot "lesson.txt"))) {
 	if ($l -match '^\s*TOPIC\s+([\d.]+)\s*\|\s*(.+?)\s*\|\s*(.+?)\s*$') {
