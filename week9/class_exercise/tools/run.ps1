@@ -99,7 +99,7 @@ function Show-Step($k) {
 	Write-Line "$($q.Id)" Cyan
 	Write-Line ("$($q.Title)     " + ((U "step_head") -f $k, $last)) Cyan
 	Write-Host ""
-	$q.B | ForEach-Object { Write-Line $_ $(if ($_ -match '[\u0590-\u05FF]') { "White" } else { "DarkGray" }) }	# the data line stands out
+	$q.B | ForEach-Object { Write-Line $_ White }	# the data of the question: bright white, never faint gray
 	# only the data THIS step needs: the student's own text (statement, expression, story...) appears where the step
 	# has an "@P" line, and nowhere else (gen.py puts "@P" into every step that uses it)
 	$mine = if ($q.P.ContainsKey($pub)) { @($q.P[$pub]) } else { @() }
