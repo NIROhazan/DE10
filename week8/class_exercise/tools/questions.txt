@@ -17,7 +17,7 @@ S1: בין שני אוגרים יש שני מסלולים של לוגיקה. ב�
 S1: HEX2 = tpd of path A     HEX1 = tpd of path B
 S1: all times in units of 10 ps (5 = 50 ps)
 S1: איזה מסלול קובע את זמן המחזור?
-S1: path A = all down     path B = SW0
+S1: path A = all 0     path B = SW0
 S2: בין שני אוגרים יש שני מסלולים של לוגיקה. בתצוגה:
 S2: HEX3 = tpcq     HEX2 = tpd of path A     HEX1 = tpd of path B     HEX0 = tsetup
 S2: all times in units of 10 ps (5 = 50 ps)
@@ -77,8 +77,8 @@ S2: 32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0
 [Q07] SLACK | האם המעגל עומד בזמן? | npub 1 | steps 3 | flat
 B: Tc, tpcq, tpd on page 1; tsetup on page 2     SW9 = page 2     answer: SW8..SW0
 S1: בתצוגה שני דפים (המתג השמאלי מחליף):
-S1: page 1 (SW9 down):  HEX3 HEX2 = Tc     HEX1 = tpcq     HEX0 = tpd
-S1: page 2 (SW9 up):    HEX1 = tsetup
+S1: page 1 (SW9 = 0):  HEX3 HEX2 = Tc     HEX1 = tpcq     HEX0 = tpd
+S1: page 2 (SW9 = 1):    HEX1 = tsetup
 S1: all times in units of 10 ps (5 = 50 ps)
 S1: האם אילוץ ההתקנה מתקיים?
 S1: Tc >= tpcq + tpd + tsetup
@@ -92,8 +92,8 @@ S2: 32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0
 [Q08] EXAMPLE | הדוגמה מהשקופית: שני שערים בטור | npub 1 | steps 3 | flat
 B: tpcq tsetup tpd tcd / tccq thold     SW9 = page 2     answer: SW8..SW0
 S1: בין שני האוגרים שני שערים בטור. בתצוגה שני דפים:
-S1: page 1 (SW9 down):  HEX3 = tpcq   HEX2 = tsetup   HEX1 = tpd gate   HEX0 = tcd gate
-S1: page 2 (SW9 up):    HEX3 = tccq   HEX2 = thold
+S1: page 1 (SW9 = 0):  HEX3 = tpcq   HEX2 = tsetup   HEX1 = tpd gate   HEX0 = tcd gate
+S1: page 2 (SW9 = 1):    HEX3 = tccq   HEX2 = thold
 S1: all times in units of 10 ps (5 = 50 ps)
 S1: מה זמן המחזור המינימלי?
 S1: Tc >= tpcq + 2 tpd + tsetup
@@ -107,13 +107,13 @@ S2: לא מתקיים - השאירו למטה.
 [Q09] EXAMPLE3 | הדוגמה מהשקופית עם יותר שערים | npub 1 | steps 4 | flat
 B: tpcq tsetup tpd n_long / tccq thold tcd n_short     SW9 = page 2     answer: SW8..SW0
 S1: כמו בדוגמה מהשקופית, עם מספר אחר של שערים. הנתונים בדף הראשון:
-S1: page 1 (SW9 down):  HEX3 = tpcq   HEX2 = tsetup   HEX1 = tpd of a gate   HEX0 = gates on the long path
+S1: page 1 (SW9 = 0):  HEX3 = tpcq   HEX2 = tsetup   HEX1 = tpd of a gate   HEX0 = gates on the long path
 S1: all times in units of 10 ps (5 = 50 ps)
 S1: מה זמן המחזור המינימלי?
 S1: Tc >= tpcq + n_long x tpd + tsetup
 S1: 32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0
 S2: הנתונים של המסלול הקצר בדף השני (המתג השמאלי למעלה):
-S2: page 2 (SW9 up):    HEX3 = tccq   HEX2 = thold   HEX1 = tcd of a gate   HEX0 = gates on the short path
+S2: page 2 (SW9 = 1):    HEX3 = tccq   HEX2 = thold   HEX1 = tcd of a gate   HEX0 = gates on the short path
 S2: all times in units of 10 ps (5 = 50 ps)
 S2: האם אילוץ ההחזקה מתקיים?
 S2: tccq + n_short x tcd >= thold
@@ -121,7 +121,7 @@ S2: מתקיים - הרימו:
 S2: SW0
 S2: לא מתקיים - השאירו למטה.
 S3: הנתונים של המסלול הקצר בדף השני (המתג השמאלי למעלה):
-S3: page 2 (SW9 up):    HEX3 = tccq   HEX2 = thold   HEX1 = tcd of a gate   HEX0 = gates on the short path
+S3: page 2 (SW9 = 1):    HEX3 = tccq   HEX2 = thold   HEX1 = tcd of a gate   HEX0 = gates on the short path
 S3: all times in units of 10 ps (5 = 50 ps)
 S3: מה ההשהיה הקטנה ביותר של שער במסלול הקצר כדי שהאילוץ יתקיים? (0 אם כל השהיה מספיקה)
 S3: tcd >= (thold - tccq) / n_short     (round up)
@@ -158,8 +158,8 @@ S2: בסדר - השאירו למטה.
 [Q12] SKEWSETUP | זמן המחזור עם הטיית שעון | npub 1 | steps 3 | flat
 B: tpcq tpd tsetup tskew / tccq tcd thold     SW9 = page 2     answer: SW8..SW0
 S1: בתצוגה שני דפים של מסלול עם הטיית שעון:
-S1: page 1 (SW9 down):  HEX3 = tpcq   HEX2 = tpd   HEX1 = tsetup   HEX0 = tskew
-S1: page 2 (SW9 up):    HEX3 = tccq   HEX2 = tcd   HEX1 = thold
+S1: page 1 (SW9 = 0):  HEX3 = tpcq   HEX2 = tpd   HEX1 = tsetup   HEX0 = tskew
+S1: page 2 (SW9 = 1):    HEX3 = tccq   HEX2 = tcd   HEX1 = thold
 S1: all times in units of 10 ps (5 = 50 ps)
 S1: מה זמן המחזור המינימלי עם ההטיה?
 S1: Tc >= tpcq + tpd + tsetup + tskew
@@ -182,7 +182,7 @@ S1: 32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0
 [Q14] SKEWFIX | מאגרים נגד הטיית שעון | npub 1 | steps 3 | flat
 B: tccq tcd thold tskew / tcd of a buffer     SW9 = page 2     answer: SW8..SW0
 S1: השעון של האוגר השני מגיע מאוחר. הנתונים בדף הראשון:
-S1: page 1 (SW9 down):  HEX3 = tccq   HEX2 = tcd   HEX1 = thold   HEX0 = tskew
+S1: page 1 (SW9 = 0):  HEX3 = tccq   HEX2 = tcd   HEX1 = thold   HEX0 = tskew
 S1: all times in units of 10 ps (5 = 50 ps)
 S1: האם אילוץ ההחזקה מתקיים עם ההטיה?
 S1: tccq + tcd >= thold + tskew
@@ -190,8 +190,8 @@ S1: מתקיים - הרימו:
 S1: SW0
 S1: לא מתקיים - השאירו למטה.
 S2: מוסיפים מאגרים במסלול. בתצוגה שני דפים:
-S2: page 1 (SW9 down):  HEX3 = tccq   HEX2 = tcd   HEX1 = thold   HEX0 = tskew
-S2: page 2 (SW9 up):    HEX3 = tcd of one buffer
+S2: page 1 (SW9 = 0):  HEX3 = tccq   HEX2 = tcd   HEX1 = thold   HEX0 = tskew
+S2: page 2 (SW9 = 1):    HEX3 = tcd of one buffer
 S2: all times in units of 10 ps (5 = 50 ps)
 S2: כמה מאגרים צריך לפחות כדי שהאילוץ יתקיים? (0 אם כבר מתקיים)
 S2: tccq + tcd + n x tcd(buffer) >= thold + tskew
@@ -209,8 +209,8 @@ S1: 32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0
 [Q16] SKEWCHECK | הטיה לשני הכיוונים | npub 1 | steps 4 | flat
 B: Tc, setup path / hold path, thold, tskew     SW9 = page 2     answer: SW8..SW0
 S1: ההטיה יכולה להיות לשני הכיוונים. בתצוגה שני דפים:
-S1: page 1 (SW9 down):  HEX3 HEX2 = Tc     HEX1 HEX0 = tpcq + tpd + tsetup (together)
-S1: page 2 (SW9 up):    HEX1 = tskew
+S1: page 1 (SW9 = 0):  HEX3 HEX2 = Tc     HEX1 HEX0 = tpcq + tpd + tsetup (together)
+S1: page 2 (SW9 = 1):    HEX1 = tskew
 S1: all times in units of 10 ps (5 = 50 ps)
 S1: אם השעון של האוגר השני מקדים - האם אילוץ ההתקנה מתקיים?
 S1: Tc >= tpcq + tpd + tsetup + tskew
@@ -218,7 +218,7 @@ S1: מתקיים - הרימו:
 S1: SW0
 S1: לא מתקיים - השאירו למטה.
 S2: הנתונים של המסלול הקצר בדף השני (המתג השמאלי למעלה):
-S2: page 2 (SW9 up):    HEX3 = tccq + tcd (together)   HEX2 = thold   HEX1 = tskew
+S2: page 2 (SW9 = 1):    HEX3 = tccq + tcd (together)   HEX2 = thold   HEX1 = tskew
 S2: all times in units of 10 ps (5 = 50 ps)
 S2: אם השעון של האוגר השני מאחר - האם אילוץ ההחזקה מתקיים?
 S2: tccq + tcd >= thold + tskew
@@ -226,8 +226,8 @@ S2: מתקיים - הרימו:
 S2: SW0
 S2: לא מתקיים - השאירו למטה.
 S3: ההטיה יכולה להיות לשני הכיוונים. בתצוגה שני דפים:
-S3: page 1 (SW9 down):  HEX3 HEX2 = Tc     HEX1 HEX0 = tpcq + tpd + tsetup (together)
-S3: page 2 (SW9 up):    HEX3 = tccq + tcd (together)   HEX2 = thold   HEX1 = tskew
+S3: page 1 (SW9 = 0):  HEX3 HEX2 = Tc     HEX1 HEX0 = tpcq + tpd + tsetup (together)
+S3: page 2 (SW9 = 1):    HEX3 = tccq + tcd (together)   HEX2 = thold   HEX1 = tskew
 S3: all times in units of 10 ps (5 = 50 ps)
 S3: מה ההטיה הגדולה ביותר ששני האילוצים יחד עומדים בה? (0 אם אפילו בלי הטיה לא)
 S3: tskew <= min(Tc - (tpcq + tpd + tsetup), tccq + tcd - thold)
@@ -240,7 +240,7 @@ S1: A -> Q1 -> Q2 -> Q3 -> ...
 S1: A = SW9 (the asynchronous input)     Q1 Q2 Q3 = SW8 SW7 SW6 (the flip-flops, now)
 S1: Y = LEDG0 = the synchronized output after the next clock edge
 S1: את איזה ערך היציאה מעתיקה בעליית השעון הבאה?
-S1: A = all down     Q1 = SW0     Q2 = SW1
+S1: A = all 0     Q1 = SW0     Q2 = SW1
 S2: בלוח אותו מסנכרן:
 S2: A -> Q1 -> Q2 -> Q3 -> ...
 S2: A = SW9 (the asynchronous input)     Q1 Q2 Q3 = SW8 SW7 SW6 (the flip-flops, now)
@@ -408,19 +408,19 @@ S3: 4 = SW2   2 = SW1   1 = SW0
 [Q28] RETIME | איפה לשים את האוגר? | npub 1 | steps 4 | flat
 B: the 4 gate delays / tpcq + tsetup     SW9 = page 2     answer: SW8..SW0
 S1: שרשרת של ארבעה שערים בין שני אוגרים. בתצוגה שני דפים:
-S1: page 1 (SW9 down):  HEX3 HEX2 HEX1 HEX0 = tpd of gates 1, 2, 3, 4 (in series)
-S1: page 2 (SW9 up):    HEX3 = tpcq + tsetup (together)
+S1: page 1 (SW9 = 0):  HEX3 HEX2 HEX1 HEX0 = tpd of gates 1, 2, 3, 4 (in series)
+S1: page 2 (SW9 = 1):    HEX3 = tpcq + tsetup (together)
 S1: all times in units of 10 ps (5 = 50 ps)
 S1: מה זמן המחזור עכשיו?
 S1: Tc = tpd1 + tpd2 + tpd3 + tpd4 + tpcq + tsetup
 S1: 32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0
 S2: שרשרת של ארבעה שערים בין שני אוגרים. בתצוגה:
-S2: page 1 (SW9 down):  HEX3 HEX2 HEX1 HEX0 = tpd of gates 1, 2, 3, 4 (in series)
+S2: page 1 (SW9 = 0):  HEX3 HEX2 HEX1 HEX0 = tpd of gates 1, 2, 3, 4 (in series)
 S2: מוסיפים אוגר אחד בתוך השרשרת. אחרי איזה שער כדאי לשים אותו כדי שזמן המחזור יהיה הקצר ביותר?
 S2: 1 = SW0 2 = SW1 3 = SW1+SW0
 S3: שרשרת של ארבעה שערים, ואוגר במקום הטוב ביותר. בתצוגה שני דפים:
-S3: page 1 (SW9 down):  HEX3 HEX2 HEX1 HEX0 = tpd of gates 1, 2, 3, 4 (in series)
-S3: page 2 (SW9 up):    HEX3 = tpcq + tsetup (together)
+S3: page 1 (SW9 = 0):  HEX3 HEX2 HEX1 HEX0 = tpd of gates 1, 2, 3, 4 (in series)
+S3: page 2 (SW9 = 1):    HEX3 = tpcq + tsetup (together)
 S3: all times in units of 10 ps (5 = 50 ps)
 S3: מה זמן המחזור אז?
 S3: Tc = max(stage 1, stage 2) + tpcq + tsetup

@@ -48,12 +48,12 @@ S3: HEX1 -> SW7 SW6 SW5 SW4      HEX0 -> SW3 SW2 SW1 SW0
 B: the number = LEDG7..LEDG0 (LEDG0 = 1, LEDG1 = 2, LEDG2 = 4 ... LEDG7 = 128)     answer: SW3..SW0
 S1: בנורות הירוקות מוצג מספר בינארי. חברו את הערכים של הנורות הדולקות.
 S1: מה ספרת המאות של המספר העשרוני? (0, 1 או 2)
-S1: 0 = all down     1 = SW0     2 = SW1
+S1: 0 = all 0     1 = SW0     2 = SW1
 S2: מה ספרת העשרות שלו?
-S2: 0 = all down    1 = SW0    2 = SW1    3 = SW1+SW0    4 = SW2
+S2: 0 = all 0    1 = SW0    2 = SW1    3 = SW1+SW0    4 = SW2
 S2: 5 = SW2+SW0    6 = SW2+SW1    7 = SW2+SW1+SW0    8 = SW3    9 = SW3+SW0
 S3: ומה ספרת האחדות?
-S3: 0 = all down    1 = SW0    2 = SW1    3 = SW1+SW0    4 = SW2
+S3: 0 = all 0    1 = SW0    2 = SW1    3 = SW1+SW0    4 = SW2
 S3: 5 = SW2+SW0    6 = SW2+SW1    7 = SW2+SW1+SW0    8 = SW3    9 = SW3+SW0
 
 [Q05] BINCOUNT | ספירה בבינארי | npub 1 | steps 4 | flat
@@ -90,14 +90,14 @@ S1: בלוח מספר הקסדצימלי בשתי ספרות. הערך שלו:
 S1: HEX1 x 16 + HEX0
 S1: A = 10   B = 11   C = 12   D = 13   E = 14   F = 15
 S1: מה ספרת המאות של הערך העשרוני? (0, 1 או 2)
-S1: 0 = all down     1 = SW0     2 = SW1
+S1: 0 = all 0     1 = SW0     2 = SW1
 S2: מה ספרת העשרות שלו?
 S2: HEX1 x 16 + HEX0
-S2: 0 = all down    1 = SW0    2 = SW1    3 = SW1+SW0    4 = SW2
+S2: 0 = all 0    1 = SW0    2 = SW1    3 = SW1+SW0    4 = SW2
 S2: 5 = SW2+SW0    6 = SW2+SW1    7 = SW2+SW1+SW0    8 = SW3    9 = SW3+SW0
 S3: ומה ספרת האחדות?
 S3: HEX1 x 16 + HEX0
-S3: 0 = all down    1 = SW0    2 = SW1    3 = SW1+SW0    4 = SW2
+S3: 0 = all 0    1 = SW0    2 = SW1    3 = SW1+SW0    4 = SW2
 S3: 5 = SW2+SW0    6 = SW2+SW1    7 = SW2+SW1+SW0    8 = SW3    9 = SW3+SW0
 
 [Q08] DEC2HEX | מעשרוני להקסדצימלי | npub 1 | steps 4 | flat
@@ -260,11 +260,11 @@ S2: שלילי - הפכו את כל 8 הביטים והוסיפו 1. חיובי 
 S2: SW7..SW0
 S3: מה ספרת העשרות של הערך המוחלט שלו, בעשרוני?
 S3: LEDG7..LEDG0
-S3: 0 = all down    1 = SW0    2 = SW1    3 = SW1+SW0    4 = SW2
+S3: 0 = all 0    1 = SW0    2 = SW1    3 = SW1+SW0    4 = SW2
 S3: 5 = SW2+SW0    6 = SW2+SW1    7 = SW2+SW1+SW0    8 = SW3    9 = SW3+SW0
 S4: ומה ספרת האחדות שלו?
 S4: LEDG7..LEDG0
-S4: 0 = all down    1 = SW0    2 = SW1    3 = SW1+SW0    4 = SW2
+S4: 0 = all 0    1 = SW0    2 = SW1    3 = SW1+SW0    4 = SW2
 S4: 5 = SW2+SW0    6 = SW2+SW1    7 = SW2+SW1+SW0    8 = SW3    9 = SW3+SW0
 
 [Q18] RANGES | הטווח של N ביטים | npub 1 | steps 5 | flat
@@ -291,7 +291,7 @@ S2: SW9 SW8 SW7 SW6 = 0011
 S2: העתיקו את התוצאה:
 S2: SW3..SW0 = LEDG3..LEDG0
 S3: איזו פעולה זו? נסו עוד כניסות אם צריך.
-S3: -A = all down     NOT A = SW0     A + 1 = SW1
+S3: -A = all 0     NOT A = SW0     A + 1 = SW1
 S3: A - 1 = SW1 + SW0     2A = SW2     A / 2 = SW2 + SW0
 
 [Q20] SUBTRACT | חיסור במשלים ל-2 | npub 1 | steps 3 | flat
@@ -348,7 +348,7 @@ S3: SW9 SW8 SW7 SW6 = 0011
 S3: העתיקו את ארבע הנורות העליונות:
 S3: SW3..SW0 = LEDG7..LEDG4
 S4: איזו שיטה זו? נסו עוד כניסות אם צריך.
-S4: sign extension = all down     zero extension = SW0
+S4: sign extension = all 0     zero extension = SW0
 S4: fill with ones = SW1     shift left 4 = SW1 + SW0
 
 [Q24] NOTBUF | מהפך או חוצץ? | npub 1 | steps 4 | flat
@@ -358,11 +358,11 @@ S1: A = SW9     LEDG0..LEDG3
 S1: כל שער הוא מהפך או חוצץ:
 S1: NOT: Y = not A     BUF: Y = A
 S1: שימו את הכניסה למטה:
-S1: SW9 = down
+S1: SW9 = 0
 S1: איזו נורה דולקת - הרימו את המתג שלה:
 S1: LEDG0 -> SW0     LEDG1 -> SW1     LEDG2 -> SW2     LEDG3 -> SW3
 S2: עכשיו הכניסה למעלה:
-S2: SW9 = up
+S2: SW9 = 1
 S2: איזו נורה דולקת - הרימו את המתג שלה:
 S2: LEDG0 -> SW0     LEDG1 -> SW1     LEDG2 -> SW2     LEDG3 -> SW3
 S3: כמה טרנזיסטורים בארבעת השערים יחד?
@@ -374,11 +374,11 @@ S3: 8 = SW3     10 = SW3+SW1     12 = SW3+SW2     14 = SW3+SW2+SW1     16 = SW4
 [Q25] GATE2 | איזה שער מוסתר בלוח? | npub 1 | steps 3 | flat
 B: A = SW9     B = SW8     Y = LEDG0 (green)     answer: SW3..SW0
 S1: בלוח שער של שתי כניסות. נסו את 4 המצבים ורשמו בכל אחד אם הנורה דולקת:
-S1: SW9 SW8:   down-down,   down-up,   up-down,   up-up
+S1: SW9 SW8:   00,   01,   10,   11
 S1: לכל מצב שהנורה דלקה - הרימו מתג:
 S1: 1st -> SW0     2nd -> SW1     3rd -> SW2     4th -> SW3
 S2: איזה שער זה? הרימו את המתגים שלו:
-S2: AND = all down   OR = SW0   XOR = SW1   NAND = SW1+SW0   NOR = SW2   XNOR = SW2+SW0
+S2: AND = all 0   OR = SW0   XOR = SW1   NAND = SW1+SW0   NOR = SW2   XNOR = SW2+SW0
 
 [Q26] GATESET | שישה שערים - מי זה מי? | npub 1 | steps 5 | flat
 B: A = SW9     B = SW8     six gates = LEDG5..LEDG0     answer: SW3..SW0
@@ -387,39 +387,39 @@ S1: A = SW9     B = SW8     LEDG0..LEDG5
 S1: נסו את 4 המצבים. איזו נורה היא
 S1: XOR
 S1: (דולקת כשהכניסות שונות)? הרימו את המספר שלה:
-S1: LEDG0 = all down     LEDG1 = SW0     LEDG2 = SW1
+S1: LEDG0 = all 0     LEDG1 = SW0     LEDG2 = SW1
 S1: LEDG3 = SW1+SW0     LEDG4 = SW2     LEDG5 = SW2+SW0
 S2: איזו נורה היא
 S2: NAND
 S2: (כבויה רק כששתי הכניסות 1)?
-S2: LEDG0 = all down     LEDG1 = SW0     LEDG2 = SW1
+S2: LEDG0 = all 0     LEDG1 = SW0     LEDG2 = SW1
 S2: LEDG3 = SW1+SW0     LEDG4 = SW2     LEDG5 = SW2+SW0
 S3: איזו נורה היא
 S3: NOR
 S3: (דולקת רק כששתי הכניסות 0)?
-S3: LEDG0 = all down     LEDG1 = SW0     LEDG2 = SW1
+S3: LEDG0 = all 0     LEDG1 = SW0     LEDG2 = SW1
 S3: LEDG3 = SW1+SW0     LEDG4 = SW2     LEDG5 = SW2+SW0
 S4: ואיזו נורה היא
 S4: AND
 S4: (דולקת רק כששתי הכניסות 1)?
-S4: LEDG0 = all down     LEDG1 = SW0     LEDG2 = SW1
+S4: LEDG0 = all 0     LEDG1 = SW0     LEDG2 = SW1
 S4: LEDG3 = SW1+SW0     LEDG4 = SW2     LEDG5 = SW2+SW0
 
 [Q27] GATE3 | שער של שלוש כניסות | npub 1 | steps 4 | flat
 B: A = SW9     B = SW8     C = SW7     Y = LEDG0 (green)     answer: SW3..SW0
 S1: בלוח שער של שלוש כניסות. חצי ראשון: החזיקו למטה:
-S1: SW9 = down
+S1: SW9 = 0
 S1: נסו 4 מצבים ורשמו אם הנורה דולקת:
-S1: SW8 SW7:   down-down,   down-up,   up-down,   up-up
+S1: SW8 SW7:   00,   01,   10,   11
 S1: לכל מצב שהנורה דלקה - הרימו מתג:
 S1: 1st -> SW0     2nd -> SW1     3rd -> SW2     4th -> SW3
 S2: חצי שני: אותו דבר, אבל החזיקו למעלה:
-S2: SW9 = up
-S2: SW8 SW7:   down-down,   down-up,   up-down,   up-up
+S2: SW9 = 1
+S2: SW8 SW7:   00,   01,   10,   11
 S2: לכל מצב שהנורה דלקה - הרימו מתג:
 S2: 1st -> SW0     2nd -> SW1     3rd -> SW2     4th -> SW3
 S3: איזה שער זה? זוגיות: שער שנותן 1 כשמספר ה-1 בכניסות אי-זוגי.
-S3: AND3 = all down   OR3 = SW0   XOR3 (odd) = SW1   NAND3 = SW1+SW0   NOR3 = SW2   XNOR3 (even) = SW2+SW0
+S3: AND3 = all 0   OR3 = SW0   XOR3 (odd) = SW1   NAND3 = SW1+SW0   NOR3 = SW2   XNOR3 (even) = SW2+SW0
 
 [Q28] GATE4 | שער של ארבע כניסות | npub 1 | steps 5 | flat
 B: A = SW9   B = SW8   C = SW7   D = SW6   Y = LEDG0 (green)     answer: SW3..SW0
@@ -439,7 +439,7 @@ S3: הנורה דולקת - הרימו:
 S3: SW0
 S3: כבויה - השאירו למטה.
 S4: איזה שער זה? זוגיות: שער שנותן 1 כשמספר ה-1 בכניסות אי-זוגי.
-S4: AND4 = all down   OR4 = SW0   XOR4 (odd) = SW1
+S4: AND4 = all 0   OR4 = SW0   XOR4 (odd) = SW1
 S4: NAND4 = SW1+SW0   NOR4 = SW2   XNOR4 (even) = SW2+SW0
 
 [Q29] PARITY | זוגיות: אילו כניסות מחוברות? | npub 1 | steps 4 | flat
@@ -459,14 +459,14 @@ S2: A -> SW3     B -> SW2     C -> SW1     D -> SW0
 S3: איזה שער זה? הספרה = מספר הכניסות המחוברות.
 S3: XOR: Y = 1 when an odd number of its inputs are 1     XNOR: even
 S3: A = SW9   B = SW8   C = SW7   D = SW6   Y = LEDG0
-S3: XOR2 = all down     XOR3 = SW0     XOR4 = SW1
+S3: XOR2 = all 0     XOR3 = SW0     XOR4 = SW1
 S3: XNOR2 = SW1+SW0     XNOR3 = SW2     XNOR4 = SW2+SW0
 
 [Q30] ONOFF | אילו טרנזיסטורים דולקים? | npub 1 | steps 4 | flat
 B: A = SW9 (HEX3)     B = SW8 (HEX2)     Y = LEDG0     the inputs to set = HEX1 HEX0     answer: SW3..SW0
 S1: בלוח שער של שתי כניסות. נסו את 4 המצבים וזהו אותו:
-S1: SW9 SW8:   down-down,   down-up,   up-down,   up-up
-S1: NAND = all down     NOR = SW0
+S1: SW9 SW8:   00,   01,   10,   11
+S1: NAND = all 0     NOR = SW0
 S2: שימו את הכניסות שמוצגות בשתי הספרות הימניות:
 S2: SW9 = HEX1     SW8 = HEX0
 S2: אילו טרנזיסטורים דולקים עכשיו? דולק - הרימו את המתג שלו:
@@ -482,7 +482,7 @@ B: A = SW9     B = SW8     C = SW7     Y = LEDG0 (green)     answer: SW3..SW0
 S1: בלוח שער אחד. עברו על 8 המצבים וזהו אותו:
 S1: SW9 SW8 SW7:   000   001   010   011   100   101   110   111      (0 = down, 1 = up)
 S1: (gates with 2 inputs use only A and B)
-S1: NAND2 = all down   NOR2 = SW0   NAND3 = SW1   NOR3 = SW1+SW0   AND2 = SW2   OR2 = SW2+SW0
+S1: NAND2 = all 0   NOR2 = SW0   NAND3 = SW1   NOR3 = SW1+SW0   AND2 = SW2   OR2 = SW2+SW0
 S2: בשער הזה, הטרנזיסטורים מסוג
 S2: nMOS
 S2: (הרשת שמחוברת לאדמה) - בטור או במקביל?
@@ -504,18 +504,18 @@ S4: 4 = SW2     6 = SW2 + SW1
 [Q32] COMPLEX | שער CMOS מורכב | npub 1 | steps 5 | flat
 B: A = SW9     B = SW8     C = SW7     Y = LEDG0 (green)     answer: SW3..SW0
 S1: בלוח שער מטרנזיסטורים, של שלוש כניסות. חצי ראשון: החזיקו למטה:
-S1: SW9 = down
+S1: SW9 = 0
 S1: נסו 4 מצבים ורשמו אם הנורה דולקת:
-S1: SW8 SW7:   down-down,   down-up,   up-down,   up-up
+S1: SW8 SW7:   00,   01,   10,   11
 S1: לכל מצב שהנורה דלקה - הרימו מתג:
 S1: 1st -> SW0     2nd -> SW1     3rd -> SW2     4th -> SW3
 S2: חצי שני: אותו דבר, אבל החזיקו למעלה:
-S2: SW9 = up
-S2: SW8 SW7:   down-down,   down-up,   up-down,   up-up
+S2: SW9 = 1
+S2: SW8 SW7:   00,   01,   10,   11
 S2: לכל מצב שהנורה דלקה - הרימו מתג:
 S2: 1st -> SW0     2nd -> SW1     3rd -> SW2     4th -> SW3
 S3: איזה שער זה?
-S3: ~(AB + C) = all down     ~((A + B)C) = SW0     ~(A + BC) = SW1
+S3: ~(AB + C) = all 0     ~((A + B)C) = SW0     ~(A + BC) = SW1
 S3: ~(A(B + C)) = SW1+SW0     ~(ABC) = SW2     ~(A + B + C) = SW2+SW0
 S4: ברשת התחתונה (לאדמה):
 S4: nMOS:   AND = series     OR = parallel

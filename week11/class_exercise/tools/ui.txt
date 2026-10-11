@@ -59,3 +59,4 @@ pick_keys = Right / Left = another topic     Up / Down = a question     Enter = 
 pick_topic = נושא {0} מתוך {1}: {2}
 lesson_end = הזמן של השיעור מתחיל כשמכניסים תעודת זהות, ונגמר בשעה {0}. הזמנים של הנושאים הם רק המלצה.
 welcome_back = ברוכים השבים! ההתקדמות נשמרה, והזמן ממשיך מהרגע שהכנסתם תעודת זהות.
+bits_en = a switch: up = 1, down = 0     (SW9 SW8 = 10: SW9 up, SW8 down)

@@ -113,6 +113,7 @@ function Show-Step($k) {
 	Write-Host ""
 	Write-Line (U "foot") Green
 	Write-Line (U "foot_en") Green
+	Write-Line (U "bits_en") White			# the screens write switch positions as bits
 	if ($dl) { Write-Line ((U "topic_end") -f ('{0:HH:mm}' -f $dl)) DarkGray }
 	Write-Line (U "nav") DarkGray
 	if ($env:CE_LESSON) { Write-Line (U "nav_q") DarkGray }

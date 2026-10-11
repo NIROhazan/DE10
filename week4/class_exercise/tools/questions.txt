@@ -13,11 +13,11 @@ S2: A = SW3     A' = SW2     B = SW1     B' = SW0
 [Q02] KMAP3A | מפת קרנו של שלושה משתנים - עיגול אחד | npub 1 | steps 4 | flat
 B: A = SW9     B = SW8     C = SW7     Y = LEDG0     answer: SW5..SW0
 S1: בלוח פונקציה של שלושה משתנים. מלאו את השורה הראשונה של מפת קרנו:
-S1: A = 0  (SW9 down)
+S1: A = 0  (SW9 = 0)
 S1: נסו את 4 העמודות לפי הסדר של מפת קרנו, ובכל תא שהנורה דולקת הרימו מתג:
 S1: BC:   00 -> SW3     01 -> SW2     11 -> SW1     10 -> SW0
 S2: עכשיו השורה השנייה של מפת קרנו:
-S2: A = 1  (SW9 up)
+S2: A = 1  (SW9 = 1)
 S2: אותו דבר: בכל תא שהנורה דולקת הרימו מתג:
 S2: BC:   00 -> SW3     01 -> SW2     11 -> SW1     10 -> SW0
 S3: כל ה-1 נכנסים בעיגול אחד (עיגול יכול לעבור מהקצה הימני לשמאלי).
@@ -28,11 +28,11 @@ S3: A = SW5     A' = SW4     B = SW3     B' = SW2     C = SW1     C' = SW0
 [Q03] KMAP3 | מפת קרנו של שלושה משתנים - סכום מכפלות מינימלי | npub 1 | steps 5 | flat
 B: A = SW9   B = SW8   C = SW7   Y = LEDG0   the cell = HEX2 HEX1 HEX0 (A B C)   answer: SW5..SW0
 S1: בלוח פונקציה של שלושה משתנים. מלאו את השורה הראשונה של מפת קרנו:
-S1: A = 0  (SW9 down)
+S1: A = 0  (SW9 = 0)
 S1: נסו את 4 העמודות לפי הסדר של מפת קרנו, ובכל תא שהנורה דולקת הרימו מתג:
 S1: BC:   00 -> SW3     01 -> SW2     11 -> SW1     10 -> SW0
 S2: עכשיו השורה השנייה של מפת קרנו:
-S2: A = 1  (SW9 up)
+S2: A = 1  (SW9 = 1)
 S2: אותו דבר: בכל תא שהנורה דולקת הרימו מתג:
 S2: BC:   00 -> SW3     01 -> SW2     11 -> SW1     10 -> SW0
 S3: עגלו את ה-1: כל עיגול גדול ככל האפשר (1, 2 או 4 תאים), ומעט עיגולים ככל האפשר.
@@ -47,11 +47,11 @@ S4: A = SW5     A' = SW4     B = SW3     B' = SW2     C = SW1     C' = SW0
 [Q04] PRIMES | מכפלות ראשוניות וחיוניות | npub 1 | steps 5 | flat
 B: A = SW9     B = SW8     C = SW7     Y = LEDG0     answer: SW3..SW0
 S1: בלוח פונקציה של שלושה משתנים. מלאו את השורה הראשונה של מפת קרנו:
-S1: A = 0  (SW9 down)
+S1: A = 0  (SW9 = 0)
 S1: נסו את 4 העמודות לפי הסדר של מפת קרנו, ובכל תא שהנורה דולקת הרימו מתג:
 S1: BC:   00 -> SW3     01 -> SW2     11 -> SW1     10 -> SW0
 S2: עכשיו השורה השנייה של מפת קרנו:
-S2: A = 1  (SW9 up)
+S2: A = 1  (SW9 = 1)
 S2: אותו דבר: בכל תא שהנורה דולקת הרימו מתג:
 S2: BC:   00 -> SW3     01 -> SW2     11 -> SW1     10 -> SW0
 S3: מכפלה ראשונית = עיגול הכי גדול שאפשר, שלא נכנס כולו בעיגול גדול יותר.
@@ -59,17 +59,17 @@ S3: כמה מכפלות ראשוניות יש לפונקציה?
 S3: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1
 S4: מכפלה ראשונית חיונית = יש לה תא של 1 שאף מכפלה ראשונית אחרת לא מכסה.
 S4: כמה מכפלות ראשוניות חיוניות יש?
-S4: 0 = all down
+S4: 0 = all 0
 S4: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1
 
 [Q05] POS3 | מכפלת סכומים מינימלית - עיגול של האפסים | npub 1 | steps 5 | flat
 B: A = SW9   B = SW8   C = SW7   Y = LEDG0   the cell = HEX2 HEX1 HEX0 (A B C)   answer: SW5..SW0
 S1: בלוח פונקציה של שלושה משתנים. הפעם מחפשים את האפסים. השורה הראשונה של מפת קרנו:
-S1: A = 0  (SW9 down)
+S1: A = 0  (SW9 = 0)
 S1: בכל תא שהנורה כבויה הרימו מתג:
 S1: BC:   00 -> SW3     01 -> SW2     11 -> SW1     10 -> SW0
 S2: עכשיו השורה השנייה:
-S2: A = 1  (SW9 up)
+S2: A = 1  (SW9 = 1)
 S2: בכל תא שהנורה כבויה הרימו מתג:
 S2: BC:   00 -> SW3     01 -> SW2     11 -> SW1     10 -> SW0
 S3: עגלו את האפסים: עיגולים גדולים ככל האפשר, ומעט עיגולים ככל האפשר.
@@ -113,7 +113,7 @@ S1: A = SW9     B = SW8     C = SW7     D = SW6
 S1: 2. סמנו על דף מפת קרנו: תא לכל מצב שהנורה דולקת.
 S1: Y = LEDG0
 S1: 3. בכמה מצבים הנורה דולקת? הרימו את המספר:
-S1: 0 = all down   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2
+S1: 0 = all 0   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2
 S1: 5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0   8 = SW3   9 = SW3+SW0
 S1: 10 = SW3+SW1   11 = SW3+SW1+SW0   12 = SW3+SW2   13 = SW3+SW2+SW0
 S1: 14 = SW3+SW2+SW1   15 = SW3+SW2+SW1+SW0
@@ -250,7 +250,7 @@ S5: כמה מכפלות ראשוניות יש לפונקציה?
 S5: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0 8 = SW3
 S6: מכפלה ראשונית חיונית = יש לה תא של 1 שאף מכפלה ראשונית אחרת לא מכסה.
 S6: כמה מכפלות ראשוניות חיוניות יש?
-S6: 0 = all down
+S6: 0 = all 0
 S6: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0 8 = SW3
 
 [Q10] DC3 | מפת קרנו עם לא אכפת | npub 1 | steps 7 | flat
@@ -261,21 +261,21 @@ S1: A = SW9     B = SW8     C = SW7
 S1: 2. הנורה הימנית דולקת = 1. הנורה שלידה דולקת = לא אכפת.
 S1: Y = LEDG0 (1)     X = LEDG1 (don't care)
 S1: 3. מלאו את השורה הראשונה של מפת קרנו:
-S1: A = 0  (SW9 down)
+S1: A = 0  (SW9 = 0)
 S1: בכל תא שבו הנורה הימנית דולקת הרימו מתג:
 S1: BC:   00 -> SW3     01 -> SW2     11 -> SW1     10 -> SW0
 S2: עכשיו השורה השנייה: בכל תא שבו הנורה הימנית דולקת הרימו מתג.
-S2: A = 1  (SW9 up)
+S2: A = 1  (SW9 = 1)
 S2: A = SW9     B = SW8     C = SW7
 S2: Y = LEDG0 (1)
 S2: BC:   00 -> SW3     01 -> SW2     11 -> SW1     10 -> SW0
 S3: עכשיו התאים של לא אכפת (הנורה השנייה דולקת), בשורה הראשונה:
-S3: A = 0  (SW9 down)
+S3: A = 0  (SW9 = 0)
 S3: A = SW9     B = SW8     C = SW7
 S3: X = LEDG1 (don't care)
 S3: BC:   00 -> SW3     01 -> SW2     11 -> SW1     10 -> SW0
 S4: והתאים של לא אכפת בשורה השנייה:
-S4: A = 1  (SW9 up)
+S4: A = 1  (SW9 = 1)
 S4: A = SW9     B = SW8     C = SW7
 S4: X = LEDG1 (don't care)
 S4: BC:   00 -> SW3     01 -> SW2     11 -> SW1     10 -> SW0
@@ -295,28 +295,28 @@ S1: A = SW9     B = SW8     C = SW7
 S1: 2. הנורה הימנית דולקת = 1. הנורה שלידה דולקת = לא אכפת.
 S1: Y = LEDG0 (1)     X = LEDG1 (don't care)
 S1: 3. מלאו את השורה הראשונה של מפת קרנו:
-S1: A = 0  (SW9 down)
+S1: A = 0  (SW9 = 0)
 S1: בכל תא שבו הנורה הימנית דולקת הרימו מתג:
 S1: BC:   00 -> SW3     01 -> SW2     11 -> SW1     10 -> SW0
 S2: עכשיו השורה השנייה: בכל תא שבו הנורה הימנית דולקת הרימו מתג.
-S2: A = 1  (SW9 up)
+S2: A = 1  (SW9 = 1)
 S2: A = SW9     B = SW8     C = SW7
 S2: Y = LEDG0 (1)     X = LEDG1 (don't care)
 S2: BC:   00 -> SW3     01 -> SW2     11 -> SW1     10 -> SW0
 S3: עכשיו התאים של לא אכפת (הנורה השנייה דולקת), בשורה הראשונה:
-S3: A = 0  (SW9 down)
+S3: A = 0  (SW9 = 0)
 S3: A = SW9     B = SW8     C = SW7
 S3: Y = LEDG0 (1)     X = LEDG1 (don't care)
 S3: BC:   00 -> SW3     01 -> SW2     11 -> SW1     10 -> SW0
 S4: והתאים של לא אכפת בשורה השנייה:
-S4: A = 1  (SW9 up)
+S4: A = 1  (SW9 = 1)
 S4: A = SW9     B = SW8     C = SW7
 S4: Y = LEDG0 (1)     X = LEDG1 (don't care)
 S4: BC:   00 -> SW3     01 -> SW2     11 -> SW1     10 -> SW0
 S5: עגלו את ה-1 שבמפה בעיגולים גדולים ככל האפשר.
 S5: תא של לא אכפת נכנס לעיגול רק אם הוא עוזר להגדיל אותו - ואז הוא נחשב 1. אחרת הוא נחשב 0.
 S5: כמה תאים של לא אכפת נכנסו לעיגולים?
-S5: 0 = all down     1 = SW0     2 = SW1
+S5: 0 = all 0     1 = SW0     2 = SW1
 
 [Q12] SEGX | מקטע של תצוגה עם לא אכפת | npub 1 | steps 4 | flat
 B: data = SW9..SW6 (BCD digit)     Y = LEDG0     X = LEDG1     answer: SW3..SW0
@@ -326,7 +326,7 @@ S1: שימו ספרות על המתגים ובדקו בשביל אילו ספר�
 S1: data = SW9 SW8 SW7 SW6
 S1: a = top     b = top right     c = bottom right     d = bottom
 S1: e = bottom left     f = top left     g = middle
-S1: a = all down   b = SW0   c = SW1   d = SW1+SW0   e = SW2   f = SW2+SW0   g = SW2+SW1
+S1: a = all 0   b = SW0   c = SW1   d = SW1+SW0   e = SW2   f = SW2+SW0   g = SW2+SW1
 S2: מלאו מפת קרנו של ארבעה משתנים (10 עד 15 = לא אכפת), ועגלו.
 S2: כמה עיגולים יש בסכום המכפלות המינימלי?
 S2: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0
@@ -451,7 +451,7 @@ S1: n1 = A AND B     n2 = C OR D     Y = n1 AND n2
 S1: בתצוגה ההשהיות של השערים:
 S1: HEX3 = tpd AND     HEX2 = tcd AND     HEX1 = tpd OR     HEX0 = tcd OR
 S1: איזה מסלול קריטי (ארוך יותר)?
-S1: A, B (through n1) = all down     C, D (through n2) = SW0
+S1: A, B (through n1) = all 0     C, D (through n2) = SW0
 S2: המעגל:
 S2: n1 = A AND B     n2 = C OR D     Y = n1 AND n2
 S2: בתצוגה ההשהיות של השערים:
@@ -481,7 +481,7 @@ S2: n1 = A OR B     n2 = n1 OR C     n3 = D AND E     Y = n2 AND n3
 S2: בתצוגה ההשהיות של השערים:
 S2: HEX3 = tpd AND     HEX2 = tcd AND     HEX1 = tpd OR     HEX0 = tcd OR
 S2: המסלול הקצר מתחיל באחת משתי כניסות. באיזו?
-S2: C (through n2) = all down     D (through n3) = SW0
+S2: C (through n2) = all 0     D (through n3) = SW0
 S3: המעגל:
 S3: n1 = A OR B     n2 = n1 OR C     n3 = D AND E     Y = n2 AND n3
 S3: בתצוגה ההשהיות של השערים:
@@ -493,11 +493,11 @@ S3: 16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0
 [Q18] GLITCH | תקלה רגעית (גליץ') ותיקון | npub 1 | steps 5 | flat
 B: A = SW9     B = SW8     C = SW7     Y = LEDG0     answer: SW5..SW0
 S1: בלוח פונקציה של שלושה משתנים. מלאו את השורה הראשונה של מפת קרנו:
-S1: A = 0  (SW9 down)
+S1: A = 0  (SW9 = 0)
 S1: נסו את 4 העמודות לפי הסדר של מפת קרנו, ובכל תא שהנורה דולקת הרימו מתג:
 S1: BC:   00 -> SW3     01 -> SW2     11 -> SW1     10 -> SW0
 S2: עכשיו השורה השנייה של מפת קרנו:
-S2: A = 1  (SW9 up)
+S2: A = 1  (SW9 = 1)
 S2: אותו דבר: בכל תא שהנורה דולקת הרימו מתג:
 S2: BC:   00 -> SW3     01 -> SW2     11 -> SW1     10 -> SW0
 S3: בסכום המכפלות המינימלי יש שני עיגולים שנוגעים זה בזה.
@@ -511,11 +511,11 @@ S4: A = SW5     A' = SW4     B = SW3     B' = SW2     C = SW1     C' = SW0
 [Q19] GLITCHAT | איפה בדיוק קורה הגליץ'? | npub 1 | steps 5 | flat
 B: A = SW9     B = SW8     C = SW7     Y = LEDG0     answer: SW2..SW0
 S1: בלוח פונקציה של שלושה משתנים. מלאו את השורה הראשונה של מפת קרנו:
-S1: A = 0  (SW9 down)
+S1: A = 0  (SW9 = 0)
 S1: נסו את 4 העמודות לפי הסדר של מפת קרנו, ובכל תא שהנורה דולקת הרימו מתג:
 S1: BC:   00 -> SW3     01 -> SW2     11 -> SW1     10 -> SW0
 S2: עכשיו השורה השנייה של מפת קרנו:
-S2: A = 1  (SW9 up)
+S2: A = 1  (SW9 = 1)
 S2: אותו דבר: בכל תא שהנורה דולקת הרימו מתג:
 S2: BC:   00 -> SW3     01 -> SW2     11 -> SW1     10 -> SW0
 S3: איזה משתנה מופיע בעיגול אחד רגיל ובשני עם קו?
@@ -591,7 +591,7 @@ S2: a = top     b = top right     c = bottom right     d = bottom
 S2: e = bottom left     f = top left     g = middle
 S2: a = LEDG6   b = LEDG5   c = LEDG4   d = LEDG3   e = LEDG2   f = LEDG1   g = LEDG0
 S2: איזו ספרה יצאה? שימו אותה:
-S2: 0 = all down   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2
+S2: 0 = all 0   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2
 S2: 5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0   8 = SW3   9 = SW3+SW0
 S3: 3. עכשיו הספרה הבאה (הספרה שמצאתם ועוד 1). אילו מקטעים דולקים בה?
 S3: לכל מקטע שצריך לדלוק - הרימו את המתג שלו:
@@ -609,31 +609,31 @@ S1: a = top     b = top right     c = bottom right     d = bottom
 S1: e = bottom left     f = top left     g = middle
 S1: איזה מקטע מוחלף? מבין השניים - זה שבא קודם בסדר:
 S1: a b c d e f g
-S1: a = all down   b = SW0   c = SW1   d = SW1+SW0   e = SW2   f = SW2+SW0   g = SW2+SW1
+S1: a = all 0   b = SW0   c = SW1   d = SW1+SW0   e = SW2   f = SW2+SW0   g = SW2+SW1
 S2: ואיזה המקטע השני?
 S2: segments = LEDG6..LEDG0     a = LEDG6   b = LEDG5   c = LEDG4   d = LEDG3   e = LEDG2   f = LEDG1   g = LEDG0
 S2: a = top     b = top right     c = bottom right     d = bottom
 S2: e = bottom left     f = top left     g = middle
-S2: a = all down   b = SW0   c = SW1   d = SW1+SW0   e = SW2   f = SW2+SW0   g = SW2+SW1
+S2: a = all 0   b = SW0   c = SW1   d = SW1+SW0   e = SW2   f = SW2+SW0   g = SW2+SW1
 
 [Q23] IFELSE | if / else בתוך always | npub 1 | steps 5 | flat
 B: s = SW9     a = SW8     b = SW7     y = LEDG0     answer: SW3..SW0
 S1: בלוח:
 S1: always_comb  if (s) y = ...(a, b);  else y = ...(a, b);
 S1: החזיקו את
-S1: s = 1  (SW9 up)
+S1: s = 1  (SW9 = 1)
 S1: נסו את 4 המצבים, ולכל מצב שהנורה דלקה הרימו מתג:
 S1: a b (SW8 SW7):   00 -> SW0     01 -> SW1     10 -> SW2     11 -> SW3
 S2: איזה שער כתוב אחרי
 S2: if (s)
-S2: AND = all down   OR = SW0   XOR = SW1   NAND = SW1+SW0   NOR = SW2   XNOR = SW2+SW0
+S2: AND = all 0   OR = SW0   XOR = SW1   NAND = SW1+SW0   NOR = SW2   XNOR = SW2+SW0
 S3: עכשיו
-S3: s = 0  (SW9 down)
+S3: s = 0  (SW9 = 0)
 S3: נסו את 4 המצבים, ולכל מצב שהנורה דלקה הרימו מתג:
 S3: a b (SW8 SW7):   00 -> SW0     01 -> SW1     10 -> SW2     11 -> SW3
 S4: איזה שער כתוב אחרי
 S4: else
-S4: AND = all down   OR = SW0   XOR = SW1   NAND = SW1+SW0   NOR = SW2   XNOR = SW2+SW0
+S4: AND = all 0   OR = SW0   XOR = SW1   NAND = SW1+SW0   NOR = SW2   XNOR = SW2+SW0
 
 [Q24] IFCHAIN | if / else if / else | npub 1 | steps 4 | flat
 B: a = SW9     b = SW8     c = SW7     y = LEDG0     answer: SW1..SW0
@@ -641,17 +641,17 @@ S1: בלוח:
 S1: always_comb  if (a) y = ?;  else if (b) y = ?;  else y = ?;
 S1: a = SW9     b = SW8     c = SW7     y = LEDG0
 S1: כל ענף כותב אחד מארבעה דברים. שימו
-S1: a = 1  (SW9 up)
+S1: a = 1  (SW9 = 1)
 S1: והזיזו את שאר המתגים. מה כתוב בענף הראשון?
-S1: y = 0 -> all down     y = 1 -> SW0     y = c -> SW1     y = ~c -> SW1+SW0
+S1: y = 0 -> all 0     y = 1 -> SW0     y = c -> SW1     y = ~c -> SW1+SW0
 S2: עכשיו
 S2: a = 0     b = 1
 S2: מה כתוב בענף השני?
-S2: y = 0 -> all down     y = 1 -> SW0     y = c -> SW1     y = ~c -> SW1+SW0
+S2: y = 0 -> all 0     y = 1 -> SW0     y = c -> SW1     y = ~c -> SW1+SW0
 S3: ועכשיו
 S3: a = 0     b = 0
 S3: מה כתוב בענף האחרון?
-S3: y = 0 -> all down     y = 1 -> SW0     y = c -> SW1     y = ~c -> SW1+SW0
+S3: y = 0 -> all 0     y = 1 -> SW0     y = c -> SW1     y = ~c -> SW1+SW0
 
 [Q25] VECOPS | פעולה על וקטור של 4 ביטים | npub 1 | steps 5 | flat
 B: a[3:0] = SW9..SW6 (HEX0)     y[3:0] = LEDG3..LEDG0     answer: SW3..SW0
@@ -666,7 +666,7 @@ S2: a = 1111
 S2: והעתיקו את היציאה:
 S2: SW3..SW0 = LEDG3..LEDG0
 S3: איזו פעולה זו? (כל ביט של היציאה הוא שער על אותו ביט של שני הוקטורים)
-S3: AND = all down   OR = SW0   XOR = SW1   NAND = SW1+SW0   NOR = SW2
+S3: AND = all 0   OR = SW0   XOR = SW1   NAND = SW1+SW0   NOR = SW2
 S4: מה הוקטור המוסתר?
 S4: b = ?
 S4: SW3..SW0
@@ -677,17 +677,17 @@ S1: בלוח:
 S1: case (sel)  2'b00: y = ?;  2'b01: y = ?;  2'b10: y = ?;  default: y = ?;
 S1: a = SW7     b = SW6     c = SW5     d = SW4     y = LEDG0
 S1: שימו
-S1: sel = 00  (SW9 SW8 down)
+S1: sel = 00  (SW9 SW8 = 0)
 S1: הזיזו את מתגי הכניסות אחד אחד. אחרי איזו כניסה הנורה הולכת?
-S1: a = all down     b = SW0     c = SW1     d = SW1 + SW0
+S1: a = all 0     b = SW0     c = SW1     d = SW1 + SW0
 S2: עכשיו
-S2: sel = 01  (SW8 up)
+S2: sel = 01  (SW8 = 1)
 S2: אחרי איזו כניסה הנורה הולכת?
-S2: a = all down     b = SW0     c = SW1     d = SW1 + SW0
+S2: a = all 0     b = SW0     c = SW1     d = SW1 + SW0
 S3: עכשיו
-S3: sel = 10  (SW9 up)
+S3: sel = 10  (SW9 = 1)
 S3: אחרי איזו כניסה הנורה הולכת?
-S3: a = all down     b = SW0     c = SW1     d = SW1 + SW0
+S3: a = all 0     b = SW0     c = SW1     d = SW1 + SW0
 
 [Q27] CASEALU | case שבוחר פעולה | npub 1 | steps 6 | flat
 B: op = SW9 SW8 (HEX3)     a = SW7     b = SW6     y = LEDG0     answer: SW3..SW0
@@ -700,16 +700,16 @@ S1: נסו את 4 המצבים, ולכל מצב שהנורה דלקה הרימו
 S1: a b (SW7 SW6):   00 -> SW0     01 -> SW1     10 -> SW2     11 -> SW3
 S2: איזה שער בשורה של
 S2: op = 00
-S2: AND = all down   OR = SW0   XOR = SW1   NAND = SW1+SW0   NOR = SW2   XNOR = SW2+SW0
+S2: AND = all 0   OR = SW0   XOR = SW1   NAND = SW1+SW0   NOR = SW2   XNOR = SW2+SW0
 S3: איזה שער בשורה של
 S3: op = 01
-S3: AND = all down   OR = SW0   XOR = SW1   NAND = SW1+SW0   NOR = SW2   XNOR = SW2+SW0
+S3: AND = all 0   OR = SW0   XOR = SW1   NAND = SW1+SW0   NOR = SW2   XNOR = SW2+SW0
 S4: איזה שער בשורה של
 S4: op = 10
-S4: AND = all down   OR = SW0   XOR = SW1   NAND = SW1+SW0   NOR = SW2   XNOR = SW2+SW0
+S4: AND = all 0   OR = SW0   XOR = SW1   NAND = SW1+SW0   NOR = SW2   XNOR = SW2+SW0
 S5: איזה שער בשורה של
 S5: op = 11
-S5: AND = all down   OR = SW0   XOR = SW1   NAND = SW1+SW0   NOR = SW2   XNOR = SW2+SW0
+S5: AND = all 0   OR = SW0   XOR = SW1   NAND = SW1+SW0   NOR = SW2   XNOR = SW2+SW0
 
 [Q28] CASEBUG | שורה שגויה ב-case | npub 1 | steps 4 | flat
 B: data = SW9..SW6 (HEX0)     segments = LEDG6..LEDG0 (abc_defg)     answer: SW3..SW0
@@ -723,7 +723,7 @@ S1: data = SW9 SW8 SW7 SW6 = 1100     (HEX0 = C)
 S1: 2. ספרו כמה נורות דולקות:
 S1: segments = LEDG6..LEDG0
 S1: 3. הרימו את המספר:
-S1: 0 = all down
+S1: 0 = all 0
 S1: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2
 S2: עברו על הספרות 0 עד 9 והשוו לטבלה של השקופית. באיזו ספרה יש טעות?
 S2: 1. שימו ספרה על המתגים:
@@ -733,7 +733,7 @@ S2: segments = LEDG6..LEDG0     a = LEDG6   b = LEDG5   c = LEDG4   d = LEDG3   
 S2: a = top     b = top right     c = bottom right     d = bottom
 S2: e = bottom left     f = top left     g = middle
 S2: 3. הרימו את הספרה השגויה:
-S2: 0 = all down   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2
+S2: 0 = all 0   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2
 S2: 5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0   8 = SW3   9 = SW3+SW0
 S3: בספרה השגויה מקטע אחד הפוך. איזה מקטע?
 S3: 1. שימו את הספרה השגויה על המתגים:
@@ -743,7 +743,7 @@ S3: segments = LEDG6..LEDG0     a = LEDG6   b = LEDG5   c = LEDG4   d = LEDG3   
 S3: a = top     b = top right     c = bottom right     d = bottom
 S3: e = bottom left     f = top left     g = middle
 S3: 3. הרימו את המקטע:
-S3: a = all down   b = SW0   c = SW1   d = SW1+SW0   e = SW2   f = SW2+SW0   g = SW2+SW1
+S3: a = all 0   b = SW0   c = SW1   d = SW1+SW0   e = SW2   f = SW2+SW0   g = SW2+SW1
 
 [Q29] CASENODEF | case בלי default | npub 1 | steps 5 | flat
 B: sel = SW9 SW8 (HEX3)     a = SW7     y = LEDG0     answer: SW2..SW0
@@ -758,25 +758,25 @@ S1: sel = SW9 SW8     a = SW7     y = LEDG0
 S1: שימו
 S1: sel = 00
 S1: מה כתוב בשורה שלו?
-S1: y = 0 -> all down     y = 1 -> SW0     y = a -> SW1     y = ~a -> SW1+SW0
+S1: y = 0 -> all 0     y = 1 -> SW0     y = a -> SW1     y = ~a -> SW1+SW0
 S1: אין שורה (הנורה שומרת את הערך הקודם):
 S1: SW2
 S2: עכשיו
 S2: sel = 01
 S2: מה כתוב בשורה שלו?
-S2: y = 0 -> all down     y = 1 -> SW0     y = a -> SW1     y = ~a -> SW1+SW0
+S2: y = 0 -> all 0     y = 1 -> SW0     y = a -> SW1     y = ~a -> SW1+SW0
 S2: אין שורה (הנורה שומרת את הערך הקודם):
 S2: SW2
 S3: עכשיו
 S3: sel = 10
 S3: מה כתוב בשורה שלו?
-S3: y = 0 -> all down     y = 1 -> SW0     y = a -> SW1     y = ~a -> SW1+SW0
+S3: y = 0 -> all 0     y = 1 -> SW0     y = a -> SW1     y = ~a -> SW1+SW0
 S3: אין שורה (הנורה שומרת את הערך הקודם):
 S3: SW2
 S4: עכשיו
 S4: sel = 11
 S4: מה כתוב בשורה שלו?
-S4: y = 0 -> all down     y = 1 -> SW0     y = a -> SW1     y = ~a -> SW1+SW0
+S4: y = 0 -> all 0     y = 1 -> SW0     y = a -> SW1     y = ~a -> SW1+SW0
 S4: אין שורה (הנורה שומרת את הערך הקודם):
 S4: SW2
 

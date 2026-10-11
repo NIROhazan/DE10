@@ -36,7 +36,7 @@ S2: A = 1111
 S2: והעתיקו:
 S2: SW3..SW0 = LEDG3..LEDG0
 S3: איזו פעולה?
-S3: add = all down     subtract = SW0     and = SW1     or = SW1+SW0
+S3: add = all 0     subtract = SW0     and = SW1     or = SW1+SW0
 S4: מה
 S4: B
 S4: ?
@@ -82,11 +82,11 @@ S1: Result = A - B = LEDG7..LEDG4     N Z C V = LEDG3..LEDG0 (in some order)
 S1: איזו נורה היא
 S1: Z
 S1: (התוצאה אפס)?
-S1: LEDG0 = all down     LEDG1 = SW0     LEDG2 = SW1     LEDG3 = SW1+SW0
+S1: LEDG0 = all 0     LEDG1 = SW0     LEDG2 = SW1     LEDG3 = SW1+SW0
 S2: איזו נורה היא
 S2: N
 S2: (התוצאה שלילית)?
-S2: LEDG0 = all down     LEDG1 = SW0     LEDG2 = SW1     LEDG3 = SW1+SW0
+S2: LEDG0 = all 0     LEDG1 = SW0     LEDG2 = SW1     LEDG3 = SW1+SW0
 S3: מה המספר המוסתר?
 S3: B = ?     SW3..SW0
 
@@ -183,12 +183,12 @@ S1: B
 S1: , מחושבת מהדגלים של החיסור:
 S1: A = SW9..SW6 (HEX0)     B = HEX1     LEDG0 = (A ? B)
 S1: ההשוואה עם סימן או בלי סימן? (נסו גם מספרים שהביט השמאלי שלהם 1)
-S1: signed = all down     unsigned = SW0
+S1: signed = all 0     unsigned = SW0
 S2: A = SW9..SW6 (HEX0)     B = HEX1     LEDG0 = (A ? B)
 S2: איזה יחס?
-S2: A < B = all down     A <= B = SW0     A > B = SW1     A >= B = SW1+SW0
+S2: A < B = all 0     A <= B = SW0     A > B = SW1     A >= B = SW1+SW0
 S3: איזו נוסחה של הדגלים מדליקה את הנורה?
-S3: N ^ V = all down     ~C = SW0     Z | (N ^ V) = SW1     Z | ~C = SW1+SW0
+S3: N ^ V = all 0     ~C = SW0     Z | (N ^ V) = SW1     Z | ~C = SW1+SW0
 S3: ~Z & ~(N ^ V) = SW2     ~Z & C = SW2+SW0     ~(N ^ V) = SW2+SW1     C = SW2+SW1+SW0
 
 [Q10] SLTFIX | SLT: עם תיקון הגלישה או בלי | npub 1 | steps 2 | flat
@@ -202,14 +202,14 @@ S1: Result = (A < B) ? 1 : 0     (signed)
 S1: בלי תיקון היא בודקת רק את דגל השלילי, ועם תיקון גם את דגל הגלישה. נסו את כל הכניסות והשוו לחשבון.
 S1: no fix: N     fixed: N ^ V
 S1: A = SW9..SW6
-S1: N (no fix) = all down     N ^ V (fixed) = SW0
+S1: N (no fix) = all 0     N ^ V (fixed) = SW0
 
 [Q11] SHIFTKIND | איזו הזזה? | npub 1 | steps 3 | flat
 B: A = SW9..SW6 (HEX0)     Y = LEDG3..LEDG0     answer: SW3..SW0
 S1: בלוח מזיז של 4 ביטים:
 S1: A = SW9..SW6     Y = LEDG3..LEDG0
 S1: איזה סוג הזזה? (נסו גם מספר שהביט השמאלי שלו 1)
-S1: sll (<<) = all down     srl (>>) = SW0     sra (>>>) = SW1
+S1: sll (<<) = all 0     srl (>>) = SW0     sra (>>>) = SW1
 S2: בכמה מקומות הוא מזיז?
 S2: 1 = SW0 2 = SW1 3 = SW1+SW0
 
@@ -218,7 +218,7 @@ B: q = SW9..SW6 (HEX0)     q after the next clock edge = LEDG3..LEDG0     HEX3 =
 S1: בלוח אוגר שמזיז את עצמו במקום אחד בכל עליית שעון. במתגים הערך עכשיו, ובנורות הערך אחרי עליית השעון הבאה:
 S1: q = SW9..SW6 (HEX0)     q after the next clock edge = LEDG3..LEDG0
 S1: איזו הזזה?
-S1: sll (<<) = all down     srl (>>) = SW0     sra (>>>) = SW1
+S1: sll (<<) = all 0     srl (>>) = SW0     sra (>>>) = SW1
 S2: בלוח אותו אוגר:
 S2: q = SW9..SW6 (HEX0)     q after the next clock edge = LEDG3..LEDG0
 S2: HEX3 = the start value
@@ -228,7 +228,7 @@ S3: בלוח אותו אוגר:
 S3: q = SW9..SW6 (HEX0)     q after the next clock edge = LEDG3..LEDG0
 S3: HEX3 = the start value
 S3: מתחילים בערך שבתצוגה. אחרי כמה עליות שעון הוא מפסיק להשתנות?
-S3: 0 = all down 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2
+S3: 0 = all 0 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2
 
 [Q13] SHIFTMUL | הזזה שמאלה = כפל | npub 1 | steps 2 | flat
 B: HEX3 = A (hex)     HEX2 = N     answer: SW8..SW0
@@ -285,13 +285,13 @@ B: A = SW9..SW6 (HEX0)     shamt = SW5 SW4 (HEX1)     Y = LEDG3..LEDG0     answe
 S1: בלוח מזיז של 4 ביטים, ואחת היציאות שלו תקועה:
 S1: A = SW9..SW6     shamt = SW5 SW4     Y = LEDG3..LEDG0
 S1: לאיזה כיוון הוא מזיז?
-S1: sll (<<) = all down     srl (>>) = SW0
+S1: sll (<<) = all 0     srl (>>) = SW0
 S2: A = SW9..SW6     shamt = SW5 SW4     Y = LEDG3..LEDG0
 S2: איזו יציאה תקועה?
-S2: LEDG0 = all down     LEDG1 = SW0     LEDG2 = SW1     LEDG3 = SW1+SW0
+S2: LEDG0 = all 0     LEDG1 = SW0     LEDG2 = SW1     LEDG3 = SW1+SW0
 S3: A = SW9..SW6     shamt = SW5 SW4     Y = LEDG3..LEDG0
 S3: על איזה ערך היא תקועה?
-S3: 0 = all down     1 = SW0
+S3: 0 = all 0     1 = SW0
 
 [Q18] PARTIAL | מכפלות חלקיות | npub 1 | steps 3 | flat
 B: HEX3 = A (hex)     HEX2 = B (hex)     answer: SW8..SW0
@@ -322,11 +322,11 @@ S1: בלוח מכפל מערך של 4 על 4, ואחת מארבע השורות �
 S1: A = SW9..SW6 (HEX3)     B = SW5..SW2 (HEX2)     P = LEDG7..LEDG0
 S1: PPk = (Bk ? A : 0) << k
 S1: איזו שורה שבורה?
-S1: PP0 = all down     PP1 = SW0     PP2 = SW1     PP3 = SW1+SW0
+S1: PP0 = all 0     PP1 = SW0     PP2 = SW1     PP3 = SW1+SW0
 S2: A = SW9..SW6 (HEX3)     B = SW5..SW2 (HEX2)     P = LEDG7..LEDG0
 S2: PPk = (Bk ? A : 0) << k
 S2: השורה השבורה תמיד אפס, או תמיד מוסיפה את המספר הראשון?
-S2: PPk = 0 = all down     PPk = A << k = SW0
+S2: PPk = 0 = all 0     PPk = A << k = SW0
 
 [Q21] DIVIDE | חילוק: מנה ושארית | npub 1 | steps 3 | flat
 B: HEX3 = A (hex)     HEX2 = B (hex)     answer: SW8..SW0
@@ -420,7 +420,7 @@ S1: ומדפיס הודעה על כל שורה שנכשלת:
 S1: if (y !== expected) $display("failed.");
 S1: a = SW9     b = SW8     c = SW7     y = LEDG0
 S1: כמה הודעות יודפסו?
-S1: 0 = all down
+S1: 0 = all 0
 S1: 1 = SW0 2 = SW1 3 = SW1+SW0
 
 [Q29] TBCLOCK | שעון בבודק | npub 1 | steps 3 | flat

@@ -282,7 +282,7 @@
 - בחרו טענה 0:
 - `SW9 SW8 SW7 = down down down`
 - נסו את 8 המצבים, ובכל אחד בדקו אם שתי הנורות שוות:
-- `SW6 SW5 SW4:   ddd   ddu   dud   duu   udd   udu   uud   uuu      (d = down, u = up)`
+- `SW6 SW5 SW4:   000   001   010   011   100   101   110   111      (0 = down, 1 = up)`
 - שוות תמיד - הרימו:
 - `SW0`
 - שונות אפילו פעם אחת - השאירו למטה.
@@ -810,7 +810,7 @@
 
 ### Q20 - מעגל עדיפויות: מי מנצח?
 
-- **מתגים ונורות:** `A3 = SW9     A2 = SW8     A1 = SW7     A0 = SW6     Y3..Y0 = LEDG3..LEDG0     answer: SW3..SW0` ; `Yi = 1 when Ai is up and no stronger input is up`
+- **מתגים ונורות:** `A3 = SW9     A2 = SW8     A1 = SW7     A0 = SW6     Y3..Y0 = LEDG3..LEDG0     answer: SW3..SW0` ; `Yi = 1 when Ai = 1 and no stronger input is 1`
 - **שלבים:** 4
 
 **שלב 1**
@@ -1093,7 +1093,7 @@
 - חפשו מצב שבו שלושת הצמתים לא שווים -
 - `NAND gives 1 there     NOR gives 0 there`
 - הרימו:
-- `SW3 = n1   SW2 = n2   SW1 = n3   SW0 = Y      (up = NAND, down = NOR)`
+- `SW3 = n1   SW2 = n2   SW1 = n3   SW0 = Y      (1 = NAND, 0 = NOR)`
 
 ### Q27 - דחיפת בועות: איזה מ-8 מעגלים?
 
@@ -1171,9 +1171,9 @@
 **שלב 3**
 
 - בלוח נועל: כשהאפשור פעיל הוא מעתיק את הנתון; כשלא - הוא זוכר.
-- האפשור פעיל כשהוא למעלה או כשהוא למטה?
+- האפשור פעיל כשהוא 1 או כשהוא 0?
 - הרימו:
-- `SW0 = active when up      (down = active when down)`
+- `SW0 = 1: active when 1      (SW0 = 0: active when 0)`
 
 ### Q30 - צירופי או סדרתי? (8 קופסאות)
 

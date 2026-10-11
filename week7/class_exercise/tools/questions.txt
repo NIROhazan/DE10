@@ -18,7 +18,7 @@ S1: בלי שעון: במתגים שמים מצב נוכחי וכניסה, וב�
 S1: S = SW9 SW8 (HEX3)     A = SW7 (HEX2)
 S1: next S = HEX0     Y = LEDG0
 S1: השאירו את מתגי המצב והזיזו רק את מתג הכניסה. היציאה משתנה?
-S1: Moore (no) = all down     Mealy (yes) = SW0
+S1: Moore (no) = all 0     Mealy (yes) = SW0
 S2: מה הרצף שמחייך?
 S2: במור: מהמצב 0, איזה ביט מוביל למצב 1, ומשם איזה ביט למצב 2 (שבו הוא מחייך)?
 S2: במילי: מתג המצב הימני הוא הביט הקודם. מתי היציאה דולקת?
@@ -74,7 +74,7 @@ S1: בלי שעון: במתגים שמים מצב נוכחי וכניסה, וב�
 S1: S0 = SW9     A = SW8     next S0 = LEDG1     Y = LEDG0
 S1: מה המצב הבא?
 S1: S0' = ?
-S1: 0 = all down     1 = SW0     A = SW1     S0 = SW1+SW0
+S1: 0 = all 0     1 = SW0     A = SW1     S0 = SW1+SW0
 S2: מתי היציאה דולקת? הרימו את המתג של כל מקרה שבו היא דולקת:
 S2: S0 = SW9     A = SW8     next S0 = LEDG1     Y = LEDG0
 S2: S0 A = 00 -> SW0     01 -> SW1     10 -> SW2     11 -> SW3
@@ -86,7 +86,7 @@ S1: בלי שעון: במתגים שמים מצב נוכחי וכניסה, וב�
 S1: S = SW9 SW8 (HEX3)     A = SW7 (HEX2)
 S1: next S = HEX0     Y = LEDG0
 S1: השאירו את מתגי המצב והזיזו רק את מתג הכניסה. היציאה משתנה?
-S1: Moore (no) = all down     Mealy (yes) = SW0
+S1: Moore (no) = all 0     Mealy (yes) = SW0
 S2: עקבו אחריו על הסרט מהמצב 0. בכל ביט: שימו אותו בכניסה, הסתכלו על היציאה, ואז עברו למצב הבא.
 S2: the tape:   1 1 0 1 0 0 1 1
 S2: S = SW9 SW8 (HEX3)     A = SW7 (HEX2)
@@ -107,7 +107,7 @@ S2: the tape:   0 1 1 0 1 0 0 1 1 1
 S2: S = SW9 SW8 (HEX3)     A = SW7 (HEX2)
 S2: next S = HEX0     Y = LEDG0
 S2: כמה פעמים עברתם אל המצב המחייך?
-S2: 0 = all down
+S2: 0 = all 0
 S2: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1
 
 [Q08] TWOSNAILS | שני חלזונות על אותו סרט | npub 1 | steps 3 | flat
@@ -116,7 +116,7 @@ S1: בלוח החלק הצירופי של שני חלזונות על אותו ר
 S1: בלי שעון: במתגים שמים מצב נוכחי וכניסה, ובלוח רואים את המצב הבא ואת היציאה.
 S1: S = SW9 SW8 (HEX3)     A = SW7 (HEX2)     next S = HEX0     snails: LEDG1, LEDG0
 S1: איזו נורה היא חילזון מילי? (משתנה עם הכניסה כשמתגי המצב לא זזים)
-S1: LEDG1 = all down     LEDG0 = SW0
+S1: LEDG1 = all 0     LEDG0 = SW0
 S2: מה הרצף? (מהמצב 0, ביט אחר ביט, עד המצב 3)
 S2: S = SW9 SW8 (HEX3)     A = SW7 (HEX2)     next S = HEX0     snails: LEDG1, LEDG0
 S2: SW2 = first bit     SW1 = second     SW0 = third
@@ -140,13 +140,13 @@ S1: בלי שעון: במתגים שמים מצב נוכחי וכניסה, וב�
 S1: S1 S0 = SW9 SW8     A = SW7     next S1 S0 = LEDG3 LEDG2     Y = LEDG0
 S1: S0 = the previous bit
 S1: השאירו את מתגי המצב והזיזו רק את מתג הכניסה. היציאה משתנה?
-S1: Moore (no) = all down     Mealy (yes) = SW0
+S1: Moore (no) = all 0     Mealy (yes) = SW0
 S2: איזה שינוי הוא מגלה? במילי - לפי היציאה. במור - לפי ביט המצב הבא
 S2: S1
 S2: (הוא היציאה בצעד הבא).
 S2: S1 S0 = SW9 SW8     A = SW7     next S1 S0 = LEDG3 LEDG2     Y = LEDG0
 S2: S0 = the previous bit
-S2: rising (0 -> 1) = all down     falling (1 -> 0) = SW0     any change = SW1
+S2: rising (0 -> 1) = all 0     falling (1 -> 0) = SW0     any change = SW1
 
 [Q11] OVERLAP | גלאי חופף או לא חופף | npub 1 | steps 3 | flat
 B: S = SW9 SW8 (HEX3)     A = SW7 (HEX2)     next S = HEX0     Y = LEDG0     answer: SW4..SW0
@@ -171,7 +171,7 @@ S1: בלי שעון: במתגים שמים מצב נוכחי וכניסה, וב�
 S1: M = SW9     P, R = SW8, SW7 (in some order)     next M = LEDG0
 S1: איזה מתג מפסיק תהלוכה (המצב הבא כבוי)?
 S1: R = ?
-S1: SW8 = all down     SW7 = SW0
+S1: SW8 = all 0     SW7 = SW0
 S2: הורידו את שתי הכניסות. האם המצב הבא שווה למצב הנוכחי (זיכרון)?
 S2: M = SW9     P, R = SW8, SW7 (in some order)     next M = LEDG0
 S2: כן - הרימו:
@@ -179,7 +179,7 @@ S2: SW0
 S2: לא - השאירו למטה.
 S3: הרימו את שתי הכניסות. מי מנצח?
 S3: M = SW9     P, R = SW8, SW7 (in some order)     next M = LEDG0
-S3: P = all down     R = SW0
+S3: P = all 0     R = SW0
 
 [Q13] PARADE | מצב תהלוכה | npub 1 | steps 3 | flat
 B: M = SW9, lights state SW8 SW7, TA SW6, TB SW5, P / R on SW4 SW3     next M = LEDG4     next lights = HEX0     answer: SW4..SW0
@@ -190,13 +190,13 @@ S1: TA = SW6     TB = SW5     P, R = SW4, SW3 (in some order)
 S1: next M = LEDG4     next lights state = HEX0
 S1: איזה מתג מתחיל תהלוכה (מדליק את המצב הבא של מכונת המצב)?
 S1: P = ?
-S1: SW4 = all down     SW3 = SW0
+S1: SW4 = all 0     SW3 = SW0
 S2: בזמן תהלוכה ובלי מכוניות, איזה רחוב נשאר ירוק?
 S2: M = 1     TA = 0     TB = 0
 S2: M = SW9     lights state = SW8 SW7 (HEX2)
 S2: next M = LEDG4     next lights state = HEX0
 S2: 0 = A green     1 = A yellow     2 = B green     3 = B yellow
-S2: A = all down     B = SW0
+S2: A = all 0     B = SW0
 
 [Q14] PARADEPINS | מי מחובר לאיזה מתג? | npub 1 | steps 4 | flat
 B: M = SW9, lights state SW8 SW7, TA TB P R on SW6..SW3 (hidden order)     next M = LEDG4     next lights = HEX0     answer: SW4..SW0
@@ -208,21 +208,21 @@ S1: next M = LEDG4     next lights state = HEX0
 S1: איזה מתג הוא
 S1: P
 S1: ? (מדליק את המצב הבא של מכונת המצב)
-S1: SW6 = all down     SW5 = SW0     SW4 = SW1     SW3 = SW1+SW0
+S1: SW6 = all 0     SW5 = SW0     SW4 = SW1     SW3 = SW1+SW0
 S2: איזה מתג הוא
 S2: R
 S2: ? (מכבה את המצב הבא של מכונת המצב)
 S2: M = SW9     lights state = SW8 SW7 (HEX2)
 S2: TA, TB, P, R = SW6, SW5, SW4, SW3 (in some order)
 S2: next M = LEDG4     next lights state = HEX0
-S2: SW6 = all down     SW5 = SW0     SW4 = SW1     SW3 = SW1+SW0
+S2: SW6 = all 0     SW5 = SW0     SW4 = SW1     SW3 = SW1+SW0
 S3: בלי תהלוכה ובמצב 0 של הרמזורים: איזה מתג משאיר את המצב הבא של הרמזורים 0?
 S3: M = 0
 S3: M = SW9     lights state = SW8 SW7 (HEX2)
 S3: TA, TB, P, R = SW6, SW5, SW4, SW3 (in some order)
 S3: next M = LEDG4     next lights state = HEX0
 S3: 0 = A green     1 = A yellow     2 = B green     3 = B yellow
-S3: SW6 = all down     SW5 = SW0     SW4 = SW1     SW3 = SW1+SW0
+S3: SW6 = all 0     SW5 = SW0     SW4 = SW1     SW3 = SW1+SW0
 
 [Q15] PARADEWAIT | כמה זמן עד שהתהלוכה עוברת? | npub 1 | steps 3 | flat
 B: M = SW9, lights state SW8..SW6, TA SW5, TB SW4     lights LEDG7..5, LEDG2..0     next lights state = HEX0     answer: SW4..SW0
@@ -316,10 +316,10 @@ S1: בלוח החלק הצירופי של מכונה שזוכרת אם נכנס 
 S1: בלי שעון: במתגים שמים מצב נוכחי וכניסה, ובלוח רואים את המצב הבא ואת היציאה.
 S1: S = SW9     SW8, SW7 (one is the input)     next S = LEDG1     Y = LEDG0
 S1: איזה מתג הוא הכניסה? (משנה את המצב הבא)
-S1: SW8 = all down     SW7 = SW0
+S1: SW8 = all 0     SW7 = SW0
 S2: היציאה תלויה רק במצב?
 S2: S = SW9     SW8, SW7 (one is the input)     next S = LEDG1     Y = LEDG0
-S2: Moore (yes) = all down     Mealy (no) = SW0
+S2: Moore (yes) = all 0     Mealy (no) = SW0
 S3: במצב 0 עוד לא נכנסו אחדות (זוגי). היציאה דולקת במצב 0?
 S3: S = SW9     SW8, SW7 (one is the input)     next S = LEDG1     Y = LEDG0
 S3: דולקת - הרימו:
@@ -332,7 +332,7 @@ S1: בלוח החלק הצירופי של מונה: הוא מתקדם ב-1 כש�
 S1: בלי שעון: במתגים שמים מצב נוכחי וכניסה, ובלוח רואים את המצב הבא ואת היציאה.
 S1: S = SW9 SW8 SW7 SW6 (HEX3)     SW5, SW4 (one is the input)     next S = HEX0
 S1: איזה מתג?
-S1: SW5 = all down     SW4 = SW0
+S1: SW5 = all 0     SW4 = SW0
 S2: אחרי איזה מצב הוא חוזר ל-0? כתבו כמה מצבים יש.
 S2: S = SW9 SW8 SW7 SW6 (HEX3)     SW5, SW4 (one is the input)     next S = HEX0
 S2: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0 8 = SW3 9 = SW3+SW0
@@ -357,7 +357,7 @@ S1: בלוח החלק הצירופי של מונה עם שתי כניסות: א�
 S1: בלי שעון: במתגים שמים מצב נוכחי וכניסה, ובלוח רואים את המצב הבא ואת היציאה.
 S1: S = SW9 SW8 SW7 SW6 (HEX3)     SW5, SW4 (enable, direction)     next S = HEX0
 S1: איזה מתג מאפשר לספור? (כשהוא למטה המצב הבא שווה למצב הנוכחי)
-S1: SW5 = all down     SW4 = SW0
+S1: SW5 = all 0     SW4 = SW0
 S2: כשמתג הכיוון למעלה, המונה סופר למעלה?
 S2: S = SW9 SW8 SW7 SW6 (HEX3)     SW5, SW4 (enable, direction)     next S = HEX0
 S2: כן - הרימו:
@@ -378,7 +378,7 @@ S1: 16 = SW4   8 = SW3   4 = SW2   2 = SW1   1 = SW0
 S2: באיזה קוד הוא סופר?
 S2: binary: +1     Gray: one bit changes     one-hot: one bit on
 S2: S = SW9 SW8 SW7 SW6     next S = LEDG3 LEDG2 LEDG1 LEDG0
-S2: binary = all down     Gray = SW0     one-hot = SW1
+S2: binary = all 0     Gray = SW0     one-hot = SW1
 
 [Q25] DEBOUNCE | מסנן קפיצות | npub 1 | steps 4 | flat
 B: Y = SW9     count = SW8 SW7     A = SW6     next Y = LEDG1     next count = HEX0     answer: SW4..SW0
@@ -438,7 +438,7 @@ S1: בלי שעון: במתגים שמים מצב נוכחי וכניסה, וב�
 S1: S = SW9 SW8 SW7 (HEX3)     coins = SW6, SW5
 S1: next S = HEX2     paid now = HEX1 HEX0     drink = LEDG0
 S1: איזה מתג הוא המטבע של 10?
-S1: SW6 = all down     SW5 = SW0
+S1: SW6 = all 0     SW5 = SW0
 S2: כמה עולה שתייה (מתי היציאה דולקת)? כתבו את המחיר חלקי 5.
 S2: S = SW9 SW8 SW7 (HEX3)     coins = SW6, SW5
 S2: next S = HEX2     paid now = HEX1 HEX0     drink = LEDG0
@@ -465,9 +465,9 @@ S1: בלי שעון: במתגים שמים מצב נוכחי וכניסה, וב�
 S1: V = SW9 (a grant)     W = SW8 (who)     requests: SW7 (1), SW6 (0)
 S1: next V W = LEDG3 LEDG2     grants now: LEDG1 (1), LEDG0 (0)
 S1: במצב 00 (עוד אין אישור) ושתי הבקשות למעלה: מי מקבל את האישור בצעד הבא?
-S1: 0 = all down     1 = SW0
+S1: 0 = all 0     1 = SW0
 S2: עם שתי הבקשות למעלה, צעד אחר צעד: האישור מתחלף (סבב) או נשאר לאותה בקשה (עדיפות קבועה)?
 S2: צעד קדימה: מעבירים את המצב הבא אל מתגי המצב.
 S2: V = SW9 (a grant)     W = SW8 (who)     requests: SW7 (1), SW6 (0)
 S2: next V W = LEDG3 LEDG2     grants now: LEDG1 (1), LEDG0 (0)
-S2: round robin = all down     fixed = SW0
+S2: round robin = all 0     fixed = SW0
