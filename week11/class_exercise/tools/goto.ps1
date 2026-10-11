@@ -45,8 +45,8 @@ if (-not (Test-Path $f)) { Fail @((U "goto_bad"), (U "goto_bad_en")) }
 $line = (@([IO.File]::ReadAllLines($f) | Where-Object { $_ -notmatch '^\s*(#|$)' } | ForEach-Object { $_.Trim() }) -join " ")
 $applied = Join-Path (Get-Location) "goto_applied.txt"
 $lesson = Join-Path $PSScriptRoot "lesson.ps1"
-if (-not $line) {				# nothing chosen: the lesson by the class clock
-	Remove-Item $applied, (Join-Path (Get-Location) "lesson_start.txt") -ErrorAction SilentlyContinue
+if (-not $line) {				# nothing chosen: the lesson (its clock starts at the student ID - lesson.ps1)
+	Remove-Item $applied -ErrorAction SilentlyContinue
 	& $lesson
 	exit $LASTEXITCODE
 }
@@ -64,10 +64,7 @@ $tp = $topics[$n - 1]
 if ($k -lt 1 -or $k -gt $tp.Qs.Count) { Fail ((U "goto_no_q") -f $n, $tp.Qs.Count) }
 $first = $tp.Qs[$k - 1]
 
-$offset = 0
-for ($i = 0; $i -lt $n - 1; $i++) { $offset += $topics[$i].Min }
-$start = (Get-Date).AddMinutes(-$offset)
-[IO.File]::WriteAllText((Join-Path (Get-Location) "lesson_start.txt"), $start.ToString("o"))
+# the lesson's clock is not touched (it starts at the student ID); the choice only sets where the menu stands
 [IO.File]::WriteAllText($applied, $line.Trim())
 Write-Host ""
 Write-Line ((U "goto_jump") -f $n, $k, $tp.Qs.Count) Green

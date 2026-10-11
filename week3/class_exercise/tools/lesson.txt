@@ -1,16 +1,9 @@
 # The lesson schedule - read by LESSON.bat (tools\lesson.ps1). Edit it before the lesson.
-# Times follow the clock of each student's computer, so the whole class moves to the next topic together.
-#
-# START hh:mm       when the first topic begins (before it, the students see a countdown).
-# START now         the lesson begins when LESSON.bat is first started (for practice at home); the time is kept in
-#                   lesson_start.txt, so closing the window and coming back does not restart the clock.
 # TOPIC <minutes> | <name> | <questions in order, easy -> hard>
-#   The questions of a topic come one after another; when the topic's time is up, the next topic begins,
-#   even if not every question is done. Finished early - the student waits for the next topic.
-#   Names in Hebrew (shown in the lesson plan; no English letters in a name).
+#   Names in Hebrew (shown in the lesson plan and the menu; no English letters in a name).
 
-START 17:00
-
+# The lesson's time starts when the student types the student ID; the TOPIC minutes add up to the lesson's
+# length and are only a recommendation (the menu lets the student open any question).
 TOPIC 40 | טבלאות אמת, מינטרמים ומקסטרמים, טענות | Q01 Q02 Q03 Q04 Q05 Q06 Q07 Q08 Q09
 TOPIC 40 | ממילים למשוואה: דה-מורגן, טעויות, הכפלה ופירוק | Q10 Q11 Q12 Q13 Q14 Q15 Q16 Q17
 TOPIC 40 | אבני בניין ומעגלים, ובסוף זיכרון | Q18 Q19 Q20 Q21 Q22 Q23 Q24 Q25 Q26 Q27 Q28 Q29 Q30

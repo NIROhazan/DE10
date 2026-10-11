@@ -1,50 +1,54 @@
-# The lesson runner: LESSON.bat = lesson.ps1. Runs tools\lesson.txt by the clock: before START a countdown,
-# then each topic for its minutes - its questions one after another (run.ps1 -Deadline = the topic's end),
-# then the next topic. A question already done (progress.txt) is skipped. Kept ASCII for PowerShell 5.1.
-param([string]$Schedule = "", [string]$Start = "", [string]$First = "")	# -First Q13: open that question first (GOTO.bat)
+# The lesson runner: LESSON.bat = goto.ps1 -> lesson.ps1. No class clock: the lesson's time starts when the student
+# types the student ID (lesson_start.txt), and lasts the minutes of all the TOPIC lines of tools\lesson.txt together.
+# The topic times are only a recommendation. A menu shows the questions of one topic at a time: left / right arrows =
+# another topic, up / down = a question, Enter = open it - only then is the board programmed (run.ps1).
+# Kept ASCII for PowerShell 5.1.
+param([string]$Schedule = "", [string]$Start = "", [string]$First = "")	# -First Q13: the menu stands on that question
 
 $ErrorActionPreference = "Stop"
 Set-Location (Split-Path $PSScriptRoot -Parent)
 . (Join-Path $PSScriptRoot "common.ps1")
 if (-not $Schedule) { $Schedule = Join-Path $PSScriptRoot "lesson.txt" }
 
-# ---------------------------------------------------------------- the schedule
-$startText = "now"; $topics = @()
+# ---------------------------------------------------------------- the topics
+$topics = @()
 foreach ($l in [IO.File]::ReadAllLines($Schedule, $script:utf8)) {
-	if ($l -match '^\s*START\s+(\S+)') { $startText = $Matches[1] }
-	elseif ($l -match '^\s*TOPIC\s+([\d.]+)\s*\|\s*(.+?)\s*\|\s*(.+?)\s*$') {
+	if ($l -match '^\s*TOPIC\s+([\d.]+)\s*\|\s*(.+?)\s*\|\s*(.+?)\s*$') {
 		$topics += [pscustomobject]@{ Min = [double]$Matches[1]; Name = $Matches[2]; Qs = @($Matches[3] -split '\s+' | Where-Object { $_ }) }
 	}
 }
-if ($Start) { $startText = $Start }
 if ($topics.Count -eq 0) { Write-Host "No TOPIC lines in $Schedule." -ForegroundColor Red; exit 1 }
-# lesson_start.txt = this computer's own start: written on the first launch of a START now lesson (leaving and
-# coming back does not restart the clock), or by the instructor's reset_time.bat (a personal clock, e.g. after a
-# technical problem). When it exists it wins over START; reset_lesson.bat deletes it (back to the class clock).
+$qs = Read-Questions
+foreach ($tp in $topics) { foreach ($x in $tp.Qs) { if (-not $qs.Contains($x)) { Write-Host "lesson.txt: there is no $x." -ForegroundColor Red; exit 1 } } }
+
+# ---------------------------------------------------------------- the student and the lesson's own clock
+$sid = Get-StudentId
+# lesson_start.txt = this computer's start: written right after the student ID (closing and opening LESSON.bat again
+# does not restart the clock), or set by the instructor's reset_time.bat; reset_lesson.bat deletes it.
 $startFile = Join-Path (Get-Location) "lesson_start.txt"
 $back = $false
+$t = $null
 if (Test-Path $startFile) {
-	$t = [datetime]::Parse(([IO.File]::ReadAllText($startFile)).Trim(), $null, [Globalization.DateTimeStyles]::RoundtripKind).ToLocalTime()
-	$back = $true
-} elseif ($startText -eq "now") {
+	try { $t = [datetime]::Parse(([IO.File]::ReadAllText($startFile)).Trim(), $null, [Globalization.DateTimeStyles]::RoundtripKind).ToLocalTime() } catch { }
+	$len = ($topics | Measure-Object -Property Min -Sum).Sum
+	if ($t -and (Get-Date) -gt $t.AddMinutes($len + 120)) { $t = $null }	# that lesson ended over 2 hours ago: a new lesson
+	if ($t) { $back = $true }
+}
+if (-not $t) {
 	$t = Get-Date
 	[IO.File]::WriteAllText($startFile, $t.ToString("o"))
-} else {
-	$t = [datetime]::ParseExact($startText, "HH:mm", $null)
 }
 foreach ($tp in $topics) {
 	$tp | Add-Member Begin $t
 	$t = $t.AddMinutes($tp.Min)
 	$tp | Add-Member End $t
 }
-$qs = Read-Questions
-foreach ($tp in $topics) { foreach ($x in $tp.Qs) { if (-not $qs.Contains($x)) { Write-Host "lesson.txt: there is no $x." -ForegroundColor Red; exit 1 } } }
-
-$sid = Get-StudentId
-$posFile = Join-Path (Get-Location) "lesson_pos.txt"		# the question the student is at (see the lesson loop)
+$lessonEnd = $topics[-1].End
+$posFile = Join-Path (Get-Location) "lesson_pos.txt"		# the question the student opened last
 $env:CE_LESSON = "1"		# run.ps1 runs only from here
-if ((Test-Path "progress.txt") -and ([IO.File]::ReadAllText((Join-Path (Get-Location) "progress.txt")) -match "(?m)^$sid ")) { $back = $true }
 function Test-Done($qid) { return ((Get-Progress $sid $qid) -ge ($qs[$qid].NS - 1)) }
+function Topic-Of($qid) { for ($i = 0; $i -lt $topics.Count; $i++) { if ($topics[$i].Qs -contains $qid) { return $i } }; return 0 }
+
 # $title: one line or several (Hebrew and English lines apart); the plan rows are Hebrew (topic names from lesson.txt)
 function Show-Plan($cur, $title, $color) {
 	Clear-Host
@@ -59,15 +63,18 @@ function Show-Plan($cur, $title, $color) {
 	}
 	Write-Host ""
 }
-# The question menu: up / down arrows choose a question of the topic, Enter opens it - only then is the board
-# programmed (run.ps1). Returns the chosen question, or "" when the topic's time is over.
-function Select-Question($cur, $tp, $default) {
-	$i = [Math]::Max(0, [array]::IndexOf($tp.Qs, $default))
+
+# The question menu: one topic per page. Left / right = another topic, up / down = a question, Enter = open it.
+# Returns the chosen question, or "" when the lesson's time is over.
+function Select-Question($default) {
+	$p = Topic-Of $default
+	$i = [Math]::Max(0, [array]::IndexOf($topics[$p].Qs, $default))
 	$draw = $true
 	while ($true) {
-		if ((Get-Date) -ge $tp.End) { return "" }
+		if ((Get-Date) -ge $lessonEnd) { return "" }
 		if ($draw) {
-			Show-Plan $cur @(((U "topic_now") -f ($cur + 1), $topics.Count, $tp.Name), (U "pick_title")) Yellow
+			$tp = $topics[$p]
+			Show-Plan $p @(((U "pick_topic") -f ($p + 1), $topics.Count, $tp.Name), ((U "lesson_end") -f ('{0:HH:mm}' -f $lessonEnd)), (U "pick_title")) Yellow
 			for ($j = 0; $j -lt $tp.Qs.Count; $j++) {
 				$x = $tp.Qs[$j]
 				$st = if (Test-Done $x) { U "pick_done" } elseif ((Get-Progress $sid $x) -gt 0) { U "pick_started" } else { "" }
@@ -83,79 +90,53 @@ function Select-Question($cur, $tp, $default) {
 			while ([Console]::KeyAvailable) {
 				$key = [Console]::ReadKey($true)
 				if ($key.Key -eq "UpArrow" -and $i -gt 0) { $i--; $draw = $true }
-				elseif ($key.Key -eq "DownArrow" -and $i -lt $tp.Qs.Count - 1) { $i++; $draw = $true }
-				elseif ($key.Key -eq "Enter") { return $tp.Qs[$i] }
+				elseif ($key.Key -eq "DownArrow" -and $i -lt $topics[$p].Qs.Count - 1) { $i++; $draw = $true }
+				elseif ($key.Key -eq "RightArrow" -and $p -lt $topics.Count - 1) { $p++; $i = 0; $draw = $true }	# right = the next topic (like the steps)
+				elseif ($key.Key -eq "LeftArrow" -and $p -gt 0) { $p--; $i = 0; $draw = $true }
+				elseif ($key.Key -eq "Enter") { return $topics[$p].Qs[$i] }
 			}
-		} catch { return $tp.Qs[$i] }		# no console (a test run): the default question
+		} catch { return $topics[$p].Qs[$i] }		# no console (a test run): the default question
 	}
 }
-function Wait-Until($when, $cur, $title, $color) {
-	Show-Plan $cur $title $color
-	$w = 100
-	try { $w = [Math]::Max(60, $Host.UI.RawUI.WindowSize.Width - 2) } catch { }
-	while ((Get-Date) -lt $when) {
-		$left = $when - (Get-Date)
-		$Host.UI.RawUI.WindowTitle = "Class lesson - next in {0:mm\:ss}" -f $left
-		$v = ConvertTo-Visual ("{0}  {1:hh\:mm\:ss}" -f (U "countdown"), $left)
-		Write-Host ("`r" + $v.PadLeft($w)) -NoNewline -ForegroundColor Cyan
-		Start-Sleep -Milliseconds 500
+
+# the question the menu stands on first: the first one not done, from the last opened (or the current topic's) on
+function Default-Question {
+	$all = @($topics | ForEach-Object { $_.Qs })
+	$pos = if (Test-Path $posFile) { ([IO.File]::ReadAllText($posFile)).Trim() } else { "" }
+	if (-not $pos) {
+		$now = Get-Date
+		$cur = 0
+		for ($i = 0; $i -lt $topics.Count; $i++) { if ($now -ge $topics[$i].Begin) { $cur = $i } }
+		$pos = $topics[$cur].Qs[0]
 	}
-	Write-Host ""
+	$from = [Math]::Max(0, [array]::IndexOf($all, $pos))
+	$q = @($all[$from..($all.Count - 1)] + $all | Where-Object { -not (Test-Done $_) }) | Select-Object -First 1
+	if ($q) { return $q } else { return $all[0] }
 }
 
 # ---------------------------------------------------------------- the lesson
-$prefer = ""			# the question the menu stands on after the arrows inside a question
+if ($back) {
+	Show-Plan -1 @((U "welcome_back"), ((U "lesson_end") -f ('{0:HH:mm}' -f $lessonEnd))) Green
+	Start-Sleep -Seconds 3
+}
+$prefer = if ($First) { $First } else { "" }		# the question the menu stands on (goto.txt, or the arrows in a question)
 while ($true) {
-	$now = Get-Date
-	if ($now -lt $topics[0].Begin) { Wait-Until $topics[0].Begin 0 ((U "starts_at") -f ('{0:HH:mm}' -f $topics[0].Begin)) Cyan; continue }
-	$cur = -1
-	for ($i = 0; $i -lt $topics.Count; $i++) { if ($now -ge $topics[$i].Begin -and $now -lt $topics[$i].End) { $cur = $i } }
-	if ($cur -lt 0) {
+	if ((Get-Date) -ge $lessonEnd) {
 		Show-Plan -1 @((U "over"), (U "over_en")) Green
 		exit 0
 	}
-	$tp = $topics[$cur]
-	# by question number: from the saved position (lesson_pos.txt - the question last opened, or chosen by GOTO) on,
-	# the first one not done yet; after the last one, the questions skipped earlier; all done - wait for the next topic
-	$review = ""
-	if ($First) {			# chosen in goto.txt: a question already done opens again from step 1 (review)
-		[IO.File]::WriteAllText($posFile, $First)
-		if ((Test-Done $First) -and ($tp.Qs -contains $First)) { $review = $First }
-		$First = ""
-	}
-	$pos = if (Test-Path $posFile) { ([IO.File]::ReadAllText($posFile)).Trim() } else { "" }
-	$from = [Math]::Max(0, [array]::IndexOf($tp.Qs, $pos))
-	$next = @($tp.Qs[$from..($tp.Qs.Count - 1)] | Where-Object { -not (Test-Done $_) }) | Select-Object -First 1
-	if (-not $next) {		# past the last question: back to the topic's questions not done yet (skipped earlier)
-		$next = @($tp.Qs | Where-Object { -not (Test-Done $_) }) | Select-Object -First 1
-	}
-	if ($review) { $next = $review }
-	if ($prefer -and ($tp.Qs -contains $prefer)) { $next = $prefer }	# the arrows inside a question chose this one
+	$def = if ($prefer -and $qs.Contains($prefer)) { $prefer } else { Default-Question }
 	$prefer = ""
-	if (-not $next) { $next = $tp.Qs[0] }		# all done: the menu still lets the student review a question
-	if ($back) {
-		Show-Plan $cur @(((U "topic_now") -f ($cur + 1), $topics.Count, $tp.Name)) Yellow
-		Write-Line ((U "welcome") -f ($cur + 1), ('{0:HH:mm}' -f $tp.End)) Green
-		$back = $false
-		Start-Sleep -Seconds 4
-	}
-	# the student chooses the question with the arrows; the board is programmed only after Enter (in run.ps1)
-	$pick = Select-Question $cur $tp $next
-	if (-not $pick) { continue }			# the topic's time is over
-	if ($pick -ne $next -or -not $review) { $review = $(if (Test-Done $pick) { $pick } else { "" }) }
-	$next = $pick
-	[IO.File]::WriteAllText($posFile, $next)
-	& (Join-Path $PSScriptRoot "run.ps1") -Only $next -Deadline $tp.End.ToString("o") -Review:([bool]$review)
+	$pick = Select-Question $def
+	if (-not $pick) { continue }			# the lesson's time is over
+	[IO.File]::WriteAllText($posFile, $pick)
+	$review = Test-Done $pick			# a finished question opens again from step 1 (review)
+	& (Join-Path $PSScriptRoot "run.ps1") -Only $pick -Deadline $lessonEnd.ToString("o") -Review:([bool]$review)
 	$code = $LASTEXITCODE
-	$ix = [array]::IndexOf($tp.Qs, $next)
-	if ($code -eq 3) {			# down arrow in a question: back to the menu, on the next question
-		$prefer = $tp.Qs[($ix + 1) % $tp.Qs.Count]
-		continue
-	}
-	if ($code -eq 4) {			# up arrow in a question: back to the menu, on the previous question
-		$prefer = $tp.Qs[[Math]::Max(0, $ix - 1)]
-		continue
-	}
+	$all = @($topics | ForEach-Object { $_.Qs })
+	$ix = [array]::IndexOf($all, $pick)
+	if ($code -eq 3) { $prefer = $all[[Math]::Min($all.Count - 1, $ix + 1)]; continue }	# down arrow in a question
+	if ($code -eq 4) { $prefer = $all[[Math]::Max(0, $ix - 1)]; continue }			# up arrow in a question
 	if ($code -eq 2) {
 		Write-Host ""
 		Write-Line (U "timeup_next") Yellow

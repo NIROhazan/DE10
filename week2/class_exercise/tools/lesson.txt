@@ -1,8 +1,8 @@
 # The lesson schedule of week 2 (lecture 2) - read by LESSON.bat (tools\lesson.ps1). Edit it before the lesson.
-# START hh:mm (or START now), then TOPIC <minutes> | <name, Hebrew, no English letters> | <questions, easy -> hard>.
+# TOPIC <minutes> | <name, Hebrew, no English letters> | <questions, easy -> hard>.
 
-START 17:00
-
+# The lesson's time starts when the student types the student ID; the TOPIC minutes add up to the lesson's
+# length and are only a recommendation (the menu lets the student open any question).
 TOPIC 40 | מערכות ספירה: בינארי, הקסדצימלי וכמה ביטים | Q01 Q02 Q03 Q04 Q05 Q06 Q07 Q08 Q09 Q10
 TOPIC 40 | חיבור, מספרים עם סימן והרחבה | Q11 Q12 Q13 Q14 Q15 Q16 Q17 Q18 Q19 Q20 Q21 Q22 Q23
 TOPIC 40 | שערים לוגיים וטרנזיסטורים | Q24 Q25 Q26 Q27 Q28 Q29 Q30 Q31 Q32
