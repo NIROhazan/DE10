@@ -81,7 +81,8 @@ function Start-Link($k) {
 	return [System.Diagnostics.Process]::Start($psi)
 }
 $link = Start-Link $from
-# the arrow keys: left = back one step, right = forward again, up to the step the student has reached
+# the arrow keys: left = back one step, right = the next step, also one not solved yet (skipping a part).
+# The code for Moodle still comes only when the board passes the LAST step, so the last step cannot be skipped.
 function Get-NavKey {
 	try {
 		while ([Console]::KeyAvailable) {
@@ -135,7 +136,7 @@ try {
 		}
 		$nav = Get-NavKey
 		if ($nav -ne 0 -and $cur -gt 0) {		# go to another step: a new link puts the board there
-			$reach = [Math]::Min($last, (Get-Progress $sid $q.Id) + 1)
+			$reach = $last				# any step up to the last one (skipping is allowed)
 			$want = [Math]::Max(1, [Math]::Min($reach, $cur + $nav))
 			if ($want -ne $cur) {
 				if (-not $link.HasExited) { $link.Kill(); $link.WaitForExit() }
