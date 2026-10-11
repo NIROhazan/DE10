@@ -59,6 +59,36 @@ function Show-Plan($cur, $title, $color) {
 	}
 	Write-Host ""
 }
+# The question menu: up / down arrows choose a question of the topic, Enter opens it - only then is the board
+# programmed (run.ps1). Returns the chosen question, or "" when the topic's time is over.
+function Select-Question($cur, $tp, $default) {
+	$i = [Math]::Max(0, [array]::IndexOf($tp.Qs, $default))
+	$draw = $true
+	while ($true) {
+		if ((Get-Date) -ge $tp.End) { return "" }
+		if ($draw) {
+			Show-Plan $cur @(((U "topic_now") -f ($cur + 1), $topics.Count, $tp.Name), (U "pick_title")) Yellow
+			for ($j = 0; $j -lt $tp.Qs.Count; $j++) {
+				$x = $tp.Qs[$j]
+				$st = if (Test-Done $x) { U "pick_done" } elseif ((Get-Progress $sid $x) -gt 0) { U "pick_started" } else { "" }
+				$row = (U "pick_row") -f ($j + 1), $qs[$x].Title, $st
+				if ($j -eq $i) { Write-Line ("<<  " + $row) Yellow } else { Write-Line $row $(if (Test-Done $x) { "Green" } else { "Gray" }) }
+			}
+			Write-Host ""
+			Write-Line (U "pick_keys") Cyan
+			$draw = $false
+		}
+		Start-Sleep -Milliseconds 100
+		try {
+			while ([Console]::KeyAvailable) {
+				$key = [Console]::ReadKey($true)
+				if ($key.Key -eq "UpArrow" -and $i -gt 0) { $i--; $draw = $true }
+				elseif ($key.Key -eq "DownArrow" -and $i -lt $tp.Qs.Count - 1) { $i++; $draw = $true }
+				elseif ($key.Key -eq "Enter") { return $tp.Qs[$i] }
+			}
+		} catch { return $tp.Qs[$i] }		# no console (a test run): the default question
+	}
+}
 function Wait-Until($when, $cur, $title, $color) {
 	Show-Plan $cur $title $color
 	$w = 100
@@ -74,6 +104,7 @@ function Wait-Until($when, $cur, $title, $color) {
 }
 
 # ---------------------------------------------------------------- the lesson
+$prefer = ""			# the question the menu stands on after the arrows inside a question
 while ($true) {
 	$now = Get-Date
 	if ($now -lt $topics[0].Begin) { Wait-Until $topics[0].Begin 0 ((U "starts_at") -f ('{0:HH:mm}' -f $topics[0].Begin)) Cyan; continue }
@@ -99,29 +130,30 @@ while ($true) {
 		$next = @($tp.Qs | Where-Object { -not (Test-Done $_) }) | Select-Object -First 1
 	}
 	if ($review) { $next = $review }
-	if (-not $next) {
-		$after = if ($cur + 1 -lt $topics.Count) { (U "next_topic_at") -f ('{0:HH:mm}' -f $tp.End) } else { U "last_topic" }
-		Wait-Until $tp.End $cur @((U "end_topic"), $after) Green
-		continue
-	}
-	[IO.File]::WriteAllText($posFile, $next)
-	Show-Plan $cur @(((U "topic_now") -f ($cur + 1), $topics.Count, $tp.Name), ((U "next_q") -f $next)) Yellow
+	if ($prefer -and ($tp.Qs -contains $prefer)) { $next = $prefer }	# the arrows inside a question chose this one
+	$prefer = ""
+	if (-not $next) { $next = $tp.Qs[0] }		# all done: the menu still lets the student review a question
 	if ($back) {
+		Show-Plan $cur @(((U "topic_now") -f ($cur + 1), $topics.Count, $tp.Name)) Yellow
 		Write-Line ((U "welcome") -f ($cur + 1), ('{0:HH:mm}' -f $tp.End)) Green
 		$back = $false
 		Start-Sleep -Seconds 4
 	}
-	Start-Sleep -Seconds 2
+	# the student chooses the question with the arrows; the board is programmed only after Enter (in run.ps1)
+	$pick = Select-Question $cur $tp $next
+	if (-not $pick) { continue }			# the topic's time is over
+	if ($pick -ne $next -or -not $review) { $review = $(if (Test-Done $pick) { $pick } else { "" }) }
+	$next = $pick
+	[IO.File]::WriteAllText($posFile, $next)
 	& (Join-Path $PSScriptRoot "run.ps1") -Only $next -Deadline $tp.End.ToString("o") -Review:([bool]$review)
 	$code = $LASTEXITCODE
 	$ix = [array]::IndexOf($tp.Qs, $next)
-	if ($code -eq 3) {			# down arrow: the next question of the topic (this one stays unfinished - it comes
-		$to = $tp.Qs[($ix + 1) % $tp.Qs.Count]	# back after the topic's last question, like any skipped one)
-		[IO.File]::WriteAllText($posFile, $to)
+	if ($code -eq 3) {			# down arrow in a question: back to the menu, on the next question
+		$prefer = $tp.Qs[($ix + 1) % $tp.Qs.Count]
 		continue
 	}
-	if ($code -eq 4) {			# up arrow: the previous question (a finished one opens again for review)
-		if ($ix -gt 0) { $First = $tp.Qs[$ix - 1] }
+	if ($code -eq 4) {			# up arrow in a question: back to the menu, on the previous question
+		$prefer = $tp.Qs[[Math]::Max(0, $ix - 1)]
 		continue
 	}
 	if ($code -eq 2) {
