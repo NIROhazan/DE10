@@ -506,11 +506,8 @@
 - `Y = LEDG0     X = LEDG1`
 - שימו ספרות על המתגים ובדקו בשביל אילו ספרות הוא דולק. איזה מקטע זה?
 - `data = SW9 SW8 SW7 SW6`
-- `a`
-- `f b`
-- `g`
-- `e c`
-- `d`
+- `a = top     b = top right     c = bottom right     d = bottom`
+- `e = bottom left     f = top left     g = middle`
 - `a = all down   b = SW0   c = SW1   d = SW1+SW0   e = SW2   f = SW2+SW0   g = SW2+SW1`
 
 **שלב 2**
@@ -893,29 +890,31 @@
 ### Q21 - לקרוא את המקטעים
 
 - **מתגים ונורות:** `segments = LEDG6..LEDG0 (abc_defg)     answer: SW6..SW0`
-- **שלבים:** 2
+- **שלבים:** 3
 
 **שלב 1**
 
-- הנורות הירוקות מראות את היציאה של מפענח 7 מקטעים, בסדר של השקופית:
-- `segments = LEDG6..LEDG0     a = LEDG6   b = LEDG5   c = LEDG4   d = LEDG3   e = LEDG2   f = LEDG1   g = LEDG0`
-- `a`
-- `f b`
-- `g`
-- `e c`
-- `d`
-- איזו ספרה מוצגת? שימו אותה:
-- `8 = SW3     4 = SW2     2 = SW1     1 = SW0`
+- בלוח מפענח של תצוגת 7 מקטעים, אבל במקום התצוגה כל מקטע הוא נורה ירוקה:
+- `a = LEDG6   b = LEDG5   c = LEDG4   d = LEDG3   e = LEDG2   f = LEDG1   g = LEDG0`
+- 1. כמה נורות ירוקות דולקות? (כמה מקטעים דולקים)
+- `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0`
 
 **שלב 2**
 
-- כתבו את המקטעים של הספרה הבאה (אחת יותר), באותו סדר:
-- `SW6..SW0 = a b c d e f g`
-- `a`
-- `f b`
-- `g`
-- `e c`
-- `d`
+- 2. ציירו ספרה של 7 מקטעים, וסמנו בה את המקטעים שדולקים. המקום של כל מקטע:
+- `a = top     b = top right     c = bottom right     d = bottom`
+- `e = bottom left     f = top left     g = middle`
+- `a = LEDG6   b = LEDG5   c = LEDG4   d = LEDG3   e = LEDG2   f = LEDG1   g = LEDG0`
+- איזו ספרה יצאה? שימו אותה:
+- `8 = SW3     4 = SW2     2 = SW1     1 = SW0`
+
+**שלב 3**
+
+- 3. עכשיו הספרה הבאה (הספרה שמצאתם ועוד 1). אילו מקטעים דולקים בה?
+- לכל מקטע שצריך לדלוק - הרימו את המתג שלו:
+- `a = top     b = top right     c = bottom right     d = bottom`
+- `e = bottom left     f = top left     g = middle`
+- `a -> SW6   b -> SW5   c -> SW4   d -> SW3   e -> SW2   f -> SW1   g -> SW0`
 
 ### Q22 - שני חוטים מוחלפים במפענח
 
@@ -928,11 +927,8 @@
 - שימו ספרות והשוו לטבלה:
 - `data = SW9..SW6`
 - `segments = LEDG6..LEDG0     a = LEDG6   b = LEDG5   c = LEDG4   d = LEDG3   e = LEDG2   f = LEDG1   g = LEDG0`
-- `a`
-- `f b`
-- `g`
-- `e c`
-- `d`
+- `a = top     b = top right     c = bottom right     d = bottom`
+- `e = bottom left     f = top left     g = middle`
 - איזה מקטע מוחלף? מבין השניים - זה שבא קודם בסדר:
 - `a b c d e f g`
 - `a = all down   b = SW0   c = SW1   d = SW1+SW0   e = SW2   f = SW2+SW0   g = SW2+SW1`
@@ -941,11 +937,8 @@
 
 - ואיזה המקטע השני?
 - `segments = LEDG6..LEDG0     a = LEDG6   b = LEDG5   c = LEDG4   d = LEDG3   e = LEDG2   f = LEDG1   g = LEDG0`
-- `a`
-- `f b`
-- `g`
-- `e c`
-- `d`
+- `a = top     b = top right     c = bottom right     d = bottom`
+- `e = bottom left     f = top left     g = middle`
 - `a = all down   b = SW0   c = SW1   d = SW1+SW0   e = SW2   f = SW2+SW0   g = SW2+SW1`
 
 ### Q23 - if / else בתוך always
@@ -1137,11 +1130,8 @@
 - `data = SW9 SW8 SW7 SW6     (HEX0)`
 - 2. השוו את הנורות למקטעים של הספרה:
 - `segments = LEDG6..LEDG0     a = LEDG6   b = LEDG5   c = LEDG4   d = LEDG3   e = LEDG2   f = LEDG1   g = LEDG0`
-- `a`
-- `f b`
-- `g`
-- `e c`
-- `d`
+- `a = top     b = top right     c = bottom right     d = bottom`
+- `e = bottom left     f = top left     g = middle`
 - 3. הרימו את הספרה השגויה:
 - `8 = SW3     4 = SW2     2 = SW1     1 = SW0`
 
@@ -1152,11 +1142,8 @@
 - `data = SW9 SW8 SW7 SW6     (HEX0)`
 - 2. מצאו את הנורה שלא כמו בטבלה:
 - `segments = LEDG6..LEDG0     a = LEDG6   b = LEDG5   c = LEDG4   d = LEDG3   e = LEDG2   f = LEDG1   g = LEDG0`
-- `a`
-- `f b`
-- `g`
-- `e c`
-- `d`
+- `a = top     b = top right     c = bottom right     d = bottom`
+- `e = bottom left     f = top left     g = middle`
 - 3. הרימו את המקטע:
 - `a = all down   b = SW0   c = SW1   d = SW1+SW0   e = SW2   f = SW2+SW0   g = SW2+SW1`
 

@@ -321,11 +321,8 @@ S1: בלוח מקטע אחד של תצוגת 7 מקטעים, למספר בין 0
 S1: Y = LEDG0     X = LEDG1
 S1: שימו ספרות על המתגים ובדקו בשביל אילו ספרות הוא דולק. איזה מקטע זה?
 S1: data = SW9 SW8 SW7 SW6
-S1:  a 
-S1: f b
-S1:  g 
-S1: e c
-S1:  d 
+S1: a = top     b = top right     c = bottom right     d = bottom
+S1: e = bottom left     f = top left     g = middle
 S1: a = all down   b = SW0   c = SW1   d = SW1+SW0   e = SW2   f = SW2+SW0   g = SW2+SW1
 S2: מלאו מפת קרנו של ארבעה משתנים (10 עד 15 = לא אכפת), ועגלו.
 S2: כמה עיגולים יש בסכום המכפלות המינימלי?
@@ -580,24 +577,23 @@ S7: C, D
 S7: משתנה שלא מופיע במכפלה: אף מתג שלו לא למעלה.
 S7: C = SW3     C' = SW2     D = SW1     D' = SW0
 
-[Q21] SEGREAD | לקרוא את המקטעים | npub 1 | steps 3 | flat
+[Q21] SEGREAD | לקרוא את המקטעים | npub 1 | steps 4 | flat
 B: segments = LEDG6..LEDG0 (abc_defg)     answer: SW6..SW0
-S1: הנורות הירוקות מראות את היציאה של מפענח 7 מקטעים, בסדר של השקופית:
-S1: segments = LEDG6..LEDG0     a = LEDG6   b = LEDG5   c = LEDG4   d = LEDG3   e = LEDG2   f = LEDG1   g = LEDG0
-S1:  a 
-S1: f b
-S1:  g 
-S1: e c
-S1:  d 
-S1: איזו ספרה מוצגת? שימו אותה:
-S1: 8 = SW3     4 = SW2     2 = SW1     1 = SW0
-S2: כתבו את המקטעים של הספרה הבאה (אחת יותר), באותו סדר:
-S2: SW6..SW0 = a b c d e f g
-S2:  a 
-S2: f b
-S2:  g 
-S2: e c
-S2:  d 
+S1: בלוח מפענח של תצוגת 7 מקטעים, אבל במקום התצוגה כל מקטע הוא נורה ירוקה:
+S1: a = LEDG6   b = LEDG5   c = LEDG4   d = LEDG3   e = LEDG2   f = LEDG1   g = LEDG0
+S1: 1. כמה נורות ירוקות דולקות? (כמה מקטעים דולקים)
+S1: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0
+S2: 2. ציירו ספרה של 7 מקטעים, וסמנו בה את המקטעים שדולקים. המקום של כל מקטע:
+S2: a = top     b = top right     c = bottom right     d = bottom
+S2: e = bottom left     f = top left     g = middle
+S2: a = LEDG6   b = LEDG5   c = LEDG4   d = LEDG3   e = LEDG2   f = LEDG1   g = LEDG0
+S2: איזו ספרה יצאה? שימו אותה:
+S2: 8 = SW3     4 = SW2     2 = SW1     1 = SW0
+S3: 3. עכשיו הספרה הבאה (הספרה שמצאתם ועוד 1). אילו מקטעים דולקים בה?
+S3: לכל מקטע שצריך לדלוק - הרימו את המתג שלו:
+S3: a = top     b = top right     c = bottom right     d = bottom
+S3: e = bottom left     f = top left     g = middle
+S3: a -> SW6   b -> SW5   c -> SW4   d -> SW3   e -> SW2   f -> SW1   g -> SW0
 
 [Q22] SEGSWAP | שני חוטים מוחלפים במפענח | npub 1 | steps 3 | flat
 B: data = SW9..SW6 (HEX0)     segments = LEDG6..LEDG0 (abc_defg)     answer: SW2..SW0
@@ -605,21 +601,15 @@ S1: בלוח המפענח של השקופית, אבל שני חוטים של מ�
 S1: שימו ספרות והשוו לטבלה:
 S1: data = SW9..SW6
 S1: segments = LEDG6..LEDG0     a = LEDG6   b = LEDG5   c = LEDG4   d = LEDG3   e = LEDG2   f = LEDG1   g = LEDG0
-S1:  a 
-S1: f b
-S1:  g 
-S1: e c
-S1:  d 
+S1: a = top     b = top right     c = bottom right     d = bottom
+S1: e = bottom left     f = top left     g = middle
 S1: איזה מקטע מוחלף? מבין השניים - זה שבא קודם בסדר:
 S1: a b c d e f g
 S1: a = all down   b = SW0   c = SW1   d = SW1+SW0   e = SW2   f = SW2+SW0   g = SW2+SW1
 S2: ואיזה המקטע השני?
 S2: segments = LEDG6..LEDG0     a = LEDG6   b = LEDG5   c = LEDG4   d = LEDG3   e = LEDG2   f = LEDG1   g = LEDG0
-S2:  a 
-S2: f b
-S2:  g 
-S2: e c
-S2:  d 
+S2: a = top     b = top right     c = bottom right     d = bottom
+S2: e = bottom left     f = top left     g = middle
 S2: a = all down   b = SW0   c = SW1   d = SW1+SW0   e = SW2   f = SW2+SW0   g = SW2+SW1
 
 [Q23] IFELSE | if / else בתוך always | npub 1 | steps 5 | flat
@@ -736,11 +726,8 @@ S2: 1. שימו ספרה על המתגים:
 S2: data = SW9 SW8 SW7 SW6     (HEX0)
 S2: 2. השוו את הנורות למקטעים של הספרה:
 S2: segments = LEDG6..LEDG0     a = LEDG6   b = LEDG5   c = LEDG4   d = LEDG3   e = LEDG2   f = LEDG1   g = LEDG0
-S2:  a 
-S2: f b
-S2:  g 
-S2: e c
-S2:  d 
+S2: a = top     b = top right     c = bottom right     d = bottom
+S2: e = bottom left     f = top left     g = middle
 S2: 3. הרימו את הספרה השגויה:
 S2: 8 = SW3     4 = SW2     2 = SW1     1 = SW0
 S3: בספרה השגויה מקטע אחד הפוך. איזה מקטע?
@@ -748,11 +735,8 @@ S3: 1. שימו את הספרה השגויה על המתגים:
 S3: data = SW9 SW8 SW7 SW6     (HEX0)
 S3: 2. מצאו את הנורה שלא כמו בטבלה:
 S3: segments = LEDG6..LEDG0     a = LEDG6   b = LEDG5   c = LEDG4   d = LEDG3   e = LEDG2   f = LEDG1   g = LEDG0
-S3:  a 
-S3: f b
-S3:  g 
-S3: e c
-S3:  d 
+S3: a = top     b = top right     c = bottom right     d = bottom
+S3: e = bottom left     f = top left     g = middle
 S3: 3. הרימו את המקטע:
 S3: a = all down   b = SW0   c = SW1   d = SW1+SW0   e = SW2   f = SW2+SW0   g = SW2+SW1
 
