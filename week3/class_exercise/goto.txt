@@ -1,10 +1,10 @@
-# Where do you want to start? Write ONE line below (or leave none), save, then double-click LESSON.bat.
+# Where in the lesson do you want to be? Write ONE line below, save, then double-click GOTO.bat.
 #
-#   (no line)             the lesson by the class clock
-#   TOPIC 2               topic 2, from its first question
-#   TOPIC 1 QUESTION 3    topic 1, starting with its 3rd question
+#   TOPIC 2        the start of topic 2
+#   TOPIC 2 10     topic 2, 10 minutes after it began
+#   QUESTION 13    question 13 first (at the start of its topic), then the rest of that topic
+#   QUESTION 13 10 question 13, 10 minutes after its topic began
+#   MINUTE 45      45 minutes after the start of the lesson
 #
-# The chosen topic starts now, with its full time. A NEW line = a new jump; the same line again = go on where you are.
-# Your progress (steps already passed) is kept.
-# The topics:   TOPIC 1 - 9 questions     TOPIC 2 - 8 questions     TOPIC 3 - 13 questions
+# Your progress (steps already passed) is kept. LESSON.bat then goes on with this clock.
 
