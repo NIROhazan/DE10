@@ -2,7 +2,55 @@
 # [Qnn] NAME | title | npub n [| steps n];  B: board;  Pk: printed for login numbers with pub = k;
 # with steps: Sk: the screen of step k (step 0 = login, in run.ps1);  without: L: question, F: answer format
 
-[Q01] NSTATES | כמה מצבים לגלאי? | npub 1 | steps 3 | flat
+[Q01] MOORESLIDE | חילזון מור מהשקופית | npub 1 | steps 3 | flat
+B: S1 S0 = SW9 SW8     A = SW7     next S1 S0 = LEDG3 LEDG2     Y = LEDG0     case: state = HEX1, A = HEX0     answer: SW4..SW0
+S1: חילזון מור, שקופיות 4 ו-7: המעגל של המצב הבא.
+S1: S1' = S0 A     S0' = A'     Y = S1
+S1: בלי שעון: במתגים שמים מצב נוכחי וכניסה, ובלוח רואים את המצב הבא ואת היציאה.
+S1: S0 = 00     S1 = 01     S2 = 10
+S1: S1 S0 = SW9 SW8     A = SW7     next S1 S0 = LEDG3 LEDG2     Y = LEDG0
+S1: the case:   state = HEX1     A = HEX0
+S1: שימו במתגים את המקרה שבתצוגה. מה המצב הבא?
+S1: SW1 SW0 = next S1 S0
+S2: החילזון מחייך במצב הזה?
+S2: Y = LEDG0
+S2: מחייך - הרימו:
+S2: SW0
+S2: לא מחייך - השאירו למטה.
+
+[Q02] MEALYSLIDE | חילזון מילי מהשקופית | npub 1 | steps 3 | flat
+B: S0 = SW9     A = SW8     next S0 = LEDG1     Y = LEDG0     case: S0 = HEX1, A = HEX0     answer: SW4..SW0
+S1: חילזון מילי, שקופיות 6 ו-8: ביט מצב אחד.
+S1: S0' = A'     Y = S0 A
+S1: בלי שעון: במתגים שמים מצב נוכחי וכניסה, ובלוח רואים את המצב הבא ואת היציאה.
+S1: S0 = SW9     A = SW8     next S0 = LEDG1     Y = LEDG0
+S1: the case:   S0 = HEX1     A = HEX0
+S1: שימו במתגים את המקרה שבתצוגה. מה המצב הבא?
+S1: 1 - הרימו:
+S1: SW0
+S1: 0 - השאירו למטה.
+S2: החילזון מחייך עכשיו?
+S2: Y = LEDG0
+S2: מחייך - הרימו:
+S2: SW0
+S2: לא מחייך - השאירו למטה.
+
+[Q03] MOORESTEP | חילזון מור על שני ביטים | npub 1 | steps 3 | flat
+B: S1 S0 = SW9 SW8     A = SW7     next S1 S0 = LEDG3 LEDG2     Y = LEDG0     tape: HEX1, HEX0     answer: SW4..SW0
+S1: חילזון מור, שקופית 4: שני ביטים על הסרט.
+S1: בלי שעון: במתגים שמים מצב נוכחי וכניסה, ובלוח רואים את המצב הבא ואת היציאה.
+S1: S1 S0 = SW9 SW8     A = SW7     next S1 S0 = LEDG3 LEDG2     Y = LEDG0
+S1: the tape:   first bit = HEX1     second bit = HEX0
+S1: מתחילים במצב 00. שימו בכניסה את הביט הראשון, והעבירו את המצב הבא אל מתגי המצב.
+S1: אחר כך אותו דבר עם הביט השני. לאיזה מצב הגעתם?
+S1: SW1 SW0 = S1 S0
+S2: החילזון מחייך במצב הזה?
+S2: Y = LEDG0
+S2: מחייך - הרימו:
+S2: SW0
+S2: לא מחייך - השאירו למטה.
+
+[Q04] NSTATES | כמה מצבים לגלאי? | npub 1 | steps 3 | flat
 B: the pattern length = HEX0     the pattern = the right LEDs of LEDG3..LEDG0     answer: SW3..SW0
 S1: בתצוגה האורך של רצף, ובנורות הירוקות הרצף עצמו.
 S1: length = HEX0
@@ -11,7 +59,7 @@ S1: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0
 S2: וכמה מצבים צריך גלאי מילי?
 S2: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0
 
-[Q02] SNAIL | החילזון: מתי הוא מחייך? | npub 1 | steps 3 | flat
+[Q05] SNAIL | החילזון: מתי הוא מחייך? | npub 1 | steps 3 | flat
 B: S = SW9 SW8 (HEX3)     A = SW7 (HEX2)     next S = HEX0     smile Y = LEDG0     answer: SW4..SW0
 S1: בלוח החלק הצירופי של חילזון שמחייך אחרי רצף מסוים של שני ביטים.
 S1: בלי שעון: במתגים שמים מצב נוכחי וכניסה, ובלוח רואים את המצב הבא ואת היציאה.
@@ -26,7 +74,7 @@ S2: S = SW9 SW8 (HEX3)     A = SW7 (HEX2)
 S2: next S = HEX0     Y = LEDG0
 S2: SW1 = first bit     SW0 = second bit
 
-[Q03] SNAILSTATES | המצבים של חילזון מור | npub 1 | steps 5 | flat
+[Q06] SNAILSTATES | המצבים של חילזון מור | npub 1 | steps 5 | flat
 B: S1 S0 = SW9 SW8     A = SW7     next S1 S0 = LEDG3 LEDG2     Y = LEDG0     answer: SW4..SW0
 S1: בלוח החלק הצירופי של חילזון מור: שלושה מצבים בקידוד נסתר. הקוד 11 לא בשימוש.
 S1: בלי שעון: במתגים שמים מצב נוכחי וכניסה, ובלוח רואים את המצב הבא ואת היציאה.
@@ -45,7 +93,7 @@ S4: S1 S0 = SW9 SW8     A = SW7
 S4: next S1 S0 = LEDG3 LEDG2     Y = LEDG0
 S4: SW1 = first bit     SW0 = second bit
 
-[Q04] SNAILNEXT | טבלת המעברים של חילזון מור | npub 1 | steps 4 | flat
+[Q07] SNAILNEXT | טבלת המעברים של חילזון מור | npub 1 | steps 4 | flat
 B: S1 S0 = SW9 SW8     A = SW7     next S1 S0 = LEDG3 LEDG2     Y = LEDG0     answer: SW4..SW0
 S1: בלוח החלק הצירופי של חילזון מור, עם הקידוד של ההרצאה.
 S1: בלי שעון: במתגים שמים מצב נוכחי וכניסה, ובלוח רואים את המצב הבא ואת היציאה.
@@ -67,7 +115,7 @@ S3: S1 S0 = SW9 SW8     A = SW7
 S3: next S1 S0 = LEDG3 LEDG2     Y = LEDG0
 S3: SW1 SW0 = next S1 S0
 
-[Q05] SNAILMEALY | טבלת היציאה של חילזון מילי | npub 1 | steps 3 | flat
+[Q08] SNAILMEALY | טבלת היציאה של חילזון מילי | npub 1 | steps 3 | flat
 B: S0 = SW9 (HEX3)     A = SW8 (HEX2)     next S0 = LEDG1     Y = LEDG0     answer: SW4..SW0
 S1: בלוח החלק הצירופי של חילזון מילי: ביט מצב אחד, והיציאה תלויה בו ובכניסה.
 S1: בלי שעון: במתגים שמים מצב נוכחי וכניסה, ובלוח רואים את המצב הבא ואת היציאה.
@@ -79,7 +127,7 @@ S2: מתי היציאה דולקת? הרימו את המתג של כל מקרה 
 S2: S0 = SW9     A = SW8     next S0 = LEDG1     Y = LEDG0
 S2: S0 A = 00 -> SW0     01 -> SW1     10 -> SW2     11 -> SW3
 
-[Q06] SNAILTIME | מתי החיוך הראשון? | npub 1 | steps 3 | flat
+[Q09] SNAILTIME | מתי החיוך הראשון? | npub 1 | steps 3 | flat
 B: S = SW9 SW8 (HEX3)     A = SW7 (HEX2)     next S = HEX0     Y = LEDG0     answer: SW4..SW0
 S1: בלוח החלק הצירופי של חילזון (רצף נסתר של שני ביטים).
 S1: בלי שעון: במתגים שמים מצב נוכחי וכניסה, ובלוח רואים את המצב הבא ואת היציאה.
@@ -94,7 +142,7 @@ S2: next S = HEX0     Y = LEDG0
 S2: בזמן איזה ביט בסרט (המספר שלו) היציאה נדלקת בפעם הראשונה?
 S2: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0 8 = SW3
 
-[Q07] TAPE | כמה חיוכים על הסרט? | npub 1 | steps 3 | flat
+[Q10] TAPE | כמה חיוכים על הסרט? | npub 1 | steps 3 | flat
 B: S = SW9 SW8 (HEX3)     A = SW7 (HEX2)     next S = HEX0     Y = LEDG0     answer: SW4..SW0
 S1: בלוח החלק הצירופי של חילזון מור (רצף נסתר, חופף).
 S1: בלי שעון: במתגים שמים מצב נוכחי וכניסה, ובלוח רואים את המצב הבא ואת היציאה.
@@ -110,7 +158,7 @@ S2: כמה פעמים עברתם אל המצב המחייך?
 S2: 0 = all 0
 S2: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1
 
-[Q08] TWOSNAILS | שני חלזונות על אותו סרט | npub 1 | steps 3 | flat
+[Q11] TWOSNAILS | שני חלזונות על אותו סרט | npub 1 | steps 3 | flat
 B: S = SW9 SW8 (HEX3)     A = SW7 (HEX2)     next S = HEX0     snails: LEDG1, LEDG0     answer: SW4..SW0
 S1: בלוח החלק הצירופי של שני חלזונות על אותו רצף של שלושה ביטים: אחד מור ואחד מילי.
 S1: בלי שעון: במתגים שמים מצב נוכחי וכניסה, ובלוח רואים את המצב הבא ואת היציאה.
@@ -121,7 +169,7 @@ S2: מה הרצף? (מהמצב 0, ביט אחר ביט, עד המצב 3)
 S2: S = SW9 SW8 (HEX3)     A = SW7 (HEX2)     next S = HEX0     snails: LEDG1, LEDG0
 S2: SW2 = first bit     SW1 = second     SW0 = third
 
-[Q09] ONES | כמה אחדות ברצף? | npub 1 | steps 4 | flat
+[Q12] ONES | כמה אחדות ברצף? | npub 1 | steps 4 | flat
 B: S = SW9 SW8 SW7 (HEX3)     A = SW6 (HEX2)     next S = HEX0     Y = LEDG0     answer: SW4..SW0
 S1: בלוח החלק הצירופי של גלאי מור: היציאה נדלקת אחרי כמה אחדות ברצף.
 S1: בלי שעון: במתגים שמים מצב נוכחי וכניסה, ובלוח רואים את המצב הבא ואת היציאה.
@@ -133,7 +181,7 @@ S2: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1
 S3: וכמה מצבים היו צריכים כמכונת מילי? (היציאה נקבעת כבר עם הביט האחרון)
 S3: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1
 
-[Q10] EDGE | גלאי שינוי | npub 1 | steps 3 | flat
+[Q13] EDGE | גלאי שינוי | npub 1 | steps 3 | flat
 B: S1 S0 = SW9 SW8     A = SW7     next S1 S0 = LEDG3 LEDG2     Y = LEDG0     answer: SW4..SW0
 S1: בלוח החלק הצירופי של גלאי שינוי: היציאה נדלקת כשהכניסה משתנה בדרך מסוימת.
 S1: בלי שעון: במתגים שמים מצב נוכחי וכניסה, ובלוח רואים את המצב הבא ואת היציאה.
@@ -148,7 +196,7 @@ S2: S1 S0 = SW9 SW8     A = SW7     next S1 S0 = LEDG3 LEDG2     Y = LEDG0
 S2: S0 = the previous bit
 S2: rising (0 -> 1) = all 0     falling (1 -> 0) = SW0     any change = SW1
 
-[Q11] OVERLAP | גלאי חופף או לא חופף | npub 1 | steps 3 | flat
+[Q14] OVERLAP | גלאי חופף או לא חופף | npub 1 | steps 3 | flat
 B: S = SW9 SW8 (HEX3)     A = SW7 (HEX2)     next S = HEX0     Y = LEDG0     answer: SW4..SW0
 S1: בלוח החלק הצירופי של גלאי מור לרצף של שלושה ביטים. במצב 3 הוא מחייך.
 S1: בלי שעון: במתגים שמים מצב נוכחי וכניסה, ובלוח רואים את המצב הבא ואת היציאה.
@@ -164,7 +212,37 @@ S2: חופף - הרימו:
 S2: SW0
 S2: לא חופף - השאירו למטה.
 
-[Q12] MODEFSM | מכונת המצב של התהלוכה | npub 1 | steps 4 | flat
+[Q15] MODESLIDE | מכונת מצב התהלוכה מהשקופית | npub 1 | steps 3 | flat
+B: M = SW9     P = SW8     R = SW7     next M = LEDG0     case: HEX2 HEX1 HEX0     answer: SW4..SW0
+S1: מכונת מצב התהלוכה, שקופית 14: ביט מצב אחד.
+S1: בלי שעון: במתגים שמים מצב נוכחי וכניסות, ובלוח רואים את המצב הבא.
+S1: M = SW9     P = SW8     R = SW7     next M = LEDG0
+S1: the case:   M = HEX2     P = HEX1     R = HEX0
+S1: שימו במתגים את המקרה שבתצוגה. מה המצב הבא?
+S1: 1 - הרימו:
+S1: SW0
+S1: 0 - השאירו למטה.
+S2: צעד קדימה: מעבירים את המצב הבא אל מתגי המצב.
+S2: השאירו את הכניסות. מה המצב הבא עכשיו?
+S2: M = SW9     P = SW8     R = SW7     next M = LEDG0
+S2: 1 - הרימו:
+S2: SW0
+S2: 0 - השאירו למטה.
+
+[Q16] LIGHTSSLIDE | מכונת הרמזורים מהשקופית | npub 1 | steps 3 | flat
+B: S = SW9 SW8     M = SW7     TA = SW6     TB = SW5     next S = LEDG1 LEDG0     case: HEX3..HEX0     answer: SW4..SW0
+S1: מכונת הרמזורים, שקופית 14.
+S1: בלי שעון: במתגים שמים מצב נוכחי וכניסות, ובלוח רואים את המצב הבא.
+S1: S = SW9 SW8     M = SW7     TA = SW6     TB = SW5     next S = LEDG1 LEDG0
+S1: the case:   S = HEX3     M = HEX2     TA = HEX1     TB = HEX0
+S1: שימו במתגים את המקרה שבתצוגה. מה המצב הבא?
+S1: S0 = all 0     S1 = SW0     S2 = SW1     S3 = SW1+SW0
+S2: צעד קדימה: מעבירים את המצב הבא אל מתגי המצב.
+S2: השאירו את הכניסות. מה המצב הבא עכשיו?
+S2: S = SW9 SW8     M = SW7     TA = SW6     TB = SW5     next S = LEDG1 LEDG0
+S2: S0 = all 0     S1 = SW0     S2 = SW1     S3 = SW1+SW0
+
+[Q17] MODEFSM | מכונת המצב של התהלוכה | npub 1 | steps 4 | flat
 B: M = SW9     P, R = SW8, SW7 (in some order)     next M = LEDG0     answer: SW4..SW0
 S1: בלוח החלק הצירופי של מכונת המצב בבקר הרמזור: ביט מצב אחד (יש תהלוכה או אין) ושתי כניסות.
 S1: בלי שעון: במתגים שמים מצב נוכחי וכניסה, ובלוח רואים את המצב הבא ואת היציאה.
@@ -181,7 +259,7 @@ S3: הרימו את שתי הכניסות. מי מנצח?
 S3: M = SW9     P, R = SW8, SW7 (in some order)     next M = LEDG0
 S3: P = all 0     R = SW0
 
-[Q13] PARADE | מצב תהלוכה | npub 1 | steps 3 | flat
+[Q18] PARADE | מצב תהלוכה | npub 1 | steps 3 | flat
 B: M = SW9, lights state SW8 SW7, TA SW6, TB SW5, P / R on SW4 SW3     next M = LEDG4     next lights = HEX0     answer: SW4..SW0
 S1: בלוח החלק הצירופי של בקר הרמזור עם תהלוכה: שתי מכונות, מכונת המצב ומכונת הרמזורים.
 S1: בלי שעון: במתגים שמים מצב נוכחי וכניסה, ובלוח רואים את המצב הבא ואת היציאה.
@@ -198,7 +276,7 @@ S2: next M = LEDG4     next lights state = HEX0
 S2: 0 = A green     1 = A yellow     2 = B green     3 = B yellow
 S2: A = all 0     B = SW0
 
-[Q14] PARADEPINS | מי מחובר לאיזה מתג? | npub 1 | steps 4 | flat
+[Q19] PARADEPINS | מי מחובר לאיזה מתג? | npub 1 | steps 4 | flat
 B: M = SW9, lights state SW8 SW7, TA TB P R on SW6..SW3 (hidden order)     next M = LEDG4     next lights = HEX0     answer: SW4..SW0
 S1: בלוח החלק הצירופי של בקר הרמזור עם תהלוכה, אבל ארבע הכניסות מחוברות בסדר נסתר.
 S1: בלי שעון: במתגים שמים מצב נוכחי וכניסה, ובלוח רואים את המצב הבא ואת היציאה.
@@ -224,7 +302,7 @@ S3: next M = LEDG4     next lights state = HEX0
 S3: 0 = A green     1 = A yellow     2 = B green     3 = B yellow
 S3: SW6 = all 0     SW5 = SW0     SW4 = SW1     SW3 = SW1+SW0
 
-[Q15] PARADEWAIT | כמה זמן עד שהתהלוכה עוברת? | npub 1 | steps 3 | flat
+[Q20] PARADEWAIT | כמה זמן עד שהתהלוכה עוברת? | npub 1 | steps 3 | flat
 B: M = SW9, lights state SW8..SW6, TA SW5, TB SW4     lights LEDG7..5, LEDG2..0     next lights state = HEX0     answer: SW4..SW0
 S1: בלוח החלק הצירופי של מכונת הרמזורים, שבה כל צהוב נמשך כמה מצבים. התהלוכה ברחוב השני.
 S1: בלי שעון: במתגים שמים מצב נוכחי וכניסה, ובלוח רואים את המצב הבא ואת היציאה.
@@ -246,7 +324,7 @@ S2: LA:  green = LEDG7   yellow = LEDG6   red = LEDG5
 S2: LB:  green = LEDG2   yellow = LEDG1   red = LEDG0
 S2: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2
 
-[Q16] FACTORCOUNT | כמה מצבים עם פירוק ובלי? | npub 1 | steps 4 | flat
+[Q21] FACTORCOUNT | כמה מצבים עם פירוק ובלי? | npub 1 | steps 4 | flat
 B: lights state = SW9 SW8 SW7 (HEX3)     TA = SW6     TB = SW5     next = HEX0     lights LEDG7..5, LEDG2..0     answer: SW4..SW0
 S1: בלוח החלק הצירופי של מכונת הרמזורים, שבה כל צהוב נמשך כמה מצבים. קוד שלא מדליק אף רמזור לא בשימוש.
 S1: בלי שעון: במתגים שמים מצב נוכחי וכניסה, ובלוח רואים את המצב הבא ואת היציאה.
@@ -261,7 +339,7 @@ S3: וכמה מצבים בסך הכול בשתי מכונות נפרדות (פי
 S3: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0 8 = SW3 9 = SW3+SW0
 S3: 10 = SW3+SW1
 
-[Q17] TIMERLIGHT | רמזור עם מכונת טיימר | npub 1 | steps 4 | flat
+[Q22] TIMERLIGHT | רמזור עם מכונת טיימר | npub 1 | steps 4 | flat
 B: lights = SW9 SW8 (HEX3)     timer = SW7 SW6 SW5 (HEX2)     next lights = HEX1     next timer = HEX0     answer: SW4..SW0
 S1: בלוח החלק הצירופי של רמזור מפורק לשתי מכונות: מכונת הרמזורים, ומכונת טיימר שאומרת לה מתי לעבור.
 S1: בלי שעון ובלי כניסות: במתגים שמים מצב נוכחי, ובלוח רואים את המצב הבא.
@@ -278,7 +356,7 @@ S2: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0
 S3: כמה מצבים צריך מכונת הטיימר? (היא סופרת את הירוק הארוך)
 S3: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0
 
-[Q18] TWODIGITS | מונה של שתי ספרות: שתי מכונות | npub 1 | steps 5 | flat
+[Q23] TWODIGITS | מונה של שתי ספרות: שתי מכונות | npub 1 | steps 5 | flat
 B: tens = SW9 SW8 (HEX3)     units = SW7 SW6 SW5 (HEX2)     next tens = HEX1     next units = HEX0     answer: SW4..SW0
 S1: בלוח החלק הצירופי של מונה של שתי ספרות: מכונת היחידות מודיעה למכונת העשרות מתי להתקדם.
 S1: בלי שעון ובלי כניסות: במתגים שמים מצב נוכחי, ובלוח רואים את המצב הבא.
@@ -296,7 +374,57 @@ S3: 16 = SW4   8 = SW3   4 = SW2   2 = SW1   1 = SW0
 S4: וכמה מצבים בסך הכול בשתי המכונות המפורקות?
 S4: 8 = SW3     4 = SW2     2 = SW1     1 = SW0
 
-[Q19] BLINK | מהבהב | npub 1 | steps 4 | flat
+[Q24] CODE11 | הקוד שלא בשימוש | npub 1 | steps 4 | flat
+B: S1 S0 = SW9 SW8     A = SW7     next S1 S0 = LEDG3 LEDG2     Y = LEDG0     A to try = HEX0     answer: SW4..SW0
+S1: תכנון חילזון מור, שקופית 7: בקידוד הקוד 11 לא בשימוש. מה המעגל עושה בו?
+S1: S1' = S0 A     S0' = A'     Y = S1
+S1: בלי שעון: במתגים שמים מצב נוכחי וכניסה, ובלוח רואים את המצב הבא ואת היציאה.
+S1: S1 S0 = SW9 SW8     A = SW7     next S1 S0 = LEDG3 LEDG2     Y = LEDG0
+S1: שימו במתגי המצב 11. החילזון מחייך?
+S1: Y = LEDG0
+S1: מחייך - הרימו:
+S1: SW0
+S1: לא מחייך - השאירו למטה.
+S2: the input to try:   A = HEX0
+S2: שימו בכניסה את הערך שבתצוגה. מה המצב הבא?
+S2: S1 S0 = SW9 SW8     A = SW7     next S1 S0 = LEDG3 LEDG2     Y = LEDG0
+S2: SW1 SW0 = next S1 S0
+S3: לאיזה מצב של החילזון הוא עבר?
+S3: S0 = 00     S1 = 01     S2 = 10
+S3: S0 = all 0     S1 = SW0     S2 = SW1
+
+[Q25] MOOREGATES | השרטוט של חילזון מור | npub 1 | steps 4 | flat
+B: S1 S0 = SW9 SW8     A = SW7     Y, S0', S1' = LEDG2, LEDG1, LEDG0 (in some order)     answer: SW4..SW0
+S1: השרטוט של חילזון מור, שקופית 7: שלוש היציאות של המעגל על נורות בסדר נסתר.
+S1: Y = S1     S0' = A'     S1' = S0 A
+S1: בלי שעון: במתגים שמים מצב נוכחי וכניסה, ובלוח רואים את המצב הבא ואת היציאה.
+S1: S1 S0 = SW9 SW8     A = SW7     Y, S0', S1' = LEDG2, LEDG1, LEDG0 (in some order)
+S1: איזו נורה היא היציאה? היא תלויה רק במתג השמאלי.
+S1: LEDG2 = all 0     LEDG1 = SW0     LEDG0 = SW1
+S2: איזו נורה היא המצב הבא הימני (המהפך)? היא דולקת כשהכניסה 0.
+S2: S1 S0 = SW9 SW8     A = SW7     Y, S0', S1' = LEDG2, LEDG1, LEDG0 (in some order)
+S2: LEDG2 = all 0     LEDG1 = SW0     LEDG0 = SW1
+S3: איזו נורה היא המצב הבא השמאלי (שער וגם)?
+S3: S1 S0 = SW9 SW8     A = SW7     Y, S0', S1' = LEDG2, LEDG1, LEDG0 (in some order)
+S3: LEDG2 = all 0     LEDG1 = SW0     LEDG0 = SW1
+
+[Q26] MEALYTAPE | חילזון מילי על שלושה ביטים | npub 1 | steps 3 | flat
+B: S0 = SW9     A = SW8     next S0 = LEDG1     Y = LEDG0     tape: HEX2 HEX1 HEX0     answer: SW4..SW0
+S1: חילזון מילי, שקופית 8: שלושה ביטים על הסרט.
+S1: בלי שעון: במתגים שמים מצב נוכחי וכניסה, ובלוח רואים את המצב הבא ואת היציאה.
+S1: S0 = SW9     A = SW8     next S0 = LEDG1     Y = LEDG0
+S1: the tape:   first bit = HEX2     second = HEX1     third = HEX0
+S1: מתחילים במצב 0. שימו בכניסה את הביט הראשון. מה המצב הבא?
+S1: 1 - הרימו:
+S1: SW0
+S1: 0 - השאירו למטה.
+S2: בכל ביט: שימו אותו בכניסה, הסתכלו על היציאה, והעבירו את המצב הבא אל מתג המצב.
+S2: the tape:   first bit = HEX2     second = HEX1     third = HEX0
+S2: S0 = SW9     A = SW8     next S0 = LEDG1     Y = LEDG0
+S2: כמה פעמים החילזון חייך לאורך שלושת הביטים?
+S2: 0 = all 0 1 = SW0 2 = SW1 3 = SW1+SW0
+
+[Q27] BLINK | מהבהב | npub 1 | steps 4 | flat
 B: S = SW9 SW8 SW7 (HEX3)     next S = HEX0     Y = LEDG0     answer: SW4..SW0
 S1: בלוח החלק הצירופי של מכונה מהבהבת: היציאה דולקת כמה מצבים וכבויה כמה מצבים, וחוזר חלילה.
 S1: בלי שעון ובלי כניסות: במתגים שמים מצב נוכחי, ובלוח רואים את המצב הבא.
@@ -310,7 +438,7 @@ S2: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2
 S3: כמה מצבים יש במחזור?
 S3: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0 8 = SW3
 
-[Q20] PARITY | זוגיות טורית | npub 1 | steps 4 | flat
+[Q28] PARITY | זוגיות טורית | npub 1 | steps 4 | flat
 B: S = SW9     SW8, SW7 (one is the input)     next S = LEDG1     Y = LEDG0     answer: SW4..SW0
 S1: בלוח החלק הצירופי של מכונה שזוכרת אם נכנס מספר זוגי של אחדות. אחד המתגים לא מחובר.
 S1: בלי שעון: במתגים שמים מצב נוכחי וכניסה, ובלוח רואים את המצב הבא ואת היציאה.
@@ -326,7 +454,7 @@ S3: דולקת - הרימו:
 S3: SW0
 S3: כבויה - השאירו למטה.
 
-[Q21] COUNTONES | מונה אחדות | npub 1 | steps 3 | flat
+[Q29] COUNTONES | מונה אחדות | npub 1 | steps 3 | flat
 B: S = SW9 SW8 SW7 SW6 (HEX3)     SW5, SW4 (one is the input)     next S = HEX0     answer: SW4..SW0
 S1: בלוח החלק הצירופי של מונה: הוא מתקדם ב-1 כשהכניסה 1. אחד המתגים הוא הכניסה.
 S1: בלי שעון: במתגים שמים מצב נוכחי וכניסה, ובלוח רואים את המצב הבא ואת היציאה.
@@ -337,7 +465,7 @@ S2: אחרי איזה מצב הוא חוזר ל-0? כתבו כמה מצבים י
 S2: S = SW9 SW8 SW7 SW6 (HEX3)     SW5, SW4 (one is the input)     next S = HEX0
 S2: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0 8 = SW3 9 = SW3+SW0
 
-[Q22] SATURATE | מונה שנעצר או חוזר | npub 1 | steps 3 | flat
+[Q30] SATURATE | מונה שנעצר או חוזר | npub 1 | steps 3 | flat
 B: S = SW9 SW8 SW7 SW6 (HEX3)     next S = HEX0     answer: SW4..SW0
 S1: בלוח החלק הצירופי של מונה בלי כניסות.
 S1: בלי שעון ובלי כניסות: במתגים שמים מצב נוכחי, ובלוח רואים את המצב הבא.
@@ -351,7 +479,7 @@ S2: נשאר - הרימו:
 S2: SW0
 S2: חוזר ל-0 - השאירו למטה.
 
-[Q23] UPDOWN | מונה למעלה ולמטה | npub 1 | steps 4 | flat
+[Q31] UPDOWN | מונה למעלה ולמטה | npub 1 | steps 4 | flat
 B: S = SW9 SW8 SW7 SW6 (HEX3)     SW5, SW4 (enable, direction)     next S = HEX0     answer: SW4..SW0
 S1: בלוח החלק הצירופי של מונה עם שתי כניסות: אחת מאפשרת לספור, והשנייה קובעת כיוון.
 S1: בלי שעון: במתגים שמים מצב נוכחי וכניסה, ובלוח רואים את המצב הבא ואת היציאה.
@@ -367,7 +495,7 @@ S3: מהמצב 0, צעד אחד למטה: מה המצב הבא?
 S3: S = SW9 SW8 SW7 SW6 (HEX3)     SW5, SW4 (enable, direction)     next S = HEX0
 S3: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0 8 = SW3 9 = SW3+SW0
 
-[Q24] SEQCOUNT | באיזה קוד המונה סופר? | npub 1 | steps 3 | flat
+[Q32] SEQCOUNT | באיזה קוד המונה סופר? | npub 1 | steps 3 | flat
 B: S = SW9 SW8 SW7 SW6     next S = LEDG3 LEDG2 LEDG1 LEDG0     answer: SW4..SW0
 S1: בלוח החלק הצירופי של מונה בלי כניסות. קוד שלא בשימוש עובר למצב ההתחלה.
 S1: בלי שעון ובלי כניסות: במתגים שמים מצב נוכחי, ובלוח רואים את המצב הבא.
@@ -380,7 +508,7 @@ S2: binary: +1     Gray: one bit changes     one-hot: one bit on
 S2: S = SW9 SW8 SW7 SW6     next S = LEDG3 LEDG2 LEDG1 LEDG0
 S2: binary = all 0     Gray = SW0     one-hot = SW1
 
-[Q25] DEBOUNCE | מסנן קפיצות | npub 1 | steps 4 | flat
+[Q33] DEBOUNCE | מסנן קפיצות | npub 1 | steps 4 | flat
 B: Y = SW9     count = SW8 SW7     A = SW6     next Y = LEDG1     next count = HEX0     answer: SW4..SW0
 S1: בלוח החלק הצירופי של מסנן: היציאה הנקייה מתהפכת רק אחרי כמה צעדים ברצף שבהם הכניסה שונה ממנה.
 S1: בלי שעון: במתגים שמים מצב נוכחי וכניסה, ובלוח רואים את המצב הבא ואת היציאה.
@@ -394,7 +522,7 @@ S2: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2
 S3: כמה מצבים בשימוש יש למכונה? (שני המונים יחד)
 S3: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0 8 = SW3
 
-[Q26] LOCK3 | מנעול של שלושה ביטים | npub 1 | steps 3 | flat
+[Q34] LOCK3 | מנעול של שלושה ביטים | npub 1 | steps 3 | flat
 B: S = SW9 SW8 (HEX3)     bit = SW7 (HEX2)     next S = HEX0     open = LEDG0     answer: SW4..SW0
 S1: בלוח החלק הצירופי של מנעול: שלושה ביטים נכונים ברצף פותחים אותו, וביט שגוי מחזיר להתחלה.
 S1: בלי שעון: במתגים שמים מצב נוכחי וכניסה, ובלוח רואים את המצב הבא ואת היציאה.
@@ -405,7 +533,7 @@ S2: מה הקוד? (מהמצב 0, ביט אחר ביט, עד המצב הפתוח
 S2: S = SW9 SW8 (HEX3)     bit = SW7 (HEX2)     next S = HEX0     open = LEDG0
 S2: SW2 = first bit     SW1 = second     SW0 = third
 
-[Q27] LOCK | מנעול צירופים | npub 1 | steps 3 | flat
+[Q35] LOCK | מנעול צירופים | npub 1 | steps 3 | flat
 B: S = SW9 SW8 (HEX3)     symbol = SW7 SW6     next S = HEX0     open = LEDG0     answer: SW4..SW0
 S1: בלוח החלק הצירופי של מנעול: שני סמלים (כל אחד שני מתגים) בצעדים, והיציאה דולקת אחרי הצירוף הנכון.
 S1: בלי שעון: במתגים שמים מצב נוכחי וכניסה, ובלוח רואים את המצב הבא ואת היציאה.
@@ -416,7 +544,7 @@ S2: ומה הסמל השני? (מעביר מהמצב 1 למצב 2)
 S2: S = SW9 SW8 (HEX3)     symbol = SW7 SW6     next S = HEX0     open = LEDG0
 S2: SW1 SW0 = SW7 SW6
 
-[Q28] DIVISIBLE | מתחלק או לא? | npub 1 | steps 4 | flat
+[Q36] DIVISIBLE | מתחלק או לא? | npub 1 | steps 4 | flat
 B: S = SW9 SW8 SW7 (HEX3)     bit = SW6 (HEX2)     next S = HEX0     Y = LEDG0     answer: SW4..SW0
 S1: בלוח החלק הצירופי של מכונה שקוראת מספר בינארי מהביט הגבוה. המצב הוא השארית, והיציאה דולקת כשהמספר עד עכשיו מתחלק.
 S1: בלי שעון: במתגים שמים מצב נוכחי וכניסה, ובלוח רואים את המצב הבא ואת היציאה.
@@ -431,7 +559,7 @@ S2: 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0
 S3: כמה מצבים יש למכונה? (מצב לכל שארית)
 S3: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0 8 = SW3
 
-[Q29] VENDING | מכונת שתייה | npub 1 | steps 3 | flat
+[Q37] VENDING | מכונת שתייה | npub 1 | steps 3 | flat
 B: S = SW9 SW8 SW7 (HEX3)     coins = SW6, SW5     next S = HEX2     paid now = HEX1 HEX0     drink = LEDG0     answer: SW4..SW0
 S1: בלוח החלק הצירופי של מכונת שתייה: מטבע של 5 ומטבע של 10, כל אחד על מתג. המצב הוא כמה שולם.
 S1: בלי שעון: במתגים שמים מצב נוכחי וכניסה, ובלוח רואים את המצב הבא ואת היציאה.
@@ -444,7 +572,7 @@ S2: S = SW9 SW8 SW7 (HEX3)     coins = SW6, SW5
 S2: next S = HEX2     paid now = HEX1 HEX0     drink = LEDG0
 S2: 15 = SW1+SW0     20 = SW2     25 = SW2+SW0     30 = SW2+SW1
 
-[Q30] TWOFSM | שתי מכונות שמדברות | npub 1 | steps 3 | flat
+[Q38] TWOFSM | שתי מכונות שמדברות | npub 1 | steps 3 | flat
 B: A = SW9 (HEX3)     B = SW8 SW7 SW6 (HEX2)     next A = LEDG0     next B = HEX0     answer: SW4..SW0
 S1: בלוח החלק הצירופי של שתי מכונות: מכונה א' מתהפכת בכל צעד, ומכונה ב' סופרת, אבל רק כשמכונה א' במצב מסוים.
 S1: בלי שעון ובלי כניסות: במתגים שמים מצב נוכחי, ובלוח רואים את המצב הבא.
@@ -458,7 +586,7 @@ S2: 1 - הרימו:
 S2: SW0
 S2: 0 - השאירו למטה.
 
-[Q31] ARBITER | בורר בקשות | npub 1 | steps 3 | flat
+[Q39] ARBITER | בורר בקשות | npub 1 | steps 3 | flat
 B: V = SW9 (a grant)     W = SW8 (who)     requests: SW7 (1), SW6 (0)     next V W = LEDG3 LEDG2     grants now: LEDG1 (1), LEDG0 (0)     answer: SW4..SW0
 S1: בלוח החלק הצירופי של בורר: שתי בקשות, ובכל צעד הוא נותן אישור לאחת.
 S1: בלי שעון: במתגים שמים מצב נוכחי וכניסה, ובלוח רואים את המצב הבא ואת היציאה.

@@ -2,14 +2,40 @@
 # [Qnn] NAME | title | npub n [| steps n];  B: board;  Pk: printed for login numbers with pub = k;
 # with steps: Sk: the screen of step k (step 0 = login, in run.ps1);  without: L: question, F: answer format
 
-[Q01] FFCOUNT | כמה דלגלגים? | npub 1 | steps 3 | flat
+[Q01] DIV3NEXT | המחלק ב-3 מהשקופית | npub 1 | steps 3 | flat
+B: S = SW9 SW8   (HEX3)     next state = HEX0     q = LEDG0     HEX1 = the state to set     answer: SW1 SW0
+S1: המחלק ב-3 של שקופית 21. בלוח לוגיקת המצב הבא והיציאה שלו.
+S1: S0 -> S1 -> S2 -> S0     q = 1 in S0
+S1: S = SW9 SW8   (HEX3)     next state = HEX0     q = LEDG0
+S1: HEX1 = the state to set
+S1: הציבו במתגים את המצב שבתצוגה. מה המצב הבא?
+S1: S0 = all 0     S1 = SW0     S2 = SW1
+S2: התחילו במצב שבתצוגה. אחרי כמה שעונים
+S2: q
+S2: נדלקת?
+S2: שעון אחד = להציב במתגי המצב את המצב הבא.
+S2: S = SW9 SW8   (HEX3)     next state = HEX0     q = LEDG0
+S2: HEX1 = the state to set
+S2: 1 = SW0 2 = SW1 3 = SW1+SW0
+
+[Q02] ONEHOT17 | בינארי ואחד-חם מהשקופית | npub 1 | steps 2 | flat
+B: binary code = SW9 SW8     one-hot code = LEDG3 LEDG2 LEDG1 LEDG0     HEX3 HEX2 HEX1 HEX0 = a one-hot code     answer: SW1 SW0
+S1: קידוד מצבים של שקופית 17: בבינארי 2 ביטים, באחד-חם ביט לכל מצב.
+S1: S0 = 00 / 0001     S1 = 01 / 0010     S2 = 10 / 0100     S3 = 11 / 1000
+S1: בלוח ממיר מקוד בינארי לקוד אחד-חם.
+S1: binary code = SW9 SW8     one-hot code = LEDG3 LEDG2 LEDG1 LEDG0
+S1: HEX3 HEX2 HEX1 HEX0 = a one-hot code
+S1: מצאו את הקוד הבינארי שנותן בנורות את הקוד שבתצוגה.
+S1: SW1 SW0 = the binary code
+
+[Q03] FFCOUNT | כמה דלגלגים? | npub 1 | steps 3 | flat
 B: the number of states = HEX1 HEX0     answer: SW4..SW0
 S1: בתצוגה מספר המצבים של מכונה. כמה דלגלגים צריך בקידוד אחד-חם (ביט לכל מצב)?
 S1: 16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0
 S2: וכמה בקידוד בינארי?
 S2: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2
 
-[Q02] DIVN | מחלק ב-N | npub 1 | steps 4 | flat
+[Q04] DIVN | מחלק ב-N | npub 1 | steps 4 | flat
 B: S = SW9 SW8 SW7 SW6   (HEX3)     next state = HEX0     q = LEDG0     answer: SW3..SW0
 S1: בלוח הלוגיקה של מחלק תדר, בלי כניסות: המצב הנוכחי על המתגים, המצב הבא בתצוגה.
 S1: S = SW9 SW8 SW7 SW6   (HEX3)     next state = HEX0
@@ -24,7 +50,7 @@ S2: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0 
 S3: כמה דלגלגים צריך לפחות לקידוד בינארי של המצבים?
 S3: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2
 
-[Q03] RHO | שובל ומחזור | npub 1 | steps 4 | flat
+[Q05] RHO | שובל ומחזור | npub 1 | steps 4 | flat
 B: S = SW9 SW8 SW7   (HEX3)     next state = HEX0     answer: SW3..SW0
 S1: בלוח הלוגיקה של מכונה בלי כניסות: המצב הנוכחי על המתגים, המצב הבא בתצוגה.
 S1: S = SW9 SW8 SW7   (HEX3)     next state = HEX0
@@ -39,7 +65,7 @@ S3: האחרים חוזרים במחזור. כל כמה שעונים המחזו�
 S3: S = SW9 SW8 SW7   (HEX3)     next state = HEX0
 S3: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0
 
-[Q04] NEXT2 | טבלת מעברים של שני מצבים | npub 1 | steps 3 | flat
+[Q06] NEXT2 | טבלת מעברים של שני מצבים | npub 1 | steps 3 | flat
 B: S = SW9     a = SW8     next state = LEDG0     answer: SW3..SW0
 S1: בלוח הלוגיקה של מכונה עם שני מצבים: המצב והכניסה על המתגים, המצב הבא בנורה.
 S1: S = SW9     a = SW8     next state = LEDG0
@@ -49,7 +75,7 @@ S2: בכמה מארבעת המקרים המכונה נשארת באותו מצב
 S2: 0 = all 0
 S2: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2
 
-[Q05] NEXTEQ | משוואת המצב הבא | npub 1 | steps 4 | flat
+[Q07] NEXTEQ | משוואת המצב הבא | npub 1 | steps 4 | flat
 B: S = SW9     a = SW8     next state = LEDG0     answer: SW3..SW0
 S1: בלוח הלוגיקה של מכונה עם שני מצבים: המצב והכניסה על המתגים, המצב הבא בנורה.
 S1: S = SW9     a = SW8     next state = LEDG0
@@ -64,7 +90,7 @@ S3: S' = ?
 S3: a = all 0     ~a = SW0     S ^ a = SW1     ~(S ^ a) = SW1+SW0
 S3: ~S = SW2     S | a = SW2+SW0     ~S & a = SW2+SW1     S | ~a = SW2+SW1+SW0
 
-[Q06] OUTTAB | טבלת יציאות של מכונת מור | npub 1 | steps 3 | flat
+[Q08] OUTTAB | טבלת יציאות של מכונת מור | npub 1 | steps 3 | flat
 B: S1 S0 = SW9 SW8   (HEX3)     Y1 Y0 = LEDG1 LEDG0     answer: SW3..SW0
 S1: בלוח לוגיקת היציאה של מכונת מור עם 4 מצבים: המצב על המתגים, היציאות בנורות.
 S1: S1 S0 = SW9 SW8   (HEX3)     Y1 Y0 = LEDG1 LEDG0
@@ -77,7 +103,7 @@ S2: Y1 = 1
 S2: S1 S0 = SW9 SW8   (HEX3)     Y1 Y0 = LEDG1 LEDG0
 S2: S = 00 -> SW0     01 -> SW1     10 -> SW2     11 -> SW3
 
-[Q07] MOOREMEALY | מור או מילי? | npub 1 | steps 3 | flat
+[Q09] MOOREMEALY | מור או מילי? | npub 1 | steps 3 | flat
 B: S = SW9 SW8 SW7   (HEX3)     a = SW6     y = LEDG0     answer: SW3..SW0
 S1: בלוח לוגיקת היציאה של מכונה עם 8 מצבים: המצב והכניסה על המתגים, היציאה בנורה.
 S1: S = SW9 SW8 SW7   (HEX3)     a = SW6     y = LEDG0
@@ -89,7 +115,7 @@ S2: S = SW9 SW8 SW7   (HEX3)     a = SW6     y = LEDG0
 S2: 0 = all 0
 S2: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0 8 = SW3
 
-[Q08] STATEDIAG | דיאגרמת מצבים של 4 מצבים | npub 1 | steps 5 | flat
+[Q10] STATEDIAG | דיאגרמת מצבים של 4 מצבים | npub 1 | steps 5 | flat
 B: S1 S0 = SW9 SW8   (HEX3)     a = SW7     next state = HEX0     answer: SW3..SW0
 S1: בלוח הלוגיקה של מכונה עם 4 מצבים וכניסה אחת: המצב והכניסה על המתגים, המצב הבא בתצוגה. ציירו את הדיאגרמה.
 S1: S = 0:   SW9 SW8 = 00
@@ -128,7 +154,7 @@ S4: a = 1
 S4: ?
 S4: SW3 SW2 = next when a = 0     SW1 SW0 = next when a = 1     (binary)
 
-[Q09] SHORTEST | הדרך הקצרה ביותר | npub 1 | steps 2 | flat
+[Q11] SHORTEST | הדרך הקצרה ביותר | npub 1 | steps 2 | flat
 B: S1 S0 = SW9 SW8   (HEX3)     a = SW7     next state = HEX0     answer: SW3..SW0
 S1: בלוח הלוגיקה של מכונה עם 4 מצבים וכניסה אחת: המצב והכניסה על המתגים, המצב הבא בתצוגה.
 S1: S1 S0 = SW9 SW8   (HEX3)     a = SW7     next state = HEX0
@@ -137,7 +163,7 @@ S1: מה המספר הקטן ביותר של שעונים שמביא ממצב 0 
 S1: S = 0 -> S = 3
 S1: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2
 
-[Q10] UNREACH | מצב שאי אפשר להגיע אליו | npub 1 | steps 3 | flat
+[Q12] UNREACH | מצב שאי אפשר להגיע אליו | npub 1 | steps 3 | flat
 B: S1 S0 = SW9 SW8   (HEX3)     a = SW7     next state = HEX0     answer: SW3..SW0
 S1: בלוח הלוגיקה של מכונה עם 4 מצבים וכניסה אחת: המצב והכניסה על המתגים, המצב הבא בתצוגה.
 S1: S = 0:   SW9 SW8 = 00
@@ -152,7 +178,7 @@ S2: לאחד המצבים אין דרך להגיע ממצב 0 (מצב האיפו
 S2: S1 S0 = SW9 SW8   (HEX3)     a = SW7     next state = HEX0
 S2: S0 = all 0     S1 = SW0     S2 = SW1     S3 = SW1+SW0
 
-[Q11] TRAP | מצב מלכודת | npub 1 | steps 3 | flat
+[Q13] TRAP | מצב מלכודת | npub 1 | steps 3 | flat
 B: S1 S0 = SW9 SW8   (HEX3)     a = SW7     next state = HEX0     answer: SW3..SW0
 S1: בלוח הלוגיקה של מכונה עם 4 מצבים וכניסה אחת: המצב והכניסה על המתגים, המצב הבא בתצוגה.
 S1: S1 S0 = SW9 SW8   (HEX3)     a = SW7     next state = HEX0
@@ -163,7 +189,7 @@ S2: S1 S0 = SW9 SW8   (HEX3)     a = SW7     next state = HEX0
 S2: 0 = all 0
 S2: 1 = SW0 2 = SW1 3 = SW1+SW0
 
-[Q12] ENCODING | קידוד מצבים | npub 1 | steps 4 | flat
+[Q14] ENCODING | קידוד מצבים | npub 1 | steps 4 | flat
 B: state bits = SW9 SW8 SW7 SW6     next state bits = LEDG3 LEDG2 LEDG1 LEDG0     answer: SW3..SW0
 S1: בלוח לוגיקת המצב הבא של מכונה בלי כניסות. ביטי המצב על המתגים, ביטי המצב הבא בנורות (באותו סדר).
 S1: state bits = SW9 SW8 SW7 SW6     next state bits = LEDG3 LEDG2 LEDG1 LEDG0
@@ -176,7 +202,54 @@ S2: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2
 S3: איזה קידוד? באחד-חם ביט אחד דולק, בגריי רק ביט אחד משתנה בכל מעבר.
 S3: binary = all 0     one-hot = SW0     Gray = SW1
 
-[Q13] TRAFFIC | בקר הרמזור | npub 1 | steps 3 | flat
+[Q15] TLNEXT | טבלת המעברים של הרמזור | npub 1 | steps 3 | flat
+B: S1 S0 = SW9 SW8     TA = SW7     TB = SW6     S'1 S'0 = LEDG1 LEDG0     the state to set = HEX3     TA = HEX1     TB = HEX0     answer: SW1 SW0
+S1: בקר הרמזור, טבלת המעברים המקודדת של שקופיות 11-12. בלוח לוגיקת המצב הבא שלו.
+S1: S0 = 00     S1 = 01     S2 = 10     S3 = 11
+S1: S1 S0 = SW9 SW8     TA = SW7     TB = SW6     S'1 S'0 = LEDG1 LEDG0
+S1: the state to set = HEX3     TA = HEX1     TB = HEX0
+S1: הציבו במתגים את מה שבתצוגה.
+S1: מה המצב הבא?
+S1: SW1 SW0 = S'1 S'0
+S2: האם המכונה נשארת באותו מצב (חץ לעצמו)?
+S2: S1 S0 = SW9 SW8     TA = SW7     TB = SW6     S'1 S'0 = LEDG1 LEDG0
+S2: the state to set = HEX3     TA = HEX1     TB = HEX0
+S2: נשארת - הרימו:
+S2: SW0
+S2: עוברת - השאירו למטה.
+
+[Q16] TLOUT | טבלת היציאות של הרמזור | npub 1 | steps 3 | flat
+B: S1 S0 = SW9 SW8     LA1 LA0 = LEDG3 LEDG2     LB1 LB0 = LEDG1 LEDG0     HEX3 = the state to set     answer: SW1 SW0
+S1: בקר הרמזור, טבלת היציאות של שקופית 13. בלוח לוגיקת היציאה שלו, וכל רמזור בשני ביטים.
+S1: S0 = 00     S1 = 01     S2 = 10     S3 = 11
+S1: green = 00     yellow = 01     red = 10
+S1: S1 S0 = SW9 SW8     LA1 LA0 = LEDG3 LEDG2     LB1 LB0 = LEDG1 LEDG0
+S1: HEX3 = the state to set
+S1: הציבו במתגים את המצב שבתצוגה. מה הצבע של הרחוב הראשון?
+S1: LA = ?
+S1: green = all 0     yellow = SW0     red = SW1
+S2: ומה הצבע של הרחוב השני באותו מצב?
+S2: green = 00     yellow = 01     red = 10
+S2: S1 S0 = SW9 SW8     LA1 LA0 = LEDG3 LEDG2     LB1 LB0 = LEDG1 LEDG0
+S2: HEX3 = the state to set
+S2: LB = ?
+S2: green = all 0     yellow = SW0     red = SW1
+
+[Q17] TL1HOT | הרמזור באחד-חם מהשקופית | npub 1 | steps 3 | flat
+B: S3 S2 S1 S0 = SW9 SW8 SW7 SW6   (one-hot)     TA = SW5     TB = SW4     S'3 S'2 S'1 S'0 = LEDG3 LEDG2 LEDG1 LEDG0     the state to set = HEX3     TA = HEX1     TB = HEX0     answer: SW3..SW0
+S1: בקר הרמזור בקידוד אחד-חם, הטבלה של שקופית 18. בלוח לוגיקת המצב הבא שלו.
+S1: S0 = 0001     S1 = 0010     S2 = 0100     S3 = 1000
+S1: S3 S2 S1 S0 = SW9 SW8 SW7 SW6   (one-hot)     TA = SW5     TB = SW4     S'3 S'2 S'1 S'0 = LEDG3 LEDG2 LEDG1 LEDG0
+S1: the state to set = HEX3     TA = HEX1     TB = HEX0
+S1: הציבו במתגים את מה שבתצוגה.
+S1: מה המצב הבא?
+S1: SW3 SW2 SW1 SW0 = S'3 S'2 S'1 S'0
+S2: איזה מצב זה?
+S2: S0 = 0001     S1 = 0010     S2 = 0100     S3 = 1000
+S2: S3 S2 S1 S0 = SW9 SW8 SW7 SW6   (one-hot)     TA = SW5     TB = SW4     S'3 S'2 S'1 S'0 = LEDG3 LEDG2 LEDG1 LEDG0
+S2: S0 = all 0     S1 = SW0     S2 = SW1     S3 = SW1+SW0
+
+[Q18] TRAFFIC | בקר הרמזור | npub 1 | steps 3 | flat
 B: S = SW9 SW8 SW7   (HEX3)     next state = HEX0     TA, TB = SW6, SW5 (in some order)     lights = LEDG7..5, LEDG2..0     answer: SW3..SW0
 S1: בלוח הלוגיקה של בקר הרמזור מההרצאה, עם כמה מצבים לצהוב: המצב והחיישנים על המתגים, המצב הבא בתצוגה.
 S1: S = SW9 SW8 SW7   (HEX3)     next state = HEX0
@@ -194,7 +267,7 @@ S2: S = SW9 SW8 SW7   (HEX3)     next state = HEX0
 S2: SW6 = 0     SW5 = 0     LA yellow = LEDG6
 S2: 1 = SW0 2 = SW1 3 = SW1+SW0
 
-[Q14] TLCYCLE | מחזור שלם של הרמזור | npub 1 | steps 5 | flat
+[Q19] TLCYCLE | מחזור שלם של הרמזור | npub 1 | steps 5 | flat
 B: S = SW9 SW8 SW7   (HEX3)     next state = HEX0     TA = SW6     TB = SW5     lights = LEDG7..5, LEDG2..0     answer: SW3..SW0
 S1: בלוח הלוגיקה של בקר הרמזור, אבל הצהוב של כל רחוב נמשך זמן אחר. המצב והחיישנים על המתגים, המצב הבא בתצוגה.
 S1: S = SW9 SW8 SW7   (HEX3)     next state = HEX0
@@ -216,7 +289,7 @@ S3: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0 
 S4: כל שעון במחזור הוא מצב אחר. כמה דלגלגים צריך לפחות בקידוד בינארי?
 S4: 1 = SW0 2 = SW1 3 = SW1+SW0
 
-[Q15] TRAFFICRESET | מצב האיפוס של הרמזור | npub 1 | steps 3 | flat
+[Q20] TRAFFICRESET | מצב האיפוס של הרמזור | npub 1 | steps 3 | flat
 B: S1 S0 = SW9 SW8   (HEX3)     next state = HEX0     TA, TB = SW7, SW6 (in some order)     lights = LEDG7..5, LEDG2..0     answer: SW3..SW0
 S1: בלוח הלוגיקה של בקר הרמזור, אבל הקידוד של המצבים אולי שונה מהשקופית.
 S1: אחרי איפוס אוגר המצב מכיל 00. מה מראה אז הרמזור של הרחוב הראשון?
@@ -231,7 +304,7 @@ S2: TA, TB = SW7, SW6   (in some order)
 S2: LA green = LEDG7
 S2: SW7 = all 0     SW6 = SW0
 
-[Q16] TLPOLARITY | חיישן פעיל בנמוך | npub 1 | steps 4 | flat
+[Q21] TLPOLARITY | חיישן פעיל בנמוך | npub 1 | steps 4 | flat
 B: S1 S0 = SW9 SW8   (HEX3)     next state = HEX0     TA = SW7     TB = SW6     lights = LEDG7..5, LEDG2..0     answer: SW3..SW0
 S1: בלוח הלוגיקה של בקר הרמזור. כל חיישן אולי הפוך: יש תנועה כשהמתג למטה.
 S1: S1 S0 = SW9 SW8   (HEX3)     next state = HEX0
@@ -259,7 +332,7 @@ S3: LA:  green = LEDG7   yellow = LEDG6   red = LEDG5
 S3: LB:  green = LEDG2   yellow = LEDG1   red = LEDG0
 S3: A green forever = all 0     B green forever = SW0     full cycle = SW1
 
-[Q17] LIGHTCODE | קידוד הצבעים | npub 1 | steps 4 | flat
+[Q22] LIGHTCODE | קידוד הצבעים | npub 1 | steps 4 | flat
 B: S1 S0 = SW9 SW8   (HEX3)     LA1 LA0 = LEDG3 LEDG2     LB1 LB0 = LEDG1 LEDG0     answer: SW1 SW0
 S1: בלוח לוגיקת היציאה של בקר הרמזור: המצב על המתגים, וכל רמזור בשני ביטים.
 S1: S1 S0 = SW9 SW8   (HEX3)     LA1 LA0 = LEDG3 LEDG2     LB1 LB0 = LEDG1 LEDG0
@@ -273,7 +346,7 @@ S3: במצב 1 הרחוב הראשון צהוב. מה הקוד של צהוב?
 S3: S1 S0 = SW9 SW8   (HEX3)     LA1 LA0 = LEDG3 LEDG2     LB1 LB0 = LEDG1 LEDG0
 S3: S1: LA yellow     S = 1     SW1 SW0 = LA1 LA0
 
-[Q18] TLOUTEQ | משוואת יציאה של הרמזור | npub 1 | steps 4 | flat
+[Q23] TLOUTEQ | משוואת יציאה של הרמזור | npub 1 | steps 4 | flat
 B: S1 S0 = SW9 SW8   (HEX3)     lights = LEDG7..5, LEDG2..0     answer: SW3..SW0
 S1: בלוח לוגיקת היציאה של בקר הרמזור בקידוד בינארי, אבל לא בקידוד של השקופית. קוד המצב על המתגים.
 S1: S1 S0 = SW9 SW8   (HEX3)
@@ -296,7 +369,7 @@ S3: LA red = ?
 S3: S1 = all 0     ~S1 = SW0     S0 = SW1
 S3: ~S0 = SW1+SW0     S1 ^ S0 = SW2     ~(S1 ^ S0) = SW2+SW0
 
-[Q19] ONEHOT | קידוד אחד-חם של הרמזור | npub 1 | steps 4 | flat
+[Q24] ONEHOT | קידוד אחד-חם של הרמזור | npub 1 | steps 4 | flat
 B: state bits = SW9 SW8 SW7 SW6   (one-hot)     next state bits = LEDG3 LEDG2 LEDG1 LEDG0     TA = SW5     TB = SW4     LA:  green = LEDG7   yellow = LEDG6   red = LEDG5     answer: SW1 SW0
 S1: בלוח הלוגיקה של בקר הרמזור בקידוד אחד-חם: ביט לכל מצב, ובדיוק אחד למעלה. סדר הביטים נסתר.
 S1: state bits = SW9 SW8 SW7 SW6   (one-hot)     next state bits = LEDG3 LEDG2 LEDG1 LEDG0
@@ -327,7 +400,7 @@ S3: TA = SW5     TB = SW4
 S3: LA:  green = LEDG7   yellow = LEDG6   red = LEDG5
 S3: SW6 = all 0     SW7 = SW0     SW8 = SW1     SW9 = SW1+SW0
 
-[Q20] TRAFFICBUG | מעבר שגוי ברמזור | npub 1 | steps 3 | flat
+[Q25] TRAFFICBUG | מעבר שגוי ברמזור | npub 1 | steps 3 | flat
 B: S1 S0 = SW9 SW8   (HEX3)     next state = HEX0     TA = SW7     TB = SW6     answer: SW3..SW0
 S1: בלוח לוגיקת המצב הבא של בקר הרמזור, אבל מעבר אחד שונה מהשקופית:
 S1: S0: TA -> S0, else S1
@@ -343,7 +416,56 @@ S2: S1 S0 = SW9 SW8   (HEX3)     next state = HEX0
 S2: TA = SW7     TB = SW6
 S2: S0 = all 0     S1 = SW0     S2 = SW1     S3 = SW1+SW0
 
-[Q21] SEQDET | גלאי רצף | npub 1 | steps 3 | flat
+[Q26] MOORE01 | גלאי המור מהשקופית | npub 1 | steps 3 | flat
+B: state bits = SW9 SW8     a = SW7     smile = LEDG2     next state bits = LEDG1 LEDG0     the state to set = HEX3     a = HEX0     answer: SW1 SW0
+S1: גלאי הרצף של מור בקוד של שקופית 24. בלוח הלוגיקה שלו.
+S1: typedef enum logic [1:0] {S0, S1, S2}     assign smile = (state == S2);
+S1: S0 = 00     S1 = 01     S2 = 10
+S1: state bits = SW9 SW8     a = SW7     smile = LEDG2     next state bits = LEDG1 LEDG0
+S1: the state to set = HEX3     a = HEX0
+S1: הציבו במתגים את מה שבתצוגה.
+S1: האם החיוך דולק?
+S1: דולק - הרימו:
+S1: SW0
+S1: כבוי - השאירו למטה.
+S2: מה המצב הבא?
+S2: S0 = 00     S1 = 01     S2 = 10
+S2: state bits = SW9 SW8     a = SW7     smile = LEDG2     next state bits = LEDG1 LEDG0
+S2: the state to set = HEX3     a = HEX0
+S2: S0 = all 0     S1 = SW0     S2 = SW1
+
+[Q27] MEALY01 | גלאי המילי מהשקופית | npub 1 | steps 3 | flat
+B: state = SW9     a = SW8     smile = LEDG1     next state = LEDG0     the state to set = HEX3     a = HEX0     answer: SW0
+S1: גלאי הרצף של מילי בקוד של שקופית 26. בלוח הלוגיקה שלו.
+S1: typedef enum logic {S0, S1}     S0 = 0     S1 = 1
+S1: state = SW9     a = SW8     smile = LEDG1     next state = LEDG0
+S1: the state to set = HEX3     a = HEX0
+S1: הציבו במתגים את מה שבתצוגה.
+S1: האם החיוך דולק?
+S1: דולק - הרימו:
+S1: SW0
+S1: כבוי - השאירו למטה.
+S2: מה המצב הבא?
+S2: state = SW9     a = SW8     smile = LEDG1     next state = LEDG0
+S2: the state to set = HEX3     a = HEX0
+S2: S0 = all 0     S1 = SW0
+
+[Q28] DIV3CASE | ה-case של המחלק ב-3 | npub 1 | steps 3 | flat
+B: state bits = SW9 SW8     q = LEDG2     next state bits = LEDG1 LEDG0     HEX3 HEX2 = the state bits to set     answer: SW1 SW0
+S1: המחלק ב-3 בקוד של שקופית 22. בלוח לוגיקת המצב הבא והיציאה שלו.
+S1: typedef enum logic [1:0] {S0, S1, S2}     S0: nextstate = S1;   S1: nextstate = S2;   S2: nextstate = S0;   default: nextstate = S0;
+S1: state bits = SW9 SW8     q = LEDG2     next state bits = LEDG1 LEDG0
+S1: HEX3 HEX2 = the state bits to set
+S1: איזו שורה של ה-
+S1: case
+S1: מתבצעת בקוד שבתצוגה?
+S1: S0 = all 0     S1 = SW0     S2 = SW1     default = SW1+SW0
+S2: הציבו את הקוד במתגים. מה המצב הבא?
+S2: state bits = SW9 SW8     q = LEDG2     next state bits = LEDG1 LEDG0
+S2: HEX3 HEX2 = the state bits to set
+S2: SW1 SW0 = next state bits
+
+[Q29] SEQDET | גלאי רצף | npub 1 | steps 3 | flat
 B: S = SW9 SW8 SW7 = the last three bits (SW9 = the oldest)     a = SW6     smile = LEDG0     answer: SW2..SW0
 S1: בלוח לוגיקת היציאה של גלאי רצף של 3 ביטים. המצב הוא שלושת הביטים האחרונים, והכניסה היא הביט הבא.
 S1: S = SW9 SW8 SW7 = the last three bits (SW9 = the oldest)     a = SW6     smile = LEDG0
@@ -353,7 +475,7 @@ S2: מה הרצף? במור: המצב שבו החיוך דולק. במילי: ש
 S2: S = SW9 SW8 SW7 = the last three bits (SW9 = the oldest)     a = SW6     smile = LEDG0
 S2: SW2 = first bit     SW1 = second     SW0 = last
 
-[Q22] SEQCOUNT | כמה פעמים הגלאי מזהה? | npub 1 | steps 3 | flat
+[Q30] SEQCOUNT | כמה פעמים הגלאי מזהה? | npub 1 | steps 3 | flat
 B: S1 S0 = SW9 SW8   (HEX3)     a = SW7     next state = HEX0     smile = LEDG0     answer: SW3..SW0
 S1: בלוח הלוגיקה של גלאי מור של רצף של 3 ביטים (חופף): המצב והכניסה על המתגים, המצב הבא בתצוגה.
 S1: החיוך דולק לפי המצב הנוכחי בלבד.
@@ -369,7 +491,7 @@ S2: S1 S0 = SW9 SW8   (HEX3)     a = SW7     next state = HEX0     smile = LEDG0
 S2: 0 = all 0
 S2: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1
 
-[Q23] TWODET | מור ומילי זה ליד זה | npub 1 | steps 3 | flat
+[Q31] TWODET | מור ומילי זה ליד זה | npub 1 | steps 3 | flat
 B: S = SW9 SW8 = the last two bits (SW9 = the older)     a = SW7     LEDG1 LEDG0     answer: SW3..SW0
 S1: בלוח לוגיקת היציאה של שני גלאים של אותו רצף של 2 ביטים: אחד מור ואחד מילי.
 S1: S = SW9 SW8 = the last two bits (SW9 = the older)     a = SW7     LEDG1 LEDG0
@@ -379,7 +501,7 @@ S2: מה הרצף?
 S2: S = SW9 SW8 = the last two bits (SW9 = the older)     a = SW7     LEDG1 LEDG0
 S2: SW1 = first bit     SW0 = second bit
 
-[Q24] OVERLAP | רצף חופף או לא? | npub 1 | steps 3 | flat
+[Q32] OVERLAP | רצף חופף או לא? | npub 1 | steps 3 | flat
 B: S1 S0 = SW9 SW8   (HEX3)     a = SW7     next state = HEX0     smile = LEDG0     answer: SW3..SW0
 S1: בלוח הלוגיקה של גלאי מור של רצף של 2 ביטים: המצב והכניסה על המתגים, המצב הבא בתצוגה.
 S1: S1 S0 = SW9 SW8   (HEX3)     a = SW7     next state = HEX0     smile = LEDG0
@@ -393,7 +515,7 @@ S2: חופף - הרימו:
 S2: SW0
 S2: לא חופף - השאירו למטה.
 
-[Q25] MEALYOUT | טבלת יציאות של מכונת מילי | npub 1 | steps 2 | flat
+[Q33] MEALYOUT | טבלת יציאות של מכונת מילי | npub 1 | steps 2 | flat
 B: S = SW9     a = SW8     y = LEDG0     answer: SW3..SW0
 S1: בלוח לוגיקת היציאה של מכונת מילי עם שני מצבים: המצב והכניסה על המתגים, היציאה בנורה.
 S1: S = SW9     a = SW8     y = LEDG0
@@ -402,7 +524,7 @@ S1: y = 1
 S1: ? הרימו את המתג שלו:
 S1: S=0 a=0 -> SW0     S=0 a=1 -> SW1     S=1 a=0 -> SW2     S=1 a=1 -> SW3
 
-[Q26] LATCH | שכחו את ברירת המחדל | npub 1 | steps 3 | flat
+[Q34] LATCH | שכחו את ברירת המחדל | npub 1 | steps 3 | flat
 B: S = SW9 = the last bit     a = SW8     two Mealy detectors = LEDG1 LEDG0     answer: SW3..SW0
 S1: בלוח לוגיקת היציאה של שני גלאי מילי של אותו רצף של 2 ביטים, כמו בשקופית. באחד מהם חסרה השורה
 S1: smile = 1'b0;
@@ -416,7 +538,7 @@ S2: מה הרצף? (לפי הגלאי התקין)
 S2: S = SW9 = the last bit     a = SW8     two Mealy detectors = LEDG1 LEDG0
 S2: SW1 = first bit     SW0 = second bit
 
-[Q27] ENUM | קידוד של enum | npub 1 | steps 4 | flat
+[Q35] ENUM | קידוד של enum | npub 1 | steps 4 | flat
 B: state bits = SW9 SW8     q = LEDG2     next state bits = LEDG1 LEDG0     answer: SW1 SW0
 S1: בלוח הלוגיקה של המחלק ב-3 מהשקופית: ביטי המצב על המתגים, ביטי המצב הבא בנורות.
 S1: S0 -> S1 -> S2 -> S0     q = 1 in S0
@@ -437,7 +559,7 @@ S3: ?
 S3: state bits = SW9 SW8     q = LEDG2     next state bits = LEDG1 LEDG0
 S3: SW1 SW0
 
-[Q28] DEFAULT | הקוד שאין לו שם | npub 1 | steps 3 | flat
+[Q36] DEFAULT | הקוד שאין לו שם | npub 1 | steps 3 | flat
 B: state bits = SW9 SW8     q = LEDG2     next state bits = LEDG1 LEDG0     answer: SW3..SW0
 S1: בלוח הלוגיקה של המחלק ב-3 מהשקופית. לקוד 11 אין שם, ומה שקורה בו נקבע בשורה
 S1: default: nextstate = ?;
@@ -453,7 +575,7 @@ S2: שעון אחד = להציב במתגי המצב את המצב הבא.
 S2: state bits = SW9 SW8     q = LEDG2     next state bits = LEDG1 LEDG0
 S2: never = all 0     1 = SW0     2 = SW1     3 = SW1+SW0
 
-[Q29] DIVCODE | שורה שגויה במכונת המצבים | npub 1 | steps 4 | flat
+[Q37] DIVCODE | שורה שגויה במכונת המצבים | npub 1 | steps 4 | flat
 B: S = SW9 SW8 SW7   (HEX3)     next state = HEX0     answer: SW3..SW0
 S1: בלוח לוגיקת המצב הבא של מחלק כמו בשקופית, אבל באחת השורות של
 S1: S0 -> S1 -> ... -> S0     case (state)
@@ -471,7 +593,7 @@ S3: S = SW9 SW8 SW7   (HEX3)     next state = HEX0
 S3: 0 = all 0
 S3: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2
 
-[Q30] BLOCKBUG | איזה בלוק שבור? | npub 1 | steps 4 | flat
+[Q38] BLOCKBUG | איזה בלוק שבור? | npub 1 | steps 4 | flat
 B: S1 S0 = SW9 SW8   (HEX3)     reset = SW7     next state = HEX0     q = LEDG0     answer: SW3..SW0
 S1: בלוח הלוגיקה של המחלק ב-3 מהשקופית, אבל אחד משלושת הבלוקים שלו שבור. המצב והאיפוס על המתגים, המצב הבא בתצוגה.
 S1: S1 S0 = SW9 SW8   (HEX3)     reset = SW7     next state = HEX0     q = LEDG0
@@ -487,7 +609,7 @@ S3: S0 -> S1 -> S2 -> S0     reset -> S0     q = 1 in S0
 S3: S1 S0 = SW9 SW8   (HEX3)     reset = SW7     next state = HEX0     q = LEDG0
 S3: state register = all 0     next state logic = SW0     output logic = SW1
 
-[Q31] UPDOWN | מונה למעלה ולמטה | npub 1 | steps 3 | flat
+[Q39] UPDOWN | מונה למעלה ולמטה | npub 1 | steps 3 | flat
 B: S = SW9 SW8 SW7 SW6   (HEX3)     up, down = SW5, SW4 (in some order)     next state = HEX0     answer: SW3..SW0
 S1: בלוח הלוגיקה של מונה: מתג אחד סופר למעלה ואחד למטה. המצב והכניסות על המתגים, המצב הבא בתצוגה.
 S1: S = SW9 SW8 SW7 SW6   (HEX3)     up, down = SW5, SW4 (in some order)     next state = HEX0
