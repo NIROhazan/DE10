@@ -4,9 +4,82 @@
 
 ## נושא 1 - זמני התקנה והחזקה
 
-40 דקות, 10 שאלות: Q01-Q10
+40 דקות, 13 שאלות: Q01-Q13
 
-### Q01 - זמן המחזור המינימלי
+### Q01 - המעגל משקופית 10: זמן המחזור
+
+- **מתגים ונורות:** `HEX3 = tpcq     HEX2 = tpd of one gate     HEX1 = tsetup     answer: SW8..SW0`
+- **שלבים:** 2
+
+**שלב 1**
+
+- המעגל משקופית 10: המסלול הארוך עובר דרך שלושה שערים.
+- `A -> AND -> OR -> NOR -> Y'`
+- בתצוגה ההשהיה של שער אחד:
+- `HEX2 = tpd of one gate`
+- `all times in units of 10 ps (5 = 50 ps)`
+- מה ההשהיה של כל המסלול הארוך?
+- `tpd = 3 x tpd(gate)`
+- `16 = SW4   8 = SW3   4 = SW2   2 = SW1   1 = SW0`
+
+**שלב 2**
+
+- המעגל משקופית 10, וההשהיות בתצוגה:
+- `A -> AND -> OR -> NOR -> Y'`
+- `HEX3 = tpcq     HEX2 = tpd of one gate     HEX1 = tsetup`
+- `all times in units of 10 ps (5 = 50 ps)`
+- מה זמן המחזור המינימלי?
+- `Tc >= tpcq + 3 x tpd(gate) + tsetup`
+- `32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0`
+
+### Q02 - המעגל משקופית 10: אילוץ ההחזקה
+
+- **מתגים ונורות:** `HEX3 = tccq     HEX2 = tcd of one gate     HEX1 = thold     answer: SW8..SW0`
+- **שלבים:** 1
+
+**שלב 1**
+
+- המעגל משקופית 10: המסלול הקצר עובר דרך שער אחד בלבד.
+- `C -> OR -> X'`
+- בתצוגה:
+- `HEX3 = tccq     HEX2 = tcd of one gate     HEX1 = thold`
+- `all times in units of 10 ps (5 = 50 ps)`
+- האם אילוץ ההחזקה מתקיים?
+- `tccq + tcd > thold`
+- מתקיים - הרימו:
+- `SW0`
+- לא מתקיים - השאירו למטה.
+
+### Q03 - התיקון משקופית 11: מאגר במסלול הקצר
+
+- **מתגים ונורות:** `HEX3 = tccq     HEX2 = tcd of one gate     HEX1 = thold     answer: SW8..SW0`
+- **שלבים:** 2
+
+**שלב 1**
+
+- התיקון משקופית 11: מוסיפים מאגר במסלול הקצר, ועכשיו יש בו שני שערים.
+- `C -> BUF -> OR -> X'`
+- בתצוגה ההשהיה של שער אחד:
+- `HEX2 = tcd of one gate`
+- `all times in units of 10 ps (5 = 50 ps)`
+- מה ההשהיה הקצרה ביותר של המסלול הקצר עכשיו?
+- `tcd = 2 x tcd(gate)`
+- `8 = SW3     4 = SW2     2 = SW1     1 = SW0`
+
+**שלב 2**
+
+- התיקון משקופית 11: במסלול הקצר שני שערים.
+- `C -> BUF -> OR -> X'`
+- בתצוגה:
+- `HEX3 = tccq     HEX2 = tcd of one gate     HEX1 = thold`
+- `all times in units of 10 ps (5 = 50 ps)`
+- האם אילוץ ההחזקה מתקיים עכשיו?
+- `tccq + 2 x tcd(gate) > thold`
+- מתקיים - הרימו:
+- `SW0`
+- לא מתקיים - השאירו למטה.
+
+### Q04 - זמן המחזור המינימלי
 
 - **מתגים ונורות:** `HEX3 = tpcq     HEX2 = tpd     HEX1 = tsetup     answer: SW8..SW0`
 - **שלבים:** 1
@@ -20,7 +93,7 @@
 - `Tc >= tpcq + tpd + tsetup`
 - `32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0`
 
-### Q02 - שני מסלולים: מי קובע?
+### Q05 - שני מסלולים: מי קובע?
 
 - **מתגים ונורות:** `HEX3 = tpcq     HEX2 = tpd of path A     HEX1 = tpd of path B     HEX0 = tsetup     answer: SW8..SW0`
 - **שלבים:** 2
@@ -42,7 +115,7 @@
 - `Tc >= tpcq + max(tpd A, tpd B) + tsetup`
 - `32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0`
 
-### Q03 - כמה זמן מותר ללוגיקה?
+### Q06 - כמה זמן מותר ללוגיקה?
 
 - **מתגים ונורות:** `HEX3 HEX2 = Tc     HEX1 = tpcq     HEX0 = tsetup     answer: SW8..SW0`
 - **שלבים:** 1
@@ -56,7 +129,7 @@
 - `tpd <= Tc - tpcq - tsetup`
 - `32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0`
 
-### Q04 - כמה שערים נכנסים במחזור?
+### Q07 - כמה שערים נכנסים במחזור?
 
 - **מתגים ונורות:** `HEX3 HEX2 = Tc     HEX1 = tpcq + tsetup (together)     HEX0 = tpd of one gate     answer: SW8..SW0`
 - **שלבים:** 2
@@ -79,7 +152,7 @@
 - `n x tpd(gate) <= Tc - (tpcq + tsetup)`
 - `32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0`
 
-### Q05 - תדר השעון המקסימלי
+### Q08 - תדר השעון המקסימלי
 
 - **מתגים ונורות:** `HEX3 = tpcq     HEX2 = tpd     HEX1 = tsetup     (ns)     answer: SW8..SW0`
 - **שלבים:** 2
@@ -98,7 +171,7 @@
 - `f = 1000 / Tc`
 - `256 = SW8   128 = SW7   64 = SW6   32 = SW5   16 = SW4   8 = SW3   4 = SW2   2 = SW1   1 = SW0`
 
-### Q06 - אילוץ ההחזקה
+### Q09 - אילוץ ההחזקה
 
 - **מתגים ונורות:** `HEX3 = tccq     HEX2 = tcd     HEX1 = thold     answer: SW8..SW0`
 - **שלבים:** 2
@@ -120,7 +193,7 @@
 - `tcd >= thold - tccq`
 - `32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0`
 
-### Q07 - האם המעגל עומד בזמן?
+### Q10 - האם המעגל עומד בזמן?
 
 - **מתגים ונורות:** `Tc, tpcq, tpd on page 1; tsetup on page 2     SW9 = page 2     answer: SW8..SW0`
 - **שלבים:** 2
@@ -143,7 +216,7 @@
 - `| Tc - (tpcq + tpd + tsetup) |`
 - `32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0`
 
-### Q08 - הדוגמה מהשקופית: שני שערים בטור
+### Q11 - הדוגמה מהשקופית: שני שערים בטור
 
 - **מתגים ונורות:** `tpcq tsetup tpd tcd / tccq thold     SW9 = page 2     answer: SW8..SW0`
 - **שלבים:** 2
@@ -166,7 +239,7 @@
 - `SW0`
 - לא מתקיים - השאירו למטה.
 
-### Q09 - הדוגמה מהשקופית עם יותר שערים
+### Q12 - הדוגמה מהשקופית עם יותר שערים
 
 - **מתגים ונורות:** `tpcq tsetup tpd n_long / tccq thold tcd n_short     SW9 = page 2     answer: SW8..SW0`
 - **שלבים:** 3
@@ -200,7 +273,7 @@
 - `tcd >= (thold - tccq) / n_short     (round up)`
 - `32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0`
 
-### Q10 - כמה מאגרים לתקן את ההחזקה?
+### Q13 - כמה מאגרים לתקן את ההחזקה?
 
 - **מתגים ונורות:** `HEX3 = tccq     HEX2 = thold     HEX1 = tcd of one buffer     answer: SW8..SW0`
 - **שלבים:** 2
@@ -224,9 +297,89 @@
 
 ## נושא 2 - חלון הדגימה, הטיית שעון ומסנכרנים
 
-40 דקות, 11 שאלות: Q11-Q21
+40 דקות, 14 שאלות: Q14-Q27
 
-### Q11 - חלון הדגימה
+### Q14 - שקופית 14: השעון השני מקדים
+
+- **מתגים ונורות:** `HEX3 = tpcq     HEX2 = tpd     HEX1 = tsetup     HEX0 = tskew     answer: SW8..SW0`
+- **שלבים:** 2
+
+**שלב 1**
+
+- השקופית של הטיית שעון (14): מסלול בין שני אוגרים. בתצוגה:
+- `HEX3 = tpcq     HEX2 = tpd     HEX1 = tsetup`
+- `all times in units of 10 ps (5 = 50 ps)`
+- מה זמן המחזור המינימלי בלי הטיה?
+- `Tc >= tpcq + tpd + tsetup`
+- `16 = SW4   8 = SW3   4 = SW2   2 = SW1   1 = SW0`
+
+**שלב 2**
+
+- השקופית של הטיית שעון (14): השעון של האוגר השני מקדים.
+- `CLK2 is earlier than CLK1`
+- בתצוגה:
+- `HEX3 = tpcq     HEX2 = tpd     HEX1 = tsetup     HEX0 = tskew`
+- `all times in units of 10 ps (5 = 50 ps)`
+- מה זמן המחזור המינימלי עם ההטיה?
+- `Tc >= tpcq + tpd + tsetup + tskew`
+- `32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0`
+
+### Q15 - שקופית 15: השעון השני מאחר
+
+- **מתגים ונורות:** `HEX3 = tccq     HEX2 = tcd     HEX1 = thold     HEX0 = tskew     answer: SW8..SW0`
+- **שלבים:** 2
+
+**שלב 1**
+
+- השקופית של הטיית שעון (15): מסלול קצר בין שני אוגרים. בתצוגה:
+- `HEX3 = tccq     HEX2 = tcd     HEX1 = thold`
+- `all times in units of 10 ps (5 = 50 ps)`
+- כמה זמן אחרי עליית השעון הנתון בכניסה של האוגר השני עוד יציב?
+- `tccq + tcd`
+- `8 = SW3     4 = SW2     2 = SW1     1 = SW0`
+
+**שלב 2**
+
+- השקופית של הטיית שעון (15): השעון של האוגר השני מאחר.
+- `CLK2 is later than CLK1`
+- בתצוגה:
+- `HEX3 = tccq     HEX2 = tcd     HEX1 = thold     HEX0 = tskew`
+- `all times in units of 10 ps (5 = 50 ps)`
+- האם אילוץ ההחזקה מתקיים עם ההטיה?
+- `tccq + tcd > thold + tskew`
+- מתקיים - הרימו:
+- `SW0`
+- לא מתקיים - השאירו למטה.
+
+### Q16 - המסנכרן משקופיות 22 ו-26
+
+- **מתגים ונורות:** `HEX3 HEX2 HEX1 = f (MHz)     HEX0 = tsetup (ns)     answer: SW8..SW0`
+- **שלבים:** 2
+
+**שלב 1**
+
+- המסנכרן משקופיות 22 ו-26: שני דלגלגים בטור, עם שעון בתדר שבתצוגה.
+- `D -> F1 -> D2 -> F2 -> Q`
+- בתצוגה:
+- `HEX3 HEX2 HEX1 = f (MHz)`
+- מה זמן המחזור (בננו-שניות)? בשקופית 26:
+- `Tc = 1 / 500 MHz = 2 ns`
+- `Tc = 1000 / f`
+- `16 = SW4   8 = SW3   4 = SW2   2 = SW1   1 = SW0`
+
+**שלב 2**
+
+- המסנכרן משקופיות 22 ו-26: שני דלגלגים בטור.
+- `D -> F1 -> D2 -> F2 -> Q`
+- בתצוגה:
+- `HEX3 HEX2 HEX1 = f (MHz)     HEX0 = tsetup (ns)`
+- כמה זמן יש לאות
+- `D2`
+- להתייצב (בננו-שניות)?
+- `tres = Tc - tsetup = 1000 / f - tsetup`
+- `16 = SW4   8 = SW3   4 = SW2   2 = SW1   1 = SW0`
+
+### Q17 - חלון הדגימה
 
 - **מתגים ונורות:** `HEX3 = tsetup     HEX2 = thold     HEX1 = when D changes, before the edge     answer: SW8..SW0`
 - **שלבים:** 2
@@ -248,7 +401,7 @@
 - `SW0`
 - בסדר - השאירו למטה.
 
-### Q12 - זמן המחזור עם הטיית שעון
+### Q18 - זמן המחזור עם הטיית שעון
 
 - **מתגים ונורות:** `tpcq tpd tsetup tskew / tccq tcd thold     SW9 = page 2     answer: SW8..SW0`
 - **שלבים:** 2
@@ -271,7 +424,7 @@
 - `SW0`
 - לא מתקיים - השאירו למטה.
 
-### Q13 - כמה הטיה מותרת?
+### Q19 - כמה הטיה מותרת?
 
 - **מתגים ונורות:** `HEX3 = tccq     HEX2 = tcd     HEX1 = thold     answer: SW8..SW0`
 - **שלבים:** 1
@@ -285,7 +438,7 @@
 - `tskew <= tccq + tcd - thold`
 - `32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0`
 
-### Q14 - מאגרים נגד הטיית שעון
+### Q20 - מאגרים נגד הטיית שעון
 
 - **מתגים ונורות:** `tccq tcd thold tskew / tcd of a buffer     SW9 = page 2     answer: SW8..SW0`
 - **שלבים:** 2
@@ -311,7 +464,7 @@
 - `tccq + tcd + n x tcd(buffer) >= thold + tskew`
 - `8 = SW3     4 = SW2     2 = SW1     1 = SW0`
 
-### Q15 - הטיה מותרת לפי אילוץ ההתקנה
+### Q21 - הטיה מותרת לפי אילוץ ההתקנה
 
 - **מתגים ונורות:** `HEX3 HEX2 = Tc     HEX1 = tpcq + tpd + tsetup (together)     answer: SW8..SW0`
 - **שלבים:** 1
@@ -325,7 +478,7 @@
 - `Tc >= tpcq + tpd + tsetup + tskew`
 - `32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0`
 
-### Q16 - הטיה לשני הכיוונים
+### Q22 - הטיה לשני הכיוונים
 
 - **מתגים ונורות:** `Tc, setup path / hold path, thold, tskew     SW9 = page 2     answer: SW8..SW0`
 - **שלבים:** 3
@@ -363,7 +516,7 @@
 - `tskew <= min(Tc - (tpcq + tpd + tsetup), tccq + tcd - thold)`
 - `8 = SW3     4 = SW2     2 = SW1     1 = SW0`
 
-### Q17 - מסנכרן
+### Q23 - מסנכרן
 
 - **מתגים ונורות:** `A = SW9 (the asynchronous input)     Q1 Q2 Q3 = SW8 SW7 SW6 (the flip-flops, now)     Y = LEDG0 = the synchronized output after the next clock edge     answer: SW3..SW0`
 - **שלבים:** 3
@@ -394,7 +547,7 @@
 - `SW0`
 - לא - השאירו למטה.
 
-### Q18 - כמה זמן לוקח לסנכרן?
+### Q24 - כמה זמן לוקח לסנכרן?
 
 - **מתגים ונורות:** `HEX3 = flip-flops in the synchronizer     HEX2 HEX1 = Tc (ns)     answer: SW8..SW0`
 - **שלבים:** 1
@@ -408,7 +561,7 @@
 - `128 = SW7`
 - `64 = SW6     32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0`
 
-### Q19 - כמה זמן יש להתייצבות?
+### Q25 - כמה זמן יש להתייצבות?
 
 - **מתגים ונורות:** `HEX3 HEX2 = Tc     HEX1 = tsetup     answer: SW8..SW0`
 - **שלבים:** 2
@@ -430,7 +583,7 @@
 - `2 (Tc - tsetup)`
 - `64 = SW6     32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0`
 
-### Q20 - כמה עוזר עוד דלגלג?
+### Q26 - כמה עוזר עוד דלגלג?
 
 - **מתגים ונורות:** `HEX3 HEX2 = Tc     HEX1 = tsetup     HEX0 = tau     answer: SW8..SW0`
 - **שלבים:** 3
@@ -466,7 +619,7 @@
 - `2 x (Tc - tsetup) / tau`
 - `32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0`
 
-### Q21 - הזמן הממוצע בין כשלים
+### Q27 - הזמן הממוצע בין כשלים
 
 - **מתגים ונורות:** `HEX3 HEX2 = N (input changes per second)     HEX1 HEX0 = K     answer: SW8..SW0`
 - **שלבים:** 2
@@ -493,9 +646,97 @@
 
 ## נושא 3 - מקביליות והשהיות בקוד
 
-40 דקות, 12 שאלות: Q22-Q33
+40 דקות, 15 שאלות: Q28-Q42
 
-### Q22 - זמן אחזור וקצב: עוגיות
+### Q28 - העוגיות משקופית 32: בן ואליסה
+
+- **מתגים ונורות:** `HEX3 = minutes to roll     HEX2 HEX1 = minutes to bake     answer: SW8..SW0`
+- **שלבים:** 2
+
+**שלב 1**
+
+- העוגיות משקופית 32: בן ואליסה, כל אחד עם תנור משלו, מכינים מגש בבת אחת. בתצוגה:
+- `HEX3 = minutes to roll     HEX2 HEX1 = minutes to bake`
+- מה זמן האחזור של מגש אחד (בדקות)?
+- `latency = roll + bake`
+- `32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0`
+
+**שלב 2**
+
+- העוגיות משקופית 32: בן ואליסה, כל אחד עם תנור משלו. בתצוגה:
+- `HEX3 = minutes to roll     HEX2 HEX1 = minutes to bake`
+- כמה מגשים בשעה שניהם יחד?
+- `throughput = 2 x 60 / (roll + bake)`
+- `8 = SW3     4 = SW2     2 = SW1     1 = SW0`
+
+### Q29 - העוגיות משקופית 33: צנרת
+
+- **מתגים ונורות:** `HEX3 = minutes to roll     HEX2 HEX1 = minutes to bake     answer: SW8..SW0`
+- **שלבים:** 2
+
+**שלב 1**
+
+- העוגיות משקופית 33: בן לבד עם שני מגשים. בזמן שמגש אחד בתנור, הוא מכין את הבא. בתצוגה:
+- `HEX3 = minutes to roll     HEX2 HEX1 = minutes to bake`
+- מתי מגש 1 יוצא מהתנור (בדקות מההתחלה)?
+- `t1 = roll + bake`
+- `32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0`
+
+**שלב 2**
+
+- העוגיות משקופית 33: מגש 2 נכנס לתנור כשמגש 1 יוצא. בתצוגה:
+- `HEX3 = minutes to roll     HEX2 HEX1 = minutes to bake`
+- מתי מגש 2 יוצא מהתנור?
+- `t2 = roll + 2 x bake`
+- `32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0`
+
+### Q30 - הקוד משקופית 36: מתי היציאה משתנה
+
+- **מתגים ונורות:** `HEX3 HEX2 = the time c changes (ns)     answer: SW8..SW0`
+- **שלבים:** 2
+
+**שלב 1**
+
+- הקוד משקופית 36, עם ההשהיות שלו:
+- `assign #1 {ab, bb, cb} = ~{a, b, c};`
+- `assign #2 n1 = ab & bb & cb;`
+- `assign #2 n2 = a & bb & cb;`
+- `assign #2 n3 = a & bb & c;`
+- `assign #4 y = n1 | n2 | n3;`
+- כמו בסימולציה בשקופית:
+- `a = 0     b = 0     c: 0 -> 1`
+- בתצוגה:
+- `HEX3 HEX2 = the time c changes (ns)`
+- באיזה זמן
+- `cb`
+- משתנה?
+- `t + 1`
+- `64 = SW6   32 = SW5   16 = SW4   8 = SW3   4 = SW2   2 = SW1`
+- `1 = SW0`
+
+**שלב 2**
+
+- הקוד משקופית 36, עם ההשהיות שלו:
+- `assign #1 {ab, bb, cb} = ~{a, b, c};`
+- `assign #2 n1 = ab & bb & cb;`
+- `assign #2 n2 = a & bb & cb;`
+- `assign #2 n3 = a & bb & c;`
+- `assign #4 y = n1 | n2 | n3;`
+- כמו בסימולציה בשקופית:
+- `a = 0     b = 0     c: 0 -> 1`
+- בתצוגה:
+- `HEX3 HEX2 = the time c changes (ns)`
+- השינוי עובר דרך
+- `n1`
+- ומשנה את היציאה. באיזה זמן
+- `y`
+- משתנה?
+- `c -> cb -> n1 -> y`
+- `t + 1 + 2 + 4`
+- `64 = SW6   32 = SW5   16 = SW4   8 = SW3   4 = SW2   2 = SW1`
+- `1 = SW0`
+
+### Q31 - זמן אחזור וקצב: עוגיות
 
 - **מתגים ונורות:** `HEX3 = minutes of step 1     HEX2 HEX1 = minutes of step 2     answer: SW8..SW0`
 - **שלבים:** 3
@@ -520,7 +761,7 @@
 - `throughput = 60 / the longest step`
 - `32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0`
 
-### Q23 - מקביליות מרחבית
+### Q32 - מקביליות מרחבית
 
 - **מתגים ונורות:** `HEX3 = workers     HEX2 HEX1 = minutes for one tray (latency)     answer: SW8..SW0`
 - **שלבים:** 2
@@ -538,7 +779,7 @@
 - ומה זמן האחזור של מגש אחד?
 - `32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0`
 
-### Q24 - מקביליות מרחבית וזמנית יחד
+### Q33 - מקביליות מרחבית וזמנית יחד
 
 - **מתגים ונורות:** `HEX3 = workers     HEX2 = minutes of step 1     HEX1 HEX0 = minutes of step 2     answer: SW8..SW0`
 - **שלבים:** 1
@@ -551,7 +792,7 @@
 - `throughput = workers x 60 / the longest step`
 - `64 = SW6     32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0`
 
-### Q25 - צנרת: זמן מחזור וזמן אחזור
+### Q34 - צנרת: זמן מחזור וזמן אחזור
 
 - **מתגים ונורות:** `HEX3 HEX2 HEX1 = the delays of 3 pipeline stages     HEX0 = tpcq + tsetup     answer: SW8..SW0`
 - **שלבים:** 2
@@ -571,7 +812,7 @@
 - `latency = 3 Tc`
 - `32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0`
 
-### Q26 - חלוקה לשלבים שווים
+### Q35 - חלוקה לשלבים שווים
 
 - **מתגים ונורות:** `HEX3 HEX2 = tpd of the whole logic     HEX1 = stages     HEX0 = tpcq + tsetup (together)     answer: SW8..SW0`
 - **שלבים:** 3
@@ -606,7 +847,7 @@
 - `64 = SW6   32 = SW5   16 = SW4   8 = SW3   4 = SW2   2 = SW1`
 - `1 = SW0`
 
-### Q27 - כמה זמן לכמה אסימונים?
+### Q36 - כמה זמן לכמה אסימונים?
 
 - **מתגים ונורות:** `HEX3 = stages     HEX2 HEX1 = tokens     HEX0 = Tc (ns)     answer: SW8..SW0`
 - **שלבים:** 3
@@ -636,7 +877,7 @@
 - `256 = SW8   128 = SW7   64 = SW6   32 = SW5   16 = SW4   8 = SW3`
 - `4 = SW2   2 = SW1   1 = SW0`
 
-### Q28 - איפה לשים את האוגר?
+### Q37 - איפה לשים את האוגר?
 
 - **מתגים ונורות:** `the 4 gate delays / tpcq + tsetup     SW9 = page 2     answer: SW8..SW0`
 - **שלבים:** 3
@@ -668,7 +909,7 @@
 - `Tc = max(stage 1, stage 2) + tpcq + tsetup`
 - `32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0`
 
-### Q29 - צנרת על הלוח
+### Q38 - צנרת על הלוח
 
 - **מתגים ונורות:** `new token = SW9     stages 1..5 now = SW8..SW4 (1 = a token)     stages 1..5 after the next clock edge = LEDG4..LEDG0     answer: SW3..SW0`
 - **שלבים:** 2
@@ -690,7 +931,7 @@
 - מכניסים אסימון חדש בכל עליית שעון. כמה אסימונים נמצאים בצנרת בבת אחת, כשהיא מלאה?
 - `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0`
 
-### Q30 - זמן האחזור של צנרת נסתרת
+### Q39 - זמן האחזור של צנרת נסתרת
 
 - **מתגים ונורות:** `stage registers 1..4 = SW9 SW8 SW7 SW6 (1 = a token)     Y = LEDG0 = the output of the last stage     HEX0 = Tc (ns)     answer: SW5..SW0`
 - **שלבים:** 2
@@ -711,7 +952,7 @@
 - `latency = stages x Tc`
 - `32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0`
 
-### Q31 - השהיות בקוד
+### Q40 - השהיות בקוד
 
 - **מתגים ונורות:** `HEX3 = #d1     HEX2 = #d2     HEX1 = #d3     (ns)     answer: SW8..SW0`
 - **שלבים:** 2
@@ -737,7 +978,7 @@
 - משתנה?
 - `32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0`
 
-### Q32 - המסלול הקצר בקוד
+### Q41 - המסלול הקצר בקוד
 
 - **מתגים ונורות:** `HEX3 = #d1     HEX2 = #d2     HEX1 = #d3     (ns)     answer: SW8..SW0`
 - **שלבים:** 2
@@ -768,7 +1009,7 @@
 - `the shortest path: a -> n2 -> y`
 - `32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0`
 
-### Q33 - השהיות בקוד בדיקה
+### Q42 - השהיות בקוד בדיקה
 
 - **מתגים ונורות:** `HEX3 = #d1     HEX2 = #d2     HEX1 = #d3     HEX0 = #dg     (ns)     answer: SW8..SW0`
 - **שלבים:** 3

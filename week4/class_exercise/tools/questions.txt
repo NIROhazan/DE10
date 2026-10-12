@@ -2,7 +2,58 @@
 # [Qnn] NAME | title | npub n [| steps n];  B: board;  Pk: printed for login numbers with pub = k;
 # with steps: Sk: the screen of step k (step 0 = login, in run.ps1);  without: L: question, F: answer format
 
-[Q01] KMAP2 | מפת קרנו של שני משתנים | npub 1 | steps 3 | flat
+[Q01] KSLIDE3 | מפת קרנו מהשקופיות - שלושה משתנים | npub 1 | steps 4 | flat
+B: A = SW9   B = SW8   C = SW7   Y = LEDG0   the cell = HEX2 HEX1 HEX0 (A B C)   answer: SW5..SW0
+S1: בלוח אחת ממפות קרנו של שלושה משתנים מהשקופיות (שקופיות 3, 4, 19).
+S1: המפה כמו בשקופית: העמודות לפי
+S1: AB
+S1: והשורות לפי
+S1: C
+S1: A = SW9     B = SW8     C = SW7     Y = LEDG0
+S1: 1. שימו
+S1: C = 0  (SW7 = 0)
+S1: 2. נסו את 4 העמודות, ובכל תא שהנורה דולקת הרימו מתג:
+S1: AB:   00 -> SW3     01 -> SW2     11 -> SW1     10 -> SW0
+S2: עכשיו השורה השנייה של המפה:
+S2: A = SW9     B = SW8     C = SW7     Y = LEDG0
+S2: C = 1  (SW7 = 1)
+S2: בכל תא שהנורה דולקת הרימו מתג:
+S2: AB:   00 -> SW3     01 -> SW2     11 -> SW1     10 -> SW0
+S3: עגלו את ה-1 כמו בשקופית. בתצוגה מוצג תא של 1:
+S3: HEX2 HEX1 HEX0 = A B C
+S3: כתבו את המכפלה של העיגול שמכסה אותו.
+S3: הרימו מתג לכל ליטרל במכפלה (גרש = משתנה עם קו):
+S3: A = SW5     A' = SW4     B = SW3     B' = SW2     C = SW1     C' = SW0
+
+[Q02] KSLIDE8 | מפת קרנו של ארבעה משתנים מהשקופית | npub 1 | steps 4 | flat
+B: A = SW9  B = SW8  C = SW7  D = SW6  Y = LEDG0  the cell = HEX3..HEX0 (A B C D)  answer: SW3..SW0
+S1: בלוח מפת קרנו של ארבעה משתנים מהשקופית (שקופית 8). בתצוגה מוצג תא אחד שלה:
+S1: HEX3 HEX2 HEX1 HEX0 = A B C D
+S1: A = SW9     B = SW8     C = SW7     D = SW6
+S1: Y = LEDG0
+S1: 1. שימו את שני המתגים השמאליים כמו בתצוגה:
+S1: SW9 SW8 = HEX3 HEX2  (A B)
+S1: 2. נסו את 4 המצבים של שני המתגים שלידם, ובכל תא שהנורה דולקת הרימו מתג:
+S1: CD = SW7 SW6
+S1: CD:   00 -> SW3     01 -> SW2     11 -> SW1     10 -> SW0
+S2: עגלו את המפה כמו בשקופית. בתצוגה מוצג תא של 1:
+S2: HEX3 HEX2 HEX1 HEX0 = A B C D
+S2: מצאו את העיגול שמכסה אותו.
+S2: 1. כתבו על דף את המכפלה של העיגול.
+S2: 2. הרימו מתג לכל ליטרל של המשתנים האלה (גרש = משתנה עם קו):
+S2: A, B
+S2: משתנה שלא מופיע במכפלה: אף מתג שלו לא למעלה.
+S2: A = SW3     A' = SW2     B = SW1     B' = SW0
+S3: עגלו את המפה כמו בשקופית. בתצוגה מוצג תא של 1:
+S3: HEX3 HEX2 HEX1 HEX0 = A B C D
+S3: מצאו את העיגול שמכסה אותו.
+S3: עכשיו שאר הליטרלים של המכפלה של העיגול.
+S3: הרימו מתג לכל ליטרל של המשתנים האלה (גרש = משתנה עם קו):
+S3: C, D
+S3: משתנה שלא מופיע במכפלה: אף מתג שלו לא למעלה.
+S3: C = SW3     C' = SW2     D = SW1     D' = SW0
+
+[Q03] KMAP2 | מפת קרנו של שני משתנים | npub 1 | steps 3 | flat
 B: A = SW9     B = SW8     Y = LEDG0     answer: SW3..SW0
 S1: בלוח פונקציה של שני משתנים. נסו את 4 המצבים, ובכל מצב שהנורה דולקת הרימו מתג:
 S1: A B:   00 -> SW3     01 -> SW2     10 -> SW1     11 -> SW0
@@ -10,7 +61,7 @@ S2: במפת קרנו כל ה-1 נכנסים בעיגול אחד. כותבים �
 S2: הרימו מתג לכל ליטרל במכפלה (גרש = משתנה עם קו):
 S2: A = SW3     A' = SW2     B = SW1     B' = SW0
 
-[Q02] KMAP3A | מפת קרנו של שלושה משתנים - עיגול אחד | npub 1 | steps 4 | flat
+[Q04] KMAP3A | מפת קרנו של שלושה משתנים - עיגול אחד | npub 1 | steps 4 | flat
 B: A = SW9     B = SW8     C = SW7     Y = LEDG0     answer: SW5..SW0
 S1: בלוח פונקציה של שלושה משתנים. מלאו את השורה הראשונה של מפת קרנו:
 S1: A = 0  (SW9 = 0)
@@ -25,7 +76,7 @@ S3: כותבים רק משתנים שלא מופיעים בעיגול גם רג�
 S3: הרימו מתג לכל ליטרל במכפלה (גרש = משתנה עם קו):
 S3: A = SW5     A' = SW4     B = SW3     B' = SW2     C = SW1     C' = SW0
 
-[Q03] KMAP3 | מפת קרנו של שלושה משתנים - סכום מכפלות מינימלי | npub 1 | steps 5 | flat
+[Q05] KMAP3 | מפת קרנו של שלושה משתנים - סכום מכפלות מינימלי | npub 1 | steps 5 | flat
 B: A = SW9   B = SW8   C = SW7   Y = LEDG0   the cell = HEX2 HEX1 HEX0 (A B C)   answer: SW5..SW0
 S1: בלוח פונקציה של שלושה משתנים. מלאו את השורה הראשונה של מפת קרנו:
 S1: A = 0  (SW9 = 0)
@@ -44,7 +95,7 @@ S4: כתבו את המכפלה של העיגול שמכסה אותו.
 S4: הרימו מתג לכל ליטרל במכפלה (גרש = משתנה עם קו):
 S4: A = SW5     A' = SW4     B = SW3     B' = SW2     C = SW1     C' = SW0
 
-[Q04] PRIMES | מכפלות ראשוניות וחיוניות | npub 1 | steps 5 | flat
+[Q06] PRIMES | מכפלות ראשוניות וחיוניות | npub 1 | steps 5 | flat
 B: A = SW9     B = SW8     C = SW7     Y = LEDG0     answer: SW3..SW0
 S1: בלוח פונקציה של שלושה משתנים. מלאו את השורה הראשונה של מפת קרנו:
 S1: A = 0  (SW9 = 0)
@@ -62,7 +113,7 @@ S4: כמה מכפלות ראשוניות חיוניות יש?
 S4: 0 = all 0
 S4: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1
 
-[Q05] POS3 | מכפלת סכומים מינימלית - עיגול של האפסים | npub 1 | steps 5 | flat
+[Q07] POS3 | מכפלת סכומים מינימלית - עיגול של האפסים | npub 1 | steps 5 | flat
 B: A = SW9   B = SW8   C = SW7   Y = LEDG0   the cell = HEX2 HEX1 HEX0 (A B C)   answer: SW5..SW0
 S1: בלוח פונקציה של שלושה משתנים. הפעם מחפשים את האפסים. השורה הראשונה של מפת קרנו:
 S1: A = 0  (SW9 = 0)
@@ -81,7 +132,7 @@ S4: כתבו את הסכום של העיגול שמכסה אותו: משתנה �
 S4: הרימו מתג לכל ליטרל בסכום (גרש = משתנה עם קו):
 S4: A = SW5     A' = SW4     B = SW3     B' = SW2     C = SW1     C' = SW0
 
-[Q06] KMAP4A | מפת קרנו של ארבעה משתנים - עיגול אחד | npub 1 | steps 4 | flat
+[Q08] KMAP4A | מפת קרנו של ארבעה משתנים - עיגול אחד | npub 1 | steps 4 | flat
 B: A = SW9     B = SW8     C = SW7     D = SW6     Y = LEDG0     answer: SW3..SW0
 S1: בלוח פונקציה של ארבעה משתנים, וכל ה-1 שלה נכנסים בעיגול אחד.
 S1: 1. נסו את 16 המצבים של ארבעת המתגים:
@@ -105,7 +156,7 @@ S3: C, D
 S3: משתנה שלא מופיע במכפלה: אף מתג שלו לא למעלה.
 S3: C = SW3     C' = SW2     D = SW1     D' = SW0
 
-[Q07] KMAP4TWO | מפת קרנו של ארבעה משתנים - שני עיגולים | npub 1 | steps 7 | flat
+[Q09] KMAP4TWO | מפת קרנו של ארבעה משתנים - שני עיגולים | npub 1 | steps 7 | flat
 B: A = SW9     B = SW8     C = SW7     D = SW6     Y = LEDG0     answer: SW3..SW0
 S1: בלוח פונקציה של ארבעה משתנים. סכום המכפלות המינימלי שלה הוא שני עיגולים בגדלים שונים.
 S1: 1. נסו את 16 המצבים של ארבעת המתגים:
@@ -149,7 +200,7 @@ S6: C, D
 S6: משתנה שלא מופיע במכפלה: אף מתג שלו לא למעלה.
 S6: C = SW3     C' = SW2     D = SW1     D' = SW0
 
-[Q08] KMAP4 | מפת קרנו של ארבעה משתנים | npub 1 | steps 8 | flat
+[Q10] KMAP4 | מפת קרנו של ארבעה משתנים | npub 1 | steps 8 | flat
 B: A = SW9  B = SW8  C = SW7  D = SW6  Y = LEDG0  the cell = HEX3..HEX0 (A B C D)  answer: SW3..SW0
 S1: בלוח פונקציה של ארבעה משתנים. מלאו את מפת קרנו, שורה אחרי שורה.
 S1: A = SW9     B = SW8     C = SW7     D = SW6
@@ -207,7 +258,7 @@ S7: C, D
 S7: משתנה שלא מופיע במכפלה: אף מתג שלו לא למעלה.
 S7: C = SW3     C' = SW2     D = SW1     D' = SW0
 
-[Q09] PRIMES4 | מכפלות ראשוניות וחיוניות - ארבעה משתנים | npub 1 | steps 7 | flat
+[Q11] PRIMES4 | מכפלות ראשוניות וחיוניות - ארבעה משתנים | npub 1 | steps 7 | flat
 B: A = SW9     B = SW8     C = SW7     D = SW6     Y = LEDG0     answer: SW3..SW0
 S1: בלוח פונקציה של ארבעה משתנים. מלאו את מפת קרנו, שורה אחרי שורה.
 S1: A = SW9     B = SW8     C = SW7     D = SW6
@@ -253,7 +304,93 @@ S6: כמה מכפלות ראשוניות חיוניות יש?
 S6: 0 = all 0
 S6: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0 8 = SW3
 
-[Q10] DC3 | מפת קרנו עם לא אכפת | npub 1 | steps 7 | flat
+[Q12] DCSLIDE | מפת קרנו עם לא אכפת מהשקופית | npub 1 | steps 4 | flat
+B: A = SW9  B = SW8  C = SW7  D = SW6  Y = LEDG0  X = LEDG1  the cell = HEX3..HEX0  answer: SW3..SW0
+S1: בלוח מפת קרנו עם לא אכפת מהשקופית (שקופית 12). בתצוגה מוצג תא אחד שלה:
+S1: HEX3 HEX2 HEX1 HEX0 = A B C D
+S1: A = SW9     B = SW8     C = SW7     D = SW6
+S1: 1. שימו את התא על המתגים.
+S1: 2. הנורה הימנית דולקת = 1. הנורה שלידה דולקת = לא אכפת.
+S1: Y = LEDG0 (1)     X = LEDG1 (don't care)
+S1: 3. מה יש בתא?
+S1: 1 = SW0     X = SW1
+S2: עגלו את המפה כמו בשקופית: לא אכפת נכנס לעיגול רק אם הוא עוזר.
+S2: בתצוגה התא:
+S2: HEX3 HEX2 HEX1 HEX0 = A B C D
+S2: מצאו את העיגול שמכסה אותו.
+S2: 1. כתבו על דף את המכפלה של העיגול.
+S2: 2. הרימו מתג לכל ליטרל של המשתנים האלה (גרש = משתנה עם קו):
+S2: A, B
+S2: משתנה שלא מופיע במכפלה: אף מתג שלו לא למעלה.
+S2: A = SW3     A' = SW2     B = SW1     B' = SW0
+S3: עגלו את המפה כמו בשקופית: לא אכפת נכנס לעיגול רק אם הוא עוזר.
+S3: בתצוגה התא:
+S3: HEX3 HEX2 HEX1 HEX0 = A B C D
+S3: מצאו את העיגול שמכסה אותו.
+S3: עכשיו שאר הליטרלים של המכפלה של העיגול.
+S3: הרימו מתג לכל ליטרל של המשתנים האלה (גרש = משתנה עם קו):
+S3: C, D
+S3: משתנה שלא מופיע במכפלה: אף מתג שלו לא למעלה.
+S3: C = SW3     C' = SW2     D = SW1     D' = SW0
+
+[Q13] TSLIDE | המסלול הקריטי של השקופית, שער אחרי שער | npub 1 | steps 4 | flat
+B: delays = HEX3 HEX2 (tpd AND, tpd OR)     answer: SW3..SW0
+S1: המעגל של שקופית 17:
+S1: n1 = A AND B     n2 = n1 OR C     Y = n2 AND D
+S1: בתצוגה ההשהיות של השערים:
+S1: HEX3 = tpd AND     HEX2 = tpd OR
+S1: 1. הכניסה משתנה. אחרי כמה זמן לכל היותר מתייצב
+S1: n1 = ?
+S1: 0 = all 0   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2
+S1: 5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0   8 = SW3   9 = SW3+SW0
+S1: 10 = SW3+SW1   11 = SW3+SW1+SW0   12 = SW3+SW2   13 = SW3+SW2+SW0
+S1: 14 = SW3+SW2+SW1   15 = SW3+SW2+SW1+SW0
+S2: המעגל של שקופית 17:
+S2: n1 = A AND B     n2 = n1 OR C     Y = n2 AND D
+S2: בתצוגה ההשהיות של השערים:
+S2: HEX3 = tpd AND     HEX2 = tpd OR
+S2: 2. ואחרי כמה זמן לכל היותר מתייצב
+S2: n2 = ?
+S2: 0 = all 0   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2
+S2: 5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0   8 = SW3   9 = SW3+SW0
+S2: 10 = SW3+SW1   11 = SW3+SW1+SW0   12 = SW3+SW2   13 = SW3+SW2+SW0
+S2: 14 = SW3+SW2+SW1   15 = SW3+SW2+SW1+SW0
+S3: המעגל של שקופית 17:
+S3: n1 = A AND B     n2 = n1 OR C     Y = n2 AND D
+S3: בתצוגה ההשהיות של השערים:
+S3: HEX3 = tpd AND     HEX2 = tpd OR
+S3: 3. וההשהיה של כל המעגל (המסלול הקריטי):
+S3: Y:   tpd = ?
+S3: 0 = all 0   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2
+S3: 5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0   8 = SW3   9 = SW3+SW0
+S3: 10 = SW3+SW1   11 = SW3+SW1+SW0   12 = SW3+SW2   13 = SW3+SW2+SW0
+S3: 14 = SW3+SW2+SW1   15 = SW3+SW2+SW1+SW0
+
+[Q14] GLSLIDE | מעגל הגליץ' מהשקופית | npub 1 | steps 4 | flat
+B: A = SW9   B = SW8   C = SW7   n1 = LEDG1   n2 = LEDG0   inputs = HEX2 HEX1 HEX0   answer: SW1..SW0
+S1: בלוח מעגל הגליץ' מהשקופיות (שקופיות 19-21):
+S1: n1 = A'B'     n2 = BC     Y = n1 + n2
+S1: A = SW9   B = SW8   C = SW7   n1 = LEDG1   n2 = LEDG0
+S1: 1. שימו על המתגים את הכניסות שבתצוגה:
+S1: HEX2 HEX1 HEX0 = A B C
+S1: 2. העתיקו את היציאות של שני שערי וגם:
+S1: SW1 SW0 = LEDG1 LEDG0  (n1 n2)
+S2: מהכניסות שבתצוגה הפכו רק את הכניסה הזו (כמו בשקופית):
+S2: B = SW8
+S2: HEX2 HEX1 HEX0 = A B C
+S2: n1 = A'B'     n2 = BC     Y = n1 + n2
+S2: A = SW9   B = SW8   C = SW7   n1 = LEDG1   n2 = LEDG0
+S2: העתיקו שוב:
+S2: SW1 SW0 = LEDG1 LEDG0  (n1 n2)
+S3: גליץ' יכול לקרות כשיציאה אחת עולה מ-0 ל-1 והשנייה יורדת מ-1 ל-0, והיציאה צריכה להישאר 1.
+S3: A = SW9   B = SW8   C = SW7   n1 = LEDG1   n2 = LEDG0
+S3: שימו את הכניסות שבתצוגה, והפכו הלוך ושוב את
+S3: B = SW8
+S3: HEX2 HEX1 HEX0 = A B C
+S3: יכול לקרות כאן גליץ'?
+S3: no = all 0     yes = SW0
+
+[Q15] DC3 | מפת קרנו עם לא אכפת | npub 1 | steps 7 | flat
 B: A = SW9  B = SW8  C = SW7  Y = LEDG0  X = LEDG1  the cell = HEX2 HEX1 HEX0  answer: SW5..SW0 (rows: SW3..SW0)
 S1: בלוח פונקציה של שלושה משתנים עם תאים של לא אכפת.
 S1: 1. שימו מצב על שלושת המתגים:
@@ -287,7 +424,7 @@ S6: כתבו את המכפלה של העיגול שמכסה אותו.
 S6: הרימו מתג לכל ליטרל במכפלה (גרש = משתנה עם קו):
 S6: A = SW5     A' = SW4     B = SW3     B' = SW2     C = SW1     C' = SW0
 
-[Q11] DCUSE | אילו לא אכפת הפכו ל-1? | npub 1 | steps 6 | flat
+[Q16] DCUSE | אילו לא אכפת הפכו ל-1? | npub 1 | steps 6 | flat
 B: A = SW9     B = SW8     C = SW7     Y = LEDG0     X = LEDG1 (don't care)     answer: SW3..SW0
 S1: בלוח פונקציה של שלושה משתנים. בחלק מהמצבים לא אכפת מה היא נותנת.
 S1: 1. שימו מצב על שלושת המתגים:
@@ -318,7 +455,7 @@ S5: תא של לא אכפת נכנס לעיגול רק אם הוא עוזר לה
 S5: כמה תאים של לא אכפת נכנסו לעיגולים?
 S5: 0 = all 0     1 = SW0     2 = SW1
 
-[Q12] SEGX | מקטע של תצוגה עם לא אכפת | npub 1 | steps 4 | flat
+[Q17] SEGX | מקטע של תצוגה עם לא אכפת | npub 1 | steps 4 | flat
 B: data = SW9..SW6 (BCD digit)     Y = LEDG0     X = LEDG1     answer: SW3..SW0
 S1: בלוח מקטע אחד של תצוגת 7 מקטעים, למספר בין 0 ל-9. מעל 9 - לא אכפת:
 S1: Y = LEDG0     X = LEDG1
@@ -334,7 +471,7 @@ S3: כמה ליטרלים יש בכל הביטוי המינימלי יחד? (ס�
 S3: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0 8 = SW3 9 = SW3+SW0
 S3: 10 = SW3+SW1
 
-[Q13] DC4 | מפת קרנו של ארבעה משתנים עם לא אכפת | npub 1 | steps 8 | flat
+[Q18] DC4 | מפת קרנו של ארבעה משתנים עם לא אכפת | npub 1 | steps 8 | flat
 B: A = SW9  B = SW8  C = SW7  D = SW6  Y = LEDG0  X = LEDG1  the cell = HEX3..HEX0  answer: SW3..SW0
 S1: בלוח פונקציה של ארבעה משתנים עם לא אכפת. מלאו את המפה, שורה אחרי שורה.
 S1: A = SW9     B = SW8     C = SW7     D = SW6
@@ -403,7 +540,7 @@ S7: C, D
 S7: משתנה שלא מופיע במכפלה: אף מתג שלו לא למעלה.
 S7: C = SW3     C' = SW2     D = SW1     D' = SW0
 
-[Q14] TIMING | השהיה: מסלול קריטי ומסלול קצר | npub 1 | steps 3 | flat
+[Q19] TIMING | השהיה: מסלול קריטי ומסלול קצר | npub 1 | steps 3 | flat
 B: delays = HEX3..HEX0 (tpd AND, tcd AND, tpd OR, tcd OR)     answer: SW4..SW0
 S1: המעגל:
 S1: n1 = A AND B     n2 = n1 OR C     Y = n2 AND D
@@ -420,7 +557,7 @@ S2: מה ההשהיה של המסלול הקצר - מהכניסה הקרובה �
 S2: tcd = ?
 S2: 16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0
 
-[Q15] PATHC | השהיה מכניסה מסוימת | npub 1 | steps 4 | flat
+[Q20] PATHC | השהיה מכניסה מסוימת | npub 1 | steps 4 | flat
 B: delays = HEX3..HEX0 (tpd AND, tcd AND, tpd OR, tcd OR)     answer: SW4..SW0
 S1: המעגל:
 S1: n1 = A AND B     n2 = n1 OR C     Y = n2 AND D
@@ -444,7 +581,7 @@ S3: ומהכניסה הזו - אחרי כמה זמן לכל היותר?
 S3: D -> Y:   max = ?
 S3: 16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0
 
-[Q16] TIMING2 | איזה מסלול קריטי? | npub 1 | steps 4 | flat
+[Q21] TIMING2 | איזה מסלול קריטי? | npub 1 | steps 4 | flat
 B: delays = HEX3..HEX0 (tpd AND, tcd AND, tpd OR, tcd OR)     answer: SW4..SW0
 S1: המעגל:
 S1: n1 = A AND B     n2 = C OR D     Y = n1 AND n2
@@ -467,7 +604,7 @@ S3: מה ההשהיה המינימלית של המעגל?
 S3: tcd = ?
 S3: 16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0
 
-[Q17] TIMING3 | איזה מסלול קצר? | npub 1 | steps 4 | flat
+[Q22] TIMING3 | איזה מסלול קצר? | npub 1 | steps 4 | flat
 B: delays = HEX3..HEX0 (tpd AND, tcd AND, tpd OR, tcd OR)     answer: SW4..SW0
 S1: המעגל:
 S1: n1 = A OR B     n2 = n1 OR C     n3 = D AND E     Y = n2 AND n3
@@ -490,7 +627,7 @@ S3: מה ההשהיה המינימלית של המעגל?
 S3: tcd = ?
 S3: 16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0
 
-[Q18] GLITCH | תקלה רגעית (גליץ') ותיקון | npub 1 | steps 5 | flat
+[Q23] GLITCH | תקלה רגעית (גליץ') ותיקון | npub 1 | steps 5 | flat
 B: A = SW9     B = SW8     C = SW7     Y = LEDG0     answer: SW5..SW0
 S1: בלוח פונקציה של שלושה משתנים. מלאו את השורה הראשונה של מפת קרנו:
 S1: A = 0  (SW9 = 0)
@@ -508,7 +645,7 @@ S4: כתבו את המכפלה שלו.
 S4: הרימו מתג לכל ליטרל במכפלה (גרש = משתנה עם קו):
 S4: A = SW5     A' = SW4     B = SW3     B' = SW2     C = SW1     C' = SW0
 
-[Q19] GLITCHAT | איפה בדיוק קורה הגליץ'? | npub 1 | steps 5 | flat
+[Q24] GLITCHAT | איפה בדיוק קורה הגליץ'? | npub 1 | steps 5 | flat
 B: A = SW9     B = SW8     C = SW7     Y = LEDG0     answer: SW2..SW0
 S1: בלוח פונקציה של שלושה משתנים. מלאו את השורה הראשונה של מפת קרנו:
 S1: A = 0  (SW9 = 0)
@@ -524,7 +661,7 @@ S4: הגליץ' קורה כשהמשתנה הזה משתנה, ושני המשתנ
 S4: כתבו את הערכים של שני המשתנים האחרים (המתג של המשתנה שמשתנה - לא משנה):
 S4: A -> SW2     B -> SW1     C -> SW0
 
-[Q20] GLITCH4 | גליץ' בפונקציה של ארבעה משתנים | npub 1 | steps 8 | flat
+[Q25] GLITCH4 | גליץ' בפונקציה של ארבעה משתנים | npub 1 | steps 8 | flat
 B: A = SW9     B = SW8     C = SW7     D = SW6     Y = LEDG0     answer: SW3..SW0
 S1: בלוח פונקציה של ארבעה משתנים. מלאו את מפת קרנו, שורה אחרי שורה.
 S1: A = SW9     B = SW8     C = SW7     D = SW6
@@ -580,7 +717,35 @@ S7: C, D
 S7: משתנה שלא מופיע במכפלה: אף מתג שלו לא למעלה.
 S7: C = SW3     C' = SW2     D = SW1     D' = SW0
 
-[Q21] SEGREAD | לקרוא את המקטעים | npub 1 | steps 4 | flat
+[Q26] SEGSLIDE | שורה של המפענח מהשקופית | npub 1 | steps 3 | flat
+B: data = SW9..SW6     digit = HEX3     segments = LEDG6..LEDG0 (abc_defg)     answer: SW3..SW0
+S1: בלוח המפענח של תצוגת 7 מקטעים מהשקופית (שקופית 28):
+S1: case (data)   segments = 7'b abc_defg
+S1: 1. שימו על המתגים את הספרה שבתצוגה:
+S1: data = SW9 SW8 SW7 SW6     digit = HEX3
+S1: 2. כתבו את תחילת השורה שלה. לכל מקטע דולק הרימו מתג:
+S1: a = LEDG6 -> SW2     b = LEDG5 -> SW1     c = LEDG4 -> SW0
+S2: עכשיו שאר השורה של אותה ספרה. לכל מקטע דולק הרימו מתג:
+S2: data = SW9 SW8 SW7 SW6     digit = HEX3
+S2: d = LEDG3 -> SW3     e = LEDG2 -> SW2     f = LEDG1 -> SW1     g = LEDG0 -> SW0
+
+[Q27] PRIOSLIDE | מקודד העדיפות מהשקופית | npub 1 | steps 3 | flat
+B: a[3:0] = SW9..SW6     y[3:0] = LEDG3..LEDG0     input = HEX3..HEX0     answer: SW3..SW0
+S1: בלוח מקודד העדיפות מהשקופית (שקופית 30), בדיוק כמו בקוד:
+S1: casez (a)
+S1: 1. שימו על המתגים את הקלט שבתצוגה:
+S1: HEX3 HEX2 HEX1 HEX0 = a[3] a[2] a[1] a[0]
+S1: a[3:0] = SW9 SW8 SW7 SW6
+S1: 2. העתיקו את היציאה:
+S1: SW3..SW0 = LEDG3..LEDG0  (y)
+S2: איזו שורה של
+S2: casez (a)
+S2: התאימה לקלט שבתצוגה?
+S2: HEX3 HEX2 HEX1 HEX0 = a[3] a[2] a[1] a[0]
+S2: 4'b1??? = all 0     4'b01?? = SW0     4'b001? = SW1
+S2: 4'b0001 = SW1+SW0     default = SW2
+
+[Q28] SEGREAD | לקרוא את המקטעים | npub 1 | steps 4 | flat
 B: segments = LEDG6..LEDG0 (abc_defg)     answer: SW6..SW0
 S1: בלוח מפענח של תצוגת 7 מקטעים, אבל במקום התצוגה כל מקטע הוא נורה ירוקה:
 S1: a = LEDG6   b = LEDG5   c = LEDG4   d = LEDG3   e = LEDG2   f = LEDG1   g = LEDG0
@@ -599,7 +764,7 @@ S3: a = top     b = top right     c = bottom right     d = bottom
 S3: e = bottom left     f = top left     g = middle
 S3: a -> SW6   b -> SW5   c -> SW4   d -> SW3   e -> SW2   f -> SW1   g -> SW0
 
-[Q22] SEGSWAP | שני חוטים מוחלפים במפענח | npub 1 | steps 3 | flat
+[Q29] SEGSWAP | שני חוטים מוחלפים במפענח | npub 1 | steps 3 | flat
 B: data = SW9..SW6 (HEX0)     segments = LEDG6..LEDG0 (abc_defg)     answer: SW2..SW0
 S1: בלוח המפענח של השקופית, אבל שני חוטים של מקטעים הוחלפו ביניהם.
 S1: שימו ספרות והשוו לטבלה:
@@ -616,7 +781,7 @@ S2: a = top     b = top right     c = bottom right     d = bottom
 S2: e = bottom left     f = top left     g = middle
 S2: a = all 0   b = SW0   c = SW1   d = SW1+SW0   e = SW2   f = SW2+SW0   g = SW2+SW1
 
-[Q23] IFELSE | if / else בתוך always | npub 1 | steps 5 | flat
+[Q30] IFELSE | if / else בתוך always | npub 1 | steps 5 | flat
 B: s = SW9     a = SW8     b = SW7     y = LEDG0     answer: SW3..SW0
 S1: בלוח:
 S1: always_comb  if (s) y = ...(a, b);  else y = ...(a, b);
@@ -635,7 +800,7 @@ S4: איזה שער כתוב אחרי
 S4: else
 S4: AND = all 0   OR = SW0   XOR = SW1   NAND = SW1+SW0   NOR = SW2   XNOR = SW2+SW0
 
-[Q24] IFCHAIN | if / else if / else | npub 1 | steps 4 | flat
+[Q31] IFCHAIN | if / else if / else | npub 1 | steps 4 | flat
 B: a = SW9     b = SW8     c = SW7     y = LEDG0     answer: SW1..SW0
 S1: בלוח:
 S1: always_comb  if (a) y = ?;  else if (b) y = ?;  else y = ?;
@@ -653,7 +818,7 @@ S3: a = 0     b = 0
 S3: מה כתוב בענף האחרון?
 S3: y = 0 -> all 0     y = 1 -> SW0     y = c -> SW1     y = ~c -> SW1+SW0
 
-[Q25] VECOPS | פעולה על וקטור של 4 ביטים | npub 1 | steps 5 | flat
+[Q32] VECOPS | פעולה על וקטור של 4 ביטים | npub 1 | steps 5 | flat
 B: a[3:0] = SW9..SW6 (HEX0)     y[3:0] = LEDG3..LEDG0     answer: SW3..SW0
 S1: בלוח שורה אחת מהשקופית, על וקטורים של 4 ביטים:
 S1: y = a OP b
@@ -671,7 +836,7 @@ S4: מה הוקטור המוסתר?
 S4: b = ?
 S4: SW3..SW0
 
-[Q26] CASEMUX | בורר שכתוב עם case | npub 1 | steps 4 | flat
+[Q33] CASEMUX | בורר שכתוב עם case | npub 1 | steps 4 | flat
 B: sel = SW9 SW8 (HEX3)     a b c d = SW7 SW6 SW5 SW4     y = LEDG0     answer: SW1..SW0
 S1: בלוח:
 S1: case (sel)  2'b00: y = ?;  2'b01: y = ?;  2'b10: y = ?;  default: y = ?;
@@ -689,7 +854,7 @@ S3: sel = 10  (SW9 = 1)
 S3: אחרי איזו כניסה הנורה הולכת?
 S3: a = all 0     b = SW0     c = SW1     d = SW1 + SW0
 
-[Q27] CASEALU | case שבוחר פעולה | npub 1 | steps 6 | flat
+[Q34] CASEALU | case שבוחר פעולה | npub 1 | steps 6 | flat
 B: op = SW9 SW8 (HEX3)     a = SW7     b = SW6     y = LEDG0     answer: SW3..SW0
 S1: בלוח:
 S1: case (op)  2'b00: y = a OP b;  2'b01: y = a OP b;  2'b10: y = a OP b;  2'b11: y = a OP b;
@@ -711,7 +876,7 @@ S5: איזה שער בשורה של
 S5: op = 11
 S5: AND = all 0   OR = SW0   XOR = SW1   NAND = SW1+SW0   NOR = SW2   XNOR = SW2+SW0
 
-[Q28] CASEBUG | שורה שגויה ב-case | npub 1 | steps 4 | flat
+[Q35] CASEBUG | שורה שגויה ב-case | npub 1 | steps 4 | flat
 B: data = SW9..SW6 (HEX0)     segments = LEDG6..LEDG0 (abc_defg)     answer: SW3..SW0
 S1: בלוח המפענח של השקופית, עם
 S1: case (data)
@@ -745,7 +910,7 @@ S3: e = bottom left     f = top left     g = middle
 S3: 3. הרימו את המקטע:
 S3: a = all 0   b = SW0   c = SW1   d = SW1+SW0   e = SW2   f = SW2+SW0   g = SW2+SW1
 
-[Q29] CASENODEF | case בלי default | npub 1 | steps 5 | flat
+[Q36] CASENODEF | case בלי default | npub 1 | steps 5 | flat
 B: sel = SW9 SW8 (HEX3)     a = SW7     y = LEDG0     answer: SW2..SW0
 S1: בלוח:
 S1: always_comb  case (sel)  ...  endcase
@@ -780,7 +945,7 @@ S4: y = 0 -> all 0     y = 1 -> SW0     y = a -> SW1     y = ~a -> SW1+SW0
 S4: אין שורה (הנורה שומרת את הערך הקודם):
 S4: SW2
 
-[Q30] CASEZ | casez עם עדיפות מוסתרת | npub 1 | steps 4 | flat
+[Q37] CASEZ | casez עם עדיפות מוסתרת | npub 1 | steps 4 | flat
 B: a[3:0] = SW9..SW6     y[3:0] = LEDG3..LEDG0     answer: SW3..SW0
 S1: בלוח מקודד עדיפות עם
 S1: casez
@@ -793,7 +958,7 @@ S2: SW3..SW0 = LEDG3..LEDG0
 S3: הורידו גם אותה. מי מנצחת עכשיו? העתיקו:
 S3: SW3..SW0 = LEDG3..LEDG0
 
-[Q31] CASEZQ | תבנית של casez עם סימני שאלה | npub 1 | steps 4 | flat
+[Q38] CASEZQ | תבנית של casez עם סימני שאלה | npub 1 | steps 4 | flat
 B: a[3:0] = SW9..SW6     match = LEDG0     answer: SW3..SW0
 S1: בלוח שורה אחת של
 S1: casez (a)
