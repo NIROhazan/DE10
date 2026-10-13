@@ -1,3 +1,3 @@
 # שבוע 8 - הרצאה 8
 
-תרגיל כיתה עם הלוח (42 שאלות, 3 נושאים): [class_exercise](class_exercise/README.md) - דאבל-קליק על `LESSON.bat`.
+תרגיל כיתה עם הלוח (50 שאלות, 3 נושאים): [class_exercise](class_exercise/README.md) - דאבל-קליק על `LESSON.bat`.

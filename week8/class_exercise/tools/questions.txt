@@ -54,7 +54,63 @@ S2: מתקיים - הרימו:
 S2: SW0
 S2: לא מתקיים - השאירו למטה.
 
-[Q04] TCMIN | זמן המחזור המינימלי | npub 1 | steps 2 | flat
+[Q04] TCQ4 | שקופית 4: מתי היציאה משתנה | npub 1 | steps 2 | flat
+B: HEX3 = tccq     HEX2 = tpcq     answer: SW8..SW0
+S1: השקופית של זמני היציאה של דלגלג (4): אחרי עליית השעון
+S1: Q
+S1: יכול להתחיל להשתנות אחרי
+S1: tccq
+S1: ובטוח יציב אחרי
+S1: tpcq
+S1: בשקופית 10:
+S1: tccq = 30 ps     tpcq = 50 ps  ->  20 ps
+S1: בתצוגה:
+S1: HEX3 = tccq     HEX2 = tpcq
+S1: all times in units of 10 ps (5 = 50 ps)
+S1: כמה זמן
+S1: Q
+S1: עלול להשתנות?
+S1: t = tpcq - tccq
+S1: 8 = SW3     4 = SW2     2 = SW1     1 = SW0
+
+[Q05] OVERHEAD7 | שקופית 7: התקורה של האוגרים | npub 1 | steps 3 | flat
+B: HEX3 = tpcq     HEX2 = tsetup     HEX1 = tpd of the logic     answer: SW8..SW0
+S1: השקופית של אילוץ ההתקנה (7): החלק של האוגרים בזמן המחזור נקרא תקורה.
+S1: sequencing overhead = tpcq + tsetup
+S1: בתצוגה:
+S1: HEX3 = tpcq     HEX2 = tsetup
+S1: all times in units of 10 ps (5 = 50 ps)
+S1: מה התקורה?
+S1: 16 = SW4   8 = SW3   4 = SW2   2 = SW1   1 = SW0
+S2: בדוגמה משקופית 10 התקורה גדולה מהלוגיקה:
+S2: 50 + 60 = 110 ps > tpd = 105 ps
+S2: בתצוגה:
+S2: HEX3 = tpcq     HEX2 = tsetup     HEX1 = tpd of the logic
+S2: all times in units of 10 ps (5 = 50 ps)
+S2: האם התקורה גדולה מההשהיה של הלוגיקה?
+S2: tpcq + tsetup > tpd
+S2: גדולה - הרימו:
+S2: SW0
+S2: לא גדולה - השאירו למטה.
+
+[Q06] PATHS6 | שקופית 6: איזה מסלול לכל אילוץ | npub 1 | steps 3 | flat
+B: HEX3 = delay of path A     HEX2 = delay of path B     HEX1 = delay of path C     answer: SW8..SW0
+S1: השקופית של המשמעת הדינמית (6): בין שני אוגרים יש השהיה מקסימלית ומינימלית.
+S1: R1 -> CL -> R2
+S1: בתצוגה ההשהיות של שלושה מסלולים בין שני האוגרים:
+S1: HEX3 = delay of path A     HEX2 = delay of path B     HEX1 = delay of path C
+S1: all times in units of 10 ps (5 = 50 ps)
+S1: איזה מסלול בודקים באילוץ ההתקנה?
+S1: setup: the maximum delay
+S1: path A = all 0     path B = SW0     path C = SW1
+S2: אותם שלושה מסלולים בין שני האוגרים:
+S2: HEX3 = delay of path A     HEX2 = delay of path B     HEX1 = delay of path C
+S2: all times in units of 10 ps (5 = 50 ps)
+S2: איזה מסלול בודקים באילוץ ההחזקה?
+S2: hold: the minimum delay
+S2: path A = all 0     path B = SW0     path C = SW1
+
+[Q07] TCMIN | זמן המחזור המינימלי | npub 1 | steps 2 | flat
 B: HEX3 = tpcq     HEX2 = tpd     HEX1 = tsetup     answer: SW8..SW0
 S1: בתצוגה ההשהיות של מסלול בין שני אוגרים:
 S1: HEX3 = tpcq     HEX2 = tpd     HEX1 = tsetup
@@ -63,7 +119,7 @@ S1: מה זמן המחזור הקצר ביותר שעוד עובד?
 S1: Tc >= tpcq + tpd + tsetup
 S1: 32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0
 
-[Q05] TWOPATHS | שני מסלולים: מי קובע? | npub 1 | steps 3 | flat
+[Q08] TWOPATHS | שני מסלולים: מי קובע? | npub 1 | steps 3 | flat
 B: HEX3 = tpcq     HEX2 = tpd of path A     HEX1 = tpd of path B     HEX0 = tsetup     answer: SW8..SW0
 S1: בין שני אוגרים יש שני מסלולים של לוגיקה. בתצוגה:
 S1: HEX2 = tpd of path A     HEX1 = tpd of path B
@@ -77,7 +133,7 @@ S2: מה זמן המחזור המינימלי?
 S2: Tc >= tpcq + max(tpd A, tpd B) + tsetup
 S2: 32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0
 
-[Q06] TPDMAX | כמה זמן מותר ללוגיקה? | npub 1 | steps 2 | flat
+[Q09] TPDMAX | כמה זמן מותר ללוגיקה? | npub 1 | steps 2 | flat
 B: HEX3 HEX2 = Tc     HEX1 = tpcq     HEX0 = tsetup     answer: SW8..SW0
 S1: בתצוגה זמן המחזור וההשהיות של האוגרים:
 S1: HEX3 HEX2 = Tc     HEX1 = tpcq     HEX0 = tsetup
@@ -86,7 +142,7 @@ S1: מה ההשהיה הגדולה ביותר שמותרת ללוגיקה הצי
 S1: tpd <= Tc - tpcq - tsetup
 S1: 32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0
 
-[Q07] GATESMAX | כמה שערים נכנסים במחזור? | npub 1 | steps 3 | flat
+[Q10] GATESMAX | כמה שערים נכנסים במחזור? | npub 1 | steps 3 | flat
 B: HEX3 HEX2 = Tc     HEX1 = tpcq + tsetup (together)     HEX0 = tpd of one gate     answer: SW8..SW0
 S1: בתצוגה זמן המחזור, התקורה של האוגרים, וההשהיה של שער אחד:
 S1: HEX3 HEX2 = Tc     HEX1 = tpcq + tsetup (together)
@@ -101,7 +157,7 @@ S2: כמה שערים כאלה אפשר לשים בטור לכל היותר?
 S2: n x tpd(gate) <= Tc - (tpcq + tsetup)
 S2: 32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0
 
-[Q08] FMAX | תדר השעון המקסימלי | npub 1 | steps 3 | flat
+[Q11] FMAX | תדר השעון המקסימלי | npub 1 | steps 3 | flat
 B: HEX3 = tpcq     HEX2 = tpd     HEX1 = tsetup     (ns)     answer: SW8..SW0
 S1: בתצוגה ההשהיות של המסלול הארוך, בננו-שניות:
 S1: HEX3 = tpcq     HEX2 = tpd     HEX1 = tsetup     (ns)
@@ -112,7 +168,7 @@ S2: מה התדר המקסימלי, במגה-הרץ?
 S2: f = 1000 / Tc
 S2: 256 = SW8   128 = SW7   64 = SW6   32 = SW5   16 = SW4   8 = SW3   4 = SW2   2 = SW1   1 = SW0
 
-[Q09] HOLDOK | אילוץ ההחזקה | npub 1 | steps 3 | flat
+[Q12] HOLDOK | אילוץ ההחזקה | npub 1 | steps 3 | flat
 B: HEX3 = tccq     HEX2 = tcd     HEX1 = thold     answer: SW8..SW0
 S1: בתצוגה ההשהיות של מסלול בין שני אוגרים:
 S1: HEX3 = tccq     HEX2 = tcd     HEX1 = thold
@@ -126,7 +182,7 @@ S2: מה ההשהיה הקטנה ביותר שמותרת ללוגיקה כדי �
 S2: tcd >= thold - tccq
 S2: 32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0
 
-[Q10] SLACK | האם המעגל עומד בזמן? | npub 1 | steps 3 | flat
+[Q13] SLACK | האם המעגל עומד בזמן? | npub 1 | steps 3 | flat
 B: Tc, tpcq, tpd on page 1; tsetup on page 2     SW9 = page 2     answer: SW8..SW0
 S1: בתצוגה שני דפים (המתג השמאלי מחליף):
 S1: page 1 (SW9 = 0):  HEX3 HEX2 = Tc     HEX1 = tpcq     HEX0 = tpd
@@ -141,7 +197,7 @@ S2: בכמה זמן המחזור גדול (או קטן) מהדרוש? כתבו �
 S2: | Tc - (tpcq + tpd + tsetup) |
 S2: 32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0
 
-[Q11] EXAMPLE | הדוגמה מהשקופית: שני שערים בטור | npub 1 | steps 3 | flat
+[Q14] EXAMPLE | הדוגמה מהשקופית: שני שערים בטור | npub 1 | steps 3 | flat
 B: tpcq tsetup tpd tcd / tccq thold     SW9 = page 2     answer: SW8..SW0
 S1: בין שני האוגרים שני שערים בטור. בתצוגה שני דפים:
 S1: page 1 (SW9 = 0):  HEX3 = tpcq   HEX2 = tsetup   HEX1 = tpd gate   HEX0 = tcd gate
@@ -156,7 +212,7 @@ S2: מתקיים - הרימו:
 S2: SW0
 S2: לא מתקיים - השאירו למטה.
 
-[Q12] EXAMPLE3 | הדוגמה מהשקופית עם יותר שערים | npub 1 | steps 4 | flat
+[Q15] EXAMPLE3 | הדוגמה מהשקופית עם יותר שערים | npub 1 | steps 4 | flat
 B: tpcq tsetup tpd n_long / tccq thold tcd n_short     SW9 = page 2     answer: SW8..SW0
 S1: כמו בדוגמה מהשקופית, עם מספר אחר של שערים. הנתונים בדף הראשון:
 S1: page 1 (SW9 = 0):  HEX3 = tpcq   HEX2 = tsetup   HEX1 = tpd of a gate   HEX0 = gates on the long path
@@ -179,7 +235,7 @@ S3: מה ההשהיה הקטנה ביותר של שער במסלול הקצר כ
 S3: tcd >= (thold - tccq) / n_short     (round up)
 S3: 32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0
 
-[Q13] BUFFERS | כמה מאגרים לתקן את ההחזקה? | npub 1 | steps 3 | flat
+[Q16] BUFFERS | כמה מאגרים לתקן את ההחזקה? | npub 1 | steps 3 | flat
 B: HEX3 = tccq     HEX2 = thold     HEX1 = tcd of one buffer     answer: SW8..SW0
 S1: בתצוגה מסלול בלי לוגיקה בין שני אוגרים (חוט ישר):
 S1: HEX3 = tccq     HEX2 = thold     HEX1 = tcd of one buffer
@@ -193,7 +249,7 @@ S2: כמה מאגרים צריך לפחות להוסיף בדרך כדי שית�
 S2: tccq + n tcd >= thold
 S2: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0 8 = SW3 9 = SW3+SW0
 
-[Q14] SKEW14 | שקופית 14: השעון השני מקדים | npub 1 | steps 3 | flat
+[Q17] SKEW14 | שקופית 14: השעון השני מקדים | npub 1 | steps 3 | flat
 B: HEX3 = tpcq     HEX2 = tpd     HEX1 = tsetup     HEX0 = tskew     answer: SW8..SW0
 S1: השקופית של הטיית שעון (14): מסלול בין שני אוגרים. בתצוגה:
 S1: HEX3 = tpcq     HEX2 = tpd     HEX1 = tsetup
@@ -210,7 +266,7 @@ S2: מה זמן המחזור המינימלי עם ההטיה?
 S2: Tc >= tpcq + tpd + tsetup + tskew
 S2: 32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0
 
-[Q15] SKEW15 | שקופית 15: השעון השני מאחר | npub 1 | steps 3 | flat
+[Q18] SKEW15 | שקופית 15: השעון השני מאחר | npub 1 | steps 3 | flat
 B: HEX3 = tccq     HEX2 = tcd     HEX1 = thold     HEX0 = tskew     answer: SW8..SW0
 S1: השקופית של הטיית שעון (15): מסלול קצר בין שני אוגרים. בתצוגה:
 S1: HEX3 = tccq     HEX2 = tcd     HEX1 = thold
@@ -229,7 +285,7 @@ S2: מתקיים - הרימו:
 S2: SW0
 S2: לא מתקיים - השאירו למטה.
 
-[Q16] SYNC26 | המסנכרן משקופיות 22 ו-26 | npub 1 | steps 3 | flat
+[Q19] SYNC26 | המסנכרן משקופיות 22 ו-26 | npub 1 | steps 3 | flat
 B: HEX3 HEX2 HEX1 = f (MHz)     HEX0 = tsetup (ns)     answer: SW8..SW0
 S1: המסנכרן משקופיות 22 ו-26: שני דלגלגים בטור, עם שעון בתדר שבתצוגה.
 S1: D -> F1 -> D2 -> F2 -> Q
@@ -249,7 +305,48 @@ S2: להתייצב (בננו-שניות)?
 S2: tres = Tc - tsetup = 1000 / f - tsetup
 S2: 16 = SW4   8 = SW3   4 = SW2   2 = SW1   1 = SW0
 
-[Q17] APERTURE | חלון הדגימה | npub 1 | steps 3 | flat
+[Q20] SKEW13 | שקופית 13: מה ההטיה? | npub 1 | steps 3 | flat
+B: HEX3 = CLK arrives at R1     HEX2 = CLK arrives at R2     HEX1 = CLK arrives at R3     answer: SW8..SW0
+S1: השקופית של הטיית שעון (13): השעון לא מגיע לכל האוגרים באותו זמן.
+S1: tskew = the difference between two clock edges
+S1: בתצוגה מתי השעון מגיע לשלושה אוגרים:
+S1: HEX3 = CLK arrives at R1     HEX2 = CLK arrives at R2     HEX1 = CLK arrives at R3
+S1: all times in units of 10 ps (5 = 50 ps)
+S1: מה ההטיה במקרה הגרוע ביותר?
+S1: tskew = latest - earliest
+S1: 8 = SW3     4 = SW2     2 = SW1     1 = SW0
+S2: מסלול מהאוגר הראשון לשני. בתצוגה:
+S2: HEX3 = CLK arrives at R1     HEX2 = CLK arrives at R2
+S2: all times in units of 10 ps (5 = 50 ps)
+S2: איזה אילוץ בסכנה? (השעון השני מקדים - התקנה, שקופית 14; מאחר - החזקה, שקופית 15)
+S2: setup = all 0     hold = SW0
+
+[Q21] ASYNC17 | שקופית 17: לחצן אסינכרוני | npub 1 | steps 2 | flat
+B: HEX3 = thold     HEX2 = when the button changes, after the clock edge     answer: SW8..SW0
+S1: השקופית של הפרת המשמעת הדינמית (17): משתמש לוחץ על לחצן בזמן אקראי, בלי קשר לשעון.
+S1: בתצוגה זמן ההחזקה של הדלגלג, ומתי הלחצן משתנה אחרי עליית השעון:
+S1: HEX3 = thold     HEX2 = when the button changes, after the clock edge
+S1: all times in units of 10 ps (5 = 50 ps)
+S1: האם השינוי מפר את אילוץ ההחזקה?
+S1: violation: change time < thold
+S1: מפר - הרימו:
+S1: SW0
+S1: בסדר - השאירו למטה.
+
+[Q22] SLIDE26P | שקופית 26: כשלים בשנייה | npub 1 | steps 2 | flat
+B: HEX3 = N (input changes per second)     HEX2 = K     answer: SW8..SW0
+S1: הדוגמה משקופית 26: הסיכוי לכשל בכל שינוי של הכניסה, כפול מספר השינויים בשנייה.
+S1: N = 10     P = 5.6 x 10^-6  ->  5.6 x 10^-5 / second
+S1: בתצוגה:
+S1: HEX3 = N (input changes per second)     HEX2 = K
+S1: P(failure) per change = K x 10^-6
+S1: מה הסיכוי לכשל בשנייה? כתבו את המספר שלפני
+S1: x 10^-6
+S1: P(failure)/second = N x K x 10^-6
+S1: 64 = SW6   32 = SW5   16 = SW4   8 = SW3   4 = SW2   2 = SW1
+S1: 1 = SW0
+
+[Q23] APERTURE | חלון הדגימה | npub 1 | steps 3 | flat
 B: HEX3 = tsetup     HEX2 = thold     HEX1 = when D changes, before the edge     answer: SW8..SW0
 S1: בתצוגה זמני הדלגלג:
 S1: HEX3 = tsetup     HEX2 = thold     HEX1 = when D changes, before the edge
@@ -263,7 +360,7 @@ S2: בתוך החלון - הרימו:
 S2: SW0
 S2: בסדר - השאירו למטה.
 
-[Q18] SKEWSETUP | זמן המחזור עם הטיית שעון | npub 1 | steps 3 | flat
+[Q24] SKEWSETUP | זמן המחזור עם הטיית שעון | npub 1 | steps 3 | flat
 B: tpcq tpd tsetup tskew / tccq tcd thold     SW9 = page 2     answer: SW8..SW0
 S1: בתצוגה שני דפים של מסלול עם הטיית שעון:
 S1: page 1 (SW9 = 0):  HEX3 = tpcq   HEX2 = tpd   HEX1 = tsetup   HEX0 = tskew
@@ -278,7 +375,7 @@ S2: מתקיים - הרימו:
 S2: SW0
 S2: לא מתקיים - השאירו למטה.
 
-[Q19] SKEWMAX | כמה הטיה מותרת? | npub 1 | steps 2 | flat
+[Q25] SKEWMAX | כמה הטיה מותרת? | npub 1 | steps 2 | flat
 B: HEX3 = tccq     HEX2 = tcd     HEX1 = thold     answer: SW8..SW0
 S1: בתצוגה ההשהיות של מסלול קצר:
 S1: HEX3 = tccq     HEX2 = tcd     HEX1 = thold
@@ -287,7 +384,7 @@ S1: מה הטיית השעון הגדולה ביותר שאילוץ ההחזקה
 S1: tskew <= tccq + tcd - thold
 S1: 32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0
 
-[Q20] SKEWFIX | מאגרים נגד הטיית שעון | npub 1 | steps 3 | flat
+[Q26] SKEWFIX | מאגרים נגד הטיית שעון | npub 1 | steps 3 | flat
 B: tccq tcd thold tskew / tcd of a buffer     SW9 = page 2     answer: SW8..SW0
 S1: השעון של האוגר השני מגיע מאוחר. הנתונים בדף הראשון:
 S1: page 1 (SW9 = 0):  HEX3 = tccq   HEX2 = tcd   HEX1 = thold   HEX0 = tskew
@@ -305,7 +402,7 @@ S2: כמה מאגרים צריך לפחות כדי שהאילוץ יתקיים? 
 S2: tccq + tcd + n x tcd(buffer) >= thold + tskew
 S2: 8 = SW3     4 = SW2     2 = SW1     1 = SW0
 
-[Q21] SKEWSLACK | הטיה מותרת לפי אילוץ ההתקנה | npub 1 | steps 2 | flat
+[Q27] SKEWSLACK | הטיה מותרת לפי אילוץ ההתקנה | npub 1 | steps 2 | flat
 B: HEX3 HEX2 = Tc     HEX1 = tpcq + tpd + tsetup (together)     answer: SW8..SW0
 S1: בתצוגה זמן המחזור, וסכום ההשהיות של המסלול:
 S1: HEX3 HEX2 = Tc     HEX1 = tpcq + tpd + tsetup (together)
@@ -314,7 +411,7 @@ S1: מה הטיית השעון הגדולה ביותר שאילוץ ההתקנה
 S1: Tc >= tpcq + tpd + tsetup + tskew
 S1: 32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0
 
-[Q22] SKEWCHECK | הטיה לשני הכיוונים | npub 1 | steps 4 | flat
+[Q28] SKEWCHECK | הטיה לשני הכיוונים | npub 1 | steps 4 | flat
 B: Tc, setup path / hold path, thold, tskew     SW9 = page 2     answer: SW8..SW0
 S1: ההטיה יכולה להיות לשני הכיוונים. בתצוגה שני דפים:
 S1: page 1 (SW9 = 0):  HEX3 HEX2 = Tc     HEX1 HEX0 = tpcq + tpd + tsetup (together)
@@ -341,7 +438,7 @@ S3: מה ההטיה הגדולה ביותר ששני האילוצים יחד ע�
 S3: tskew <= min(Tc - (tpcq + tpd + tsetup), tccq + tcd - thold)
 S3: 8 = SW3     4 = SW2     2 = SW1     1 = SW0
 
-[Q23] SYNC | מסנכרן | npub 1 | steps 4 | flat
+[Q29] SYNC | מסנכרן | npub 1 | steps 4 | flat
 B: A = SW9 (the asynchronous input)     Q1 Q2 Q3 = SW8 SW7 SW6 (the flip-flops, now)     Y = LEDG0 = the synchronized output after the next clock edge     answer: SW3..SW0
 S1: בלוח מסנכרן: שרשרת של דלגלגים. הכניסה האסינכרונית נכנסת לדלגלג הראשון, והיציאה היא הדלגלג האחרון.
 S1: A -> Q1 -> Q2 -> Q3 -> ...
@@ -361,7 +458,7 @@ S3: כן - הרימו:
 S3: SW0
 S3: לא - השאירו למטה.
 
-[Q24] SYNCLAT | כמה זמן לוקח לסנכרן? | npub 1 | steps 2 | flat
+[Q30] SYNCLAT | כמה זמן לוקח לסנכרן? | npub 1 | steps 2 | flat
 B: HEX3 = flip-flops in the synchronizer     HEX2 HEX1 = Tc (ns)     answer: SW8..SW0
 S1: בתצוגה מסנכרן:
 S1: HEX3 = flip-flops in the synchronizer     HEX2 HEX1 = Tc (ns)
@@ -370,7 +467,7 @@ S1: about (flip-flops) x Tc
 S1: 128 = SW7
 S1: 64 = SW6     32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0
 
-[Q25] RESOLVE | כמה זמן יש להתייצבות? | npub 1 | steps 3 | flat
+[Q31] RESOLVE | כמה זמן יש להתייצבות? | npub 1 | steps 3 | flat
 B: HEX3 HEX2 = Tc     HEX1 = tsetup     answer: SW8..SW0
 S1: בתצוגה זמן המחזור וזמן ההתקנה של הדלגלגים במסנכרן:
 S1: HEX3 HEX2 = Tc     HEX1 = tsetup
@@ -384,7 +481,7 @@ S2: כשהזמן גדל. אם מוסיפים עוד דלגלג אחד, כמה ז
 S2: 2 (Tc - tsetup)
 S2: 64 = SW6     32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0
 
-[Q26] MTBFGROW | כמה עוזר עוד דלגלג? | npub 1 | steps 4 | flat
+[Q32] MTBFGROW | כמה עוזר עוד דלגלג? | npub 1 | steps 4 | flat
 B: HEX3 HEX2 = Tc     HEX1 = tsetup     HEX0 = tau     answer: SW8..SW0
 S1: בתצוגה זמן המחזור וזמן ההתקנה של הדלגלגים במסנכרן:
 S1: HEX3 HEX2 = Tc     HEX1 = tsetup
@@ -409,7 +506,7 @@ S3: בחזקת כמה גדל הזמן הממוצע בין כשלים?
 S3: 2 x (Tc - tsetup) / tau
 S3: 32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0
 
-[Q27] MTBF | הזמן הממוצע בין כשלים | npub 1 | steps 3 | flat
+[Q33] MTBF | הזמן הממוצע בין כשלים | npub 1 | steps 3 | flat
 B: HEX3 HEX2 = N (input changes per second)     HEX1 HEX0 = K     answer: SW8..SW0
 S1: בתצוגה כמה פעמים בשנייה הכניסה האסינכרונית משתנה, והסיכוי לכשל בכל שינוי:
 S1: HEX3 HEX2 = N (input changes per second)     HEX1 HEX0 = K
@@ -426,7 +523,7 @@ S2: MTBF = K x 1000 / (2 N)
 S2: 256 = SW8   128 = SW7   64 = SW6   32 = SW5   16 = SW4   8 = SW3
 S2: 4 = SW2   2 = SW1   1 = SW0
 
-[Q28] COOKIE32 | העוגיות משקופית 32: בן ואליסה | npub 1 | steps 3 | flat
+[Q34] COOKIE32 | העוגיות משקופית 32: בן ואליסה | npub 1 | steps 3 | flat
 B: HEX3 = minutes to roll     HEX2 HEX1 = minutes to bake     answer: SW8..SW0
 S1: העוגיות משקופית 32: בן ואליסה, כל אחד עם תנור משלו, מכינים מגש בבת אחת. בתצוגה:
 S1: HEX3 = minutes to roll     HEX2 HEX1 = minutes to bake
@@ -439,7 +536,7 @@ S2: כמה מגשים בשעה שניהם יחד?
 S2: throughput = 2 x 60 / (roll + bake)
 S2: 8 = SW3     4 = SW2     2 = SW1     1 = SW0
 
-[Q29] COOKIE33 | העוגיות משקופית 33: צנרת | npub 1 | steps 3 | flat
+[Q35] COOKIE33 | העוגיות משקופית 33: צנרת | npub 1 | steps 3 | flat
 B: HEX3 = minutes to roll     HEX2 HEX1 = minutes to bake     answer: SW8..SW0
 S1: העוגיות משקופית 33: בן לבד עם שני מגשים. בזמן שמגש אחד בתנור, הוא מכין את הבא. בתצוגה:
 S1: HEX3 = minutes to roll     HEX2 HEX1 = minutes to bake
@@ -452,7 +549,7 @@ S2: מתי מגש 2 יוצא מהתנור?
 S2: t2 = roll + 2 x bake
 S2: 32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0
 
-[Q30] HDL36 | הקוד משקופית 36: מתי היציאה משתנה | npub 1 | steps 3 | flat
+[Q36] HDL36 | הקוד משקופית 36: מתי היציאה משתנה | npub 1 | steps 3 | flat
 B: HEX3 HEX2 = the time c changes (ns)     answer: SW8..SW0
 S1: הקוד משקופית 36, עם ההשהיות שלו:
 S1: assign #1 {ab, bb, cb} = ~{a, b, c};
@@ -490,7 +587,63 @@ S2: t + 1 + 2 + 4
 S2: 64 = SW6   32 = SW5   16 = SW4   8 = SW3   4 = SW2   2 = SW1
 S2: 1 = SW0
 
-[Q31] LATENCY | זמן אחזור וקצב: עוגיות | npub 1 | steps 4 | flat
+[Q37] COOKIE30K | העוגיות משקופיות 30 ו-32: כמה מגשים | npub 1 | steps 3 | flat
+B: HEX3 = minutes to roll     HEX2 HEX1 = minutes to bake     HEX0 = trays     answer: SW8..SW0
+S1: העוגיות משקופית 30: בן לבד, בלי מקביליות - מגש אחד בכל פעם. בתצוגה:
+S1: HEX3 = minutes to roll     HEX2 HEX1 = minutes to bake     HEX0 = trays
+S1: כמה דקות לוקח להכין את כל המגשים?
+S1: t = trays x (roll + bake)
+S1: 128 = SW7   64 = SW6   32 = SW5   16 = SW4   8 = SW3   4 = SW2
+S1: 2 = SW1   1 = SW0
+S2: העוגיות משקופית 32: אליסה עוזרת עם תנור משלה, וכל אחד מכין חצי מהמגשים. בתצוגה:
+S2: HEX3 = minutes to roll     HEX2 HEX1 = minutes to bake     HEX0 = trays
+S2: כמה דקות עכשיו?
+S2: t = trays / 2 x (roll + bake)
+S2: 128 = SW7   64 = SW6   32 = SW5   16 = SW4   8 = SW3   4 = SW2
+S2: 2 = SW1   1 = SW0
+
+[Q38] HDL39 | הקוד משקופיות 38-39: הכניסה a | npub 1 | steps 3 | flat
+B: HEX3 HEX2 = the time a changes (ns)     answer: SW8..SW0
+S1: הקוד משקופית 36, עם ההשהיות שלו:
+S1: assign #1 {ab, bb, cb} = ~{a, b, c};
+S1: assign #2 n1 = ab & bb & cb;
+S1: assign #2 n2 = a & bb & cb;
+S1: assign #2 n3 = a & bb & c;
+S1: assign #4 y = n1 | n2 | n3;
+S1: כמו בשקופית 39, הכניסה
+S1: a
+S1: נכנסת ישר לשער של
+S1: n2
+S1: b = 0     c = 0     a: 0 -> 1
+S1: בתצוגה:
+S1: HEX3 HEX2 = the time a changes (ns)
+S1: באיזה זמן
+S1: n2
+S1: משתנה?
+S1: a -> n2
+S1: t + 2
+S1: 64 = SW6   32 = SW5   16 = SW4   8 = SW3   4 = SW2   2 = SW1
+S1: 1 = SW0
+S2: הקוד משקופית 36, עם ההשהיות שלו:
+S2: assign #1 {ab, bb, cb} = ~{a, b, c};
+S2: assign #2 n1 = ab & bb & cb;
+S2: assign #2 n2 = a & bb & cb;
+S2: assign #2 n3 = a & bb & c;
+S2: assign #4 y = n1 | n2 | n3;
+S2: b = 0     c = 0     a: 0 -> 1
+S2: בתצוגה:
+S2: HEX3 HEX2 = the time a changes (ns)
+S2: אל
+S2: n1
+S2: השינוי מגיע דרך המהפך (שקופית 38). באיזה זמן
+S2: n1
+S2: משתנה?
+S2: a -> ab -> n1
+S2: t + 1 + 2
+S2: 64 = SW6   32 = SW5   16 = SW4   8 = SW3   4 = SW2   2 = SW1
+S2: 1 = SW0
+
+[Q39] LATENCY | זמן אחזור וקצב: עוגיות | npub 1 | steps 4 | flat
 B: HEX3 = minutes of step 1     HEX2 HEX1 = minutes of step 2     answer: SW8..SW0
 S1: אפייה בשני שלבים (הכנה ואפייה), מגש אחד בכל פעם. הזמנים בתצוגה:
 S1: HEX3 = minutes of step 1     HEX2 HEX1 = minutes of step 2
@@ -504,7 +657,7 @@ S3: עם צנרת (מגש חדש מתחיל הכנה כשהקודם בתנור):
 S3: throughput = 60 / the longest step
 S3: 32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0
 
-[Q32] SPATIAL | מקביליות מרחבית | npub 1 | steps 3 | flat
+[Q40] SPATIAL | מקביליות מרחבית | npub 1 | steps 3 | flat
 B: HEX3 = workers     HEX2 HEX1 = minutes for one tray (latency)     answer: SW8..SW0
 S1: כמה עובדים, כל אחד עם תנור משלו. בתצוגה:
 S1: HEX3 = workers     HEX2 HEX1 = minutes for one tray (latency)
@@ -514,7 +667,7 @@ S1: 32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0
 S2: ומה זמן האחזור של מגש אחד?
 S2: 32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0
 
-[Q33] BOTH | מקביליות מרחבית וזמנית יחד | npub 1 | steps 2 | flat
+[Q41] BOTH | מקביליות מרחבית וזמנית יחד | npub 1 | steps 2 | flat
 B: HEX3 = workers     HEX2 = minutes of step 1     HEX1 HEX0 = minutes of step 2     answer: SW8..SW0
 S1: כמה עובדים, וכל אחד עובד בצנרת (הכנה של מגש חדש בזמן שהקודם בתנור). בתצוגה:
 S1: HEX3 = workers     HEX2 = minutes of step 1     HEX1 HEX0 = minutes of step 2
@@ -522,7 +675,7 @@ S1: כמה מגשים בשעה, כולם יחד?
 S1: throughput = workers x 60 / the longest step
 S1: 64 = SW6     32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0
 
-[Q34] PIPECLK | צנרת: זמן מחזור וזמן אחזור | npub 1 | steps 3 | flat
+[Q42] PIPECLK | צנרת: זמן מחזור וזמן אחזור | npub 1 | steps 3 | flat
 B: HEX3 HEX2 HEX1 = the delays of 3 pipeline stages     HEX0 = tpcq + tsetup     answer: SW8..SW0
 S1: מעגל מחולק ל-3 שלבים עם אוגרים ביניהם. בתצוגה:
 S1: HEX3 HEX2 HEX1 = the delays of 3 pipeline stages     HEX0 = tpcq + tsetup
@@ -534,7 +687,7 @@ S2: מה זמן האחזור (מהכניסה עד היציאה, 3 מחזורים
 S2: latency = 3 Tc
 S2: 32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0
 
-[Q35] PIPESPLIT | חלוקה לשלבים שווים | npub 1 | steps 4 | flat
+[Q43] PIPESPLIT | חלוקה לשלבים שווים | npub 1 | steps 4 | flat
 B: HEX3 HEX2 = tpd of the whole logic     HEX1 = stages     HEX0 = tpcq + tsetup (together)     answer: SW8..SW0
 S1: מעגל צירופי בין שני אוגרים. רוצים לחלק אותו לשלבים שווים עם אוגרים ביניהם. בתצוגה:
 S1: HEX3 HEX2 = tpd of the whole logic     HEX0 = tpcq + tsetup (together)
@@ -558,7 +711,7 @@ S3: latency = stages x Tc
 S3: 64 = SW6   32 = SW5   16 = SW4   8 = SW3   4 = SW2   2 = SW1
 S3: 1 = SW0
 
-[Q36] NTOKENS | כמה זמן לכמה אסימונים? | npub 1 | steps 4 | flat
+[Q44] NTOKENS | כמה זמן לכמה אסימונים? | npub 1 | steps 4 | flat
 B: HEX3 = stages     HEX2 HEX1 = tokens     HEX0 = Tc (ns)     answer: SW8..SW0
 S1: צנרת: אסימון חדש נכנס בכל מחזור. בתצוגה:
 S1: HEX3 = stages
@@ -577,7 +730,7 @@ S3: t = (stages + tokens - 1) x Tc
 S3: 256 = SW8   128 = SW7   64 = SW6   32 = SW5   16 = SW4   8 = SW3
 S3: 4 = SW2   2 = SW1   1 = SW0
 
-[Q37] RETIME | איפה לשים את האוגר? | npub 1 | steps 4 | flat
+[Q45] RETIME | איפה לשים את האוגר? | npub 1 | steps 4 | flat
 B: the 4 gate delays / tpcq + tsetup     SW9 = page 2     answer: SW8..SW0
 S1: שרשרת של ארבעה שערים בין שני אוגרים. בתצוגה שני דפים:
 S1: page 1 (SW9 = 0):  HEX3 HEX2 HEX1 HEX0 = tpd of gates 1, 2, 3, 4 (in series)
@@ -598,7 +751,7 @@ S3: מה זמן המחזור אז?
 S3: Tc = max(stage 1, stage 2) + tpcq + tsetup
 S3: 32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0
 
-[Q38] PIPESIM | צנרת על הלוח | npub 1 | steps 3 | flat
+[Q46] PIPESIM | צנרת על הלוח | npub 1 | steps 3 | flat
 B: new token = SW9     stages 1..5 now = SW8..SW4 (1 = a token)     stages 1..5 after the next clock edge = LEDG4..LEDG0     answer: SW3..SW0
 S1: בלוח צנרת: בכל עליית שעון כל אסימון עובר לשלב הבא. במתגים השלבים עכשיו, ובנורות השלבים אחרי עליית השעון הבאה.
 S1: בלוח יש מקום ל-5 שלבים, אבל רק חלק מהם קיימים.
@@ -612,7 +765,7 @@ S2: stages 1..5 after the next clock edge = LEDG4..LEDG0
 S2: מכניסים אסימון חדש בכל עליית שעון. כמה אסימונים נמצאים בצנרת בבת אחת, כשהיא מלאה?
 S2: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0
 
-[Q39] PIPELAT | זמן האחזור של צנרת נסתרת | npub 1 | steps 3 | flat
+[Q47] PIPELAT | זמן האחזור של צנרת נסתרת | npub 1 | steps 3 | flat
 B: stage registers 1..4 = SW9 SW8 SW7 SW6 (1 = a token)     Y = LEDG0 = the output of the last stage     HEX0 = Tc (ns)     answer: SW5..SW0
 S1: בלוח צנרת נסתרת: בכל עליית שעון אסימון עובר שלב אחד, והיציאה היא האוגר של השלב האחרון.
 S1: בלוח מקום ל-4 שלבים, אבל רק חלק מהם קיימים.
@@ -625,7 +778,7 @@ S2: מה זמן האחזור בננו-שניות?
 S2: latency = stages x Tc
 S2: 32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0
 
-[Q40] HDLDELAY | השהיות בקוד | npub 1 | steps 3 | flat
+[Q48] HDLDELAY | השהיות בקוד | npub 1 | steps 3 | flat
 B: HEX3 = #d1     HEX2 = #d2     HEX1 = #d3     (ns)     answer: SW8..SW0
 S1: הקוד מהשקופית, וההשהיות בתצוגה:
 S1: assign #d1 {ab, bb, cb} = ~{a, b, c};
@@ -643,7 +796,7 @@ S2: y
 S2: משתנה?
 S2: 32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0
 
-[Q41] HDLFIRST | המסלול הקצר בקוד | npub 1 | steps 3 | flat
+[Q49] HDLFIRST | המסלול הקצר בקוד | npub 1 | steps 3 | flat
 B: HEX3 = #d1     HEX2 = #d2     HEX1 = #d3     (ns)     answer: SW8..SW0
 S1: הקוד מהשקופית, וההשהיות בתצוגה:
 S1: assign #d1 {ab, bb, cb} = ~{a, b, c};
@@ -666,7 +819,7 @@ S2: עכשיו הכניסה הראשונה משתנה בזמן 0. מה הרגע 
 S2: the shortest path: a -> n2 -> y
 S2: 32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0
 
-[Q42] TBDELAY | השהיות בקוד בדיקה | npub 1 | steps 4 | flat
+[Q50] TBDELAY | השהיות בקוד בדיקה | npub 1 | steps 4 | flat
 B: HEX3 = #d1     HEX2 = #d2     HEX1 = #d3     HEX0 = #dg     (ns)     answer: SW8..SW0
 S1: קוד בדיקה ושער, וההשהיות בתצוגה:
 S1: initial begin

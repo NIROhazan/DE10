@@ -6,7 +6,7 @@
 #   QUESTION 13 10 question 13, 10 minutes after its topic began
 #   MINUTE 45      45 minutes after the start of the lesson
 #
-# The topics: 1 = Q01-Q12 (12 questions), 2 = Q13-Q22 (10 questions), 3 = Q23-Q38 (16 questions).
+# The topics: 1 = Q01-Q16 (16 questions), 2 = Q17-Q30 (14 questions), 3 = Q31-Q50 (20 questions).
 #
 # Your progress (steps already passed) is kept. LESSON.bat then goes on with this clock.
 

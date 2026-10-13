@@ -4,7 +4,7 @@
 
 ## נושא 1 - מכונות מצבים: מצבים, מעברים ויציאות
 
-40 דקות, 14 שאלות: Q01-Q14
+40 דקות, 17 שאלות: Q01-Q17
 
 ### Q01 - המחלק ב-3 מהשקופית
 
@@ -45,7 +45,83 @@
 - מצאו את הקוד הבינארי שנותן בנורות את הקוד שבתצוגה.
 - `SW1 SW0 = the binary code`
 
-### Q03 - כמה דלגלגים?
+### Q03 - המחלק ב-3 אחרי כמה שעונים
+
+- **מתגים ונורות:** `S = SW9 SW8   (HEX3)     next state = HEX0     q = LEDG0     HEX1 = the number of clocks     answer: SW1 SW0`
+- **שלבים:** 2
+
+**שלב 1**
+
+- המחלק ב-3 של שקופית 21. בלוח לוגיקת המצב הבא והיציאה שלו.
+- `S0 -> S1 -> S2 -> S0     q = 1 in S0`
+- `S = SW9 SW8   (HEX3)     next state = HEX0     q = LEDG0`
+- `HEX1 = the number of clocks`
+- שעון אחד = להציב במתגי המצב את המצב הבא.
+- התחילו במצב 0 ותנו את מספר השעונים שבתצוגה. באיזה מצב אתם?
+- `S0 = all down     S1 = SW0     S2 = SW1`
+
+**שלב 2**
+
+- האם היציאה
+- `q`
+- דולקת במצב הזה?
+- `S = SW9 SW8   (HEX3)     next state = HEX0     q = LEDG0`
+- `HEX1 = the number of clocks`
+- דולקת - הרימו:
+- `SW0`
+- כבויה - השאירו למטה.
+
+### Q04 - המחלק ב-3 והאיפוס
+
+- **מתגים ונורות:** `state bits = SW9 SW8     reset = SW7     q = LEDG2     next state bits = LEDG1 LEDG0     the state to set = HEX3     reset = HEX0     answer: SW1 SW0`
+- **שלבים:** 2
+
+**שלב 1**
+
+- המחלק ב-3 של שקופיות 21-22, עם האיפוס. בלוח לוגיקת המצב הבא והיציאה שלו.
+- `if (reset) state <= S0;     S0 -> S1 -> S2 -> S0     q = 1 in S0`
+- `S0 = 00     S1 = 01     S2 = 10`
+- `state bits = SW9 SW8     reset = SW7     q = LEDG2     next state bits = LEDG1 LEDG0`
+- `the state to set = HEX3     reset = HEX0`
+- הציבו במתגים את מה שבתצוגה.
+- האם היציאה
+- `q`
+- דולקת?
+- דולקת - הרימו:
+- `SW0`
+- כבויה - השאירו למטה.
+
+**שלב 2**
+
+- מה המצב הבא?
+- `S0 = 00     S1 = 01     S2 = 10`
+- `state bits = SW9 SW8     reset = SW7     q = LEDG2     next state bits = LEDG1 LEDG0`
+- `the state to set = HEX3     reset = HEX0`
+- `SW1 SW0 = next state bits`
+
+### Q05 - משוואה של המחלק ב-3
+
+- **מתגים ונורות:** `S1 S0 = SW9 SW8     q = LEDG2     S'1 = LEDG1     S'0 = LEDG0     HEX0 = the LED to study (LEDG0, LEDG1 or LEDG2)     answer: SW3..SW0`
+- **שלבים:** 2
+
+**שלב 1**
+
+- שלבי התכנון של שקופית 5 על המחלק ב-3 של שקופיות 21-22: מהטבלה המקודדת למשוואה.
+- `S0 = 00     S1 = 01     S2 = 10     11 = default -> S0`
+- `S1 S0 = SW9 SW8     q = LEDG2     S'1 = LEDG1     S'0 = LEDG0`
+- `HEX0 = the LED to study (LEDG0, LEDG1 or LEDG2)`
+- הציבו כל קוד. בכל קוד שבו הנורה שבתצוגה דולקת, הרימו את המתג שלו:
+- `S1 S0 = 00 -> SW0     01 -> SW1     10 -> SW2     11 -> SW3`
+
+**שלב 2**
+
+- מה המשוואה של הנורה הזאת?
+- `S1 S0 = SW9 SW8     q = LEDG2     S'1 = LEDG1     S'0 = LEDG0`
+- `HEX0 = the LED to study (LEDG0, LEDG1 or LEDG2)`
+- `LED = ?`
+- `~S1 & S0 = all down     ~S1 & ~S0 = SW0     S1 & ~S0 = SW1     S1 ^ S0 = SW1+SW0`
+
+### Q06 - כמה דלגלגים?
 
 - **מתגים ונורות:** `the number of states = HEX1 HEX0     answer: SW4..SW0`
 - **שלבים:** 2
@@ -60,7 +136,7 @@
 - וכמה בקידוד בינארי?
 - `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2`
 
-### Q04 - מחלק ב-N
+### Q07 - מחלק ב-N
 
 - **מתגים ונורות:** `S = SW9 SW8 SW7 SW6   (HEX3)     next state = HEX0     q = LEDG0     answer: SW3..SW0`
 - **שלבים:** 3
@@ -86,7 +162,7 @@
 - כמה דלגלגים צריך לפחות לקידוד בינארי של המצבים?
 - `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2`
 
-### Q05 - שובל ומחזור
+### Q08 - שובל ומחזור
 
 - **מתגים ונורות:** `S = SW9 SW8 SW7   (HEX3)     next state = HEX0     answer: SW3..SW0`
 - **שלבים:** 3
@@ -112,7 +188,7 @@
 - `S = SW9 SW8 SW7   (HEX3)     next state = HEX0`
 - `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0`
 
-### Q06 - טבלת מעברים של שני מצבים
+### Q09 - טבלת מעברים של שני מצבים
 
 - **מתגים ונורות:** `S = SW9     a = SW8     next state = LEDG0     answer: SW3..SW0`
 - **שלבים:** 2
@@ -130,7 +206,7 @@
 - `0 = all down`
 - `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2`
 
-### Q07 - משוואת המצב הבא
+### Q10 - משוואת המצב הבא
 
 - **מתגים ונורות:** `S = SW9     a = SW8     next state = LEDG0     answer: SW3..SW0`
 - **שלבים:** 3
@@ -156,7 +232,7 @@
 - `a = all down     ~a = SW0     S ^ a = SW1     ~(S ^ a) = SW1+SW0`
 - `~S = SW2     S | a = SW2+SW0     ~S & a = SW2+SW1     S | ~a = SW2+SW1+SW0`
 
-### Q08 - טבלת יציאות של מכונת מור
+### Q11 - טבלת יציאות של מכונת מור
 
 - **מתגים ונורות:** `S1 S0 = SW9 SW8   (HEX3)     Y1 Y0 = LEDG1 LEDG0     answer: SW3..SW0`
 - **שלבים:** 2
@@ -177,7 +253,7 @@
 - `S1 S0 = SW9 SW8   (HEX3)     Y1 Y0 = LEDG1 LEDG0`
 - `S = 00 -> SW0     01 -> SW1     10 -> SW2     11 -> SW3`
 
-### Q09 - מור או מילי?
+### Q12 - מור או מילי?
 
 - **מתגים ונורות:** `S = SW9 SW8 SW7   (HEX3)     a = SW6     y = LEDG0     answer: SW3..SW0`
 - **שלבים:** 2
@@ -197,7 +273,7 @@
 - `0 = all down`
 - `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0 8 = SW3`
 
-### Q10 - דיאגרמת מצבים של 4 מצבים
+### Q13 - דיאגרמת מצבים של 4 מצבים
 
 - **מתגים ונורות:** `S1 S0 = SW9 SW8   (HEX3)     a = SW7     next state = HEX0     answer: SW3..SW0`
 - **שלבים:** 4
@@ -250,7 +326,7 @@
 - `?`
 - `SW3 SW2 = next when a = 0     SW1 SW0 = next when a = 1     (binary)`
 
-### Q11 - הדרך הקצרה ביותר
+### Q14 - הדרך הקצרה ביותר
 
 - **מתגים ונורות:** `S1 S0 = SW9 SW8   (HEX3)     a = SW7     next state = HEX0     answer: SW3..SW0`
 - **שלבים:** 1
@@ -264,7 +340,7 @@
 - `S = 0 -> S = 3`
 - `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2`
 
-### Q12 - מצב שאי אפשר להגיע אליו
+### Q15 - מצב שאי אפשר להגיע אליו
 
 - **מתגים ונורות:** `S1 S0 = SW9 SW8   (HEX3)     a = SW7     next state = HEX0     answer: SW3..SW0`
 - **שלבים:** 2
@@ -287,7 +363,7 @@
 - `S1 S0 = SW9 SW8   (HEX3)     a = SW7     next state = HEX0`
 - `S0 = all down     S1 = SW0     S2 = SW1     S3 = SW1+SW0`
 
-### Q13 - מצב מלכודת
+### Q16 - מצב מלכודת
 
 - **מתגים ונורות:** `S1 S0 = SW9 SW8   (HEX3)     a = SW7     next state = HEX0     answer: SW3..SW0`
 - **שלבים:** 2
@@ -306,7 +382,7 @@
 - `0 = all down`
 - `1 = SW0 2 = SW1 3 = SW1+SW0`
 
-### Q14 - קידוד מצבים
+### Q17 - קידוד מצבים
 
 - **מתגים ונורות:** `state bits = SW9 SW8 SW7 SW6     next state bits = LEDG3 LEDG2 LEDG1 LEDG0     answer: SW3..SW0`
 - **שלבים:** 3
@@ -332,9 +408,9 @@
 
 ## נושא 2 - בקר הרמזור מההרצאה
 
-40 דקות, 11 שאלות: Q15-Q25
+40 דקות, 15 שאלות: Q18-Q32
 
-### Q15 - טבלת המעברים של הרמזור
+### Q18 - טבלת המעברים של הרמזור
 
 - **מתגים ונורות:** `S1 S0 = SW9 SW8     TA = SW7     TB = SW6     S'1 S'0 = LEDG1 LEDG0     the state to set = HEX3     TA = HEX1     TB = HEX0     answer: SW1 SW0`
 - **שלבים:** 2
@@ -358,7 +434,7 @@
 - `SW0`
 - עוברת - השאירו למטה.
 
-### Q16 - טבלת היציאות של הרמזור
+### Q19 - טבלת היציאות של הרמזור
 
 - **מתגים ונורות:** `S1 S0 = SW9 SW8     LA1 LA0 = LEDG3 LEDG2     LB1 LB0 = LEDG1 LEDG0     HEX3 = the state to set     answer: SW1 SW0`
 - **שלבים:** 2
@@ -383,7 +459,7 @@
 - `LB = ?`
 - `green = all down     yellow = SW0     red = SW1`
 
-### Q17 - הרמזור באחד-חם מהשקופית
+### Q20 - הרמזור באחד-חם מהשקופית
 
 - **מתגים ונורות:** `S3 S2 S1 S0 = SW9 SW8 SW7 SW6   (one-hot)     TA = SW5     TB = SW4     S'3 S'2 S'1 S'0 = LEDG3 LEDG2 LEDG1 LEDG0     the state to set = HEX3     TA = HEX1     TB = HEX0     answer: SW3..SW0`
 - **שלבים:** 2
@@ -405,7 +481,102 @@
 - `S3 S2 S1 S0 = SW9 SW8 SW7 SW6   (one-hot)     TA = SW5     TB = SW4     S'3 S'2 S'1 S'0 = LEDG3 LEDG2 LEDG1 LEDG0`
 - `S0 = all down     S1 = SW0     S2 = SW1     S3 = SW1+SW0`
 
-### Q18 - בקר הרמזור
+### Q21 - חץ לעצמו בדיאגרמת הרמזור
+
+- **מתגים ונורות:** `S1 S0 = SW9 SW8     TA = SW7     TB = SW6     next state = HEX0     HEX3 = the state to set     lights = LEDG7..5, LEDG2..0     answer: SW1 SW0`
+- **שלבים:** 2
+
+**שלב 1**
+
+- בקר הרמזור, דיאגרמת המעברים של שקופית 10. בלוח לוגיקת המצב הבא שלו.
+- `S0 = 00     S1 = 01     S2 = 10     S3 = 11`
+- `S1 S0 = SW9 SW8     TA = SW7     TB = SW6     next state = HEX0`
+- `HEX3 = the state to set`
+- הציבו במתגים את מה שבתצוגה.
+- שני החיישנים למטה. מה המצב הבא?
+- `TA = 0     TB = 0`
+- `S0 = all down     S1 = SW0     S2 = SW1     S3 = SW1+SW0`
+
+**שלב 2**
+
+- באותו מצב: הרימו כל חיישן לבד. איזה חיישן משאיר את המכונה במקום (חץ לעצמו)?
+- `S1 S0 = SW9 SW8     TA = SW7     TB = SW6     next state = HEX0`
+- `HEX3 = the state to set`
+- `none = all down     TA = SW0     TB = SW1`
+
+### Q22 - משוואת יציאה מהשקופית
+
+- **מתגים ונורות:** `S1 S0 = SW9 SW8     LA1 LA0 = LEDG3 LEDG2     LB1 LB0 = LEDG1 LEDG0     HEX1 = the street (A or b)     HEX0 = the bit (1 or 0)     answer: SW3..SW0`
+- **שלבים:** 2
+
+**שלב 1**
+
+- בקר הרמזור, טבלת היציאות ומשוואות היציאה של שקופיות 13-14. בלוח לוגיקת היציאה שלו.
+- `S0 = 00     S1 = 01     S2 = 10     S3 = 11`
+- `green = 00     yellow = 01     red = 10`
+- `S1 S0 = SW9 SW8     LA1 LA0 = LEDG3 LEDG2     LB1 LB0 = LEDG1 LEDG0`
+- `HEX1 = the street (A or b)     HEX0 = the bit (1 or 0)`
+- הציבו כל מצב. בכל מצב שבו הביט שבתצוגה דולק, הרימו את המתג שלו:
+- `S1 S0 = 00 -> SW0     01 -> SW1     10 -> SW2     11 -> SW3`
+
+**שלב 2**
+
+- מה המשוואה של הביט הזה?
+- `S1 S0 = SW9 SW8     LA1 LA0 = LEDG3 LEDG2     LB1 LB0 = LEDG1 LEDG0`
+- `HEX1 = the street (A or b)     HEX0 = the bit (1 or 0)`
+- `bit = ?`
+- `S1 = all down     ~S1 = SW0     ~S1 & S0 = SW1     S1 & S0 = SW1+SW0`
+
+### Q23 - שני שעונים ברמזור
+
+- **מתגים ונורות:** `S1 S0 = SW9 SW8     TA = SW7     TB = SW6     next state = HEX2     the start state = HEX3     TA = HEX1     TB = HEX0     answer: SW1 SW0`
+- **שלבים:** 2
+
+**שלב 1**
+
+- בקר הרמזור, דיאגרמת הזמנים של שקופיות 15-16. בלוח לוגיקת המצב הבא שלו.
+- `S0 = 00     S1 = 01     S2 = 10     S3 = 11`
+- `S1 S0 = SW9 SW8     TA = SW7     TB = SW6     next state = HEX2`
+- `the start state = HEX3     TA = HEX1     TB = HEX0`
+- הציבו במתגים את מה שבתצוגה.
+- החיישנים לא משתנים. באיזה מצב תהיו אחרי שעון אחד?
+- `S0 = all down     S1 = SW0     S2 = SW1     S3 = SW1+SW0`
+
+**שלב 2**
+
+- ואחרי שעון נוסף?
+- שעון אחד = להציב במתגי המצב את המצב הבא.
+- `S1 S0 = SW9 SW8     TA = SW7     TB = SW6     next state = HEX2`
+- `the start state = HEX3     TA = HEX1     TB = HEX0`
+- `S0 = all down     S1 = SW0     S2 = SW1     S3 = SW1+SW0`
+
+### Q24 - מתי יהיה ירוק?
+
+- **מתגים ונורות:** `S1 S0 = SW9 SW8     TA = SW7     TB = SW6     next state = HEX0     HEX3 = the start state     HEX1 = the street (A or b)     lights = LEDG7..5, LEDG2..0     answer: SW1 SW0`
+- **שלבים:** 2
+
+**שלב 1**
+
+- בקר הרמזור של שקופיות 8-10. בלוח לוגיקת המצב הבא והיציאות שלו.
+- `S0 = 00     S1 = 01     S2 = 10     S3 = 11`
+- `S1 S0 = SW9 SW8     TA = SW7     TB = SW6     next state = HEX0`
+- `HEX3 = the start state     HEX1 = the street (A or b)`
+- `LA:  green = LEDG7   yellow = LEDG6   red = LEDG5`
+- `LB:  green = LEDG2   yellow = LEDG1   red = LEDG0`
+- הציבו את מצב ההתחלה. מה הצבע עכשיו של הרחוב שבתצוגה?
+- `green = all down     yellow = SW0     red = SW1`
+
+**שלב 2**
+
+- שני החיישנים למטה. אחרי כמה שעונים הרחוב שבתצוגה ירוק?
+- שעון אחד = להציב במתגי המצב את המצב הבא.
+- `S1 S0 = SW9 SW8     TA = SW7     TB = SW6     next state = HEX0`
+- `HEX3 = the start state     HEX1 = the street (A or b)`
+- `TA = 0     TB = 0`
+- `0 = green now = all down`
+- `1 = SW0 2 = SW1 3 = SW1+SW0`
+
+### Q25 - בקר הרמזור
 
 - **מתגים ונורות:** `S = SW9 SW8 SW7   (HEX3)     next state = HEX0     TA, TB = SW6, SW5 (in some order)     lights = LEDG7..5, LEDG2..0     answer: SW3..SW0`
 - **שלבים:** 2
@@ -431,7 +602,7 @@
 - `SW6 = 0     SW5 = 0     LA yellow = LEDG6`
 - `1 = SW0 2 = SW1 3 = SW1+SW0`
 
-### Q19 - מחזור שלם של הרמזור
+### Q26 - מחזור שלם של הרמזור
 
 - **מתגים ונורות:** `S = SW9 SW8 SW7   (HEX3)     next state = HEX0     TA = SW6     TB = SW5     lights = LEDG7..5, LEDG2..0     answer: SW3..SW0`
 - **שלבים:** 4
@@ -467,7 +638,7 @@
 - כל שעון במחזור הוא מצב אחר. כמה דלגלגים צריך לפחות בקידוד בינארי?
 - `1 = SW0 2 = SW1 3 = SW1+SW0`
 
-### Q20 - מצב האיפוס של הרמזור
+### Q27 - מצב האיפוס של הרמזור
 
 - **מתגים ונורות:** `S1 S0 = SW9 SW8   (HEX3)     next state = HEX0     TA, TB = SW7, SW6 (in some order)     lights = LEDG7..5, LEDG2..0     answer: SW3..SW0`
 - **שלבים:** 2
@@ -490,7 +661,7 @@
 - `LA green = LEDG7`
 - `SW7 = all down     SW6 = SW0`
 
-### Q21 - חיישן פעיל בנמוך
+### Q28 - חיישן פעיל בנמוך
 
 - **מתגים ונורות:** `S1 S0 = SW9 SW8   (HEX3)     next state = HEX0     TA = SW7     TB = SW6     lights = LEDG7..5, LEDG2..0     answer: SW3..SW0`
 - **שלבים:** 3
@@ -529,7 +700,7 @@
 - `LB:  green = LEDG2   yellow = LEDG1   red = LEDG0`
 - `A green forever = all down     B green forever = SW0     full cycle = SW1`
 
-### Q22 - קידוד הצבעים
+### Q29 - קידוד הצבעים
 
 - **מתגים ונורות:** `S1 S0 = SW9 SW8   (HEX3)     LA1 LA0 = LEDG3 LEDG2     LB1 LB0 = LEDG1 LEDG0     answer: SW1 SW0`
 - **שלבים:** 3
@@ -554,7 +725,7 @@
 - `S1 S0 = SW9 SW8   (HEX3)     LA1 LA0 = LEDG3 LEDG2     LB1 LB0 = LEDG1 LEDG0`
 - `S1: LA yellow     S = 1     SW1 SW0 = LA1 LA0`
 
-### Q23 - משוואת יציאה של הרמזור
+### Q30 - משוואת יציאה של הרמזור
 
 - **מתגים ונורות:** `S1 S0 = SW9 SW8   (HEX3)     lights = LEDG7..5, LEDG2..0     answer: SW3..SW0`
 - **שלבים:** 3
@@ -588,7 +759,7 @@
 - `S1 = all down     ~S1 = SW0     S0 = SW1`
 - `~S0 = SW1+SW0     S1 ^ S0 = SW2     ~(S1 ^ S0) = SW2+SW0`
 
-### Q24 - קידוד אחד-חם של הרמזור
+### Q31 - קידוד אחד-חם של הרמזור
 
 - **מתגים ונורות:** `state bits = SW9 SW8 SW7 SW6   (one-hot)     next state bits = LEDG3 LEDG2 LEDG1 LEDG0     TA = SW5     TB = SW4     LA:  green = LEDG7   yellow = LEDG6   red = LEDG5     answer: SW1 SW0`
 - **שלבים:** 3
@@ -630,7 +801,7 @@
 - `LA:  green = LEDG7   yellow = LEDG6   red = LEDG5`
 - `SW6 = all down     SW7 = SW0     SW8 = SW1     SW9 = SW1+SW0`
 
-### Q25 - מעבר שגוי ברמזור
+### Q32 - מעבר שגוי ברמזור
 
 - **מתגים ונורות:** `S1 S0 = SW9 SW8   (HEX3)     next state = HEX0     TA = SW7     TB = SW6     answer: SW3..SW0`
 - **שלבים:** 2
@@ -656,9 +827,9 @@
 
 ## נושא 3 - מכונות מצבים בקוד וגלאי רצף
 
-40 דקות, 14 שאלות: Q26-Q39
+40 דקות, 18 שאלות: Q33-Q50
 
-### Q26 - גלאי המור מהשקופית
+### Q33 - גלאי המור מהשקופית
 
 - **מתגים ונורות:** `state bits = SW9 SW8     a = SW7     smile = LEDG2     next state bits = LEDG1 LEDG0     the state to set = HEX3     a = HEX0     answer: SW1 SW0`
 - **שלבים:** 2
@@ -684,7 +855,7 @@
 - `the state to set = HEX3     a = HEX0`
 - `S0 = all down     S1 = SW0     S2 = SW1`
 
-### Q27 - גלאי המילי מהשקופית
+### Q34 - גלאי המילי מהשקופית
 
 - **מתגים ונורות:** `state = SW9     a = SW8     smile = LEDG1     next state = LEDG0     the state to set = HEX3     a = HEX0     answer: SW0`
 - **שלבים:** 2
@@ -708,7 +879,7 @@
 - `the state to set = HEX3     a = HEX0`
 - `S0 = all down     S1 = SW0`
 
-### Q28 - ה-case של המחלק ב-3
+### Q35 - ה-case של המחלק ב-3
 
 - **מתגים ונורות:** `state bits = SW9 SW8     q = LEDG2     next state bits = LEDG1 LEDG0     HEX3 HEX2 = the state bits to set     answer: SW1 SW0`
 - **שלבים:** 2
@@ -731,7 +902,109 @@
 - `HEX3 HEX2 = the state bits to set`
 - `SW1 SW0 = next state bits`
 
-### Q29 - גלאי רצף
+### Q36 - מתי גלאי המור נשאר במקום?
+
+- **מתגים ונורות:** `state bits = SW9 SW8     a = SW7     smile = LEDG2     next state bits = LEDG1 LEDG0     HEX3 = the state to set     answer: SW1 SW0`
+- **שלבים:** 2
+
+**שלב 1**
+
+- גלאי הרצף של מור בקוד של שקופית 24. בלוח הלוגיקה שלו.
+- `S0: if (a) S0 else S1     S1: if (a) S2 else S1     S2: if (a) S0 else S1`
+- `S0 = 00     S1 = 01     S2 = 10`
+- `state bits = SW9 SW8     a = SW7     smile = LEDG2     next state bits = LEDG1 LEDG0`
+- `HEX3 = the state to set`
+- הציבו במתגים את מה שבתצוגה.
+- האם החיוך דולק?
+- דולק - הרימו:
+- `SW0`
+- כבוי - השאירו למטה.
+
+**שלב 2**
+
+- הזיזו רק את הכניסה. באיזה ערך שלה המצב הבא שווה למצב הנוכחי?
+- `S0 = 00     S1 = 01     S2 = 10`
+- `state bits = SW9 SW8     a = SW7     smile = LEDG2     next state bits = LEDG1 LEDG0`
+- `HEX3 = the state to set`
+- `none = all down     a=0 = SW0     a=1 = SW1`
+
+### Q37 - ארבעה ביטים לגלאי המור
+
+- **מתגים ונורות:** `state bits = SW9 SW8     a = SW7     smile = LEDG2     next state bits = LEDG1 LEDG0     the input bits = HEX3 HEX2 HEX1 HEX0   (HEX3 = the first)     answer: SW1 SW0`
+- **שלבים:** 2
+
+**שלב 1**
+
+- גלאי הרצף של מור של שקופיות 23-24. בלוח הלוגיקה שלו.
+- `S0 = 00     S1 = 01     S2 = 10`
+- `state bits = SW9 SW8     a = SW7     smile = LEDG2     next state bits = LEDG1 LEDG0`
+- `the input bits = HEX3 HEX2 HEX1 HEX0   (HEX3 = the first)`
+- שעון אחד = להציב במתגי המצב את המצב הבא.
+- התחילו במצב 0 והכניסו את הביטים שבתצוגה, ביט בכל שעון. באיזה מצב אתם בסוף?
+- `S0 = all down     S1 = SW0     S2 = SW1`
+
+**שלב 2**
+
+- אחרי כמה מארבעת השעונים החיוך דלק?
+- `state bits = SW9 SW8     a = SW7     smile = LEDG2     next state bits = LEDG1 LEDG0`
+- `the input bits = HEX3 HEX2 HEX1 HEX0   (HEX3 = the first)`
+- `0 = all down`
+- `1 = SW0 2 = SW1`
+
+### Q38 - ארבעה ביטים לגלאי המילי
+
+- **מתגים ונורות:** `state = SW9     a = SW8     smile = LEDG1     next state = LEDG0     the input bits = HEX3 HEX2 HEX1 HEX0   (HEX3 = the first)     answer: SW2..SW0`
+- **שלבים:** 2
+
+**שלב 1**
+
+- גלאי הרצף של מילי של שקופיות 25-26. בלוח הלוגיקה שלו.
+- `S0 = 0     S1 = 1`
+- `state = SW9     a = SW8     smile = LEDG1     next state = LEDG0`
+- `the input bits = HEX3 HEX2 HEX1 HEX0   (HEX3 = the first)`
+- שעון אחד = להציב במתגי המצב את המצב הבא.
+- התחילו במצב 0. בכל ביט: הציבו אותו בכניסה, הסתכלו על החיוך, ואז שעון. באיזה ביט החיוך דולק לראשונה?
+- `0 = never = all down`
+- `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2`
+
+**שלב 2**
+
+- בכמה מארבעת הביטים החיוך דלק?
+- `state = SW9     a = SW8     smile = LEDG1     next state = LEDG0`
+- `the input bits = HEX3 HEX2 HEX1 HEX0   (HEX3 = the first)`
+- `0 = all down`
+- `1 = SW0 2 = SW1`
+
+### Q39 - מור ומילי של השקופיות על אותם ביטים
+
+- **מתגים ונורות:** `Moore:  state bits = SW9 SW8     smile = LEDG7     next state bits = LEDG6 LEDG5     Mealy:  state = SW7     smile = LEDG1     next state = LEDG0     a = SW6     the input bits = HEX3 HEX2 HEX1   (HEX3 = the first)     answer: SW1 SW0`
+- **שלבים:** 2
+
+**שלב 1**
+
+- שני גלאי הרצף של שקופיות 23-26, מור ומילי, על אותה כניסה. בלוח הלוגיקה של שניהם.
+- `Moore:  S0 = 00     S1 = 01     S2 = 10`
+- `Moore:  state bits = SW9 SW8     smile = LEDG7     next state bits = LEDG6 LEDG5`
+- `Mealy:  state = SW7     smile = LEDG1     next state = LEDG0`
+- `a = SW6`
+- `the input bits = HEX3 HEX2 HEX1   (HEX3 = the first)`
+- שעון אחד = להציב במתגי המצב את המצב הבא.
+- התחילו את שניהם במצב 0. בכל ביט: הציבו אותו בכניסה, הסתכלו, ואז שעון.
+- באיזה ביט החיוך של המילי דולק לראשונה (לפני השעון)?
+- `0 = never = all down`
+- `1 = SW0 2 = SW1 3 = SW1+SW0`
+
+**שלב 2**
+
+- ואחרי כמה שעונים החיוך של המור דולק לראשונה?
+- `Moore:  state bits = SW9 SW8     smile = LEDG7     next state bits = LEDG6 LEDG5`
+- `Mealy:  state = SW7     smile = LEDG1     next state = LEDG0`
+- `a = SW6`
+- `the input bits = HEX3 HEX2 HEX1   (HEX3 = the first)`
+- `0 = never = all down`
+- `1 = SW0 2 = SW1 3 = SW1+SW0`
+
+### Q40 - גלאי רצף
 
 - **מתגים ונורות:** `S = SW9 SW8 SW7 = the last three bits (SW9 = the oldest)     a = SW6     smile = LEDG0     answer: SW2..SW0`
 - **שלבים:** 2
@@ -749,7 +1022,7 @@
 - `S = SW9 SW8 SW7 = the last three bits (SW9 = the oldest)     a = SW6     smile = LEDG0`
 - `SW2 = first bit     SW1 = second     SW0 = last`
 
-### Q30 - כמה פעמים הגלאי מזהה?
+### Q41 - כמה פעמים הגלאי מזהה?
 
 - **מתגים ונורות:** `S1 S0 = SW9 SW8   (HEX3)     a = SW7     next state = HEX0     smile = LEDG0     answer: SW3..SW0`
 - **שלבים:** 2
@@ -773,7 +1046,7 @@
 - `0 = all down`
 - `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1`
 
-### Q31 - מור ומילי זה ליד זה
+### Q42 - מור ומילי זה ליד זה
 
 - **מתגים ונורות:** `S = SW9 SW8 = the last two bits (SW9 = the older)     a = SW7     LEDG1 LEDG0     answer: SW3..SW0`
 - **שלבים:** 2
@@ -791,7 +1064,7 @@
 - `S = SW9 SW8 = the last two bits (SW9 = the older)     a = SW7     LEDG1 LEDG0`
 - `SW1 = first bit     SW0 = second bit`
 
-### Q32 - רצף חופף או לא?
+### Q43 - רצף חופף או לא?
 
 - **מתגים ונורות:** `S1 S0 = SW9 SW8   (HEX3)     a = SW7     next state = HEX0     smile = LEDG0     answer: SW3..SW0`
 - **שלבים:** 2
@@ -813,7 +1086,7 @@
 - `SW0`
 - לא חופף - השאירו למטה.
 
-### Q33 - טבלת יציאות של מכונת מילי
+### Q44 - טבלת יציאות של מכונת מילי
 
 - **מתגים ונורות:** `S = SW9     a = SW8     y = LEDG0     answer: SW3..SW0`
 - **שלבים:** 1
@@ -827,7 +1100,7 @@
 - ? הרימו את המתג שלו:
 - `S=0 a=0 -> SW0     S=0 a=1 -> SW1     S=1 a=0 -> SW2     S=1 a=1 -> SW3`
 
-### Q34 - שכחו את ברירת המחדל
+### Q45 - שכחו את ברירת המחדל
 
 - **מתגים ונורות:** `S = SW9 = the last bit     a = SW8     two Mealy detectors = LEDG1 LEDG0     answer: SW3..SW0`
 - **שלבים:** 2
@@ -849,7 +1122,7 @@
 - `S = SW9 = the last bit     a = SW8     two Mealy detectors = LEDG1 LEDG0`
 - `SW1 = first bit     SW0 = second bit`
 
-### Q35 - קידוד של enum
+### Q46 - קידוד של enum
 
 - **מתגים ונורות:** `state bits = SW9 SW8     q = LEDG2     next state bits = LEDG1 LEDG0     answer: SW1 SW0`
 - **שלבים:** 3
@@ -881,7 +1154,7 @@
 - `state bits = SW9 SW8     q = LEDG2     next state bits = LEDG1 LEDG0`
 - `SW1 SW0`
 
-### Q36 - הקוד שאין לו שם
+### Q47 - הקוד שאין לו שם
 
 - **מתגים ונורות:** `state bits = SW9 SW8     q = LEDG2     next state bits = LEDG1 LEDG0     answer: SW3..SW0`
 - **שלבים:** 2
@@ -905,7 +1178,7 @@
 - `state bits = SW9 SW8     q = LEDG2     next state bits = LEDG1 LEDG0`
 - `never = all down     1 = SW0     2 = SW1     3 = SW1+SW0`
 
-### Q37 - שורה שגויה במכונת המצבים
+### Q48 - שורה שגויה במכונת המצבים
 
 - **מתגים ונורות:** `S = SW9 SW8 SW7   (HEX3)     next state = HEX0     answer: SW3..SW0`
 - **שלבים:** 3
@@ -934,7 +1207,7 @@
 - `0 = all down`
 - `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2`
 
-### Q38 - איזה בלוק שבור?
+### Q49 - איזה בלוק שבור?
 
 - **מתגים ונורות:** `S1 S0 = SW9 SW8   (HEX3)     reset = SW7     next state = HEX0     q = LEDG0     answer: SW3..SW0`
 - **שלבים:** 3
@@ -961,7 +1234,7 @@
 - `S1 S0 = SW9 SW8   (HEX3)     reset = SW7     next state = HEX0     q = LEDG0`
 - `state register = all down     next state logic = SW0     output logic = SW1`
 
-### Q39 - מונה למעלה ולמטה
+### Q50 - מונה למעלה ולמטה
 
 - **מתגים ונורות:** `S = SW9 SW8 SW7 SW6   (HEX3)     up, down = SW5, SW4 (in some order)     next state = HEX0     answer: SW3..SW0`
 - **שלבים:** 2
