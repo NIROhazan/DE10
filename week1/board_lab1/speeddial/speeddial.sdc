@@ -1,0 +1,17 @@
+# 50 MHz board clock + the PLL's five outputs (10, 25, 100, 200, 300 MHz).
+create_clock -name clk50 -period 20.000 [get_ports MAX10_CLK1_50]
+derive_pll_clocks
+derive_clock_uncertainty
+
+set_false_path -from [get_ports {SW[*] KEY[*]}]
+set_false_path -to   [get_ports {LEDR[*] HEX0[*] HEX1[*] HEX2[*] HEX3[*] HEX4[*] HEX5[*]}]
+
+# The "settled" answer is captured 15 cycles after the operands change, on purpose.
+set_multicycle_path -setup 15 -from [get_registers {*|a[*] *|b[*]}] -to [get_registers {*|r_slow[*]}]
+set_multicycle_path -hold  14 -from [get_registers {*|a[*] *|b[*]}] -to [get_registers {*|r_slow[*]}]
+
+# Error percentages cross from each test clock into the 50 MHz display through a synchroniser.
+set_false_path -to [get_registers {*pct_meta[*]}]
+
+# The single-cycle path a/b -> r_fast is the one under test: it is EXPECTED to fail
+# timing at the faster clocks. The Timing Analyzer's Fmax per clock is the fallback demo.

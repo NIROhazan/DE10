@@ -1,6 +1,6 @@
 // ============================================================
 // led_wave.v  -  Digital Systems, Week 1 demo
-// Target: Terasic DE10-Lite (MAX 10, 50 MHz clock); on the DE1 it runs via ex0_top.v (CLOCK_50)
+// Target: Terasic DE10-Lite (MAX 10, 50 MHz clock), wrapped by ex0_top.v
 //
 // A smooth hump of light travels left to right across the
 // 10 red LEDs and wraps around forever.

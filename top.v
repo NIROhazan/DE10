@@ -1,24 +1,25 @@
-// DE10 starter top level - Terasic DE1 (Cyclone II EP2C20F484C7)
+// DE10 starter top level - Terasic DE10-Lite (MAX 10 10M50DAF484C7G)
 //   SW[9:0]  -> LEDR[9:0]
-//   KEY[3:0] -> LEDG[7:4]   (keys are active low)
-//   LEDG[0]  blinks at 1 Hz from CLOCK_50
-//   HEX3..HEX0 show SW[9:0] in hex (HEX3 blank)
+//   HEX2..HEX0 show SW[9:0] in hex, HEX3 blank
+//   KEY1, KEY0 -> decimal points of HEX5, HEX4 (keys are active low)
+//   decimal point of HEX0 blinks at 1 Hz from MAX10_CLK1_50
 module top(
-	input        CLOCK_50,
-	input  [3:0] KEY,
+	input        MAX10_CLK1_50,
+	input  [1:0] KEY,
 	input  [9:0] SW,
-	output [7:0] LEDG,
 	output [9:0] LEDR,
-	output [6:0] HEX0,
-	output [6:0] HEX1,
-	output [6:0] HEX2,
-	output [6:0] HEX3
+	output [7:0] HEX0,
+	output [7:0] HEX1,
+	output [7:0] HEX2,
+	output [7:0] HEX3,
+	output [7:0] HEX4,
+	output [7:0] HEX5
 	);
 
 	// 1 Hz blink: toggle every 25,000,000 cycles of the 50 MHz clock
 	reg [24:0] count = 0;
 	reg        blink = 0;
-	always @(posedge CLOCK_50) begin
+	always @(posedge MAX10_CLK1_50) begin
 		if (count == 25'd24_999_999) begin
 			count <= 0;
 			blink <= ~blink;
@@ -26,15 +27,18 @@ module top(
 			count <= count + 1'b1;
 	end
 
-	assign LEDR      = SW;
-	assign LEDG[7:4] = ~KEY;
-	assign LEDG[3:1] = 3'b000;
-	assign LEDG[0]   = blink;
+	assign LEDR = SW;
 
-	hex7seg h0(.x(SW[3:0]),        .seg(HEX0));
-	hex7seg h1(.x(SW[7:4]),        .seg(HEX1));
-	hex7seg h2(.x({2'b00, SW[9:8]}), .seg(HEX2));
-	assign HEX3 = 7'h7F;	// segments are active low: all off
+	// Segments and decimal points are active low: 1 = off
+	hex7seg h0(.x(SW[3:0]),          .seg(HEX0[6:0]));
+	hex7seg h1(.x(SW[7:4]),          .seg(HEX1[6:0]));
+	hex7seg h2(.x({2'b00, SW[9:8]}), .seg(HEX2[6:0]));
+	assign HEX0[7] = ~blink;
+	assign HEX1[7] = 1'b1;
+	assign HEX2[7] = 1'b1;
+	assign HEX3    = 8'hFF;
+	assign HEX4    = {KEY[0], 7'h7F};
+	assign HEX5    = {KEY[1], 7'h7F};
 endmodule
 
 // Hex digit to 7-segment, active low, seg[6:0] = g f e d c b a

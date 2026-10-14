@@ -1,0 +1,54 @@
+# The fixed screen texts (read by common.ps1, U "key"). A line is either Hebrew or English - never both.
+# {0}, {1} ... are filled in by the scripts.
+
+prep = מכין את הלוח...
+board_fail = הלוח לא עונה. בדקו שהוא דלוק ושהכבל מחובר:
+board_fail_en = the board's USB cable plugged in
+only_lesson = נכנסים לשאלות רק דרך
+only_lesson_en = LESSON.bat
+already = השאלה הזו כבר הסתיימה. הקוד שלה:
+step_head = שלב {0} מתוך {1}
+mine = הנתונים האישיים שלכם:
+foot = שימו את התשובה על המתגים ולחצו:
+foot_en = KEY0          PASS = correct (this screen moves on by itself)          Err = not yet, try again
+topic_end = השיעור נגמר בשעה {0}
+nav = חץ שמאלה = לשלב הקודם        חץ ימינה = לשלב הבא (אפשר לדלג על שלב; את השלב האחרון צריך לפתור)
+nav_go = עוברים לשלב {0}...
+pass = כל הכבוד! עוברים לשלב הבא.
+done = השאלה הסתיימה! הקוד נשמר בקובץ
+done_en = moodle.txt:     {2}-{0}: {1}
+timeup = נגמר הזמן של השיעור.
+link_stop = החיבור ללוח נעצר (הכבל? הלוח כבוי?). הריצו שוב - ההתקדמות נשמרה.
+no_answer = הלוח לא עונה למחשב. בדקו את הכבל והריצו שוב.
+
+starts_at = השיעור מתחיל בשעה {0}. התוכנית:
+countdown = מתחיל בעוד
+topic_now = נושא {0} מתוך {1}: {2}
+next_q = next question: {0}
+plan_row = {0}-{1}     {2}     {3} מתוך {4}
+end_topic = כל הכבוד - הגעתם לסוף הנושא!
+next_topic_at = הנושא הבא מתחיל בשעה {0}.
+last_topic = זה היה הנושא האחרון.
+over = השיעור הסתיים. הקודים שלכם נמצאים בקובץ
+over_en = moodle.txt  - hand it in on Moodle
+welcome = ברוכים השבים! ההתקדמות נשמרה, והשיעור המשיך בזמן שלא הייתם. עכשיו נושא {0}, עד {1}.
+timeup_next = נגמר הזמן של השיעור - ההתקדמות נשמרה.
+wrong = משהו השתבש (ראו למעלה). כדי לנסות שוב לחצו
+wrong_en = Enter
+already_done_go = השאלה הזו כבר הסתיימה - ממשיכים בנושא.
+
+path_he = אי אפשר להפעיל את השיעור מתיקייה שיש בדרך אליה אותיות בעברית (למשל שולחן העבודה).
+path_he_copy = העתיקו את כל התיקייה למקום בלי עברית, ושם לחצו פעמיים על קובץ השיעור. למשל:
+path_he_en = copy the folder to:   {0}     and run LESSON.bat in the week's folder there
+nav_q = חץ למטה / למעלה = חזרה לרשימת השאלות, על השאלה הבאה / הקודמת (גם אם לא סיימתם)
+q_next = חוזרים לרשימת השאלות (השאלה הבאה מסומנת)...
+q_prev = חוזרים לרשימת השאלות (השאלה הקודמת מסומנת)...
+pick_title = בחרו שאלה בחיצים, ואז לחצו על מקש האישור. הלוח נצרב רק אחרי הבחירה.
+pick_row = שאלה {0}:  {1}   {2}
+pick_done = (סיימתם)
+pick_started = (התחלתם)
+pick_keys = Right / Left = another topic     Up / Down = a question     Enter = open it (and program the board)
+pick_topic = נושא {0} מתוך {1}: {2}
+lesson_end = הזמן של השיעור מתחיל כשמכניסים תעודת זהות, ונגמר בשעה {0}. הזמנים של הנושאים הם רק המלצה.
+welcome_back = ברוכים השבים! ההתקדמות נשמרה, והזמן ממשיך מהרגע שהכנסתם תעודת זהות.
+bits_en = a switch: up = 1, down = 0     (SW9 SW8 = 10: SW9 up, SW8 down)

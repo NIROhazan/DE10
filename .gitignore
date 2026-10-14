@@ -14,65 +14,28 @@ simulation/
 *.smsg
 *.done
 *.qarlog
+*.log
 
 # editor / working backups
 *.bak
 *.bak[0-9]
 
-# command-line compile transcript
-compile.log
-*.log
-# TimeQuest path reports written by report_paths.tcl
-paths.txt
-cpath.txt
+# the boards of the class exercises (one per question) are kept
+!week*/sof/*.sof
 
-# student kits built by tools/make_kit.ps1, and run.bat scratch
-dist/
-qbin.txt
-
-# ex0 prediction log (per student)
-history.txt
-
-# the prebuilt "Err" board that run.bat programs whenever it stops
-!locked/locked.sof
-
-# ex0_eq: written by run.bat before each compile, and the student's tries
-*/ex0_eq/equation.v
-*/ex0_eq/results.txt
-# ex0_eq: prebuilt board files, one per question equation
-!*/ex0_eq/sof/*.sof
-# ex0_eq: the student's ID and the codes to hand in on Moodle
-*/ex0_eq/student.txt
-*/ex0_eq/moodle.txt
-# ex1-ex6: made from the student's ID by tools/variant.ps1, and the code for Moodle
-*/ex[1-9]/ex[1-9]_top.v
-*/ex*/tools/tutor_personal.md
+# per computer: the student's ID, codes for Moodle, progress, the lesson clock, the board link
 student.txt
 moodle.txt
-*/ex10/ex10_top.v
-# the per-question bats: typed answers, written answers, Claude's verdicts
-results.txt
-answers/
-judge_input.txt
-verdict.txt
-# week 2: the prebuilt board of each exercise
-!week2/*/board.sof
-# week 4: the prebuilt boards of ex8-ex10
-!week4/*/board.sof
-# class exercise: the prebuilt board of each question
-!class_exercise/sof/*.sof
-# class exercise: the steps each student passed (resume after a closed window)
 progress.txt
-# class exercise: the board state written by tools/link.tcl
-link_state.txt
-link_state.txt.tmp
-# class exercise: when a START now lesson began
 lesson_start.txt
 lesson_pos.txt
-goto_applied.txt
-# week 2 class exercise: the prebuilt board of each question
-!week2/class_exercise/sof/*.sof
-# week 4 class exercise: the prebuilt board of each question
-!week4/class_exercise/sof/*.sof
-# class exercises of every week: the prebuilt board of each question
-!week*/class_exercise/sof/*.sof
+link_state.txt
+link_state.txt.tmp
+
+# other/ex0: the student's prediction log
+history.txt
+
+# week 1 student kit: the prebuilt designs ship with it
+!week1/lab1_kit/sof/*.sof
+week1/lab1_kit/answers_*.txt
+week1/lab1_kit/program.log

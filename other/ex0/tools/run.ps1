@@ -34,10 +34,10 @@ $stamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
 
 # ---------------------------------------------------------------- 2. Quartus
 Step "2/3  Quartus compiles (1-2 minutes)"
-$qbin = @("C:\altera\13.0sp1\quartus\bin64", "C:\altera\13.0sp1\quartus\bin",
-          "C:\altera\13.0\quartus\bin64", "C:\altera\13.0\quartus\bin") |
+$qbin = @("C:\altera_lite\25.1std\quartus\bin64", "C:\intelFPGA_lite\25.1std\quartus\bin64",
+          "C:\intelFPGA_lite\24.1std\quartus\bin64", "C:\intelFPGA_lite\23.1std\quartus\bin64") |
 	Where-Object { Test-Path (Join-Path $_ "quartus_sh.exe") } | Select-Object -First 1
-if (-not $qbin) { Fail "Quartus II 13.0sp1 not found under C:\altera." }
+if (-not $qbin) { Fail "Quartus Prime Lite (MAX 10 support) not found under C:\altera_lite." }
 
 & (Join-Path $qbin "quartus_sh.exe") --flow compile $proj > compile.log 2>&1
 if ($LASTEXITCODE -ne 0) {
@@ -56,7 +56,7 @@ Step "3/3  Programming the board"
 & (Join-Path $qbin "quartus_pgm.exe") -c USB-Blaster -m JTAG -o "p;output_files\$proj.sof" > program.log 2>&1
 if ($LASTEXITCODE -ne 0) {
 	Select-String -Path program.log -Pattern "Error" | Select-Object -First 3 | ForEach-Object { Write-Host "  $($_.Line)" }
-	Fail "Programming FAILED. Is the board on, the USB cable in the BLASTER port, and the switch on RUN?"
+	Fail "Programming FAILED. Is the board's USB cable plugged in?"
 }
 Write-Host "  Board programmed - watch LEDR9..LEDR0." -ForegroundColor Green
 

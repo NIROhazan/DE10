@@ -1,12 +1,12 @@
-// Exercise 0 - LED wave on the Terasic DE1.  Wraps led_wave.v (written for the DE10-Lite).
+// Exercise 0 - LED wave on the Terasic DE10-Lite.  Wraps led_wave.v.
 //
-//   CLOCK_50 (50 MHz, PIN_L1) drives led_wave's clk
+//   MAX10_CLK1_50 (50 MHz, PIN_P11) drives led_wave's clk
 //   LEDR9..LEDR0 = the travelling hump of light, left to right
 //
 // Change ONLY the numbers in the KNOBS block, save, run run.bat.
 // Write your prediction in answer.txt BEFORE you run.
 module ex0_top(
-	input        CLOCK_50,
+	input        MAX10_CLK1_50,
 	output [9:0] LEDR
 	);
 
@@ -28,7 +28,7 @@ module ex0_top(
 		.B2      (B2),
 		.B3      (B3)
 	) u_wave(
-		.clk (CLOCK_50),
+		.clk (MAX10_CLK1_50),
 		.LEDR(LEDR)
 	);
 
