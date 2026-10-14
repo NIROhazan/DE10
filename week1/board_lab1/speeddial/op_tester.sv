@@ -1,13 +1,18 @@
 // Runs one operation at the speed of its own clock and reports the % of wrong answers.
 //
-// Every 16 cycles new random operands are loaded into a/b. The result is captured twice:
+// Every 32 cycles new random operands are loaded into a/b. The result is captured twice:
 //   r_fast: ONE cycle later  (the path under test; wrong if the logic is slower than the clock)
-//   r_slow: 13 cycles later  (settled, always right)
+//   r_slow: 24 cycles later  (settled, always right: the divide needs ~40 ns, 24 cycles at 300 MHz are 80 ns)
 // A test is wrong when they differ. pct = wrong tests per WINDOW, in percent.
-// Only r_fast is a one-cycle path. Everything that judges it gets several cycles, so at 300 MHz the
-// judge itself never fails (on the board it did: mult showed 32% and div 1% at 300 MHz):
-//   r_fast vs r_slow compared at phase 15 (r_slow stable since phase 13),
-//   the count closed at phase 0, the % worked out at phase 8, with WINDOW a power of two (a shift, not a divider).
+//
+// Only a/b -> r_fast may be a one-cycle path. At 300 MHz the judge itself failed timing by up to 2.3 ns
+// (mismatch -> wrong, the shared phase counter fanning out to every register), so the board showed 0%
+// for divide and multiply however wrong they were. Now:
+//   * the phase is a one-hot ring of 32 flip-flops; every step is enabled by its own flip-flop (st_*, a copy
+//     of the ring), never by a compare;
+//   * the data each step uses was written at least 3 cycles before (multicycle paths in speeddial.sdc);
+//   * a, b and the ring are kept per tester (dont_merge): Quartus merged them across the four
+//     operations of a clock, which made one register drive all four.
 //
 // OP: 0 = 8-bit add, 1 = 256-bit add (the "big add"), 2 = 16x16 multiply, 3 = 16 / 8 divide
 (* multstyle = "logic" *)        // keep the multiplier in logic elements, not the DSP blocks
@@ -19,9 +24,16 @@ module op_tester #(
     input  logic       clk,
     output logic [6:0] pct
 );
+    // the steps of one test, by phase (0..31)
+    localparam logic [4:0] P_LOAD = 5'd0,  P_FAST = 5'd1, P_SLOW = 5'd24, P_CMP = 5'd27,
+                           P_COUNT = 5'd30, P_PCT = 5'd10;
+
     logic [63:0] lfsr = 64'h0123_4567_89AB_CDEF;   // never all zeros
-    logic [3:0]  phase = '0;
-    logic [63:0] a = '0, b = '0;
+    (* dont_merge *) logic [31:0] ring = 32'd1;     // one-hot: ring[k] is high during phase k
+    // st_X is high during phase X: a copy of ring[X-1] one cycle later, so the ring itself only shifts.
+    // maxfan: Quartus duplicates a strobe that would drive more than 16 registers (st_load drives ~190).
+    (* dont_merge, maxfan = 16 *) logic st_load = 1'b0, st_fast = 1'b0, st_slow = 1'b0, st_cmp = 1'b0, st_count = 1'b0, st_pct = 1'b0;
+    (* dont_merge *) logic [63:0] a = '0, b = '0;
     logic [64:0] r, r_seen, r_fast = '0, r_slow = '0;
     logic [10:0] tests = '0, wrong = '0, wrong_done = '0;
     logic        mismatch = 1'b0;
@@ -56,23 +68,32 @@ module op_tester #(
 `endif
 
     always_ff @(posedge clk) begin
-        phase <= phase + 1'b1;
-        if (phase == 4'd0) begin
+        ring     <= {ring[30:0], ring[31]};         // a shift, no decoding
+        st_load  <= ring[5'(P_LOAD  - 5'd1)];
+        st_fast  <= ring[5'(P_FAST  - 5'd1)];
+        st_slow  <= ring[5'(P_SLOW  - 5'd1)];
+        st_cmp   <= ring[5'(P_CMP   - 5'd1)];
+        st_count <= ring[5'(P_COUNT - 5'd1)];
+        st_pct   <= ring[5'(P_PCT   - 5'd1)];
+
+        if (st_load) begin
             a    <= lfsr;
             b    <= {lfsr[31:0], lfsr[63:32]} ^ 64'h5A5A_5A5A_A5A5_A5A5;
             lfsr <= {lfsr[62:0], lfsr[63] ^ lfsr[62] ^ lfsr[60] ^ lfsr[59]};
+        end
+        if (st_fast)  r_fast   <= r_seen;                     // the one-cycle path under test
+        if (st_slow)  r_slow   <= r_seen;
+        if (st_cmp)   mismatch <= (r_fast != r_slow);
+        if (st_count) begin
             if (tests == WINDOW - 1) begin                     // close the window, judging the last test too
                 wrong_done <= wrong + mismatch;
                 wrong      <= '0;
                 tests      <= '0;
             end else begin
-                if (mismatch) wrong <= wrong + 1'b1;           // judge the previous test
+                wrong <= wrong + mismatch;
                 tests <= tests + 1'b1;
             end
         end
-        if (phase == 4'd1)  r_fast   <= r_seen;               // the one-cycle path under test
-        if (phase == 4'd13) r_slow   <= r_seen;
-        if (phase == 4'd15) mismatch <= (r_fast != r_slow);
-        if (phase == 4'd8)  pct      <= 7'((32'(wrong_done) * 100) >> $clog2(WINDOW));
+        if (st_pct)   pct <= 7'((32'(wrong_done) * 100) >> $clog2(WINDOW));
     end
 endmodule

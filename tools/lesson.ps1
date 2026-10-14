@@ -81,6 +81,7 @@ function Select-Question($default) {
 	$p = Topic-Of $default
 	$i = [Math]::Max(0, [array]::IndexOf($topics[$p].Qs, $default))
 	$draw = $true
+	$ask = ""			# R pressed on this question: the next key confirms (Y) or cancels the reset
 	while ($true) {
 		if ((Get-Date) -ge $lessonEnd) { return "" }
 		if ($draw) {
@@ -94,13 +95,19 @@ function Select-Question($default) {
 			}
 			Write-Host ""
 			Write-Line (U "pick_keys") Cyan
+			if ($ask) { Write-Host ""; Write-Line ((U "reset_ask") -f ($i + 1)) Yellow; Write-Line (U "reset_ask_en") Yellow }
 			$draw = $false
 		}
 		Start-Sleep -Milliseconds 100
 		try {
 			while ([Console]::KeyAvailable) {
 				$key = [Console]::ReadKey($true)
-				if ($key.Key -eq "UpArrow" -and $i -gt 0) { $i--; $draw = $true }
+				if ($ask) {
+					if ($key.Key -eq "Y") { Reset-Progress $sid $ask }
+					$ask = ""; $draw = $true; continue
+				}
+				if ($key.Key -eq "R") { $ask = $topics[$p].Qs[$i]; $draw = $true }
+				elseif ($key.Key -eq "UpArrow" -and $i -gt 0) { $i--; $draw = $true }
 				elseif ($key.Key -eq "DownArrow" -and $i -lt $topics[$p].Qs.Count - 1) { $i++; $draw = $true }
 				elseif ($key.Key -eq "RightArrow" -and $p -lt $topics.Count - 1) { $p++; $i = 0; $draw = $true }	# right = the next topic (like the steps)
 				elseif ($key.Key -eq "LeftArrow" -and $p -gt 0) { $p--; $i = 0; $draw = $true }

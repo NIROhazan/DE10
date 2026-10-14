@@ -64,7 +64,15 @@ Fill this table from the board (`SW4..3` operation, `SW2..0` clock):
 | divide | | | | | | |
 
 What you want is a ladder: divide goes wrong first, then multiply, then the 64-bit add,
-and the 8-bit add stays at 0%. Real chips are faster than Quartus's report, so the real
+and the 8-bit add stays at 0%. The Timing Analyzer (slow model, 2026-10-14) predicts: 8-bit add
+2.6 ns (never wrong), 16x16 multiply ~11-14 ns (from ~100 MHz), "64-bit" add (really 256 bits)
+~18 ns (from 100 MHz), divide ~41 ns (from 25-50 MHz). Read all 24 numbers at once with
+`quartus_stp -t read_pct.tcl` from `speeddial/`.
+
+An earlier version showed 0% for divide and multiply at 300 MHz: the tester's own counting logic
+failed timing there, so the wrong answers were never counted. `op_tester.sv` now steps with a one-hot
+ring and its own strobe flip-flops, and `speeddial.sdc` gives the counting several cycles; only the
+tested operation has a one-cycle path. Real chips are faster than Quartus's report, so the real
 ladder may sit higher. If no clear ladder appears, the fallback is to show the
 *Timing Analyzer → Fmax Summary* on the projector. It still raises riddles 8 and 9, but
 not "faster gives wrong answers".

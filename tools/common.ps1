@@ -87,6 +87,13 @@ function Get-Progress($sid, $qid) {
 function Save-Progress($sid, $qid, $k) {
 	[IO.File]::AppendAllText((Join-Path (Get-Location) "progress.txt"), "$sid $qid $k`r`n", $script:utf8)
 }
+# the R key in the lesson menu: the question starts again from step 1, as new. Its Moodle code stays in moodle.txt.
+function Reset-Progress($sid, $qid) {
+	$f = Join-Path (Get-Location) "progress.txt"
+	if (-not (Test-Path $f)) { return }
+	$keep = @([IO.File]::ReadAllLines($f, $script:utf8) | Where-Object { $_ -notmatch "^\s*$sid\s+$qid\s+\d+\s*$" })
+	[IO.File]::WriteAllLines($f, [string[]]$keep, $script:utf8)
+}
 # the label of this exercise's codes in moodle.txt: tools\label.txt (week 2: w2ce), else ce (lecture 3)
 $script:Label = "ce"
 $lf = Join-Path (Get-Location) "label.txt"

@@ -50,6 +50,9 @@ exercise. Quartus Prime Lite with MAX 10 support is at `C:\altera_lite\25.1std`.
   (the codes' label, e.g. `w2ce`), `tools/ui.txt` (fixed Hebrew messages). A line is either Hebrew or English, never both.
 - **Reset a computer:** delete `progress.txt`, `moodle.txt`, `lesson_start.txt`, `lesson_pos.txt` in the week's folder;
   `student.txt` (the ID) is here in the course folder.
+- **Do one question again:** in the question menu the student presses `R` on it, then `Y`. Its lines in
+  `progress.txt` are removed, so it starts from step 1 as new; the lesson clock and the Moodle code already
+  earned stay.
 - **Status:** week 2 is on the DE10-Lite engine. Weeks 3-11 still have the old DE1 boards and texts - next to port.
 - The old per-topic exercises (weeks 2-4 `exN`) and `locked/` are kept outside the repo in `C:\DE10_solutions\old_exercises\`.
 

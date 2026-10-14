@@ -47,8 +47,10 @@ pick_title = בחרו שאלה בחיצים, ואז לחצו על מקש האי�
 pick_row = שאלה {0}:  {1}   {2}
 pick_done = (סיימתם)
 pick_started = (התחלתם)
-pick_keys = Right / Left = another topic     Up / Down = a question     Enter = open it (and program the board)
+pick_keys = Right / Left = another topic     Up / Down = a question     Enter = open it (and program the board)     R = start this question again
 pick_topic = נושא {0} מתוך {1}: {2}
+reset_ask = להתחיל את שאלה {0} מחדש, מהשלב הראשון? ההתקדמות בשאלה תימחק. הקוד למודל שכבר קיבלתם נשאר.
+reset_ask_en = Y = yes, start it again          any other key = no
 lesson_end = הזמן של השיעור מתחיל כשמכניסים תעודת זהות, ונגמר בשעה {0}. הזמנים של הנושאים הם רק המלצה.
 welcome_back = ברוכים השבים! ההתקדמות נשמרה, והזמן ממשיך מהרגע שהכנסתם תעודת זהות.
 bits_en = a switch: up = 1, down = 0     (SW9 SW8 = 10: SW9 up, SW8 down)
