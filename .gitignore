@@ -38,4 +38,5 @@ history.txt
 # week 1 student kit: the prebuilt designs ship with it
 !week1/lab1_kit/sof/*.sof
 week1/lab1_kit/answers_*.txt
+week1/lab1_kit/progress_*.txt
 week1/lab1_kit/program.log

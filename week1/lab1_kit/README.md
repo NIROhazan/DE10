@@ -28,11 +28,13 @@ One folder for every student PC. Copy it whole to a **plain English path without
   step load the full `lab1.sof` (warm-up, then SW9..SW7 pick the card; the screen says to hold
   KEY0+KEY1 on the second). Rebuild all of `sof\` with `../board_lab1/build_kit.ps1` (~15 min).
 * Needs `quartus_pgm` (Quartus Prime Lite or the stand-alone Programmer) and the USB-Blaster driver.
-  It looks in `C:\altera_lite\25.1std` and `C:\intelFPGA_lite\{25,24,23}.1std`. Without it the
+  It looks in `C:\altera_lite\25.1std`, `C:\altera_standard\25.1std` and `C:\intelFPGA_lite\{25,24,23}.1std`. Without it the
   steps still run, with no programming.
 * Navigation: Enter = next, `r` = redo this step (board reprogrammed, questions asked again; the new
   answers are tagged `redo` and replace the ones above them), `b` = back, a number = jump to that step,
-  `q` = quit. Answers are
+  `q` = quit. **Progress is saved**: `progress_<ID>.txt` keeps the current step (written on entering every
+  step), so quitting or closing the window and running `LAB1.bat` again with the same ID returns to that step
+  (the name is not asked again; the new answers block is marked `resume`). Answers are
   appended to `answers_<ID>.txt`, one block per run, headed by ID, name and time. At the end the file
   opens in Notepad and the screen says to upload it to the Moodle lab-1 assignment.
 * One student per PC. Answers are typed in a small right-to-left window (the console can only type

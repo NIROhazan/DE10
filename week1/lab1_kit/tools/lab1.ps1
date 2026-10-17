@@ -74,7 +74,7 @@ foreach ($l in [IO.File]::ReadAllLines((Join-Path $PSScriptRoot "steps.txt"), $u
 }
 
 # ---- the board
-$qbin = @("C:\altera_lite\25.1std\quartus\bin64", "C:\intelFPGA_lite\25.1std\quartus\bin64",
+$qbin = @("C:\altera_lite\25.1std\quartus\bin64", "C:\altera_standard\25.1std\quartus\bin64", "C:\intelFPGA_lite\25.1std\quartus\bin64",
           "C:\intelFPGA_lite\24.1std\quartus\bin64", "C:\intelFPGA_lite\23.1std\quartus\bin64") |
 	Where-Object { Test-Path (Join-Path $_ "quartus_pgm.exe") } | Select-Object -First 1
 
@@ -98,15 +98,36 @@ do {
 	Write-Line (U "id") Cyan
 	$sid = (Read-Host).Trim()
 } until ($sid -match '^\d{5,10}$')
-Write-Line (U "name") Cyan
-$name = Read-Answer (U "name")
-$answers = Join-Path $kit "answers_$sid.txt"
-[IO.File]::AppendAllText($answers, "`r`n=== $sid   $name   $(Get-Date -Format 'yyyy-MM-dd HH:mm')`r`n", $utf8)
-
+# progress_<ID>.txt keeps the step the student is on (saved on entering every step), so leaving the lab
+# (q, or closing the window) and starting LAB1.bat again with the same ID goes back to that step
+$progress = Join-Path $kit "progress_$sid.txt"
 $i = 0
+$name = ""
+if (Test-Path $progress) {
+	foreach ($l in [IO.File]::ReadAllLines($progress, $utf8)) {
+		if ($l -match '^step=(\d+)$') { $i = [Math]::Min($steps.Count - 1, [int]$Matches[1]) }
+		elseif ($l -match '^name=(.*)$') { $name = $Matches[1] }
+	}
+}
+if (-not $name) {
+	Write-Line (U "name") Cyan
+	$name = Read-Answer (U "name")
+}
+function Save-Progress { [IO.File]::WriteAllText($progress, "step=$i`r`nname=$name`r`n", $utf8) }
+$answers = Join-Path $kit "answers_$sid.txt"
+$resumed = if ($i -gt 0) { "   (resume, step $($i + 1))" } else { "" }
+[IO.File]::AppendAllText($answers, "`r`n=== $sid   $name   $(Get-Date -Format 'yyyy-MM-dd HH:mm')$resumed`r`n", $utf8)
+if ($i -gt 0) {
+	Write-Host ""
+	Write-Line ("{0} {1}" -f (U "resume"), ($i + 1)) Green
+	Write-Line (U "resume_enter") DarkGray
+	[void](Read-Host)
+}
+
 $redo = $false                               # r: the step starts again (board reprogrammed, questions asked again)
 while ($i -lt $steps.Count) {
 	$s = $steps[$i]
+	Save-Progress
 	Clear-Host
 	Write-Line ("{0} {1}/{2}:  {3}" -f (U "step"), ($i + 1), $steps.Count, $s.Title) Cyan
 	Write-Host ""
