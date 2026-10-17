@@ -17,6 +17,10 @@ exact to about 1e-7 at any frequency, with no divider.
 much of the picture, room dimmed. The camera board's HEX and the monitor should show what this board's HEX shows.
 Useful range: ~30-300 Hz (the meter smooths over ~8 sensor rows; a stripe has to be wider than that).
 
+Ready-built: `sof/flicker_tx.sof` - load it with
+`quartus_pgm -c "USB-Blaster [USB-1]" -m jtag -o "p;sof/flicker_tx.sof"` (the cable this board is on; `jtagconfig`
+lists them - do not load it onto the camera board).
+
 Build (from a plain path, like the camera project): `quartus_sh --flow compile flicker_tx`.
 Simulation: `cd sim`, `iverilog -g2005 -o tx.vvp tb_flicker_tx.v ../flicker_tx.v && vvp -n tx.vvp` (~10 s) -
 checks 100, 137 and 1000 Hz to 0.01 %, the duty, the HEX digits and both keys.

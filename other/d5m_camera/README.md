@@ -103,6 +103,12 @@ the measured size. Use it when the camera seems dead: a working camera shows PIX
 
 ## Build and program
 
+Ready-built: `sof/d5m_cam.sof` - no compile needed, just load it (it is lost at power-off, load it again after
+unplugging): `C:ltera_lite.1std\quartusin64\quartus_pgm -c USB-Blaster -m jtag -o "p;sof/d5m_cam.sof"`.
+With two boards on the PC, `jtagconfig` lists them as `USB-Blaster [USB-0]` / `[USB-1]`; name the right one after `-c`.
+
+To build it yourself:
+
 Quartus is unreliable with Hebrew letters or spaces in a path, so build from a plain copy:
 
 ```
