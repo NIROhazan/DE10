@@ -58,10 +58,14 @@ Fill this table from the board (`SW4..3` operation, `SW2..0` clock):
 
 | Operation | 10 | 25 | 50 | 100 | 200 | 300 MHz |
 |---|---|---|---|---|---|---|
-| 8-bit add | | | | | | |
-| 64-bit add | | | | | | |
-| multiply | | | | | | |
-| divide | | | | | | |
+| 8-bit add | 0 | 0 | 0 | 0 | 0 | 0 |
+| 64-bit add | 0 | 0 | 0 | 82 | 97 | 99 |
+| multiply | 0 | 0 | 0 | 0 | 11-19 | 100 |
+| divide | 0 | 0 | 0 | 83-87 | 99 | 99 |
+
+Measured on the board 2026-10-17 (% wrong, `read_pct.tcl`). Before that day the big add never failed:
+random operands stop a carry after ~8 bits, so the 256-bit chain was never used. Now `b = ~a` and a
+random carry in ripples through all 256 bits.
 
 What you want is a ladder: divide goes wrong first, then multiply, then the 64-bit add,
 and the 8-bit add stays at 0%. The Timing Analyzer (slow model, 2026-10-14) predicts: 8-bit add

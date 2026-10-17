@@ -34,6 +34,7 @@ module op_tester #(
     // maxfan: Quartus duplicates a strobe that would drive more than 16 registers (st_load drives ~190).
     (* dont_merge, maxfan = 16 *) logic st_load = 1'b0, st_fast = 1'b0, st_slow = 1'b0, st_cmp = 1'b0, st_count = 1'b0, st_pct = 1'b0;
     (* dont_merge *) logic [63:0] a = '0, b = '0;
+    (* dont_merge *) logic        cin = 1'b0;      // the big add's carry in (random)
     logic [64:0] r, r_seen, r_fast = '0, r_slow = '0;
     logic [10:0] tests = '0, wrong = '0, wrong_done = '0;
     logic        mismatch = 1'b0;
@@ -46,9 +47,12 @@ module op_tester #(
     logic [31:0] prod;
     logic [15:0] quot;
     assign sum8  = a[7:0] + b[7:0];
-    // A 64-bit add never failed on the board, even at 300 MHz: the MAX 10 carry chain is that fast. A 256-bit
-    // add makes the carry ripple 4x as far. Its top 65 bits are kept; they depend on the carry from bit 0.
-    assign sum256 = {a, b, a ^ b, ~a} + {b, a, ~b, a ^ b};
+    // A 64-bit add never failed on the board, even at 300 MHz, and neither did a 256-bit add of random numbers:
+    // with random operands a carry stops after ~8 bits, so the long path was never used. Now (OP 1) b = ~a,
+    // so every bit passes the carry on, and a random carry in must ripple through all 256 bits to the top.
+    // a and b are separate registers, so Quartus cannot see that b = ~a and fold the adder away.
+    // Its top 65 bits are kept; they all depend on the carry in.
+    assign sum256 = {a, a, a, a} + {b, b, b, b} + 257'(cin);
     assign sum64  = sum256[256:192];
     assign prod  = a[15:0] * b[15:0];
     assign quot  = a[15:0] / {8'b0, b[7:0] | 8'd1};
@@ -78,7 +82,8 @@ module op_tester #(
 
         if (st_load) begin
             a    <= lfsr;
-            b    <= {lfsr[31:0], lfsr[63:32]} ^ 64'h5A5A_5A5A_A5A5_A5A5;
+            b    <= (OP == 1) ? ~lfsr : {lfsr[31:0], lfsr[63:32]} ^ 64'h5A5A_5A5A_A5A5_A5A5;
+            cin  <= lfsr[17];
             lfsr <= {lfsr[62:0], lfsr[63] ^ lfsr[62] ^ lfsr[60] ^ lfsr[59]};
         end
         if (st_fast)  r_fast   <= r_seen;                     // the one-cycle path under test
