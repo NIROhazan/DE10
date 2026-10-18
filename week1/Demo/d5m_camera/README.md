@@ -6,6 +6,7 @@ buffer (RGB565, 16 bits per pixel) is 152 of the 10M50's 182 M9K memory blocks, 
 
 | File | What it is |
 |---|---|
+| `tools/demo.ps1` | Loads the demo onto one or two boards, no compile (started by `../CAMERA_DEMO.bat`) |
 | `d5m_cam_top.v` | Top level: 25 MHz clock (also the camera's XCLKIN), reset, switches, LEDs, HEX |
 | `d5m_i2c_cfg.v` | Writes the sensor's registers over I2C, then rewrites exposure / test pattern when SW changes |
 | `d5m_capture.v` | Bayer stream -> 320 x 240 RGB565 (each 4x4 averaged), white-balance gains, event camera; measures the sensor, sums R/G/B per frame |
@@ -102,6 +103,11 @@ Probes) and prints its level, its edges per ~21 ms and the D5M signal on it, plu
 the measured size. Use it when the camera seems dead: a working camera shows PIXCLK and LVAL at 255 edges.
 
 ## Build and program
+
+**Quickest: double-click `../CAMERA_DEMO.bat`** (in `week1/Demo`). It loads the ready-built designs, no compile: the camera design onto
+the board with the D5M and, if a second DE10-Lite is plugged in, `../flicker_tx` onto that one. It finds the camera
+board itself (it loads the camera design and asks whether the camera answered on I2C), so the USB ports can be in
+any order. Run it again after unplugging a board.
 
 Ready-built: `sof/d5m_cam.sof` - no compile needed, just load it (it is lost at power-off, load it again after
 unplugging): `C:ltera_lite.1std\quartusin64\quartus_pgm -c USB-Blaster -m jtag -o "p;sof/d5m_cam.sof"`.
