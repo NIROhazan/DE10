@@ -1,6 +1,6 @@
 # פירוט השאלות לפי נושא
 
-נוצר אוטומטית מ-`gen.py` - כל שאלה כפי שהיא מופיעה על המסך, בלי התשובות. מסודר לפי הנושאים של השיעור (`tools/lesson.txt`).
+נוצר אוטומטית מ-`gen.py` - כל שאלה כפי שהיא מופיעה על המסך, בלי התשובות. מסודר לפי הנושאים של השיעור (`lesson.txt`).
 
 ## נושא 1 - מפות קרנו
 
@@ -8,7 +8,7 @@
 
 ### Q01 - מפת קרנו מהשקופיות - שלושה משתנים
 
-- **מתגים ונורות:** `A = SW9   B = SW8   C = SW7   Y = LEDG0   the cell = HEX2 HEX1 HEX0 (A B C)   answer: SW5..SW0`
+- **מתגים ונורות:** `A = SW9   B = SW8   C = SW7   Y = LEDR0   the cell = HEX2 HEX1 HEX0 (A B C)   answer: SW5..SW0`
 - **שלבים:** 3
 
 **שלב 1**
@@ -18,7 +18,7 @@
 - `AB`
 - והשורות לפי
 - `C`
-- `A = SW9     B = SW8     C = SW7     Y = LEDG0`
+- `A = SW9     B = SW8     C = SW7     Y = LEDR0`
 - 1. שימו
 - `C = 0  (SW7 down)`
 - 2. נסו את 4 העמודות, ובכל תא שהנורה דולקת הרימו מתג:
@@ -27,7 +27,7 @@
 **שלב 2**
 
 - עכשיו השורה השנייה של המפה:
-- `A = SW9     B = SW8     C = SW7     Y = LEDG0`
+- `A = SW9     B = SW8     C = SW7     Y = LEDR0`
 - `C = 1  (SW7 up)`
 - בכל תא שהנורה דולקת הרימו מתג:
 - `AB:   00 -> SW3     01 -> SW2     11 -> SW1     10 -> SW0`
@@ -42,7 +42,7 @@
 
 ### Q02 - מפת קרנו של ארבעה משתנים מהשקופית
 
-- **מתגים ונורות:** `A = SW9  B = SW8  C = SW7  D = SW6  Y = LEDG0  the cell = HEX3..HEX0 (A B C D)  answer: SW3..SW0`
+- **מתגים ונורות:** `A = SW9  B = SW8  C = SW7  D = SW6  Y = LEDR0  the cell = HEX3..HEX0 (A B C D)  answer: SW3..SW0`
 - **שלבים:** 3
 
 **שלב 1**
@@ -50,7 +50,7 @@
 - בלוח מפת קרנו של ארבעה משתנים מהשקופית (שקופית 8). בתצוגה מוצג תא אחד שלה:
 - `HEX3 HEX2 HEX1 HEX0 = A B C D`
 - `A = SW9     B = SW8     C = SW7     D = SW6`
-- `Y = LEDG0`
+- `Y = LEDR0`
 - 1. שימו את שני המתגים השמאליים כמו בתצוגה:
 - `SW9 SW8 = HEX3 HEX2  (A B)`
 - 2. נסו את 4 המצבים של שני המתגים שלידם, ובכל תא שהנורה דולקת הרימו מתג:
@@ -81,7 +81,7 @@
 
 ### Q03 - מכפלה של שלושה משתנים מהשקופית
 
-- **מתגים ונורות:** `A = SW9     B = SW8     C = SW7     Y = LEDG0     answer: SW5..SW0`
+- **מתגים ונורות:** `A = SW9     B = SW8     C = SW7     Y = LEDR0     answer: SW5..SW0`
 - **שלבים:** 2
 
 **שלב 1**
@@ -89,20 +89,20 @@
 - שקופית 5: מכפלה של שלושת המשתנים, כמו
 - `ABC`
 - דולקת בתא אחד בלבד. בלוח מכפלה כזו, וחלק מהמשתנים בה עם קו.
-- `A = SW9     B = SW8     C = SW7     Y = LEDG0`
+- `A = SW9     B = SW8     C = SW7     Y = LEDR0`
 - 1. נסו את 8 המצבים. באיזה מצב הנורה דולקת? הרימו אותו:
 - `A -> SW2     B -> SW1     C -> SW0`
 
 **שלב 2**
 
 - 2. כתבו את המכפלה: משתנה שהוא 0 בתא הזה נכתב עם קו, משתנה שהוא 1 נכתב רגיל.
-- `A = SW9     B = SW8     C = SW7     Y = LEDG0`
+- `A = SW9     B = SW8     C = SW7     Y = LEDR0`
 - הרימו מתג לכל ליטרל במכפלה (גרש = משתנה עם קו):
 - `A = SW5     A' = SW4     B = SW3     B' = SW2     C = SW1     C' = SW0`
 
 ### Q04 - שני תאים שכנים הופכים למכפלה אחת
 
-- **מתגים ונורות:** `A = SW9   B = SW8   C = SW7   Y = LEDG0   a cell = HEX2 HEX1 HEX0 (A B C)   answer: SW5..SW0`
+- **מתגים ונורות:** `A = SW9   B = SW8   C = SW7   Y = LEDR0   a cell = HEX2 HEX1 HEX0 (A B C)   answer: SW5..SW0`
 - **שלבים:** 2
 
 **שלב 1**
@@ -111,7 +111,7 @@
 - `PA + PA' = P`
 - בלוח פונקציה של שלושה משתנים שדולקת בשני תאים שכנים בלבד. בתצוגה אחד מהם:
 - `HEX2 HEX1 HEX0 = A B C`
-- `A = SW9     B = SW8     C = SW7     Y = LEDG0`
+- `A = SW9     B = SW8     C = SW7     Y = LEDR0`
 - 1. שימו את התא על המתגים, והפכו כל פעם מתג אחד.
 - 2. איזה משתנה אפשר להפוך והנורה נשארת דולקת? הוא מתבטל, כמו בשקופית:
 - `A = SW2     B = SW1     C = SW0`
@@ -129,14 +129,14 @@
 
 ### Q05 - תא הפוך במפה של השקופית
 
-- **מתגים ונורות:** `A = SW9     B = SW8     C = SW7     Y = LEDG0     answer: SW3..SW0`
+- **מתגים ונורות:** `A = SW9     B = SW8     C = SW7     Y = LEDR0     answer: SW3..SW0`
 - **שלבים:** 2
 
 **שלב 1**
 
 - בלוח המפה של שקופית 4, אבל תא אחד בה הפוך:
 - `Y = A'B + BC`
-- `A = SW9     B = SW8     C = SW7     Y = LEDG0`
+- `A = SW9     B = SW8     C = SW7     Y = LEDR0`
 - 1. נסו את 8 המצבים. בכמה מצבים הנורה דולקת?
 - `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0`
 
@@ -144,12 +144,12 @@
 
 - 2. באיזה מצב הנורה לא כמו בביטוי של השקופית? הרימו אותו:
 - `Y = A'B + BC`
-- `A = SW9     B = SW8     C = SW7     Y = LEDG0`
+- `A = SW9     B = SW8     C = SW7     Y = LEDR0`
 - `A -> SW2     B -> SW1     C -> SW0`
 
 ### Q06 - שורה ועמודה במפה של ארבעה משתנים
 
-- **מתגים ונורות:** `A = SW9  B = SW8  C = SW7  D = SW6  Y = LEDG0  row = HEX3  column = HEX2  answer: SW1..SW0`
+- **מתגים ונורות:** `A = SW9  B = SW8  C = SW7  D = SW6  Y = LEDR0  row = HEX3  column = HEX2  answer: SW1..SW0`
 - **שלבים:** 3
 
 **שלב 1**
@@ -177,12 +177,12 @@
 - 3. בלוח המפה של שקופית 8. שימו את התא על המתגים. מה יש בו?
 - `HEX3 = row (AB)     HEX2 = column (CD)`
 - `A = SW9     B = SW8     C = SW7     D = SW6`
-- `Y = LEDG0`
+- `Y = LEDR0`
 - `0 = all down     1 = SW0`
 
 ### Q07 - מפת קרנו של שני משתנים
 
-- **מתגים ונורות:** `A = SW9     B = SW8     Y = LEDG0     answer: SW3..SW0`
+- **מתגים ונורות:** `A = SW9     B = SW8     Y = LEDR0     answer: SW3..SW0`
 - **שלבים:** 2
 
 **שלב 1**
@@ -198,7 +198,7 @@
 
 ### Q08 - מפת קרנו של שלושה משתנים - עיגול אחד
 
-- **מתגים ונורות:** `A = SW9     B = SW8     C = SW7     Y = LEDG0     answer: SW5..SW0`
+- **מתגים ונורות:** `A = SW9     B = SW8     C = SW7     Y = LEDR0     answer: SW5..SW0`
 - **שלבים:** 3
 
 **שלב 1**
@@ -224,7 +224,7 @@
 
 ### Q09 - מפת קרנו של שלושה משתנים - סכום מכפלות מינימלי
 
-- **מתגים ונורות:** `A = SW9   B = SW8   C = SW7   Y = LEDG0   the cell = HEX2 HEX1 HEX0 (A B C)   answer: SW5..SW0`
+- **מתגים ונורות:** `A = SW9   B = SW8   C = SW7   Y = LEDR0   the cell = HEX2 HEX1 HEX0 (A B C)   answer: SW5..SW0`
 - **שלבים:** 4
 
 **שלב 1**
@@ -257,7 +257,7 @@
 
 ### Q10 - מכפלות ראשוניות וחיוניות
 
-- **מתגים ונורות:** `A = SW9     B = SW8     C = SW7     Y = LEDG0     answer: SW3..SW0`
+- **מתגים ונורות:** `A = SW9     B = SW8     C = SW7     Y = LEDR0     answer: SW3..SW0`
 - **שלבים:** 4
 
 **שלב 1**
@@ -289,7 +289,7 @@
 
 ### Q11 - מכפלת סכומים מינימלית - עיגול של האפסים
 
-- **מתגים ונורות:** `A = SW9   B = SW8   C = SW7   Y = LEDG0   the cell = HEX2 HEX1 HEX0 (A B C)   answer: SW5..SW0`
+- **מתגים ונורות:** `A = SW9   B = SW8   C = SW7   Y = LEDR0   the cell = HEX2 HEX1 HEX0 (A B C)   answer: SW5..SW0`
 - **שלבים:** 4
 
 **שלב 1**
@@ -322,7 +322,7 @@
 
 ### Q12 - מפת קרנו של ארבעה משתנים - עיגול אחד
 
-- **מתגים ונורות:** `A = SW9     B = SW8     C = SW7     D = SW6     Y = LEDG0     answer: SW3..SW0`
+- **מתגים ונורות:** `A = SW9     B = SW8     C = SW7     D = SW6     Y = LEDR0     answer: SW3..SW0`
 - **שלבים:** 3
 
 **שלב 1**
@@ -331,7 +331,7 @@
 - 1. נסו את 16 המצבים של ארבעת המתגים:
 - `A = SW9     B = SW8     C = SW7     D = SW6`
 - 2. סמנו על דף מפת קרנו: תא לכל מצב שהנורה דולקת.
-- `Y = LEDG0`
+- `Y = LEDR0`
 - 3. בכמה מצבים הנורה דולקת? הרימו את המספר:
 - `2 = SW1     4 = SW2     8 = SW3`
 
@@ -357,7 +357,7 @@
 
 ### Q13 - מפת קרנו של ארבעה משתנים - שני עיגולים
 
-- **מתגים ונורות:** `A = SW9     B = SW8     C = SW7     D = SW6     Y = LEDG0     answer: SW3..SW0`
+- **מתגים ונורות:** `A = SW9     B = SW8     C = SW7     D = SW6     Y = LEDR0     answer: SW3..SW0`
 - **שלבים:** 6
 
 **שלב 1**
@@ -366,7 +366,7 @@
 - 1. נסו את 16 המצבים של ארבעת המתגים:
 - `A = SW9     B = SW8     C = SW7     D = SW6`
 - 2. סמנו על דף מפת קרנו: תא לכל מצב שהנורה דולקת.
-- `Y = LEDG0`
+- `Y = LEDR0`
 - 3. בכמה מצבים הנורה דולקת? הרימו את המספר:
 - `0 = all down   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2`
 - `5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0   8 = SW3   9 = SW3+SW0`
@@ -421,14 +421,14 @@
 
 ### Q14 - מפת קרנו של ארבעה משתנים
 
-- **מתגים ונורות:** `A = SW9  B = SW8  C = SW7  D = SW6  Y = LEDG0  the cell = HEX3..HEX0 (A B C D)  answer: SW3..SW0`
+- **מתגים ונורות:** `A = SW9  B = SW8  C = SW7  D = SW6  Y = LEDR0  the cell = HEX3..HEX0 (A B C D)  answer: SW3..SW0`
 - **שלבים:** 7
 
 **שלב 1**
 
 - בלוח פונקציה של ארבעה משתנים. מלאו את מפת קרנו, שורה אחרי שורה.
 - `A = SW9     B = SW8     C = SW7     D = SW6`
-- `Y = LEDG0`
+- `Y = LEDR0`
 - 1. שימו את שני המתגים השמאליים לפי השורה:
 - `AB = 00  (SW9 SW8 = 00)`
 - 2. נסו את 4 המצבים של שני המתגים שלידם:
@@ -440,7 +440,7 @@
 
 - השורה הבאה של מפת קרנו (השורות לפי הסדר של מפת קרנו):
 - `A = SW9     B = SW8     C = SW7     D = SW6`
-- `Y = LEDG0`
+- `Y = LEDR0`
 - 1. שימו את שני המתגים השמאליים לפי השורה:
 - `AB = 01  (SW9 SW8 = 01)`
 - 2. נסו את 4 המצבים של שני המתגים שלידם:
@@ -452,7 +452,7 @@
 
 - השורה הבאה של מפת קרנו (השורות לפי הסדר של מפת קרנו):
 - `A = SW9     B = SW8     C = SW7     D = SW6`
-- `Y = LEDG0`
+- `Y = LEDR0`
 - 1. שימו את שני המתגים השמאליים לפי השורה:
 - `AB = 11  (SW9 SW8 = 11)`
 - 2. נסו את 4 המצבים של שני המתגים שלידם:
@@ -464,7 +464,7 @@
 
 - השורה הבאה של מפת קרנו (השורות לפי הסדר של מפת קרנו):
 - `A = SW9     B = SW8     C = SW7     D = SW6`
-- `Y = LEDG0`
+- `Y = LEDR0`
 - 1. שימו את שני המתגים השמאליים לפי השורה:
 - `AB = 10  (SW9 SW8 = 10)`
 - 2. נסו את 4 המצבים של שני המתגים שלידם:
@@ -502,14 +502,14 @@
 
 ### Q15 - מכפלות ראשוניות וחיוניות - ארבעה משתנים
 
-- **מתגים ונורות:** `A = SW9     B = SW8     C = SW7     D = SW6     Y = LEDG0     answer: SW3..SW0`
+- **מתגים ונורות:** `A = SW9     B = SW8     C = SW7     D = SW6     Y = LEDR0     answer: SW3..SW0`
 - **שלבים:** 6
 
 **שלב 1**
 
 - בלוח פונקציה של ארבעה משתנים. מלאו את מפת קרנו, שורה אחרי שורה.
 - `A = SW9     B = SW8     C = SW7     D = SW6`
-- `Y = LEDG0`
+- `Y = LEDR0`
 - 1. שימו את שני המתגים השמאליים לפי השורה:
 - `AB = 00  (SW9 SW8 = 00)`
 - 2. נסו את 4 המצבים של שני המתגים שלידם:
@@ -521,7 +521,7 @@
 
 - השורה הבאה של מפת קרנו (השורות לפי הסדר של מפת קרנו):
 - `A = SW9     B = SW8     C = SW7     D = SW6`
-- `Y = LEDG0`
+- `Y = LEDR0`
 - 1. שימו את שני המתגים השמאליים לפי השורה:
 - `AB = 01  (SW9 SW8 = 01)`
 - 2. נסו את 4 המצבים של שני המתגים שלידם:
@@ -533,7 +533,7 @@
 
 - השורה הבאה של מפת קרנו (השורות לפי הסדר של מפת קרנו):
 - `A = SW9     B = SW8     C = SW7     D = SW6`
-- `Y = LEDG0`
+- `Y = LEDR0`
 - 1. שימו את שני המתגים השמאליים לפי השורה:
 - `AB = 11  (SW9 SW8 = 11)`
 - 2. נסו את 4 המצבים של שני המתגים שלידם:
@@ -545,7 +545,7 @@
 
 - השורה הבאה של מפת קרנו (השורות לפי הסדר של מפת קרנו):
 - `A = SW9     B = SW8     C = SW7     D = SW6`
-- `Y = LEDG0`
+- `Y = LEDR0`
 - 1. שימו את שני המתגים השמאליים לפי השורה:
 - `AB = 10  (SW9 SW8 = 10)`
 - 2. נסו את 4 המצבים של שני המתגים שלידם:
@@ -572,7 +572,7 @@
 
 ### Q16 - מפת קרנו עם לא אכפת מהשקופית
 
-- **מתגים ונורות:** `A = SW9  B = SW8  C = SW7  D = SW6  Y = LEDG0  X = LEDG1  the cell = HEX3..HEX0  answer: SW3..SW0`
+- **מתגים ונורות:** `A = SW9  B = SW8  C = SW7  D = SW6  Y = LEDR0  X = LEDR1  the cell = HEX3..HEX0  answer: SW3..SW0`
 - **שלבים:** 3
 
 **שלב 1**
@@ -582,7 +582,7 @@
 - `A = SW9     B = SW8     C = SW7     D = SW6`
 - 1. שימו את התא על המתגים.
 - 2. הנורה הימנית דולקת = 1. הנורה שלידה דולקת = לא אכפת.
-- `Y = LEDG0 (1)     X = LEDG1 (don't care)`
+- `Y = LEDR0 (1)     X = LEDR1 (don't care)`
 - 3. מה יש בתא?
 - `1 = SW0     X = SW1`
 
@@ -656,18 +656,18 @@
 
 ### Q18 - מעגל הגליץ' מהשקופית
 
-- **מתגים ונורות:** `A = SW9   B = SW8   C = SW7   n1 = LEDG1   n2 = LEDG0   inputs = HEX2 HEX1 HEX0   answer: SW1..SW0`
+- **מתגים ונורות:** `A = SW9   B = SW8   C = SW7   n1 = LEDR1   n2 = LEDR0   inputs = HEX2 HEX1 HEX0   answer: SW1..SW0`
 - **שלבים:** 3
 
 **שלב 1**
 
 - בלוח מעגל הגליץ' מהשקופיות (שקופיות 19-21):
 - `n1 = A'B'     n2 = BC     Y = n1 + n2`
-- `A = SW9   B = SW8   C = SW7   n1 = LEDG1   n2 = LEDG0`
+- `A = SW9   B = SW8   C = SW7   n1 = LEDR1   n2 = LEDR0`
 - 1. שימו על המתגים את הכניסות שבתצוגה:
 - `HEX2 HEX1 HEX0 = A B C`
 - 2. העתיקו את היציאות של שני שערי וגם:
-- `SW1 SW0 = LEDG1 LEDG0  (n1 n2)`
+- `SW1 SW0 = LEDR1 LEDR0  (n1 n2)`
 
 **שלב 2**
 
@@ -675,14 +675,14 @@
 - `B = SW8`
 - `HEX2 HEX1 HEX0 = A B C`
 - `n1 = A'B'     n2 = BC     Y = n1 + n2`
-- `A = SW9   B = SW8   C = SW7   n1 = LEDG1   n2 = LEDG0`
+- `A = SW9   B = SW8   C = SW7   n1 = LEDR1   n2 = LEDR0`
 - העתיקו שוב:
-- `SW1 SW0 = LEDG1 LEDG0  (n1 n2)`
+- `SW1 SW0 = LEDR1 LEDR0  (n1 n2)`
 
 **שלב 3**
 
 - גליץ' יכול לקרות כשיציאה אחת עולה מ-0 ל-1 והשנייה יורדת מ-1 ל-0, והיציאה צריכה להישאר 1.
-- `A = SW9   B = SW8   C = SW7   n1 = LEDG1   n2 = LEDG0`
+- `A = SW9   B = SW8   C = SW7   n1 = LEDR1   n2 = LEDR0`
 - שימו את הכניסות שבתצוגה, והפכו הלוך ושוב את
 - `B = SW8`
 - `HEX2 HEX1 HEX0 = A B C`
@@ -691,14 +691,14 @@
 
 ### Q19 - לא אכפת בשורה של המפה מהשקופית
 
-- **מתגים ונורות:** `A = SW9  B = SW8  C = SW7  D = SW6  Y = LEDG0  X = LEDG1  row = HEX3 HEX2 (A B)  answer: SW3..SW0`
+- **מתגים ונורות:** `A = SW9  B = SW8  C = SW7  D = SW6  Y = LEDR0  X = LEDR1  row = HEX3 HEX2 (A B)  answer: SW3..SW0`
 - **שלבים:** 2
 
 **שלב 1**
 
 - בלוח מפת קרנו עם לא אכפת של שקופיות 11-12.
 - `A = SW9     B = SW8     C = SW7     D = SW6`
-- `Y = LEDG0 (1)     X = LEDG1 (don't care)`
+- `Y = LEDR0 (1)     X = LEDR1 (don't care)`
 - 1. שימו את השורה שבתצוגה:
 - `SW9 SW8 = HEX3 HEX2  (A B)`
 - 2. נסו את 4 העמודות. בכל תא של לא אכפת (הנורה השנייה דולקת) הרימו מתג:
@@ -749,18 +749,18 @@
 
 ### Q21 - המעגל המתוקן מהשקופית
 
-- **מתגים ונורות:** `A = SW9   B = SW8   C = SW7   n1 n2 n3 = LEDG2..LEDG0   inputs = HEX2 HEX1 HEX0   answer: SW2..SW0`
+- **מתגים ונורות:** `A = SW9   B = SW8   C = SW7   n1 n2 n3 = LEDR2..LEDR0   inputs = HEX2 HEX1 HEX0   answer: SW2..SW0`
 - **שלבים:** 2
 
 **שלב 1**
 
 - בלוח המעגל המתוקן של שקופית 21 (נוסף שער וגם שלישי):
 - `n1 = A'B'     n2 = BC     n3 = A'C     Y = n1 + n2 + n3`
-- `A = SW9   B = SW8   C = SW7   n1 = LEDG2   n2 = LEDG1   n3 = LEDG0`
+- `A = SW9   B = SW8   C = SW7   n1 = LEDR2   n2 = LEDR1   n3 = LEDR0`
 - 1. שימו על המתגים את הכניסות שבתצוגה:
 - `HEX2 HEX1 HEX0 = A B C`
 - 2. העתיקו את היציאות של שלושת שערי וגם:
-- `SW2 SW1 SW0 = LEDG2 LEDG1 LEDG0  (n1 n2 n3)`
+- `SW2 SW1 SW0 = LEDR2 LEDR1 LEDR0  (n1 n2 n3)`
 
 **שלב 2**
 
@@ -768,9 +768,9 @@
 - `B = SW8`
 - `HEX2 HEX1 HEX0 = A B C`
 - `n1 = A'B'     n2 = BC     n3 = A'C     Y = n1 + n2 + n3`
-- `A = SW9   B = SW8   C = SW7   n1 = LEDG2   n2 = LEDG1   n3 = LEDG0`
+- `A = SW9   B = SW8   C = SW7   n1 = LEDR2   n2 = LEDR1   n3 = LEDR0`
 - העתיקו שוב:
-- `SW2 SW1 SW0 = LEDG2 LEDG1 LEDG0  (n1 n2 n3)`
+- `SW2 SW1 SW0 = LEDR2 LEDR1 LEDR0  (n1 n2 n3)`
 
 ### Q22 - כמה זמן נמשך הגליץ' של השקופית?
 
@@ -824,7 +824,7 @@
 
 ### Q23 - מפת קרנו עם לא אכפת
 
-- **מתגים ונורות:** `A = SW9  B = SW8  C = SW7  Y = LEDG0  X = LEDG1  the cell = HEX2 HEX1 HEX0  answer: SW5..SW0 (rows: SW3..SW0)`
+- **מתגים ונורות:** `A = SW9  B = SW8  C = SW7  Y = LEDR0  X = LEDR1  the cell = HEX2 HEX1 HEX0  answer: SW5..SW0 (rows: SW3..SW0)`
 - **שלבים:** 6
 
 **שלב 1**
@@ -833,7 +833,7 @@
 - 1. שימו מצב על שלושת המתגים:
 - `A = SW9     B = SW8     C = SW7`
 - 2. הנורה הימנית דולקת = 1. הנורה שלידה דולקת = לא אכפת.
-- `Y = LEDG0 (1)     X = LEDG1 (don't care)`
+- `Y = LEDR0 (1)     X = LEDR1 (don't care)`
 - 3. מלאו את השורה הראשונה של מפת קרנו:
 - `A = 0  (SW9 down)`
 - בכל תא שבו הנורה הימנית דולקת הרימו מתג:
@@ -844,7 +844,7 @@
 - עכשיו השורה השנייה: בכל תא שבו הנורה הימנית דולקת הרימו מתג.
 - `A = 1  (SW9 up)`
 - `A = SW9     B = SW8     C = SW7`
-- `Y = LEDG0 (1)`
+- `Y = LEDR0 (1)`
 - `BC:   00 -> SW3     01 -> SW2     11 -> SW1     10 -> SW0`
 
 **שלב 3**
@@ -852,7 +852,7 @@
 - עכשיו התאים של לא אכפת (הנורה השנייה דולקת), בשורה הראשונה:
 - `A = 0  (SW9 down)`
 - `A = SW9     B = SW8     C = SW7`
-- `X = LEDG1 (don't care)`
+- `X = LEDR1 (don't care)`
 - `BC:   00 -> SW3     01 -> SW2     11 -> SW1     10 -> SW0`
 
 **שלב 4**
@@ -860,7 +860,7 @@
 - והתאים של לא אכפת בשורה השנייה:
 - `A = 1  (SW9 up)`
 - `A = SW9     B = SW8     C = SW7`
-- `X = LEDG1 (don't care)`
+- `X = LEDR1 (don't care)`
 - `BC:   00 -> SW3     01 -> SW2     11 -> SW1     10 -> SW0`
 
 **שלב 5**
@@ -878,7 +878,7 @@
 
 ### Q24 - אילו לא אכפת הפכו ל-1?
 
-- **מתגים ונורות:** `A = SW9     B = SW8     C = SW7     Y = LEDG0     X = LEDG1 (don't care)     answer: SW3..SW0`
+- **מתגים ונורות:** `A = SW9     B = SW8     C = SW7     Y = LEDR0     X = LEDR1 (don't care)     answer: SW3..SW0`
 - **שלבים:** 5
 
 **שלב 1**
@@ -887,7 +887,7 @@
 - 1. שימו מצב על שלושת המתגים:
 - `A = SW9     B = SW8     C = SW7`
 - 2. הנורה הימנית דולקת = 1. הנורה שלידה דולקת = לא אכפת.
-- `Y = LEDG0 (1)     X = LEDG1 (don't care)`
+- `Y = LEDR0 (1)     X = LEDR1 (don't care)`
 - 3. מלאו את השורה הראשונה של מפת קרנו:
 - `A = 0  (SW9 down)`
 - בכל תא שבו הנורה הימנית דולקת הרימו מתג:
@@ -898,7 +898,7 @@
 - עכשיו השורה השנייה: בכל תא שבו הנורה הימנית דולקת הרימו מתג.
 - `A = 1  (SW9 up)`
 - `A = SW9     B = SW8     C = SW7`
-- `Y = LEDG0 (1)     X = LEDG1 (don't care)`
+- `Y = LEDR0 (1)     X = LEDR1 (don't care)`
 - `BC:   00 -> SW3     01 -> SW2     11 -> SW1     10 -> SW0`
 
 **שלב 3**
@@ -906,7 +906,7 @@
 - עכשיו התאים של לא אכפת (הנורה השנייה דולקת), בשורה הראשונה:
 - `A = 0  (SW9 down)`
 - `A = SW9     B = SW8     C = SW7`
-- `Y = LEDG0 (1)     X = LEDG1 (don't care)`
+- `Y = LEDR0 (1)     X = LEDR1 (don't care)`
 - `BC:   00 -> SW3     01 -> SW2     11 -> SW1     10 -> SW0`
 
 **שלב 4**
@@ -914,7 +914,7 @@
 - והתאים של לא אכפת בשורה השנייה:
 - `A = 1  (SW9 up)`
 - `A = SW9     B = SW8     C = SW7`
-- `Y = LEDG0 (1)     X = LEDG1 (don't care)`
+- `Y = LEDR0 (1)     X = LEDR1 (don't care)`
 - `BC:   00 -> SW3     01 -> SW2     11 -> SW1     10 -> SW0`
 
 **שלב 5**
@@ -926,13 +926,13 @@
 
 ### Q25 - מקטע של תצוגה עם לא אכפת
 
-- **מתגים ונורות:** `data = SW9..SW6 (BCD digit)     Y = LEDG0     X = LEDG1     answer: SW3..SW0`
+- **מתגים ונורות:** `data = SW9..SW6 (BCD digit)     Y = LEDR0     X = LEDR1     answer: SW3..SW0`
 - **שלבים:** 3
 
 **שלב 1**
 
 - בלוח מקטע אחד של תצוגת 7 מקטעים, למספר בין 0 ל-9. מעל 9 - לא אכפת:
-- `Y = LEDG0     X = LEDG1`
+- `Y = LEDR0     X = LEDR1`
 - שימו ספרות על המתגים ובדקו בשביל אילו ספרות הוא דולק. איזה מקטע זה?
 - `data = SW9 SW8 SW7 SW6`
 - `a = top     b = top right     c = bottom right     d = bottom`
@@ -953,16 +953,16 @@
 
 ### Q26 - מפת קרנו של ארבעה משתנים עם לא אכפת
 
-- **מתגים ונורות:** `A = SW9  B = SW8  C = SW7  D = SW6  Y = LEDG0  X = LEDG1  the cell = HEX3..HEX0  answer: SW3..SW0`
+- **מתגים ונורות:** `A = SW9  B = SW8  C = SW7  D = SW6  Y = LEDR0  X = LEDR1  the cell = HEX3..HEX0  answer: SW3..SW0`
 - **שלבים:** 7
 
 **שלב 1**
 
 - בלוח פונקציה של ארבעה משתנים עם לא אכפת. מלאו את המפה, שורה אחרי שורה.
 - `A = SW9     B = SW8     C = SW7     D = SW6`
-- `Y = LEDG0`
+- `Y = LEDR0`
 - הנורה הימנית דולקת = 1. הנורה שלידה דולקת = לא אכפת.
-- `X = LEDG1 (don't care)`
+- `X = LEDR1 (don't care)`
 - בכל שורה סמנו על הדף גם את התאים של לא אכפת. את התשובה נותנים רק על תאי ה-1.
 - 1. שימו את שני המתגים השמאליים לפי השורה:
 - `AB = 00  (SW9 SW8 = 00)`
@@ -975,9 +975,9 @@
 
 - השורה הבאה של מפת קרנו (השורות לפי הסדר של מפת קרנו):
 - `A = SW9     B = SW8     C = SW7     D = SW6`
-- `Y = LEDG0`
+- `Y = LEDR0`
 - הנורה הימנית דולקת = 1. הנורה שלידה דולקת = לא אכפת.
-- `X = LEDG1 (don't care)`
+- `X = LEDR1 (don't care)`
 - בכל שורה סמנו על הדף גם את התאים של לא אכפת. את התשובה נותנים רק על תאי ה-1.
 - 1. שימו את שני המתגים השמאליים לפי השורה:
 - `AB = 01  (SW9 SW8 = 01)`
@@ -990,9 +990,9 @@
 
 - השורה הבאה של מפת קרנו (השורות לפי הסדר של מפת קרנו):
 - `A = SW9     B = SW8     C = SW7     D = SW6`
-- `Y = LEDG0`
+- `Y = LEDR0`
 - הנורה הימנית דולקת = 1. הנורה שלידה דולקת = לא אכפת.
-- `X = LEDG1 (don't care)`
+- `X = LEDR1 (don't care)`
 - בכל שורה סמנו על הדף גם את התאים של לא אכפת. את התשובה נותנים רק על תאי ה-1.
 - 1. שימו את שני המתגים השמאליים לפי השורה:
 - `AB = 11  (SW9 SW8 = 11)`
@@ -1005,9 +1005,9 @@
 
 - השורה הבאה של מפת קרנו (השורות לפי הסדר של מפת קרנו):
 - `A = SW9     B = SW8     C = SW7     D = SW6`
-- `Y = LEDG0`
+- `Y = LEDR0`
 - הנורה הימנית דולקת = 1. הנורה שלידה דולקת = לא אכפת.
-- `X = LEDG1 (don't care)`
+- `X = LEDR1 (don't care)`
 - בכל שורה סמנו על הדף גם את התאים של לא אכפת. את התשובה נותנים רק על תאי ה-1.
 - 1. שימו את שני המתגים השמאליים לפי השורה:
 - `AB = 10  (SW9 SW8 = 10)`
@@ -1173,7 +1173,7 @@
 
 ### Q31 - תקלה רגעית (גליץ') ותיקון
 
-- **מתגים ונורות:** `A = SW9     B = SW8     C = SW7     Y = LEDG0     answer: SW5..SW0`
+- **מתגים ונורות:** `A = SW9     B = SW8     C = SW7     Y = LEDR0     answer: SW5..SW0`
 - **שלבים:** 4
 
 **שלב 1**
@@ -1205,7 +1205,7 @@
 
 ### Q32 - איפה בדיוק קורה הגליץ'?
 
-- **מתגים ונורות:** `A = SW9     B = SW8     C = SW7     Y = LEDG0     answer: SW2..SW0`
+- **מתגים ונורות:** `A = SW9     B = SW8     C = SW7     Y = LEDR0     answer: SW2..SW0`
 - **שלבים:** 4
 
 **שלב 1**
@@ -1235,14 +1235,14 @@
 
 ### Q33 - גליץ' בפונקציה של ארבעה משתנים
 
-- **מתגים ונורות:** `A = SW9     B = SW8     C = SW7     D = SW6     Y = LEDG0     answer: SW3..SW0`
+- **מתגים ונורות:** `A = SW9     B = SW8     C = SW7     D = SW6     Y = LEDR0     answer: SW3..SW0`
 - **שלבים:** 7
 
 **שלב 1**
 
 - בלוח פונקציה של ארבעה משתנים. מלאו את מפת קרנו, שורה אחרי שורה.
 - `A = SW9     B = SW8     C = SW7     D = SW6`
-- `Y = LEDG0`
+- `Y = LEDR0`
 - 1. שימו את שני המתגים השמאליים לפי השורה:
 - `AB = 00  (SW9 SW8 = 00)`
 - 2. נסו את 4 המצבים של שני המתגים שלידם:
@@ -1254,7 +1254,7 @@
 
 - השורה הבאה של מפת קרנו (השורות לפי הסדר של מפת קרנו):
 - `A = SW9     B = SW8     C = SW7     D = SW6`
-- `Y = LEDG0`
+- `Y = LEDR0`
 - 1. שימו את שני המתגים השמאליים לפי השורה:
 - `AB = 01  (SW9 SW8 = 01)`
 - 2. נסו את 4 המצבים של שני המתגים שלידם:
@@ -1266,7 +1266,7 @@
 
 - השורה הבאה של מפת קרנו (השורות לפי הסדר של מפת קרנו):
 - `A = SW9     B = SW8     C = SW7     D = SW6`
-- `Y = LEDG0`
+- `Y = LEDR0`
 - 1. שימו את שני המתגים השמאליים לפי השורה:
 - `AB = 11  (SW9 SW8 = 11)`
 - 2. נסו את 4 המצבים של שני המתגים שלידם:
@@ -1278,7 +1278,7 @@
 
 - השורה הבאה של מפת קרנו (השורות לפי הסדר של מפת קרנו):
 - `A = SW9     B = SW8     C = SW7     D = SW6`
-- `Y = LEDG0`
+- `Y = LEDR0`
 - 1. שימו את שני המתגים השמאליים לפי השורה:
 - `AB = 10  (SW9 SW8 = 10)`
 - 2. נסו את 4 המצבים של שני המתגים שלידם:
@@ -1318,7 +1318,7 @@
 
 ### Q34 - שורה של המפענח מהשקופית
 
-- **מתגים ונורות:** `data = SW9..SW6     digit = HEX3     segments = LEDG6..LEDG0 (abc_defg)     answer: SW3..SW0`
+- **מתגים ונורות:** `data = SW9..SW6     digit = HEX3     segments = LEDR6..LEDR0 (abc_defg)     answer: SW3..SW0`
 - **שלבים:** 2
 
 **שלב 1**
@@ -1328,17 +1328,17 @@
 - 1. שימו על המתגים את הספרה שבתצוגה:
 - `data = SW9 SW8 SW7 SW6     digit = HEX3`
 - 2. כתבו את תחילת השורה שלה. לכל מקטע דולק הרימו מתג:
-- `a = LEDG6 -> SW2     b = LEDG5 -> SW1     c = LEDG4 -> SW0`
+- `a = LEDR6 -> SW2     b = LEDR5 -> SW1     c = LEDR4 -> SW0`
 
 **שלב 2**
 
 - עכשיו שאר השורה של אותה ספרה. לכל מקטע דולק הרימו מתג:
 - `data = SW9 SW8 SW7 SW6     digit = HEX3`
-- `d = LEDG3 -> SW3     e = LEDG2 -> SW2     f = LEDG1 -> SW1     g = LEDG0 -> SW0`
+- `d = LEDR3 -> SW3     e = LEDR2 -> SW2     f = LEDR1 -> SW1     g = LEDR0 -> SW0`
 
 ### Q35 - מקודד העדיפות מהשקופית
 
-- **מתגים ונורות:** `a[3:0] = SW9..SW6     y[3:0] = LEDG3..LEDG0     input = HEX3..HEX0     answer: SW3..SW0`
+- **מתגים ונורות:** `a[3:0] = SW9..SW6     y[3:0] = LEDR3..LEDR0     input = HEX3..HEX0     answer: SW3..SW0`
 - **שלבים:** 2
 
 **שלב 1**
@@ -1349,7 +1349,7 @@
 - `HEX3 HEX2 HEX1 HEX0 = a[3] a[2] a[1] a[0]`
 - `a[3:0] = SW9 SW8 SW7 SW6`
 - 2. העתיקו את היציאה:
-- `SW3..SW0 = LEDG3..LEDG0  (y)`
+- `SW3..SW0 = LEDR3..LEDR0  (y)`
 
 **שלב 2**
 
@@ -1362,7 +1362,7 @@
 
 ### Q36 - המודול gates מהשקופית
 
-- **מתגים ונורות:** `a = SW9..SW6 (HEX0)     b = HEX3     a to set = HEX2     y1 = LEDG7..4     y3 = LEDG3..0     answer: SW3..SW0`
+- **מתגים ונורות:** `a = SW9..SW6 (HEX0)     b = HEX3     a to set = HEX2     y1 = LEDR7..4     y3 = LEDR3..0     answer: SW3..SW0`
 - **שלבים:** 2
 
 **שלב 1**
@@ -1370,26 +1370,26 @@
 - בלוח המודול של שקופית 27 (שתי יציאות מתוכו):
 - `y1 = a & b     y3 = a ^ b`
 - `a[3:0] = SW9..SW6 (HEX0)     b = HEX3     the number for a = HEX2`
-- `y1 = LEDG7..LEDG4     y3 = LEDG3..LEDG0`
+- `y1 = LEDR7..LEDR4     y3 = LEDR3..LEDR0`
 - 1. שימו על המתגים את המספר שבתצוגה (בדקו בתצוגה הימנית):
 - `a = HEX2`
 - `0 = 0000   1 = 0001   2 = 0010   3 = 0011   4 = 0100`
 - `5 = 0101   6 = 0110   7 = 0111   8 = 1000   9 = 1001`
 - 2. העתיקו את היציאה הראשונה:
-- `SW3..SW0 = LEDG7..LEDG4  (y1 = a AND b)`
+- `SW3..SW0 = LEDR7..LEDR4  (y1 = a AND b)`
 
 **שלב 2**
 
 - עכשיו היציאה השנייה, עם אותו קלט:
 - `y1 = a & b     y3 = a ^ b`
 - `a[3:0] = SW9..SW6 (HEX0)     b = HEX3     the number for a = HEX2`
-- `y1 = LEDG7..LEDG4     y3 = LEDG3..LEDG0`
+- `y1 = LEDR7..LEDR4     y3 = LEDR3..LEDR0`
 - `a = HEX2`
-- `SW3..SW0 = LEDG3..LEDG0  (y3 = a XOR b)`
+- `SW3..SW0 = LEDR3..LEDR0  (y3 = a XOR b)`
 
 ### Q37 - המפענח מהשקופית בלי default
 
-- **מתגים ונורות:** `data = SW9..SW6     digit = HEX3     segments = LEDG6..LEDG0 (abc_defg)     answer: SW3..SW0`
+- **מתגים ונורות:** `data = SW9..SW6     digit = HEX3     segments = LEDR6..LEDR0 (abc_defg)     answer: SW3..SW0`
 - **שלבים:** 2
 
 **שלב 1**
@@ -1397,7 +1397,7 @@
 - בלוח המפענח של שקופית 28, אבל בלי השורה:
 - `default: segments = 7'b000_0000;`
 - `data = SW9 SW8 SW7 SW6     digit = HEX3`
-- `segments = LEDG6..LEDG0  (abc_defg)`
+- `segments = LEDR6..LEDR0  (abc_defg)`
 - 1. שימו על המתגים את הספרה שבתצוגה. כמה מקטעים דולקים?
 - `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0`
 
@@ -1407,18 +1407,18 @@
 - `SW9`
 - שקופית 29: בלי שורה לקלט, היציאה שומרת את הערך הקודם (תפס). העתיקו את סוף היציאה:
 - `data = SW9 SW8 SW7 SW6     digit = HEX3`
-- `d = LEDG3 -> SW3     e = LEDG2 -> SW2     f = LEDG1 -> SW1     g = LEDG0 -> SW0`
+- `d = LEDR3 -> SW3     e = LEDR2 -> SW2     f = LEDR1 -> SW1     g = LEDR0 -> SW0`
 
 ### Q38 - אילו קלטים נותנים את היציאה?
 
-- **מתגים ונורות:** `a[3:0] = SW9..SW6     y[3:0] = LEDG3..LEDG0     y wanted = HEX3..HEX0     answer: SW3..SW0`
+- **מתגים ונורות:** `a[3:0] = SW9..SW6     y[3:0] = LEDR3..LEDR0     y wanted = HEX3..HEX0     answer: SW3..SW0`
 - **שלבים:** 2
 
 **שלב 1**
 
 - בלוח מקודד העדיפות של שקופית 30:
 - `casez (a)`
-- `a[3:0] = SW9 SW8 SW7 SW6     y[3:0] = LEDG3..LEDG0`
+- `a[3:0] = SW9 SW8 SW7 SW6     y[3:0] = LEDR3..LEDR0`
 - בתצוגה יציאה אחת:
 - `HEX3 HEX2 HEX1 HEX0 = y[3] y[2] y[1] y[0]`
 - 1. מצאו קלט שנותן את היציאה הזו, והעתיקו אותו:
@@ -1427,40 +1427,40 @@
 **שלב 2**
 
 - 2. כמה קלטים שונים נותנים את היציאה הזו? (סימן שאלה בשורה = כל ערך)
-- `a[3:0] = SW9 SW8 SW7 SW6     y[3:0] = LEDG3..LEDG0`
+- `a[3:0] = SW9 SW8 SW7 SW6     y[3:0] = LEDR3..LEDR0`
 - `HEX3 HEX2 HEX1 HEX0 = y[3] y[2] y[1] y[0]`
 - `1 = SW0     2 = SW1     4 = SW2     8 = SW3`
 
 ### Q39 - הסינתזה של מקודד העדיפות
 
-- **מתגים ונורות:** `a[3:0] = SW9..SW6     y[?] = LEDG0     answer: SW3..SW0`
+- **מתגים ונורות:** `a[3:0] = SW9..SW6     y[?] = LEDR0     answer: SW3..SW0`
 - **שלבים:** 2
 
 **שלב 1**
 
 - שקופית 30: בסינתזה של מקודד העדיפות כל ביט של היציאה הוא שער וגם (או חוט ישר).
 - בלוח ביט אחד מוסתר של היציאה:
-- `a[3:0] = SW9 SW8 SW7 SW6     y[?] = LEDG0`
+- `a[3:0] = SW9 SW8 SW7 SW6     y[?] = LEDR0`
 - 1. איזו כניסה נכנסת לשער ישר (בלי עיגול)? בלעדיה הנורה לא נדלקת אף פעם.
 - `a[3] -> SW3     a[2] -> SW2     a[1] -> SW1     a[0] -> SW0`
 
 **שלב 2**
 
 - 2. אילו כניסות נכנסות לשער עם עיגול (כשאחת מהן 1, הנורה כבויה)? הרימו מתג לכל אחת:
-- `a[3:0] = SW9 SW8 SW7 SW6     y[?] = LEDG0`
+- `a[3:0] = SW9 SW8 SW7 SW6     y[?] = LEDR0`
 - `a[3] -> SW3     a[2] -> SW2     a[1] -> SW1     a[0] -> SW0`
 - `none = all down`
 
 ### Q40 - לקרוא את המקטעים
 
-- **מתגים ונורות:** `segments = LEDG6..LEDG0 (abc_defg)     answer: SW6..SW0`
+- **מתגים ונורות:** `segments = LEDR6..LEDR0 (abc_defg)     answer: SW6..SW0`
 - **שלבים:** 3
 
 **שלב 1**
 
-- בלוח מפענח של תצוגת 7 מקטעים, אבל במקום התצוגה כל מקטע הוא נורה ירוקה:
-- `a = LEDG6   b = LEDG5   c = LEDG4   d = LEDG3   e = LEDG2   f = LEDG1   g = LEDG0`
-- 1. כמה נורות ירוקות דולקות? (כמה מקטעים דולקים)
+- בלוח מפענח של תצוגת 7 מקטעים, אבל במקום התצוגה כל מקטע הוא נורה אדומה:
+- `a = LEDR6   b = LEDR5   c = LEDR4   d = LEDR3   e = LEDR2   f = LEDR1   g = LEDR0`
+- 1. כמה נורות אדומות דולקות? (כמה מקטעים דולקים)
 - `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0`
 
 **שלב 2**
@@ -1468,7 +1468,7 @@
 - 2. ציירו ספרה של 7 מקטעים, וסמנו בה את המקטעים שדולקים. המקום של כל מקטע:
 - `a = top     b = top right     c = bottom right     d = bottom`
 - `e = bottom left     f = top left     g = middle`
-- `a = LEDG6   b = LEDG5   c = LEDG4   d = LEDG3   e = LEDG2   f = LEDG1   g = LEDG0`
+- `a = LEDR6   b = LEDR5   c = LEDR4   d = LEDR3   e = LEDR2   f = LEDR1   g = LEDR0`
 - איזו ספרה יצאה? שימו אותה:
 - `0 = all down   1 = SW0   2 = SW1   3 = SW1+SW0   4 = SW2`
 - `5 = SW2+SW0   6 = SW2+SW1   7 = SW2+SW1+SW0   8 = SW3   9 = SW3+SW0`
@@ -1483,7 +1483,7 @@
 
 ### Q41 - שני חוטים מוחלפים במפענח
 
-- **מתגים ונורות:** `data = SW9..SW6 (HEX0)     segments = LEDG6..LEDG0 (abc_defg)     answer: SW2..SW0`
+- **מתגים ונורות:** `data = SW9..SW6 (HEX0)     segments = LEDR6..LEDR0 (abc_defg)     answer: SW2..SW0`
 - **שלבים:** 2
 
 **שלב 1**
@@ -1491,7 +1491,7 @@
 - בלוח המפענח של השקופית, אבל שני חוטים של מקטעים הוחלפו ביניהם.
 - שימו ספרות והשוו לטבלה:
 - `data = SW9..SW6`
-- `segments = LEDG6..LEDG0     a = LEDG6   b = LEDG5   c = LEDG4   d = LEDG3   e = LEDG2   f = LEDG1   g = LEDG0`
+- `segments = LEDR6..LEDR0     a = LEDR6   b = LEDR5   c = LEDR4   d = LEDR3   e = LEDR2   f = LEDR1   g = LEDR0`
 - `a = top     b = top right     c = bottom right     d = bottom`
 - `e = bottom left     f = top left     g = middle`
 - איזה מקטע מוחלף? מבין השניים - זה שבא קודם בסדר:
@@ -1501,14 +1501,14 @@
 **שלב 2**
 
 - ואיזה המקטע השני?
-- `segments = LEDG6..LEDG0     a = LEDG6   b = LEDG5   c = LEDG4   d = LEDG3   e = LEDG2   f = LEDG1   g = LEDG0`
+- `segments = LEDR6..LEDR0     a = LEDR6   b = LEDR5   c = LEDR4   d = LEDR3   e = LEDR2   f = LEDR1   g = LEDR0`
 - `a = top     b = top right     c = bottom right     d = bottom`
 - `e = bottom left     f = top left     g = middle`
 - `a = all down   b = SW0   c = SW1   d = SW1+SW0   e = SW2   f = SW2+SW0   g = SW2+SW1`
 
 ### Q42 - if / else בתוך always
 
-- **מתגים ונורות:** `s = SW9     a = SW8     b = SW7     y = LEDG0     answer: SW3..SW0`
+- **מתגים ונורות:** `s = SW9     a = SW8     b = SW7     y = LEDR0     answer: SW3..SW0`
 - **שלבים:** 4
 
 **שלב 1**
@@ -1541,14 +1541,14 @@
 
 ### Q43 - if / else if / else
 
-- **מתגים ונורות:** `a = SW9     b = SW8     c = SW7     y = LEDG0     answer: SW1..SW0`
+- **מתגים ונורות:** `a = SW9     b = SW8     c = SW7     y = LEDR0     answer: SW1..SW0`
 - **שלבים:** 3
 
 **שלב 1**
 
 - בלוח:
 - `always_comb  if (a) y = ?;  else if (b) y = ?;  else y = ?;`
-- `a = SW9     b = SW8     c = SW7     y = LEDG0`
+- `a = SW9     b = SW8     c = SW7     y = LEDR0`
 - כל ענף כותב אחד מארבעה דברים. שימו
 - `a = 1  (SW9 up)`
 - והזיזו את שאר המתגים. מה כתוב בענף הראשון?
@@ -1570,7 +1570,7 @@
 
 ### Q44 - פעולה על וקטור של 4 ביטים
 
-- **מתגים ונורות:** `a[3:0] = SW9..SW6 (HEX0)     y[3:0] = LEDG3..LEDG0     answer: SW3..SW0`
+- **מתגים ונורות:** `a[3:0] = SW9..SW6 (HEX0)     y[3:0] = LEDR3..LEDR0     answer: SW3..SW0`
 - **שלבים:** 4
 
 **שלב 1**
@@ -1580,14 +1580,14 @@
 - הפעולה והמספר השני מוסתרים. שימו
 - `a = 0000`
 - והעתיקו את היציאה:
-- `SW3..SW0 = LEDG3..LEDG0`
+- `SW3..SW0 = LEDR3..LEDR0`
 
 **שלב 2**
 
 - עכשיו
 - `a = 1111`
 - והעתיקו את היציאה:
-- `SW3..SW0 = LEDG3..LEDG0`
+- `SW3..SW0 = LEDR3..LEDR0`
 
 **שלב 3**
 
@@ -1602,14 +1602,14 @@
 
 ### Q45 - בורר שכתוב עם case
 
-- **מתגים ונורות:** `sel = SW9 SW8 (HEX3)     a b c d = SW7 SW6 SW5 SW4     y = LEDG0     answer: SW1..SW0`
+- **מתגים ונורות:** `sel = SW9 SW8 (HEX3)     a b c d = SW7 SW6 SW5 SW4     y = LEDR0     answer: SW1..SW0`
 - **שלבים:** 3
 
 **שלב 1**
 
 - בלוח:
 - `case (sel)  2'b00: y = ?;  2'b01: y = ?;  2'b10: y = ?;  default: y = ?;`
-- `a = SW7     b = SW6     c = SW5     d = SW4     y = LEDG0`
+- `a = SW7     b = SW6     c = SW5     d = SW4     y = LEDR0`
 - שימו
 - `sel = 00  (SW9 SW8 down)`
 - הזיזו את מתגי הכניסות אחד אחד. אחרי איזו כניסה הנורה הולכת?
@@ -1631,14 +1631,14 @@
 
 ### Q46 - case שבוחר פעולה
 
-- **מתגים ונורות:** `op = SW9 SW8 (HEX3)     a = SW7     b = SW6     y = LEDG0     answer: SW3..SW0`
+- **מתגים ונורות:** `op = SW9 SW8 (HEX3)     a = SW7     b = SW6     y = LEDR0     answer: SW3..SW0`
 - **שלבים:** 5
 
 **שלב 1**
 
 - בלוח:
 - `case (op)  2'b00: y = a OP b;  2'b01: y = a OP b;  2'b10: y = a OP b;  2'b11: y = a OP b;`
-- `op = SW9 SW8     a = SW7     b = SW6     y = LEDG0`
+- `op = SW9 SW8     a = SW7     b = SW6     y = LEDR0`
 - בכל שורה שער אחר. שימו
 - `op = 00`
 - נסו את 4 המצבים, ולכל מצב שהנורה דלקה הרימו מתג:
@@ -1670,7 +1670,7 @@
 
 ### Q47 - שורה שגויה ב-case
 
-- **מתגים ונורות:** `data = SW9..SW6 (HEX0)     segments = LEDG6..LEDG0 (abc_defg)     answer: SW3..SW0`
+- **מתגים ונורות:** `data = SW9..SW6 (HEX0)     segments = LEDR6..LEDR0 (abc_defg)     answer: SW3..SW0`
 - **שלבים:** 3
 
 **שלב 1**
@@ -1683,7 +1683,7 @@
 - 1. שימו קלט 12:
 - `data = SW9 SW8 SW7 SW6 = 1100     (HEX0 = C)`
 - 2. ספרו כמה נורות דולקות:
-- `segments = LEDG6..LEDG0`
+- `segments = LEDR6..LEDR0`
 - 3. הרימו את המספר:
 - `0 = all down`
 - `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2`
@@ -1694,7 +1694,7 @@
 - 1. שימו ספרה על המתגים:
 - `data = SW9 SW8 SW7 SW6     (HEX0)`
 - 2. השוו את הנורות למקטעים של הספרה:
-- `segments = LEDG6..LEDG0     a = LEDG6   b = LEDG5   c = LEDG4   d = LEDG3   e = LEDG2   f = LEDG1   g = LEDG0`
+- `segments = LEDR6..LEDR0     a = LEDR6   b = LEDR5   c = LEDR4   d = LEDR3   e = LEDR2   f = LEDR1   g = LEDR0`
 - `a = top     b = top right     c = bottom right     d = bottom`
 - `e = bottom left     f = top left     g = middle`
 - 3. הרימו את הספרה השגויה:
@@ -1707,7 +1707,7 @@
 - 1. שימו את הספרה השגויה על המתגים:
 - `data = SW9 SW8 SW7 SW6     (HEX0)`
 - 2. מצאו את הנורה שלא כמו בטבלה:
-- `segments = LEDG6..LEDG0     a = LEDG6   b = LEDG5   c = LEDG4   d = LEDG3   e = LEDG2   f = LEDG1   g = LEDG0`
+- `segments = LEDR6..LEDR0     a = LEDR6   b = LEDR5   c = LEDR4   d = LEDR3   e = LEDR2   f = LEDR1   g = LEDR0`
 - `a = top     b = top right     c = bottom right     d = bottom`
 - `e = bottom left     f = top left     g = middle`
 - 3. הרימו את המקטע:
@@ -1715,7 +1715,7 @@
 
 ### Q48 - case בלי default
 
-- **מתגים ונורות:** `sel = SW9 SW8 (HEX3)     a = SW7     y = LEDG0     answer: SW2..SW0`
+- **מתגים ונורות:** `sel = SW9 SW8 (HEX3)     a = SW7     y = LEDR0     answer: SW2..SW0`
 - **שלבים:** 4
 
 **שלב 1**
@@ -1727,7 +1727,7 @@
 - אין שורה בכלל, ואין
 - `default`
 - שם הנורה לא משתנה ושומרת את הערך הקודם (נוצר תפס). כדי לזהות: הגיעו אליו פעם מנורה דולקת ופעם מכבויה.
-- `sel = SW9 SW8     a = SW7     y = LEDG0`
+- `sel = SW9 SW8     a = SW7     y = LEDR0`
 - שימו
 - `sel = 00`
 - מה כתוב בשורה שלו?
@@ -1764,7 +1764,7 @@
 
 ### Q49 - casez עם עדיפות מוסתרת
 
-- **מתגים ונורות:** `a[3:0] = SW9..SW6     y[3:0] = LEDG3..LEDG0     answer: SW3..SW0`
+- **מתגים ונורות:** `a[3:0] = SW9..SW6     y[3:0] = LEDR3..LEDR0     answer: SW3..SW0`
 - **שלבים:** 3
 
 **שלב 1**
@@ -1774,21 +1774,21 @@
 - כמו בשקופית, אבל סדר העדיפות מוסתר.
 - הרימו את כל 4 הכניסות. רק הכניסה שמנצחת דולקת ביציאה. העתיקו:
 - `SW9 SW8 SW7 SW6 = 1111`
-- `SW3..SW0 = LEDG3..LEDG0`
+- `SW3..SW0 = LEDR3..LEDR0`
 
 **שלב 2**
 
 - הורידו את הכניסה שניצחה (שאר הכניסות למעלה). מי מנצחת עכשיו? העתיקו:
-- `SW3..SW0 = LEDG3..LEDG0`
+- `SW3..SW0 = LEDR3..LEDR0`
 
 **שלב 3**
 
 - הורידו גם אותה. מי מנצחת עכשיו? העתיקו:
-- `SW3..SW0 = LEDG3..LEDG0`
+- `SW3..SW0 = LEDR3..LEDR0`
 
 ### Q50 - תבנית של casez עם סימני שאלה
 
-- **מתגים ונורות:** `a[3:0] = SW9..SW6     match = LEDG0     answer: SW3..SW0`
+- **מתגים ונורות:** `a[3:0] = SW9..SW6     match = LEDR0     answer: SW3..SW0`
 - **שלבים:** 3
 
 **שלב 1**

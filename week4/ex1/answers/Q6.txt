@@ -1,0 +1,4 @@
+
+# What do all the rows with Y = 1 have in common? (Hint: read each row as a number of four bits.)
+# Write your answer below these lines, save, and close Notepad.
+

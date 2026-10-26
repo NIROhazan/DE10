@@ -1,6 +1,6 @@
 # פירוט השאלות לפי נושא
 
-נוצר אוטומטית מ-`gen.py` - כל שאלה כפי שהיא מופיעה על המסך, בלי התשובות. מסודר לפי הנושאים של השיעור (`tools/lesson.txt`).
+נוצר אוטומטית מ-`gen.py` - כל שאלה כפי שהיא מופיעה על המסך, בלי התשובות. מסודר לפי הנושאים של השיעור (`lesson.txt`).
 
 ## נושא 1 - זמני התקנה והחזקה
 
@@ -654,7 +654,7 @@
 
 ### Q29 - מסנכרן
 
-- **מתגים ונורות:** `A = SW9 (the asynchronous input)     Q1 Q2 Q3 = SW8 SW7 SW6 (the flip-flops, now)     Y = LEDG0 = the synchronized output after the next clock edge     answer: SW3..SW0`
+- **מתגים ונורות:** `A = SW9 (the asynchronous input)     Q1 Q2 Q3 = SW8 SW7 SW6 (the flip-flops, now)     Y = LEDR0 = the synchronized output after the next clock edge     answer: SW3..SW0`
 - **שלבים:** 3
 
 **שלב 1**
@@ -662,7 +662,7 @@
 - בלוח מסנכרן: שרשרת של דלגלגים. הכניסה האסינכרונית נכנסת לדלגלג הראשון, והיציאה היא הדלגלג האחרון.
 - `A -> Q1 -> Q2 -> Q3 -> ...`
 - `A = SW9 (the asynchronous input)     Q1 Q2 Q3 = SW8 SW7 SW6 (the flip-flops, now)`
-- `Y = LEDG0 = the synchronized output after the next clock edge`
+- `Y = LEDR0 = the synchronized output after the next clock edge`
 - את איזה ערך היציאה מעתיקה בעליית השעון הבאה?
 - `A = all down     Q1 = SW0     Q2 = SW1`
 
@@ -671,7 +671,7 @@
 - בלוח אותו מסנכרן:
 - `A -> Q1 -> Q2 -> Q3 -> ...`
 - `A = SW9 (the asynchronous input)     Q1 Q2 Q3 = SW8 SW7 SW6 (the flip-flops, now)`
-- `Y = LEDG0 = the synchronized output after the next clock edge`
+- `Y = LEDR0 = the synchronized output after the next clock edge`
 - כמה דלגלגים יש במסנכרן? (היציאה היא הדלגלג האחרון)
 - `1 = SW0 2 = SW1 3 = SW1+SW0`
 
@@ -1119,7 +1119,7 @@
 
 ### Q46 - צנרת על הלוח
 
-- **מתגים ונורות:** `new token = SW9     stages 1..5 now = SW8..SW4 (1 = a token)     stages 1..5 after the next clock edge = LEDG4..LEDG0     answer: SW3..SW0`
+- **מתגים ונורות:** `new token = SW9     stages 1..5 now = SW8..SW4 (1 = a token)     stages 1..5 after the next clock edge = LEDR4..LEDR0     answer: SW3..SW0`
 - **שלבים:** 2
 
 **שלב 1**
@@ -1127,7 +1127,7 @@
 - בלוח צנרת: בכל עליית שעון כל אסימון עובר לשלב הבא. במתגים השלבים עכשיו, ובנורות השלבים אחרי עליית השעון הבאה.
 - בלוח יש מקום ל-5 שלבים, אבל רק חלק מהם קיימים.
 - `new token = SW9     stages 1..5 now = SW8..SW4 (1 = a token)`
-- `stages 1..5 after the next clock edge = LEDG4..LEDG0`
+- `stages 1..5 after the next clock edge = LEDR4..LEDR0`
 - כמה שלבים יש?
 - `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0`
 
@@ -1135,20 +1135,20 @@
 
 - בלוח אותה צנרת:
 - `new token = SW9     stages 1..5 now = SW8..SW4 (1 = a token)`
-- `stages 1..5 after the next clock edge = LEDG4..LEDG0`
+- `stages 1..5 after the next clock edge = LEDR4..LEDR0`
 - מכניסים אסימון חדש בכל עליית שעון. כמה אסימונים נמצאים בצנרת בבת אחת, כשהיא מלאה?
 - `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0`
 
 ### Q47 - זמן האחזור של צנרת נסתרת
 
-- **מתגים ונורות:** `stage registers 1..4 = SW9 SW8 SW7 SW6 (1 = a token)     Y = LEDG0 = the output of the last stage     HEX0 = Tc (ns)     answer: SW5..SW0`
+- **מתגים ונורות:** `stage registers 1..4 = SW9 SW8 SW7 SW6 (1 = a token)     Y = LEDR0 = the output of the last stage     HEX0 = Tc (ns)     answer: SW5..SW0`
 - **שלבים:** 2
 
 **שלב 1**
 
 - בלוח צנרת נסתרת: בכל עליית שעון אסימון עובר שלב אחד, והיציאה היא האוגר של השלב האחרון.
 - בלוח מקום ל-4 שלבים, אבל רק חלק מהם קיימים.
-- `stage registers 1..4 = SW9 SW8 SW7 SW6 (1 = a token)     Y = LEDG0 = the output of the last stage`
+- `stage registers 1..4 = SW9 SW8 SW7 SW6 (1 = a token)     Y = LEDR0 = the output of the last stage`
 - כמה שלבים יש? (כמה עליות שעון לוקח לאסימון לעבור מהכניסה ליציאה)
 - `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2`
 

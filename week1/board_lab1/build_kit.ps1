@@ -7,7 +7,7 @@
 #   pwsh -File build_kit.ps1 -CardsOnly   (only the card variants)
 param([switch]$CardsOnly)
 $ErrorActionPreference = "Stop"
-$qsh = @("C:\altera_lite\25.1std\quartus\bin64", "C:\intelFPGA_lite\25.1std\quartus\bin64") |
+$qsh = @("C:\altera_lite\25.1std\quartus\bin64", "C:\altera_standard\25.1std\quartus\bin64", "C:\intelFPGA_lite\25.1std\quartus\bin64") |
 	ForEach-Object { Join-Path $_ "quartus_sh.exe" } | Where-Object { Test-Path $_ } | Select-Object -First 1
 $here = $PSScriptRoot
 $out  = Join-Path $here "..\lab1_kit\sof"

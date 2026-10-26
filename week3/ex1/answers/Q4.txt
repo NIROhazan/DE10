@@ -1,0 +1,4 @@
+
+# How many minterms are in your SOP, and why exactly that number?
+# Write your answer below these lines, save, and close Notepad.
+

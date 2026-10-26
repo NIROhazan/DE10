@@ -1,4 +1,4 @@
-# Class exercise - the questions (written by C:/DE10_solutions/class_exercise/gen.py, do not edit).
+# Class exercise - the questions (written by C:/DE10/solutions/de10/port.py, do not edit).
 # [Qnn] NAME | title | npub n [| steps n];  B: board;  Pk: printed for login numbers with pub = k;
 # with steps: Sk: the screen of step k (step 0 = login, in run.ps1);  without: L: question, F: answer format
 
@@ -439,17 +439,17 @@ S3: tskew <= min(Tc - (tpcq + tpd + tsetup), tccq + tcd - thold)
 S3: 8 = SW3     4 = SW2     2 = SW1     1 = SW0
 
 [Q29] SYNC | מסנכרן | npub 1 | steps 4 | flat
-B: A = SW9 (the asynchronous input)     Q1 Q2 Q3 = SW8 SW7 SW6 (the flip-flops, now)     Y = LEDG0 = the synchronized output after the next clock edge     answer: SW3..SW0
+B: A = SW9 (the asynchronous input)     Q1 Q2 Q3 = SW8 SW7 SW6 (the flip-flops, now)     Y = LEDR0 = the synchronized output after the next clock edge     answer: SW3..SW0
 S1: בלוח מסנכרן: שרשרת של דלגלגים. הכניסה האסינכרונית נכנסת לדלגלג הראשון, והיציאה היא הדלגלג האחרון.
 S1: A -> Q1 -> Q2 -> Q3 -> ...
 S1: A = SW9 (the asynchronous input)     Q1 Q2 Q3 = SW8 SW7 SW6 (the flip-flops, now)
-S1: Y = LEDG0 = the synchronized output after the next clock edge
+S1: Y = LEDR0 = the synchronized output after the next clock edge
 S1: את איזה ערך היציאה מעתיקה בעליית השעון הבאה?
 S1: A = all 0     Q1 = SW0     Q2 = SW1
 S2: בלוח אותו מסנכרן:
 S2: A -> Q1 -> Q2 -> Q3 -> ...
 S2: A = SW9 (the asynchronous input)     Q1 Q2 Q3 = SW8 SW7 SW6 (the flip-flops, now)
-S2: Y = LEDG0 = the synchronized output after the next clock edge
+S2: Y = LEDR0 = the synchronized output after the next clock edge
 S2: כמה דלגלגים יש במסנכרן? (היציאה היא הדלגלג האחרון)
 S2: 1 = SW0 2 = SW1 3 = SW1+SW0
 S3: בלוח אותו מסנכרן.
@@ -752,24 +752,24 @@ S3: Tc = max(stage 1, stage 2) + tpcq + tsetup
 S3: 32 = SW5     16 = SW4     8 = SW3     4 = SW2     2 = SW1     1 = SW0
 
 [Q46] PIPESIM | צנרת על הלוח | npub 1 | steps 3 | flat
-B: new token = SW9     stages 1..5 now = SW8..SW4 (1 = a token)     stages 1..5 after the next clock edge = LEDG4..LEDG0     answer: SW3..SW0
+B: new token = SW9     stages 1..5 now = SW8..SW4 (1 = a token)     stages 1..5 after the next clock edge = LEDR4..LEDR0     answer: SW3..SW0
 S1: בלוח צנרת: בכל עליית שעון כל אסימון עובר לשלב הבא. במתגים השלבים עכשיו, ובנורות השלבים אחרי עליית השעון הבאה.
 S1: בלוח יש מקום ל-5 שלבים, אבל רק חלק מהם קיימים.
 S1: new token = SW9     stages 1..5 now = SW8..SW4 (1 = a token)
-S1: stages 1..5 after the next clock edge = LEDG4..LEDG0
+S1: stages 1..5 after the next clock edge = LEDR4..LEDR0
 S1: כמה שלבים יש?
 S1: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0
 S2: בלוח אותה צנרת:
 S2: new token = SW9     stages 1..5 now = SW8..SW4 (1 = a token)
-S2: stages 1..5 after the next clock edge = LEDG4..LEDG0
+S2: stages 1..5 after the next clock edge = LEDR4..LEDR0
 S2: מכניסים אסימון חדש בכל עליית שעון. כמה אסימונים נמצאים בצנרת בבת אחת, כשהיא מלאה?
 S2: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0
 
 [Q47] PIPELAT | זמן האחזור של צנרת נסתרת | npub 1 | steps 3 | flat
-B: stage registers 1..4 = SW9 SW8 SW7 SW6 (1 = a token)     Y = LEDG0 = the output of the last stage     HEX0 = Tc (ns)     answer: SW5..SW0
+B: stage registers 1..4 = SW9 SW8 SW7 SW6 (1 = a token)     Y = LEDR0 = the output of the last stage     HEX0 = Tc (ns)     answer: SW5..SW0
 S1: בלוח צנרת נסתרת: בכל עליית שעון אסימון עובר שלב אחד, והיציאה היא האוגר של השלב האחרון.
 S1: בלוח מקום ל-4 שלבים, אבל רק חלק מהם קיימים.
-S1: stage registers 1..4 = SW9 SW8 SW7 SW6 (1 = a token)     Y = LEDG0 = the output of the last stage
+S1: stage registers 1..4 = SW9 SW8 SW7 SW6 (1 = a token)     Y = LEDR0 = the output of the last stage
 S1: כמה שלבים יש? (כמה עליות שעון לוקח לאסימון לעבור מהכניסה ליציאה)
 S1: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2
 S2: בתצוגה זמן המחזור:

@@ -34,10 +34,10 @@ $stamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
 
 # ---------------------------------------------------------------- 2. Quartus
 Step "2/3  Quartus compiles (1-2 minutes)"
-$qbin = @("C:\altera_lite\25.1std\quartus\bin64", "C:\intelFPGA_lite\25.1std\quartus\bin64",
+$qbin = @("C:\altera_lite\25.1std\quartus\bin64", "C:\altera_standard\25.1std\quartus\bin64", "C:\intelFPGA_lite\25.1std\quartus\bin64",
           "C:\intelFPGA_lite\24.1std\quartus\bin64", "C:\intelFPGA_lite\23.1std\quartus\bin64") |
 	Where-Object { Test-Path (Join-Path $_ "quartus_sh.exe") } | Select-Object -First 1
-if (-not $qbin) { Fail "Quartus Prime Lite (MAX 10 support) not found under C:\altera_lite." }
+if (-not $qbin) { Fail "Quartus Prime Lite (MAX 10 support) not found under C:\altera_lite or C:\altera_standard." }
 
 & (Join-Path $qbin "quartus_sh.exe") --flow compile $proj > compile.log 2>&1
 if ($LASTEXITCODE -ne 0) {

@@ -1,0 +1,4 @@
+
+# How many NAND gates are in your NAND expression, and how many NOR gates in your NOR expression? (A' alone counts as one gate.)
+# Write your answer below these lines, save, and close Notepad.
+

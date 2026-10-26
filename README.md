@@ -1,7 +1,7 @@
 # DE10
 
 Digital systems course on the **Terasic DE10-Lite** (MAX 10 `10M50DAF484C7G`). One folder per week: the week's class
-exercise. Quartus Prime Lite with MAX 10 support is at `C:\altera_lite\25.1std`.
+exercise. Quartus Prime Lite with MAX 10 support is at `C:\altera_lite\25.1std` (or `C:\altera_standard\25.1std`).
 
 | Folder / file | What it is |
 |---|---|
@@ -39,7 +39,7 @@ exercise. Quartus Prime Lite with MAX 10 support is at `C:\altera_lite\25.1std`.
 - **Boards:** every question is one board, `weekN/sof/Qnn.sof`: the hidden circuit, every step's answer and the Moodle code
   are inside the board; the PC holds none of them. The PC link is In-System Sources and Probes (`tools/link.tcl`):
   the PC writes {go, start step, login number}, the board reports {done, step, code}.
-- **Source** (not in this repo): `C:\DE10_solutions\class_exercise_de10\` = the shared engine (`gen_lib.py`, `ce_top.v`) and
+- **Source of week 2** (not in this repo): `C:\DE10_solutions\class_exercise_de10\` = the shared engine (`gen_lib.py`, `ce_top.v`) and
   `secret.txt`, the key of the codes and of every student's numbers - keep it, and keep it private.
   Each week: `C:\DE10_solutions\weekN\class_exercise\gen_wN.py`.
   - `py gen_wN.py` checks every question for all 1024 login numbers
@@ -53,8 +53,15 @@ exercise. Quartus Prime Lite with MAX 10 support is at `C:\altera_lite\25.1std`.
 - **Do one question again:** in the question menu the student presses `R` on it, then `Y`. Its lines in
   `progress.txt` are removed, so it starts from step 1 as new; the lesson clock and the Moodle code already
   earned stay.
-- **Status:** week 2 is on the DE10-Lite engine. Weeks 3-11 still have the old DE1 boards and texts - next to port.
+- **Weeks 3-11** are ported with `C:\DE10\solutions\de10\port.py`: the questions, answers and codes of the DE1
+  generators (`class_exercise\gen.py` for week 3, `weekN\class_exercise\gen_wN.py`, same `class_exercise\key.txt`)
+  in a DE10-Lite top level. `KEY0` = check; the DE10 has no green LEDs, so `LEDGi` is now `LEDRi` (questions with red
+  and green outputs move the green ones up, or a free switch picks which LEDs show). The screens say the same.
+  - `py port.py N` simulates week N and writes `weekN/questions.txt`, `QUESTIONS.md` (and `lesson.txt` for weeks 5-11)
+  - `py port.py N --compile [--only Qnn ...]` builds `weekN/sof/` with Quartus Prime 25.1
+  - `py port.py N --id <ID>` prints a student's login number, every step's answer and the codes
 - The old per-topic exercises (weeks 2-4 `exN`) and `locked/` are kept outside the repo in `C:\DE10_solutions\old_exercises\`.
+- **Weeks 3-11, the source and the answers:** [`solutions/`](solutions/README.md) - how to fix a question and rebuild its board.
 
 ## Starter project
 

@@ -1,0 +1,8 @@
+# The lesson schedule of week 4 (lecture 4) - read by LESSON.bat (tools\lesson.ps1). Edit it before the lesson.
+# TOPIC <minutes> | <name, Hebrew, no English letters> | <questions, easy -> hard>.
+
+# The lesson's time starts when the student types the student ID; the TOPIC minutes add up to the lesson's
+# length and are only a recommendation (the menu lets the student open any question).
+TOPIC 40 | מפות קרנו | Q01 Q02 Q03 Q04 Q05 Q06 Q07 Q08 Q09 Q10 Q11 Q12 Q13 Q14 Q15
+TOPIC 40 | לא אכפת, השהיה ותקלות רגעיות | Q16 Q17 Q18 Q19 Q20 Q21 Q22 Q23 Q24 Q25 Q26 Q27 Q28 Q29 Q30 Q31 Q32 Q33
+TOPIC 40 | תיאור חומרה: תנאים, בחירה ועדיפות | Q34 Q35 Q36 Q37 Q38 Q39 Q40 Q41 Q42 Q43 Q44 Q45 Q46 Q47 Q48 Q49 Q50

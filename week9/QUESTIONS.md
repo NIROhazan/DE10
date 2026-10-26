@@ -1,21 +1,21 @@
 # פירוט השאלות לפי נושא
 
-נוצר אוטומטית מ-`gen.py` - כל שאלה כפי שהיא מופיעה על המסך, בלי התשובות. מסודר לפי הנושאים של השיעור (`tools/lesson.txt`).
+נוצר אוטומטית מ-`gen.py` - כל שאלה כפי שהיא מופיעה על המסך, בלי התשובות. מסודר לפי הנושאים של השיעור (`lesson.txt`).
 
 ## נושא 1 - מחברים: חצי, מלא ואדווה
 
-40 דקות, 11 שאלות: Q01-Q11
+40 דקות, 15 שאלות: Q01-Q15
 
 ### Q01 - חצי המחבר מהשקף
 
-- **מתגים ונורות:** `A = SW9 (HEX3)     B = SW8 (HEX2)     row = HEX1 HEX0     Cout = LEDG1     S = LEDG0     answer: SW1 SW0`
+- **מתגים ונורות:** `A = SW9 (HEX3)     B = SW8 (HEX2)     row = HEX1 HEX0     Cout = LEDR1     S = LEDR0     answer: SW1 SW0`
 - **שלבים:** 1
 
 **שלב 1**
 
 - בשקף 5: חצי מחבר. בלוח בדיוק המעגל של השקף.
 - `S = A ^ B     Cout = AB`
-- `A = SW9 (HEX3)     B = SW8 (HEX2)     Cout = LEDG1     S = LEDG0`
+- `A = SW9 (HEX3)     B = SW8 (HEX2)     Cout = LEDR1     S = LEDR0`
 - שימו בכניסות את השורה שמוצגת בתצוגה:
 - `HEX1 = A     HEX0 = B`
 - מה היציאות?
@@ -23,14 +23,14 @@
 
 ### Q02 - המחבר המלא מהשקף
 
-- **מתגים ונורות:** `A = SW9     B = SW8     Cin = SW7     row = HEX3 HEX2 HEX1     Cout = LEDG1     S = LEDG0     answer: SW1 SW0`
+- **מתגים ונורות:** `A = SW9     B = SW8     Cin = SW7     row = HEX3 HEX2 HEX1     Cout = LEDR1     S = LEDR0     answer: SW1 SW0`
 - **שלבים:** 1
 
 **שלב 1**
 
 - בשקף 5: מחבר מלא. בלוח בדיוק המעגל של השקף.
 - `S = A ^ B ^ Cin     Cout = AB + ACin + BCin`
-- `A = SW9     B = SW8     Cin = SW7     Cout = LEDG1     S = LEDG0`
+- `A = SW9     B = SW8     Cin = SW7     Cout = LEDR1     S = LEDR0`
 - שימו בכניסות את השורה שמוצגת בתצוגה:
 - `HEX3 = A     HEX2 = B     HEX1 = Cin`
 - מה היציאות?
@@ -38,14 +38,14 @@
 
 ### Q03 - שרשרת האדווה מהשקף
 
-- **מתגים ונורות:** `A = SW9..SW6 (HEX0)     HEX3 = the A to set     B = HEX2     S = LEDG3..LEDG0     Cout = LEDG4     answer: SW3..SW0`
+- **מתגים ונורות:** `A = SW9..SW6 (HEX0)     HEX3 = the A to set     B = HEX2     S = LEDR3..LEDR0     Cout = LEDR4     answer: SW3..SW0`
 - **שלבים:** 2
 
 **שלב 1**
 
 - בשקף 8: מחבר אדווה, שרשרת של מחברים מלאים. בלוח שרשרת של 4 מהם, ונשא הכניסה 0.
 - `S = A + B     Cin = 0`
-- `A = SW9..SW6 (HEX0)     B = HEX2     S = LEDG3..LEDG0`
+- `A = SW9..SW6 (HEX0)     B = HEX2     S = LEDR3..LEDR0`
 - שימו במתגים את המספר שמוצג ב-
 - `HEX3`
 - מה הסכום?
@@ -54,14 +54,83 @@
 **שלב 2**
 
 - האם יוצא נשא מהמחבר המלא האחרון?
-- `A = SW9..SW6 = HEX3     B = HEX2     Cout = LEDG4`
+- `A = SW9..SW6 = HEX3     B = HEX2     Cout = LEDR4`
 - כן - הרימו:
 - `SW0`
 - לא - השאירו למטה.
 
-### Q04 - חצי מחבר
+### Q04 - חצי המחבר: כמה שורות
 
-- **מתגים ונורות:** `A = SW9     B = SW8     LEDG1 LEDG0     answer: SW3..SW0`
+- **מתגים ונורות:** `A = SW9 (HEX3)     B = SW8 (HEX2)     Cout = LEDR1     S = LEDR0     HEX1 HEX0 = the outputs     answer: SW1 SW0`
+- **שלבים:** 1
+
+**שלב 1**
+
+- בשקף 5: חצי מחבר. בלוח בדיוק המעגל של השקף.
+- `S = A ^ B     Cout = AB`
+- `A = SW9 (HEX3)     B = SW8 (HEX2)     Cout = LEDR1     S = LEDR0`
+- בתצוגה זוג יציאות:
+- `HEX1 = Cout     HEX0 = S`
+- נסו את ארבע השורות. בכמה שורות היציאות בדיוק כמו בתצוגה?
+- `0 = all down`
+- `1 = SW0 2 = SW1 3 = SW1+SW0`
+
+### Q05 - המחבר המלא סופר אחדות
+
+- **מתגים ונורות:** `A = SW9 (HEX3)     B = SW8 (HEX2)     Cin = SW7 (HEX1)     HEX0 = how many ones     Cout = LEDR1     S = LEDR0     answer: SW1 SW0`
+- **שלבים:** 1
+
+**שלב 1**
+
+- בשקף 5: מחבר מלא. בלוח בדיוק המעגל של השקף.
+- `S = A ^ B ^ Cin     Cout = AB + ACin + BCin`
+- `A = SW9 (HEX3)     B = SW8 (HEX2)     Cin = SW7 (HEX1)     Cout = LEDR1     S = LEDR0`
+- הרימו בדיוק כמה כניסות כמו המספר שבתצוגה (אילו שתרצו):
+- `HEX0 = how many inputs are 1`
+- מה היציאות?
+- `SW1 = Cout     SW0 = S`
+
+### Q06 - נשא הכניסה של שרשרת האדווה
+
+- **מתגים ונורות:** `A = SW9..SW6 (HEX0)     Cin = SW5 (HEX1)     B = HEX2     S = LEDR3..LEDR0     Cout = LEDR4     HEX3 = the A to set     answer: SW4..SW0`
+- **שלבים:** 2
+
+**שלב 1**
+
+- בשקף 8: מחבר אדווה, שרשרת של מחברים מלאים. בלוח שרשרת של 4 מהם, עם נשא כניסה.
+- `S = A + B + Cin`
+- `A = SW9..SW6 (HEX0)     Cin = SW5 (HEX1)     B = HEX2     S = LEDR3..LEDR0     Cout = LEDR4`
+- שימו במתגים את המספר שמוצג ב-
+- `HEX3`
+- ונשא כניסה 0. מה היציאות?
+- `SW4 = Cout     SW3..SW0 = S3..S0`
+
+**שלב 2**
+
+- עכשיו הרימו את נשא הכניסה:
+- `Cin = SW5 = 1`
+- `A = SW9..SW6 (HEX0)     Cin = SW5 (HEX1)     B = HEX2     S = LEDR3..LEDR0     Cout = LEDR4`
+- מה היציאות עכשיו?
+- `SW4 = Cout     SW3..SW0 = S3..S0`
+
+### Q07 - הנשא עובר בשרשרת
+
+- **מתגים ונורות:** `A = SW9..SW6 (HEX0)     HEX3 = the A to set     B = HEX2     C3..C0 = LEDR3..LEDR0     answer: SW3..SW0`
+- **שלבים:** 1
+
+**שלב 1**
+
+- בשקף 8: מחבר אדווה. הנשא עובר מכל מחבר מלא לבא אחריו. בלוח שרשרת של 4, ונשא הכניסה 0.
+- `Ci = the carry out of full adder i     C3 = Cout`
+- `A = SW9..SW6 (HEX0)     B = HEX2     C3..C0 = LEDR3..LEDR0`
+- שימו במתגים את המספר שמוצג ב-
+- `HEX3`
+- מה הנשאים שיוצאים מהמחברים המלאים?
+- `SW3..SW0 = C3..C0`
+
+### Q08 - חצי מחבר
+
+- **מתגים ונורות:** `A = SW9     B = SW8     LEDR1 LEDR0     answer: SW3..SW0`
 - **שלבים:** 1
 
 **שלב 1**
@@ -69,11 +138,11 @@
 - בלוח חצי מחבר של שני ביטים. נורה אחת היא הסכום ואחת הנשא.
 - `A = SW9     B = SW8`
 - איזו נורה היא הסכום? (דולקת כשבדיוק כניסה אחת 1)
-- `LEDG0 = all down     LEDG1 = SW0`
+- `LEDR0 = all down     LEDR1 = SW0`
 
-### Q05 - מחבר מלא
+### Q09 - מחבר מלא
 
-- **מתגים ונורות:** `A = SW9     B = SW8     Cin = SW7     LEDG2 LEDG1 LEDG0     answer: SW3..SW0`
+- **מתגים ונורות:** `A = SW9     B = SW8     Cin = SW7     LEDR2 LEDR1 LEDR0     answer: SW3..SW0`
 - **שלבים:** 2
 
 **שלב 1**
@@ -82,18 +151,18 @@
 - `A = SW9     B = SW8     Cin = SW7`
 - `S = A ^ B ^ Cin     Cout = AB + ACin + BCin     extra = AB`
 - איזו נורה היא הסכום?
-- `LEDG0 = all down     LEDG1 = SW0     LEDG2 = SW1`
+- `LEDR0 = all down     LEDR1 = SW0     LEDR2 = SW1`
 
 **שלב 2**
 
 - איזו נורה היא
 - `Cout`
 - (דולקת כששתיים או יותר מהכניסות 1)?
-- `LEDG0 = all down     LEDG1 = SW0     LEDG2 = SW1`
+- `LEDR0 = all down     LEDR1 = SW0     LEDR2 = SW1`
 
-### Q06 - מחבר מלא עם נשא כניסה קבוע
+### Q10 - מחבר מלא עם נשא כניסה קבוע
 
-- **מתגים ונורות:** `A = SW9     B = SW8     Cin = hidden constant     LEDG1 LEDG0     answer: SW3..SW0`
+- **מתגים ונורות:** `A = SW9     B = SW8     Cin = hidden constant     LEDR1 LEDR0     answer: SW3..SW0`
 - **שלבים:** 2
 
 **שלב 1**
@@ -103,7 +172,7 @@
 - `S = A ^ B ^ Cin     Cout = AB + ACin + BCin`
 - נורה אחת היא הסכום ואחת הנשא.
 - איזו נורה היא הסכום? (משתנה בכל פעם שמזיזים מתג אחד)
-- `LEDG0 = all down     LEDG1 = SW0`
+- `LEDR0 = all down     LEDR1 = SW0`
 
 **שלב 2**
 
@@ -111,9 +180,9 @@
 - `Cin = ?`
 - `0 = all down     1 = SW0`
 
-### Q07 - מחבר מלא עם מהפך מוסתר
+### Q11 - מחבר מלא עם מהפך מוסתר
 
-- **מתגים ונורות:** `A = SW9     B = SW8     Cin = SW7     LEDG1 LEDG0     answer: SW3..SW0`
+- **מתגים ונורות:** `A = SW9     B = SW8     Cin = SW7     LEDR1 LEDR0     answer: SW3..SW0`
 - **שלבים:** 2
 
 **שלב 1**
@@ -126,7 +195,7 @@
 - איזו נורה היא
 - `Cout`
 - `?`
-- `LEDG0 = all down     LEDG1 = SW0`
+- `LEDR0 = all down     LEDR1 = SW0`
 
 **שלב 2**
 
@@ -134,21 +203,21 @@
 - `A = SW9     B = SW8     Cin = SW7`
 - `A = all down     B = SW0     Cin = SW1`
 
-### Q08 - מחבר אדווה עם מספר מוסתר
+### Q12 - מחבר אדווה עם מספר מוסתר
 
-- **מתגים ונורות:** `A = SW9..SW6 (HEX0)     Cin = SW5     S = LEDG3..LEDG0     Cout = LEDG4     answer: SW4..SW0`
+- **מתגים ונורות:** `A = SW9..SW6 (HEX0)     Cin = SW5     S = LEDR3..LEDR0     Cout = LEDR4     answer: SW4..SW0`
 - **שלבים:** 2
 
 **שלב 1**
 
 - בלוח מחבר אדווה של 4 ביטים:
 - `S = A + B + Cin`
-- `A = SW9..SW6     Cin = SW5     S = LEDG3..0     Cout = LEDG4`
+- `A = SW9..SW6     Cin = SW5     S = LEDR3..0     Cout = LEDR4`
 - המספר השני מוסתר. שימו
 - `A = 0000, Cin = 0`
 - ומה המספר המוסתר?
 - `B = ?`
-- `SW3..SW0 = LEDG3..LEDG0`
+- `SW3..SW0 = LEDR3..LEDR0`
 
 **שלב 2**
 
@@ -156,15 +225,15 @@
 - `the smallest A with Cout = 1 (Cin = 0)`
 - `16 = SW4   8 = SW3   4 = SW2   2 = SW1   1 = SW0`
 
-### Q09 - מחבר מלא מקולקל
+### Q13 - מחבר מלא מקולקל
 
-- **מתגים ונורות:** `A = SW9..SW6 (HEX0)     B = HEX2     S = LEDG3..LEDG0     Cout = LEDG4     answer: SW3..SW0`
+- **מתגים ונורות:** `A = SW9..SW6 (HEX0)     B = HEX2     S = LEDR3..LEDR0     Cout = LEDR4     answer: SW3..SW0`
 - **שלבים:** 2
 
 **שלב 1**
 
 - בלוח מחבר אדווה של 4 מחברים מלאים, והמספר השני מוצג בתצוגה. אחד המחברים המלאים מקולקל.
-- `S = A + B     A = SW9..SW6     B = HEX2     S = LEDG3..0, Cout = LEDG4`
+- `S = A + B     A = SW9..SW6     B = HEX2     S = LEDR3..0, Cout = LEDR4`
 - נסו כמה ערכים בכניסה והשוו לחשבון. איזה מחבר מלא מקולקל? (0 = הימני)
 - `0 = all down`
 - `1 = SW0 2 = SW1 3 = SW1+SW0`
@@ -174,7 +243,7 @@
 - מה התקלה בו?
 - `carry out stuck at 0 = all down     sum inverted = SW0`
 
-### Q10 - השהיה של מחבר אדווה
+### Q14 - השהיה של מחבר אדווה
 
 - **מתגים ונורות:** `HEX3 HEX2 = N bits     HEX1 = tFA     answer: SW8..SW0`
 - **שלבים:** 1
@@ -188,15 +257,15 @@
 - `256 = SW8   128 = SW7   64 = SW6   32 = SW5   16 = SW4   8 = SW3`
 - `4 = SW2   2 = SW1   1 = SW0`
 
-### Q11 - גלישה בחיבור עם סימן
+### Q15 - גלישה בחיבור עם סימן
 
-- **מתגים ונורות:** `A = SW9..SW6 (HEX0)     overflow = LEDG0     answer: SW3..SW0`
+- **מתגים ונורות:** `A = SW9..SW6 (HEX0)     overflow = LEDR0     answer: SW3..SW0`
 - **שלבים:** 2
 
 **שלב 1**
 
 - בלוח מחבר של 4 ביטים עם סימן (משלים ל-2). המספר השני מוסתר, ורק נורת הגלישה מוצגת.
-- `S = A + B     A = SW9..SW6     overflow = LEDG0`
+- `S = A + B     A = SW9..SW6     overflow = LEDR0`
 - גלישה קורית רק כששני המספרים באותו סימן. נסו את כל הכניסות: האם המספר המוסתר חיובי או שלילי?
 - `B > 0 = all down     B < 0 = SW0`
 
@@ -207,18 +276,18 @@
 
 ## נושא 2 - הצצה קדימה ותחיליות
 
-40 דקות, 14 שאלות: Q12-Q25
+40 דקות, 18 שאלות: Q16-Q33
 
-### Q12 - מעביר ומייצר של כל עמודה מהשקף
+### Q16 - מעביר ומייצר של כל עמודה מהשקף
 
-- **מתגים ונורות:** `A = SW9..SW6 (HEX0)     P3..P0 = LEDG3..LEDG0     G3..G0 = LEDG7..LEDG4     answer: SW3..SW0`
+- **מתגים ונורות:** `A = SW9..SW6 (HEX0)     P3..P0 = LEDR3..LEDR0     G3..G0 = LEDR7..LEDR4     answer: SW3..SW0`
 - **שלבים:** 2
 
 **שלב 1**
 
 - בשקף 12: אותות מעביר ומייצר לכל עמודה. בלוח המעגל של 4 עמודות, והמספר השני מוסתר.
 - `Pi = Ai + Bi     Gi = Ai Bi`
-- `A = SW9..SW6 (HEX0)     P3..P0 = LEDG3..LEDG0`
+- `A = SW9..SW6 (HEX0)     P3..P0 = LEDR3..LEDR0`
 - שימו
 - `A = 0000`
 - מה אותות המעביר?
@@ -229,42 +298,122 @@
 - עכשיו שימו את המספר מהדוגמה בשקף:
 - `A = 1011`
 - מה אותות המייצר?
-- `Gi = Ai Bi     A = SW9..SW6 (HEX0)     G3..G0 = LEDG7..LEDG4`
+- `Gi = Ai Bi     A = SW9..SW6 (HEX0)     G3..G0 = LEDR7..LEDR4`
 - `SW3..SW0 = G3..G0`
 
-### Q13 - הבלוק של 4 ביטים מהשקף
+### Q17 - הבלוק של 4 ביטים מהשקף
 
-- **מתגים ונורות:** `A = SW9..SW6 (HEX0)     HEX3 = the A to set     B = HEX2     P3:0 = LEDG0     G3:0 = LEDG1     answer: SW1 SW0`
+- **מתגים ונורות:** `A = SW9..SW6 (HEX0)     HEX3 = the A to set     B = HEX2     P3:0 = LEDR0     G3:0 = LEDR1     answer: SW1 SW0`
 - **שלבים:** 1
 
 **שלב 1**
 
 - בשקפים 14-16: מעביר ומייצר של בלוק של 4 ביטים. בלוח המעגל של השקף.
 - `P3:0 = P3 P2 P1 P0     G3:0 = G3 + P3 (G2 + P2 (G1 + P1 G0))`
-- `A = SW9..SW6 (HEX0)     B = HEX2     P3:0 = LEDG0     G3:0 = LEDG1`
+- `A = SW9..SW6 (HEX0)     B = HEX2     P3:0 = LEDR0     G3:0 = LEDR1`
 - שימו במתגים את המספר שמוצג ב-
 - `HEX3`
 - מה אותות הבלוק?
 - `SW1 = G3:0     SW0 = P3:0`
 
-### Q14 - התא השחור מהשקף
+### Q18 - התא השחור מהשקף
 
-- **מתגים ונורות:** `G_i:k = SW9   P_i:k = SW8   G_k-1:j = SW7   P_k-1:j = SW6     G_i:j = LEDG1     P_i:j = LEDG0     answer: SW1 SW0`
+- **מתגים ונורות:** `G_i:k = SW9   P_i:k = SW8   G_k-1:j = SW7   P_k-1:j = SW6     G_i:j = LEDR1     P_i:j = LEDR0     answer: SW1 SW0`
 - **שלבים:** 1
 
 **שלב 1**
 
 - בשקף 30: תא שחור של מחבר תחיליות. בלוח המעגל של התא.
 - `G_i:j = G_i:k + P_i:k G_k-1:j     P_i:j = P_i:k P_k-1:j`
-- `G_i:k = SW9   P_i:k = SW8   G_k-1:j = SW7   P_k-1:j = SW6     G_i:j = LEDG1     P_i:j = LEDG0`
+- `G_i:k = SW9   P_i:k = SW8   G_k-1:j = SW7   P_k-1:j = SW6     G_i:j = LEDR1     P_i:j = LEDR0`
 - שימו במתגים את הערכים שבתצוגה:
 - `HEX3 = G_i:k   HEX2 = P_i:k   HEX1 = G_k-1:j   HEX0 = P_k-1:j`
 - מה יציאות התא?
 - `SW1 = G_i:j     SW0 = P_i:j`
 
-### Q15 - מייצר, מעביר או הורג
+### Q19 - מייצר ומעביר של עמודה מהשקף
 
-- **מתגים ונורות:** `Ai = SW9     Bi = SW8     LEDG1 LEDG0     answer: SW3..SW0`
+- **מתגים ונורות:** `Ai = SW9 (HEX3)     Bi = SW8 (HEX2)     row = HEX1 HEX0     Gi = LEDR1     Pi = LEDR0     answer: SW1 SW0`
+- **שלבים:** 1
+
+**שלב 1**
+
+- בשקף 11: אותות מייצר ומעביר של עמודה אחת. בלוח המעגל של השקף.
+- `Gi = Ai Bi     Pi = Ai + Bi`
+- `Ai = SW9 (HEX3)     Bi = SW8 (HEX2)     Gi = LEDR1     Pi = LEDR0`
+- שימו בכניסות את הערכים שמוצגים בתצוגה:
+- `HEX1 = Ai     HEX0 = Bi`
+- מה האותות?
+- `SW1 = Gi     SW0 = Pi`
+
+### Q20 - הנשא שיוצא מהבלוק
+
+- **מתגים ונורות:** `A = SW9..SW6 (HEX0)     Cin = SW5 (HEX1)     B = HEX2     C3 = LEDR0     HEX3 = the A to set     answer: SW0`
+- **שלבים:** 2
+
+**שלב 1**
+
+- בשקף 18: הנשא שיוצא מבלוק של 4 ביטים. בלוח המעגל של השקף.
+- `C3 = G3:0 + P3:0 Cin`
+- `A = SW9..SW6 (HEX0)     Cin = SW5 (HEX1)     B = HEX2     C3 = LEDR0`
+- שימו במתגים את המספר שמוצג ב-
+- `HEX3`
+- ונשא כניסה 0. האם יוצא נשא?
+- כן - הרימו:
+- `SW0`
+- לא - השאירו למטה.
+
+**שלב 2**
+
+- עכשיו הרימו את נשא הכניסה:
+- `Cin = SW5 = 1`
+- `A = SW9..SW6 (HEX0)     Cin = SW5 (HEX1)     B = HEX2     C3 = LEDR0`
+- האם יוצא נשא עכשיו?
+- כן - הרימו:
+- `SW0`
+- לא - השאירו למטה.
+
+### Q21 - שרשרת הבלוקים מהשקף
+
+- **מתגים ונורות:** `Cin = SW9 (HEX3)     C3 = LEDR0     C7 = LEDR1     answer: SW1 SW0`
+- **שלבים:** 2
+
+**שלב 1**
+
+- בשקפים 19 ו-25: מחבר הצצה קדימה עם בלוקים של 4 ביטים. בלוח שני הבלוקים הראשונים, והמספרים מוסתרים.
+- `C3 = G3:0 + P3:0 Cin     C7 = G7:4 + P7:4 C3`
+- `Cin = SW9 (HEX3)     C3 = LEDR0     C7 = LEDR1`
+- שימו
+- `Cin = 0`
+- מה הנשאים שיוצאים מהבלוקים?
+- `SW1 = C7     SW0 = C3`
+
+**שלב 2**
+
+- עכשיו שימו
+- `Cin = 1`
+- מה הנשאים עכשיו?
+- `Cin = SW9 (HEX3)     C3 = LEDR0     C7 = LEDR1`
+- `SW1 = C7     SW0 = C3`
+
+### Q22 - נשא הכניסה של מחבר התחיליות
+
+- **מתגים ונורות:** `A = SW9..SW6 (HEX0)     G_-1 = Cin = SW5 (HEX1)     B = HEX2     G_3:-1 .. G_0:-1 = LEDR3..LEDR0     HEX3 = the A to set     answer: SW3..SW0`
+- **שלבים:** 1
+
+**שלב 1**
+
+- בשקף 29: מחבר תחיליות. עמודה מינוס 1 מחזיקה את נשא הכניסה, ונשא הכניסה לעמודה הבאה הוא מייצר של בלוק.
+- `G_-1 = Cin     C_i = G_i:-1`
+- `A = SW9..SW6 (HEX0)     G_-1 = Cin = SW5 (HEX1)     B = HEX2     G_3:-1 .. G_0:-1 = LEDR3..LEDR0`
+- שימו במתגים את המספר שמוצג ב-
+- `HEX3`
+- ונשא כניסה 1. מה הנשאים?
+- `Cin = SW5 = 1     SW3..SW0 = G_3:-1 G_2:-1 G_1:-1 G_0:-1`
+
+### Q23 - מייצר, מעביר או הורג
+
+- **מתגים ונורות:** `Ai = SW9     Bi = SW8     LEDR1 LEDR0     answer: SW3..SW0`
 - **שלבים:** 1
 
 **שלב 1**
@@ -278,9 +427,9 @@
 - איזו נורה היא
 - `Gi`
 - `?`
-- `LEDG0 = all down     LEDG1 = SW0`
+- `LEDR0 = all down     LEDR1 = SW0`
 
-### Q16 - אותות מייצר ומעביר
+### Q24 - אותות מייצר ומעביר
 
 - **מתגים ונורות:** `HEX3 = A (hex)     HEX2 = B (hex)     answer: SW8..SW0`
 - **שלבים:** 2
@@ -299,7 +448,7 @@
 - `Pi = Ai + Bi`
 - `SW3..SW0 = P3..P0`
 
-### Q17 - מייצר ומעביר של בלוק
+### Q25 - מייצר ומעביר של בלוק
 
 - **מתגים ונורות:** `HEX3 = A (hex)     HEX2 = B (hex)     answer: SW8..SW0`
 - **שלבים:** 2
@@ -322,15 +471,15 @@
 - `SW0`
 - לא - השאירו למטה.
 
-### Q18 - מייצר ומעביר של בלוק עם מספר מוסתר
+### Q26 - מייצר ומעביר של בלוק עם מספר מוסתר
 
-- **מתגים ונורות:** `A = SW9..SW6 (HEX0)     P3:0 = LEDG0     G3:0 = LEDG1     answer: SW4..SW0`
+- **מתגים ונורות:** `A = SW9..SW6 (HEX0)     P3:0 = LEDR0     G3:0 = LEDR1     answer: SW4..SW0`
 - **שלבים:** 3
 
 **שלב 1**
 
 - בלוח בלוק של 4 ביטים, והמספר השני מוסתר:
-- `P3:0 = P3 P2 P1 P0 = LEDG0     Pi = Ai + Bi`
+- `P3:0 = P3 P2 P1 P0 = LEDR0     Pi = Ai + Bi`
 - `A = SW9..SW6`
 - באילו ביטים הכניסה חייבת להיות 1 כדי שהבלוק יעביר נשא?
 - `SW3..SW0 = the bits of A that must be 1`
@@ -338,16 +487,16 @@
 **שלב 2**
 
 - לכמה כניסות שונות הבלוק מעביר נשא?
-- `P3:0 = LEDG0     A = SW9..SW6`
+- `P3:0 = LEDR0     A = SW9..SW6`
 - `16 = SW4   8 = SW3   4 = SW2   2 = SW1   1 = SW0`
 
 **שלב 3**
 
 - מה הכניסה הקטנה ביותר שבה הבלוק מייצר נשא?
-- `G3:0 = G3 + P3 (G2 + P2 (G1 + P1 G0)) = LEDG1     A = SW9..SW6`
+- `G3:0 = G3 + P3 (G2 + P2 (G1 + P1 G0)) = LEDR1     A = SW9..SW6`
 - `16 = SW4   8 = SW3   4 = SW2   2 = SW1   1 = SW0`
 
-### Q19 - הנשאים של כל העמודות
+### Q27 - הנשאים של כל העמודות
 
 - **מתגים ונורות:** `HEX3 = A (hex)     HEX2 = B (hex)     HEX1 = Cin     answer: SW8..SW0`
 - **שלבים:** 2
@@ -365,16 +514,16 @@
 - ומה הסכום (4 ביטים)?
 - `SW3..SW0`
 
-### Q20 - מעביר שנבנה משער אחר
+### Q28 - מעביר שנבנה משער אחר
 
-- **מתגים ונורות:** `A = SW9..SW6 (HEX0)     B = HEX2     S = LEDG3..LEDG0     Cout = LEDG4     answer: SW3..SW0`
+- **מתגים ונורות:** `A = SW9..SW6 (HEX0)     B = HEX2     S = LEDR3..LEDR0     Cout = LEDR4     answer: SW3..SW0`
 - **שלבים:** 2
 
 **שלב 1**
 
 - בלוח מחבר הצצה קדימה של 4 ביטים, והמספר השני מוצג בתצוגה:
 - `Ci = Gi + Pi C(i-1)     Si = Ai ^ Bi ^ C(i-1)`
-- `A = SW9..SW6     B = HEX2     S = LEDG3..0     Cout = LEDG4`
+- `A = SW9..SW6     B = HEX2     S = LEDR3..0     Cout = LEDR4`
 - בעמודה אחת המעביר נבנה משער מוסתר, אחד מאלה:
 - `Pi = Ai + Bi     or     Pi = Ai ^ Bi     or     Pi = Ai Bi`
 - נסו כמה ערכים והשוו לחשבון. האם המחבר נכון תמיד?
@@ -388,7 +537,7 @@
 - `correct = all down     column 0 = SW0     column 1 = SW1     column 2 = SW1+SW0`
 - `column 3 = SW2`
 
-### Q21 - השהיה של מחבר הצצה קדימה
+### Q29 - השהיה של מחבר הצצה קדימה
 
 - **מתגים ונורות:** `tpg tpg_block tAND_OR tFA / N k     SW9 = page 2     answer: SW8..SW0`
 - **שלבים:** 1
@@ -403,9 +552,9 @@
 - `128 = SW7   64 = SW6   32 = SW5   16 = SW4   8 = SW3   4 = SW2`
 - `2 = SW1   1 = SW0`
 
-### Q22 - תא של מחבר תחיליות
+### Q30 - תא של מחבר תחיליות
 
-- **מתגים ונורות:** `G_i:k = SW9   P_i:k = SW8   G_k-1:j = SW7   P_k-1:j = SW6     LEDG1 LEDG0     answer: SW3..SW0`
+- **מתגים ונורות:** `G_i:k = SW9   P_i:k = SW8   G_k-1:j = SW7   P_k-1:j = SW6     LEDR1 LEDR0     answer: SW3..SW0`
 - **שלבים:** 2
 
 **שלב 1**
@@ -416,7 +565,7 @@
 - איזו נורה היא
 - `G_i:j`
 - `?`
-- `LEDG0 = all down     LEDG1 = SW0`
+- `LEDR0 = all down     LEDR1 = SW0`
 
 **שלב 2**
 
@@ -425,7 +574,7 @@
 - . איזה תא?
 - `gray = all down     black = SW0`
 
-### Q23 - עץ התחיליות
+### Q31 - עץ התחיליות
 
 - **מתגים ונורות:** `HEX3 = A (hex)     HEX2 = B (hex)     answer: SW8..SW0`
 - **שלבים:** 2
@@ -445,7 +594,7 @@
 - `G3:0 = G3:2 + P3:2 G1:0     P3:0 = P3:2 P1:0`
 - `SW1 = G3:0     SW0 = P3:0`
 
-### Q24 - השהיה של מחבר תחיליות
+### Q32 - השהיה של מחבר תחיליות
 
 - **מתגים ונורות:** `tpg tpg_prefix tXOR / N     SW9 = page 2     answer: SW8..SW0`
 - **שלבים:** 1
@@ -460,7 +609,7 @@
 - `64 = SW6   32 = SW5   16 = SW4   8 = SW3   4 = SW2   2 = SW1`
 - `1 = SW0`
 
-### Q25 - מרוץ המחברים
+### Q33 - מרוץ המחברים
 
 - **מתגים ונורות:** `HEX3 HEX2 = N bits     HEX1 = tgate     HEX0 = tFA     answer: SW8..SW0`
 - **שלבים:** 4
@@ -498,18 +647,18 @@
 
 ## נושא 3 - מחסרים, משווים ופרמטרים
 
-40 דקות, 14 שאלות: Q26-Q39
+40 דקות, 17 שאלות: Q34-Q50
 
-### Q26 - המחסר מהשקף
+### Q34 - המחסר מהשקף
 
-- **מתגים ונורות:** `B = SW9..SW6 (HEX0)     HEX2 = the B to set     A = HEX3     ~B = LEDG3..LEDG0     Y = LEDG7..LEDG4     answer: SW3..SW0`
+- **מתגים ונורות:** `B = SW9..SW6 (HEX0)     HEX2 = the B to set     A = HEX3     ~B = LEDR3..LEDR0     Y = LEDR7..LEDR4     answer: SW3..SW0`
 - **שלבים:** 2
 
 **שלב 1**
 
 - בשקף 36: מחסר, מהפכים ואחריהם מחבר עם נשא כניסה 1. בלוח המעגל של השקף.
 - `Y = A - B = A + ~B + 1`
-- `B = SW9..SW6 (HEX0)     ~B = LEDG3..LEDG0`
+- `B = SW9..SW6 (HEX0)     ~B = LEDR3..LEDR0`
 - שימו במתגים את המספר שמוצג ב-
 - `HEX2`
 - מה יוצא מהמהפכים?
@@ -518,40 +667,40 @@
 **שלב 2**
 
 - ומה התוצאה של המחסר?
-- `A = HEX3     B = SW9..SW6 = HEX2     Y = LEDG7..LEDG4`
+- `A = HEX3     B = SW9..SW6 = HEX2     Y = LEDR7..LEDR4`
 - `SW3..SW0 = Y`
 
-### Q27 - משווה השוויון מהשקף
+### Q35 - משווה השוויון מהשקף
 
-- **מתגים ונורות:** `A = SW9..SW6 (HEX0)     XNOR3..XNOR0 = LEDG3..LEDG0     Equal = LEDG4     answer: SW3..SW0`
+- **מתגים ונורות:** `A = SW9..SW6 (HEX0)     XNOR3..XNOR0 = LEDR3..LEDR0     Equal = LEDR4     answer: SW3..SW0`
 - **שלבים:** 2
 
 **שלב 1**
 
 - בשקף 37: משווה שוויון. בלוח המעגל של השקף, והמספר השני מוסתר.
-- `Xi = Ai XNOR Bi = LEDGi     Equal = X3 X2 X1 X0 = LEDG4`
+- `Xi = Ai XNOR Bi = LEDGi     Equal = X3 X2 X1 X0 = LEDR4`
 - `A = SW9..SW6 (HEX0)`
 - שימו
 - `A = 0000`
 - אילו נורות דולקות?
-- `SW3..SW0 = LEDG3..LEDG0`
+- `SW3..SW0 = LEDR3..LEDR0`
 
 **שלב 2**
 
 - מה המספר המוסתר? מצאו כניסה שמדליקה את כל הנורות.
-- `A = SW9..SW6     Equal = LEDG4`
+- `A = SW9..SW6     Equal = LEDR4`
 - `B = ?     SW3..SW0`
 
-### Q28 - הבורר עם הפרמטר מהשקף
+### Q36 - הבורר עם הפרמטר מהשקף
 
-- **מתגים ונורות:** `s = SW9 (HEX3)     y = LEDG3..LEDG0     answer: SW3..SW0`
+- **מתגים ונורות:** `s = SW9 (HEX3)     y = LEDR3..LEDR0     answer: SW3..SW0`
 - **שלבים:** 2
 
 **שלב 1**
 
 - בשקף 40: בורר עם פרמטר. בלוח מופע ברוחב 4, ושתי הכניסות מוסתרות.
 - `mux2 #(4) m (d0, d1, s, y);     y = s ? d1 : d0`
-- `s = SW9 (HEX3)     y = LEDG3..LEDG0`
+- `s = SW9 (HEX3)     y = LEDR3..LEDR0`
 - שימו
 - `s = 0`
 - מה עובר ליציאה?
@@ -562,54 +711,122 @@
 - עכשיו שימו
 - `s = 1`
 - מה עובר ליציאה?
-- `y = s ? d1 : d0     s = SW9 (HEX3)     y = LEDG3..LEDG0`
+- `y = s ? d1 : d0     s = SW9 (HEX3)     y = LEDR3..LEDR0`
 - `SW3..SW0 = y = d1`
 
-### Q29 - מחסר עם מספר מוסתר
+### Q37 - ה-1 של המחסר
 
-- **מתגים ונורות:** `A = SW9..SW6 (HEX0)     Y = LEDG3..LEDG0     Cout = LEDG4     answer: SW3..SW0`
+- **מתגים ונורות:** `A = SW9..SW6 (HEX0)     Cin = SW5 (HEX1)     B = HEX2     Y = LEDR3..LEDR0     HEX3 = the A to set     answer: SW3..SW0`
+- **שלבים:** 2
+
+**שלב 1**
+
+- בשקף 36: מחסר, מהפכים ומחבר. ה-1 נכנס בנשא הכניסה של המחבר. בלוח המעגל, ונשא הכניסה במתג.
+- `Y = A + ~B + Cin`
+- `A = SW9..SW6 (HEX0)     Cin = SW5 (HEX1)     B = HEX2     Y = LEDR3..LEDR0`
+- שימו במתגים את המספר שמוצג ב-
+- `HEX3`
+- ונשא כניסה 1. מה התוצאה?
+- `SW3..SW0 = Y`
+
+**שלב 2**
+
+- עכשיו הורידו את נשא הכניסה:
+- `Cin = SW5 = 0`
+- `A = SW9..SW6 (HEX0)     Cin = SW5 (HEX1)     B = HEX2     Y = LEDR3..LEDR0`
+- מה התוצאה עכשיו?
+- `SW3..SW0 = Y`
+
+### Q38 - משווה השוויון: כמה ביטים שווים
+
+- **מתגים ונורות:** `A = SW9..SW6 (HEX0)     HEX3 = the A to set     B = HEX2     Xi = LEDGi     answer: SW3..SW0`
+- **שלבים:** 1
+
+**שלב 1**
+
+- בשקף 37: משווה שוויון. לכל ביט שער
+- `XNOR`
+- ואחריהם
+- `AND`
+- . בלוח שערי הביטים של השקף.
+- `Xi = Ai XNOR Bi = LEDGi`
+- `A = SW9..SW6 (HEX0)     B = HEX2     X3..X0 = LEDR3..LEDR0`
+- שימו במתגים את המספר שמוצג ב-
+- `HEX3`
+- בכמה ביטים המספרים שווים?
+- `0 = all down`
+- `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2`
+
+### Q39 - קטן-מ מהשקף: ביט הסימן
+
+- **מתגים ונורות:** `A = SW9..SW6 (HEX0)     B = HEX2     Y = A - B = LEDR3..LEDR0     A < B = Y3 = LEDR4     HEX3 = the A to set     answer: SW3..SW0`
+- **שלבים:** 2
+
+**שלב 1**
+
+- בשקף 38: קטן-מ עם סימן. מחסר, והיציאה היא ביט הסימן של ההפרש. בלוח המעגל של השקף.
+- `A < B  if  A - B < 0`
+- `A = SW9..SW6 (HEX0)     B = HEX2     Y = A - B = LEDR3..LEDR0     A < B = Y3 = LEDR4`
+- שימו במתגים את המספר שמוצג ב-
+- `HEX3`
+- מה ההפרש?
+- `SW3..SW0 = Y`
+
+**שלב 2**
+
+- מה המעגל אומר: האם
+- `A < B`
+- `?`
+- `A < B = Y3 = LEDR4`
+- כן - הרימו:
+- `SW0`
+- לא - השאירו למטה.
+
+### Q40 - מחסר עם מספר מוסתר
+
+- **מתגים ונורות:** `A = SW9..SW6 (HEX0)     Y = LEDR3..LEDR0     Cout = LEDR4     answer: SW3..SW0`
 - **שלבים:** 2
 
 **שלב 1**
 
 - בלוח מחסר:
 - `Y = A - B = A + ~B + 1`
-- `A = SW9..SW6     Y = LEDG3..0     Cout = LEDG4`
+- `A = SW9..SW6     Y = LEDR3..0     Cout = LEDR4`
 - מספר נגדי = אותו מספר עם סימן הפוך. למשל הנגדי של 3 הוא מינוס 3, ומספר ועוד הנגדי שלו נותן 0.
 - במשלים ל-2 מוצאים את הנגדי כך: הופכים את כל הביטים (0 ל-1 ו-1 ל-0), ואז מוסיפים 1.
 - שימו
 - `A = 0000`
 - מה רואים? זה המספר הנגדי למספר המוסתר. העתיקו:
-- `SW3..SW0 = LEDG3..LEDG0`
+- `SW3..SW0 = LEDR3..LEDR0`
 
 **שלב 2**
 
 - מה המספר המוסתר? (מצאו כניסה שנותנת תוצאה 0)
 - `B = ?     SW3..SW0`
 
-### Q30 - הנשא של המחסר
+### Q41 - הנשא של המחסר
 
-- **מתגים ונורות:** `A = SW9..SW6 (HEX0)     Cout = LEDG4     answer: SW3..SW0`
+- **מתגים ונורות:** `A = SW9..SW6 (HEX0)     Cout = LEDR4     answer: SW3..SW0`
 - **שלבים:** 1
 
 **שלב 1**
 
 - בלוח מחסר, ורק הנשא שלו מוצג:
-- `A - B = A + ~B + 1     Cout = LEDG4`
+- `A - B = A + ~B + 1     Cout = LEDR4`
 - `A = SW9..SW6`
 - הנשא דולק כשאין לווה, כלומר כשהכניסה גדולה או שווה למספר המוסתר. מה המספר המוסתר?
 - `B = the smallest A with Cout = 1     SW3..SW0`
 
-### Q31 - מחסר עם באג
+### Q42 - מחסר עם באג
 
-- **מתגים ונורות:** `A = SW9..SW6 (HEX0)     B = HEX2     Y = LEDG3..LEDG0     answer: SW3..SW0`
+- **מתגים ונורות:** `A = SW9..SW6 (HEX0)     B = HEX2     Y = LEDR3..LEDR0     answer: SW3..SW0`
 - **שלבים:** 2
 
 **שלב 1**
 
 - בלוח מחסר של 4 ביטים, והמספר השני מוצג בתצוגה:
 - `Y = A - B = A + ~B + 1`
-- `A = SW9..SW6     B = HEX2     Y = LEDG3..0`
+- `A = SW9..SW6     B = HEX2     Y = LEDR3..0`
 - אולי יש בו באג. נסו כמה ערכים והשוו לחשבון. האם המחסר נכון?
 - נכון - הרימו:
 - `SW0`
@@ -618,29 +835,29 @@
 **שלב 2**
 
 - מה הבאג? (בכמה התוצאה רחוקה מהנכונה?)
-- `A = SW9..SW6     B = HEX2     Y = LEDG3..0`
+- `A = SW9..SW6     B = HEX2     Y = LEDR3..0`
 - `correct = all down     missing +1 = SW0`
 - `bit 0 of B not inverted = SW1     bit 1 of B not inverted = SW1+SW0`
 - `bit 2 of B not inverted = SW2     bit 3 of B not inverted = SW2+SW0`
 
-### Q32 - משווה עם באג
+### Q43 - משווה עם באג
 
-- **מתגים ונורות:** `A = SW9..SW6 (HEX0)     A == B = LEDG0     answer: SW3..SW0`
+- **מתגים ונורות:** `A = SW9..SW6 (HEX0)     A == B = LEDR0     answer: SW3..SW0`
 - **שלבים:** 1
 
 **שלב 1**
 
 - בלוח משווה שוויון:
-- `LEDG0 = (A == B)`
+- `LEDR0 = (A == B)`
 - אבל ביט אחד לא מחובר להשוואה, אז שני ערכים מדליקים את הנורה.
 - `A = SW9..SW6`
 - איזה ביט לא נבדק? (0 = הימני)
 - `0 = all down`
 - `1 = SW0 2 = SW1 3 = SW1+SW0`
 
-### Q33 - משווה עם שלוש יציאות
+### Q44 - משווה עם שלוש יציאות
 
-- **מתגים ונורות:** `A = SW9..SW6 (HEX0)     LEDG2 LEDG1 LEDG0     answer: SW3..SW0`
+- **מתגים ונורות:** `A = SW9..SW6 (HEX0)     LEDR2 LEDR1 LEDR0     answer: SW3..SW0`
 - **שלבים:** 2
 
 **שלב 1**
@@ -651,42 +868,42 @@
 - איזו נורה היא
 - `A < B`
 - `?`
-- `LEDG0 = all down     LEDG1 = SW0     LEDG2 = SW1`
+- `LEDR0 = all down     LEDR1 = SW0     LEDR2 = SW1`
 
 **שלב 2**
 
 - מה המספר המוסתר?
 - `B = ?     SW3..SW0`
 
-### Q34 - משווה ובורר: מינימום או מקסימום
+### Q45 - משווה ובורר: מינימום או מקסימום
 
-- **מתגים ונורות:** `A = SW9..SW6 (HEX0)     y = LEDG3..LEDG0     answer: SW3..SW0`
+- **מתגים ונורות:** `A = SW9..SW6 (HEX0)     y = LEDR3..LEDR0     answer: SW3..SW0`
 - **שלבים:** 2
 
 **שלב 1**
 
 - בלוח משווה ובורר (בלי סימן), והמספר השני מוסתר. אחד משני המעגלים:
 - `y = (A < B) ? A : B     or     y = (A < B) ? B : A`
-- `A = SW9..SW6     y = LEDG3..0`
+- `A = SW9..SW6     y = LEDR3..0`
 - מה המעגל מחשב?
 - `min(A, B) = all down     max(A, B) = SW0`
 
 **שלב 2**
 
 - מה המספר המוסתר?
-- `A = SW9..SW6     y = LEDG3..0`
+- `A = SW9..SW6     y = LEDR3..0`
 - `B = ?     SW3..SW0`
 
-### Q35 - ארבעה מופעים של משווה קטן-מ
+### Q46 - ארבעה מופעים של משווה קטן-מ
 
-- **מתגים ונורות:** `A = SW9..SW6 (HEX0)     B = HEX2     LEDG0     answer: SW3..SW0`
+- **מתגים ונורות:** `A = SW9..SW6 (HEX0)     B = HEX2     LEDR0     answer: SW3..SW0`
 - **שלבים:** 2
 
 **שלב 1**
 
 - בלוח מודול משווה (בלי סימן), והמספר השני מוצג בתצוגה:
 - `lt(x, y) = (x < y)`
-- `A = SW9..SW6     B = HEX2     LEDG0`
+- `A = SW9..SW6     B = HEX2     LEDR0`
 - הנורה מחוברת למופע אחד של המודול, אולי עם מהפך. איזה יחס היא מראה?
 - `A < B = all down     A > B = SW0     A >= B = SW1     A <= B = SW1+SW0`
 
@@ -696,15 +913,15 @@
 - `lt(x, y) = (x < y)`
 - `lt(B, A) = all down     ~lt(A, B) = SW0     lt(A, B) = SW1     ~lt(B, A) = SW1+SW0`
 
-### Q36 - השוואה עם סימן או בלי
+### Q47 - השוואה עם סימן או בלי
 
-- **מתגים ונורות:** `A = SW9..SW6 (HEX0)     A < B = LEDG0     answer: SW3..SW0`
+- **מתגים ונורות:** `A = SW9..SW6 (HEX0)     A < B = LEDR0     answer: SW3..SW0`
 - **שלבים:** 2
 
 **שלב 1**
 
 - בלוח משווה:
-- `LEDG0 = (A < B)`
+- `LEDR0 = (A < B)`
 - המספר השני מוסתר.
 - `A = SW9..SW6`
 - מה המספר המוסתר? (הכניסה הראשונה שהנורה כבתה בה, בסדר המתאים)
@@ -716,9 +933,9 @@
 - `A = 1000`
 - `unsigned = all down     signed = SW0`
 
-### Q37 - קטן-מ עם סימן: האם יש באג גלישה?
+### Q48 - קטן-מ עם סימן: האם יש באג גלישה?
 
-- **מתגים ונורות:** `A = SW9..SW6 (HEX0)     A < B = LEDG0 (signed)     answer: SW3..SW0`
+- **מתגים ונורות:** `A = SW9..SW6 (HEX0)     A < B = LEDR0 (signed)     answer: SW3..SW0`
 - **שלבים:** 1
 
 **שלב 1**
@@ -734,24 +951,24 @@
 - `SW0`
 - טועה לפעמים - השאירו למטה.
 
-### Q38 - מודול עם פרמטר
+### Q49 - מודול עם פרמטר
 
-- **מתגים ונורות:** `a = SW9 SW8 SW7     b = SW6 SW5 SW4     y = LEDG3..LEDG0     answer: SW3..SW0`
+- **מתגים ונורות:** `a = SW9 SW8 SW7     b = SW6 SW5 SW4     y = LEDR3..LEDR0     answer: SW3..SW0`
 - **שלבים:** 1
 
 **שלב 1**
 
 - בלוח מחבר מודול עם פרמטר:
 - `module adder #(parameter width = 8) (input logic [width-1:0] a, b, output logic [width-1:0] y);`
-- `a = SW9 SW8 SW7     b = SW6 SW5 SW4     y = LEDG3..LEDG0`
+- `a = SW9 SW8 SW7     b = SW6 SW5 SW4     y = LEDR3..LEDR0`
 - המודול נבנה עם רוחב קטן יותר. כמה ביטים יש ל-
 - `y`
 - `?`
 - `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2`
 
-### Q39 - בורר עם פרמטר
+### Q50 - בורר עם פרמטר
 
-- **מתגים ונורות:** `d0 = SW9 SW8 SW7     d1 = SW6 SW5 SW4     s = SW3     y = LEDG2..LEDG0     answer: SW1 SW0`
+- **מתגים ונורות:** `d0 = SW9 SW8 SW7     d1 = SW6 SW5 SW4     s = SW3     y = LEDR2..LEDR0     answer: SW1 SW0`
 - **שלבים:** 2
 
 **שלב 1**

@@ -41,3 +41,19 @@ history.txt
 week1/lab1_kit/answers_*.txt
 week1/lab1_kit/progress_*.txt
 week1/lab1_kit/program.log
+
+# local only (not for the repo)
+course_material/
+*.zip
+# solutions/: build outputs of the generators
+solutions/**/build/
+solutions/**/stage/
+solutions/**/test_tmp/
+solutions/**/__pycache__/
+solutions/**/*.log
+solutions/**/log_week*.txt
+solutions/compile_queue.txt
+solutions/compile_done.txt
+solutions/partial_log.txt
+solutions/de1/**/sof/
+solutions/**/answer_filled_*.txt

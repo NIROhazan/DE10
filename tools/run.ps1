@@ -46,11 +46,11 @@ $from = if ($done -ge $last) { 1 } else { $done + 1 }
 if (Test-TimeUp) { exit 2 }
 
 # ---------------------------------------------------------------- program the board
-$qbin = @("C:\altera_lite\25.1std\quartus\bin64", "C:\intelFPGA_lite\25.1std\quartus\bin64",
+$qbin = @("C:\altera_lite\25.1std\quartus\bin64", "C:\altera_standard\25.1std\quartus\bin64", "C:\intelFPGA_lite\25.1std\quartus\bin64",
           "C:\intelFPGA_lite\24.1std\quartus\bin64", "C:\intelFPGA_lite\23.1std\quartus\bin64") |
 	Where-Object { Test-Path (Join-Path $_ "quartus_pgm.exe") } | Select-Object -First 1
 $sof = Join-Path (Get-Location) "sof\$($q.Id).sof"
-if (-not $qbin) { Write-Host "  Quartus Prime Lite (MAX 10 support) not found under C:\altera_lite." -ForegroundColor Red; exit 1 }
+if (-not $qbin) { Write-Host "  Quartus Prime Lite (MAX 10 support) not found under C:\altera_lite or C:\altera_standard." -ForegroundColor Red; exit 1 }
 Get-Process quartus_stp -ErrorAction SilentlyContinue | Stop-Process -Force		# an old link from a closed window
 Write-Host ""
 Write-Line (U "prep")

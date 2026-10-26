@@ -41,5 +41,5 @@
   even 29.9 % on all ten LEDs. Do not use `MOVE_DIV = 5000` as the "too fast" value - its loop period equals
   the 1 ms PWM period and the LEDs come out uneven (20-50 %).
 - Per-digit step times are 100 + 60 d ms (all below the 671 ms limit, none equal to the default 300 ms).
-- Answers in `C:\DE10_solutions\ex0\ANSWERS.md` - not in this repo.
+- Answers in `C:\DE10\solutions\ex0\ANSWERS.md` - not in this repo.
 - Default build: 238 LEs, 54 registers, Fmax 175.3 MHz (Slow model).

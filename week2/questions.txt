@@ -1,4 +1,4 @@
-# Class exercise - the questions (written by C:/DE10_solutions/class_exercise/gen.py, do not edit).
+# Class exercise - the questions (written by C:/DE10/solutions/class_exercise/gen.py, do not edit).
 # [Qnn] NAME | title | npub n [| steps n];  B: board;  Pk: printed for login numbers with pub = k;
 # with steps: Sk: the screen of step k (step 0 = login, in run.ps1);  without: L: question, F: answer format
 

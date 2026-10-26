@@ -1,0 +1,4 @@
+
+# In your K-map: how many pairs of adjacent 1s did you find? What does that say about the minimal SOP compared with the canonical one?
+# Write your answer below these lines, save, and close Notepad.
+
