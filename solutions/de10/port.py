@@ -70,8 +70,8 @@ def fix_line(l, q, off, psw):
         return s
     l = GROUP.sub(sub, l)
     l = l.replace("(green)", "(red)")
-    for a, b in HE_GREEN:
-        l = l.replace(a, b)
+    for a, b in HE_GREEN:			# whole words only (a prefix letter is fine): not the ירוק inside פירוק
+        l = re.sub(r"(?<![א-ת])([ובהלמשכ]{0,2})" + a + r"(?![א-ת])", lambda m: m.group(1) + b, l)
     return l
 
 def fix_texts(q, off, psw):

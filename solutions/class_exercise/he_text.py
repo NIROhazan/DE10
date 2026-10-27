@@ -130,7 +130,8 @@ HE = {
         "A B' C",
         "עכשיו אחדו כל שני איברים שנבדלים באות אחת בלבד, למשל:",
         "A B C  +  A B C'   =   A B",
-        "חזרו על זה עד שאי אפשר יותר. כמה איברים נשארו? שימו את המספר:"] + NUM7,
+        "חזרו על זה עד שאי אפשר יותר.",
+        "בסוף מחקו כל איבר שכל המצבים שלו כבר מכוסים באיברים האחרים. כמה איברים נשארו? שימו את המספר:"] + NUM7,
        ["כמה אותיות יש בכל האיברים שנשארו, יחד? למשל:",
         "A'B + C   ->   3",
         "שימו את המספר:"] + NUM7]),
@@ -435,7 +436,7 @@ def personal(name, P):
         elif name == "STORY":
             out[k] = [STORY_HE[k], STORY_LET[k], ls[1].replace("Letters:", "switches:")]
         elif name == "STORY4":
-            out[k] = [STORY4_HE[k], STORY4_LET[k], ls[1].replace("Letters:", "switches:")]
+            out[k] = [STORY4_HE[k], STORY4_LET[k], ls[-1].replace("Letters:", "switches:")]
         elif name == "DECODER":
             out[k] = [first.split(":", 1)[1].strip()]
         elif name == "MUXLOGIC":
