@@ -1,10 +1,10 @@
 # Wraps a student kit (labN_kit.zip, as attached on Moodle) into ONE file: labN_kit_install.bat.
 # The student double-clicks it (from Downloads): the kit goes to F:\labN_kit (the personal drive; another student's
-# files never get in) and weekN\LESSON.bat opens. Running it again replaces only the kit's files - progress.txt,
-# moodle.txt, student.txt and the lesson files stay.
-#   powershell -File make_installer.ps1 -Zip C:\path\lab3_kit.zip [-Out C:\path\lab3_kit_install.bat] [-Drive F:]
+# files never get in; a computer with no F: drive -> C:\labN_kit) and weekN\LESSON.bat opens. Running it again
+# replaces only the kit's files - progress.txt, moodle.txt, student.txt and the lesson files stay.
+#   powershell -File make_installer.ps1 -Zip C:\path\lab3_kit.zip [-Out C:\path\lab3_kit_install.bat] [-Drive F:] [-Fallback C:]
 # Kept ASCII for PowerShell 5.1.
-param([Parameter(Mandatory = $true)][string]$Zip, [string]$Out = "", [string]$Drive = "F:")
+param([Parameter(Mandatory = $true)][string]$Zip, [string]$Out = "", [string]$Drive = "F:", [string]$Fallback = "C:")
 
 $ErrorActionPreference = "Stop"
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -24,20 +24,24 @@ $b64 = [Convert]::ToBase64String([IO.File]::ReadAllBytes($Zip), [Base64Formattin
 $bat = @"
 @echo off
 rem ============================================================
-rem  Installs $kit into $Drive\$kit (your personal drive) and opens the lesson.
+rem  Installs $kit into $Drive\$kit (your personal drive; no $Drive -> $Fallback\$kit) and opens the lesson.
 rem  Run it again any time: only the kit's files are replaced, your progress stays.
 rem ============================================================
 setlocal
 set "KIT=$kit"
-set "DEST=$Drive\$kit"
 set "TMPX=%TEMP%\%KIT%_install"
-if not exist $Drive\ (
-	echo.
-	echo   Drive $Drive was not found. Log in to the college computer with your own user, then run this again.
-	echo.
-	pause
-	exit /b 1
-)
+set "DEST=$Drive\$kit"
+if exist $Drive\ mkdir "%DEST%" 2>nul
+if exist "%DEST%\" goto dest_ok
+set "DEST=$Fallback\$kit"
+mkdir "%DEST%" 2>nul
+if exist "%DEST%\" goto dest_ok
+echo.
+echo   Could not create a folder on $Drive or $Fallback - show this window to the lecturer.
+echo.
+pause
+exit /b 1
+:dest_ok
 echo.
 echo   Installing %KIT% into %DEST% ...
 set "SELF=%~f0"
