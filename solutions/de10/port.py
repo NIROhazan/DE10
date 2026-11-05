@@ -14,7 +14,7 @@
 #   (LEDGi -> LEDR(i + off)) when both fit in 10 LEDs, otherwise a free switch picks the page (0 = red, 1 = green);
 #   HEX0..HEX3 as on the DE1 (decimal points off), HEX4 and HEX5 blank.
 # The screen texts get the same changes (LEDG -> LEDR, green -> red, the moved LEDs, the page switch).
-import argparse, os, re, shutil, subprocess, sys
+import argparse, json, os, re, shutil, subprocess, sys
 from concurrent.futures import ThreadPoolExecutor
 from load import load
 
@@ -81,6 +81,30 @@ def fix_texts(q, off, psw):
     q.steps = [([fix_line(l, q, off, psw) for l in lines], f) for lines, f in q.steps]
     if q.P:
         q.P = {k: [fix_line(l, q, off, psw) for l in v] for k, v in q.P.items()}
+
+# The approved screen rewrites of the "DE10 Question Restyle" review page (restyle/wN.json, by question id):
+# "before" = the screen as questions.txt printed it, "after" = the new text. Only the texts change - steps, answers
+# and the board stay. A question whose text changed since the review keeps its text (WARNING), so nothing is lost.
+RESTYLE = {}
+
+def restyle(q, week):
+    if week not in RESTYLE:
+        p = f"{HERE}/restyle/w{week}.json"
+        RESTYLE[week] = json.load(open(p, encoding="utf-8")) if os.path.exists(p) else {}
+    r = RESTYLE[week].get(q.id)
+    if not r:
+        return
+    bw = G.bitwords
+    now = {"B": [bw(l) for l in q.B], "P": {str(k): [bw(l) for l in v] for k, v in (q.P or {}).items()},
+           "S": [[bw(l) for l in ls] for ls, _ in q.steps]}
+    if r["name"] != q.name or now != r["before"]:
+        print(f"WARNING {q.id} {q.name}: the text changed since the restyle review - not restyled")
+        return
+    a = r["after"]
+    q.B = list(a["B"])
+    if q.P:
+        q.P = {k: list(a["P"][str(k)]) for k in q.P}
+    q.steps = [(list(ls), f) for ls, (_, f) in zip(a["S"], q.steps)]
 
 # ---------------------------------------------------------------- the DE10 top level
 def top_v(q, led, page, psw):
@@ -261,6 +285,7 @@ if __name__ == "__main__":
         led, page, psw, off = layout(q)
         lays[q.id] = (led, page, psw)
         fix_texts(q, off, psw)
+        restyle(q, week)
         if psw is not None or off:
             print(f"{q.id} {q.name}: " + (f"page switch SW{psw}" if psw is not None else f"green LEDs moved up by {off}"))
     # every LEDR a screen names must be an output of that question
