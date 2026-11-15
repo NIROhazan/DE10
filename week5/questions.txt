@@ -612,7 +612,8 @@ S3: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0 
 [Q33] ACCUM | אוגר עם משוב דרך מחבר | npub 1 | steps 3 | flat
 B: q = SW9..SW6 (now, HEX0)     HEX1 = q after the next clock edge     answer: SW3..SW0
 S1: בלוח אוגר של ספרה, ומחבר במשוב מהיציאה שלו לכניסה שלו:
-S1: always_ff @(posedge clk)  q <= (q + K) % 10;
+S1: בכל עליית שעון:
+S1: q_next = (q + K) mod 10
 S1: אין שעון: המצב הנוכחי על מתגים, והנורות מראות את המצב אחרי עליית השעון הבאה.
 S1: q = SW9..SW6 (now, HEX0)     HEX1 = q after the next clock edge
 S1: שימו

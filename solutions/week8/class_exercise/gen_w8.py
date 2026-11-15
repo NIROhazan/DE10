@@ -474,7 +474,7 @@ LH10 = "HEX3 = tccq     HEX2 = tcd of one gate     HEX1 = thold"
 VH10 = rv(122, 200, lambda r: (lambda a, b, c: (a, b, c) if a + b != c and a + 2 * b != c else None)(r.randint(1, 6), r.randint(1, 5), r.randint(2, 9)))
 numq("SLIDE10HOLD", "המעגל משקופית 10: אילוץ ההחזקה", 3, VH10, lambda p: [list(p)], LH10,
      [(["המעגל משקופית 10: המסלול הקצר עובר דרך שער אחד בלבד.", "C -> OR -> X'", "בתצוגה:", LH10, UNIT,
-        "האם אילוץ ההחזקה מתקיים?", "tccq + tcd > thold"] + UP0("מתקיים", "לא מתקיים"), lambda q, p: (int(p[0] + p[1] > p[2]), 0x1))],
+        "האם אילוץ ההחזקה מתקיים?", "tccq + tcd >= thold"] + UP0("מתקיים", "לא מתקיים"), lambda q, p: (int(p[0] + p[1] > p[2]), 0x1))],
      lambda p: f"tccq + tcd = {p[0] + p[1]} vs thold {p[2]}")
 
 numq("SLIDE11FIX", "התיקון משקופית 11: מאגר במסלול הקצר", 3, VH10, lambda p: [list(p)], LH10,
@@ -482,7 +482,7 @@ numq("SLIDE11FIX", "התיקון משקופית 11: מאגר במסלול הקצ
         "בתצוגה ההשהיה של שער אחד:", "HEX2 = tcd of one gate", UNIT,
         "מה ההשהיה הקצרה ביותר של המסלול הקצר עכשיו?", "tcd = 2 x tcd(gate)"] + BIN4, lambda q, p: (2 * p[1], 0xF)),
       (["התיקון משקופית 11: במסלול הקצר שני שערים.", "C -> BUF -> OR -> X'", "בתצוגה:", LH10, UNIT,
-        "האם אילוץ ההחזקה מתקיים עכשיו?", "tccq + 2 x tcd(gate) > thold"] + UP0("מתקיים", "לא מתקיים"),
+        "האם אילוץ ההחזקה מתקיים עכשיו?", "tccq + 2 x tcd(gate) >= thold"] + UP0("מתקיים", "לא מתקיים"),
        lambda q, p: (int(p[0] + 2 * p[1] > p[2]), 0x1))],
      lambda p: f"tcd {2 * p[1]}, tccq + tcd = {p[0] + 2 * p[1]} vs thold {p[2]}")
 
@@ -505,7 +505,7 @@ numq("SKEW15", "שקופית 15: השעון השני מאחר", 4,
      [(["השקופית של הטיית שעון (15): מסלול קצר בין שני אוגרים. בתצוגה:", L15a, UNIT,
         "כמה זמן אחרי עליית השעון הנתון בכניסה של האוגר השני עוד יציב?", "tccq + tcd"] + BIN4, lambda q, p: (p[0] + p[1], 0xF)),
       (["השקופית של הטיית שעון (15): השעון של האוגר השני מאחר.", "CLK2 is later than CLK1", "בתצוגה:", L15, UNIT,
-        "האם אילוץ ההחזקה מתקיים עם ההטיה?", "tccq + tcd > thold + tskew"] + UP0("מתקיים", "לא מתקיים"),
+        "האם אילוץ ההחזקה מתקיים עם ההטיה?", "tccq + tcd >= thold + tskew"] + UP0("מתקיים", "לא מתקיים"),
        lambda q, p: (int(p[0] + p[1] > p[2] + p[3]), 0x1))],
      lambda p: f"tccq + tcd {p[0] + p[1]} vs thold + tskew {p[2] + p[3]}")
 

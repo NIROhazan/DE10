@@ -54,8 +54,8 @@ W.append(Q(id="ALUHIDDEN", name="ALUHIDDEN", title="פעולה ומספר מוס
     steps=[(["בלוח", "ALU", "שהפעולה וה-", "B", "שלו מוסתרים.", "A = SW9..SW6     Result = LEDG3..LEDG0",
              "שימו", "A = 0000", "והעתיקו את התוצאה:", "SW3..SW0 = LEDG3..LEDG0"], lambda q, p: (alu(p[0], 0, p[1])[0], 0xF)),
            (["עכשיו", "A = 1111", "והעתיקו:", "SW3..SW0 = LEDG3..LEDG0"], lambda q, p: (alu(p[0], 15, p[1])[0], 0xF)),
-           (["איזו פעולה?"] + code(["add", "subtract", "and", "or"]), lambda q, p: (p[0], 0x3)),
-           (["מה", "B", "?", "SW3..SW0"], lambda q, p: (p[1], 0xF))]))
+           (["איזו פעולה?", "B = 1..14", "אם גם חיבור וגם חיסור מתאימים, בחרו חיבור."] + code(["add", "subtract", "and", "or"]), lambda q, p: (p[0], 0x3)),
+           (["מה", "B", "?", "B = 1..14", "SW3..SW0"], lambda q, p: (p[1], 0xF))]))
 
 # the four flags in hidden LEDs, subtracting a hidden B
 VFL = [(perm, b) for perm in itertools.permutations(range(4)) for b in (3, 5, 6, 9, 10, 12)]

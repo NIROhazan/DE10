@@ -356,7 +356,7 @@ S1: LA:  green = LEDR7   yellow = LEDR6   red = LEDR5
 S1: LB:  green = LEDR2   yellow = LEDR1   red = LEDR0
 S1: הציבו את מצב ההתחלה. מה הצבע עכשיו של הרחוב שבתצוגה?
 S1: green = all 0     yellow = SW0     red = SW1
-S2: שני החיישנים למטה. אחרי כמה שעונים הרחוב שבתצוגה אדום?
+S2: שני החיישנים למטה. אחרי כמה שעונים הרחוב שבתצוגה ירוק?
 S2: שעון אחד = להציב במתגי המצב את המצב הבא.
 S2: S1 S0 = SW9 SW8     TA = SW7     TB = SW6     next state = HEX0
 S2: HEX3 = the start state     HEX1 = the street (A or b)
@@ -371,7 +371,7 @@ S1: S = SW9 SW8 SW7   (HEX3)     next state = HEX0
 S1: TA, TB = SW6, SW5   (in some order)
 S1: LA:  green = LEDR7   yellow = LEDR6   red = LEDR5
 S1: LB:  green = LEDR2   yellow = LEDR1   red = LEDR0
-S1: במצב 0 הרחוב הראשון אדום. איזה מתג הוא
+S1: במצב 0 הרחוב הראשון ירוק. איזה מתג הוא
 S1: TA
 S1: ? (כשהוא למעלה, המצב הבא נשאר 0)
 S1: SW6 = all 0     SW5 = SW0
@@ -411,7 +411,7 @@ S1: אחרי איפוס אוגר המצב מכיל 00. מה מראה אז הרמ
 S1: S1 S0 = SW9 SW8 = 00
 S1: LA:  green = LEDR7   yellow = LEDR6   red = LEDR5
 S1: green = all 0     yellow = SW0     red = SW1
-S2: מצאו את המצב שבו הרחוב הראשון אדום. איזה מתג הוא
+S2: מצאו את המצב שבו הרחוב הראשון ירוק. איזה מתג הוא
 S2: TA
 S2: ? (כשהוא למעלה, המצב הבא לא משתנה)
 S2: S1 S0 = SW9 SW8   (HEX3)     next state = HEX0
@@ -452,7 +452,7 @@ B: S1 S0 = SW9 SW8   (HEX3)     LA1 LA0 = LEDR3 LEDR2     LB1 LB0 = LEDR1 LEDR0 
 S1: בלוח לוגיקת היציאה של בקר הרמזור: המצב על המתגים, וכל רמזור בשני ביטים.
 S1: S1 S0 = SW9 SW8   (HEX3)     LA1 LA0 = LEDR3 LEDR2     LB1 LB0 = LEDR1 LEDR0
 S1: S0: LA green, LB red
-S1: במצב 0 הרחוב הראשון אדום. מה הקוד של אדום?
+S1: במצב 0 הרחוב הראשון ירוק. מה הקוד של ירוק?
 S1: S = 0     SW1 SW0 = LA1 LA0
 S2: ובמצב 0 הרחוב השני אדום. מה הקוד של אדום?
 S2: S1 S0 = SW9 SW8   (HEX3)     LA1 LA0 = LEDR3 LEDR2     LB1 LB0 = LEDR1 LEDR0
@@ -469,11 +469,11 @@ S1: LA:  green = LEDR7   yellow = LEDR6   red = LEDR5
 S1: LB:  green = LEDR2   yellow = LEDR1   red = LEDR0
 S1: מה הקוד של
 S1: S0
-S1: (הרחוב הראשון אדום)?
+S1: (הרחוב הראשון ירוק)?
 S1: SW1 SW0 = S1 S0
 S2: מה הקוד של
 S2: S2
-S2: (הרחוב השני אדום)?
+S2: (הרחוב השני ירוק)?
 S2: S1 S0 = SW9 SW8   (HEX3)
 S2: LB green = LEDR2
 S2: SW1 SW0 = S1 S0
@@ -496,7 +496,7 @@ S1: S2: TB -> S2, else S3
 S1: S3 -> S0
 S1: איזה מתג הוא
 S1: S0
-S1: ? (כשרק הוא למעלה, הרחוב הראשון אדום)
+S1: ? (כשרק הוא למעלה, הרחוב הראשון ירוק)
 S1: SW6 = all 0     SW7 = SW0     SW8 = SW1     SW9 = SW1+SW0
 S2: איזה מתג הוא
 S2: S1

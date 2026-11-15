@@ -610,13 +610,13 @@ S1: כמה ביטי כתובת צריך?
 S1: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0 8 = SW3 9 = SW3+SW0
 
 [Q42] WORDLINE | קווי מילה | npub 1 | steps 3 | flat
-B: address = SW9 SW8 SW7 (HEX3)     wordline i = LEDGi     answer: SW2..SW0
+B: address = SW9 SW8 SW7 (HEX3)     wordline i = LEDRi     answer: SW2..SW0
 S1: בלוח מפענח הכתובות של זיכרון של 8 מילים: כל כתובת צריכה להעלות בדיוק קו מילה אחד.
-S1: address = SW9 SW8 SW7 (HEX3)     wordline i = LEDGi
+S1: address = SW9 SW8 SW7 (HEX3)     wordline i = LEDRi
 S1: המפענח שבור בכתובת אחת. עברו על כל הכתובות: מה התקלה?
 S1: no wordline HIGH = all 0     two wordlines HIGH = SW0
 S2: בלוח אותו מפענח:
-S2: address = SW9 SW8 SW7 (HEX3)     wordline i = LEDGi
+S2: address = SW9 SW8 SW7 (HEX3)     wordline i = LEDRi
 S2: באיזו כתובת התקלה?
 S2: 4 = SW2   2 = SW1   1 = SW0
 

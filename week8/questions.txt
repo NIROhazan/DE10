@@ -28,7 +28,7 @@ S1: בתצוגה:
 S1: HEX3 = tccq     HEX2 = tcd of one gate     HEX1 = thold
 S1: all times in units of 10 ps (5 = 50 ps)
 S1: האם אילוץ ההחזקה מתקיים?
-S1: tccq + tcd > thold
+S1: tccq + tcd >= thold
 S1: מתקיים - הרימו:
 S1: SW0
 S1: לא מתקיים - השאירו למטה.
@@ -49,7 +49,7 @@ S2: בתצוגה:
 S2: HEX3 = tccq     HEX2 = tcd of one gate     HEX1 = thold
 S2: all times in units of 10 ps (5 = 50 ps)
 S2: האם אילוץ ההחזקה מתקיים עכשיו?
-S2: tccq + 2 x tcd(gate) > thold
+S2: tccq + 2 x tcd(gate) >= thold
 S2: מתקיים - הרימו:
 S2: SW0
 S2: לא מתקיים - השאירו למטה.
@@ -280,7 +280,7 @@ S2: בתצוגה:
 S2: HEX3 = tccq     HEX2 = tcd     HEX1 = thold     HEX0 = tskew
 S2: all times in units of 10 ps (5 = 50 ps)
 S2: האם אילוץ ההחזקה מתקיים עם ההטיה?
-S2: tccq + tcd > thold + tskew
+S2: tccq + tcd >= thold + tskew
 S2: מתקיים - הרימו:
 S2: SW0
 S2: לא מתקיים - השאירו למטה.

@@ -208,10 +208,13 @@ S2: A = 1111
 S2: והעתיקו:
 S2: SW3..SW0 = LEDR3..LEDR0
 S3: איזו פעולה?
+S3: B = 1..14
+S3: אם גם חיבור וגם חיסור מתאימים, בחרו חיבור.
 S3: add = all 0     subtract = SW0     and = SW1     or = SW1+SW0
 S4: מה
 S4: B
 S4: ?
+S4: B = 1..14
 S4: SW3..SW0
 
 [Q10] ZEROAND | דגל האפס בפעולת וגם | npub 1 | steps 4 | flat

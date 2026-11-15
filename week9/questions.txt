@@ -422,7 +422,7 @@ S2: SW3..SW0 = Y
 [Q35] EQXNOR | משווה השוויון מהשקף | npub 1 | steps 3 | flat
 B: A = SW9..SW6 (HEX0)     XNOR3..XNOR0 = LEDR3..LEDR0     Equal = LEDR4     answer: SW3..SW0
 S1: בשקף 37: משווה שוויון. בלוח המעגל של השקף, והמספר השני מוסתר.
-S1: Xi = Ai XNOR Bi = LEDGi     Equal = X3 X2 X1 X0 = LEDR4
+S1: Xi = Ai XNOR Bi = LEDRi     Equal = X3 X2 X1 X0 = LEDR4
 S1: A = SW9..SW6 (HEX0)
 S1: שימו
 S1: A = 0000
@@ -463,13 +463,13 @@ S2: מה התוצאה עכשיו?
 S2: SW3..SW0 = Y
 
 [Q38] EQCOUNT | משווה השוויון: כמה ביטים שווים | npub 1 | steps 2 | flat
-B: A = SW9..SW6 (HEX0)     HEX3 = the A to set     B = HEX2     Xi = LEDGi     answer: SW3..SW0
+B: A = SW9..SW6 (HEX0)     HEX3 = the A to set     B = HEX2     Xi = LEDRi     answer: SW3..SW0
 S1: בשקף 37: משווה שוויון. לכל ביט שער
 S1: XNOR
 S1: ואחריהם
 S1: AND
 S1: . בלוח שערי הביטים של השקף.
-S1: Xi = Ai XNOR Bi = LEDGi
+S1: Xi = Ai XNOR Bi = LEDRi
 S1: A = SW9..SW6 (HEX0)     B = HEX2     X3..X0 = LEDR3..LEDR0
 S1: שימו במתגים את המספר שמוצג ב-
 S1: HEX3

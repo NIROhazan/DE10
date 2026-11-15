@@ -19,7 +19,8 @@ from concurrent.futures import ThreadPoolExecutor
 from load import load
 
 ROOT = "C:/DE10"
-QBIN = "C:/altera_standard/25.1std/quartus/bin64"
+QBIN = next((d for d in ("C:/altera_standard/25.1std/quartus/bin64", "C:/altera_lite/25.1std/quartus/bin64") if os.path.isdir(d)),
+            "C:/altera_standard/25.1std/quartus/bin64")
 HERE = os.path.dirname(os.path.abspath(__file__)).replace("\\", "/")
 
 # ---------------------------------------------------------------- where every output goes on the DE10
@@ -57,6 +58,7 @@ def layout(q):
 
 # ---------------------------------------------------------------- the screen texts
 GROUP = re.compile(r"LED([RG])(\d)(?:\.\.LED([RG])(\d))?")
+LED_WORD = re.compile(r"LED|נור(ה|ות|ית|יות)(?![א-ת])")
 HE_GREEN = [("ירוקות", "אדומות"), ("ירוקים", "אדומים"), ("ירוקה", "אדומה"), ("ירוק", "אדום")]
 
 def fix_line(l, q, off, psw):
@@ -69,9 +71,11 @@ def fix_line(l, q, off, psw):
             s += f" (SW{psw} = {1 if kind == 'G' else 0})"
         return s
     l = GROUP.sub(sub, l)
+    l = re.sub(r"LEDG([a-z])(?![a-zA-Z])", lambda m: f"LEDR{m.group(1)}" if off == 0 else f"LEDR({m.group(1)}+{off})", l)	# a generic LEDGi
     l = l.replace("(green)", "(red)")
-    for a, b in HE_GREEN:			# whole words only (a prefix letter is fine): not the ירוק inside פירוק
-        l = re.sub(r"(?<![א-ת])([ובהלמשכ]{0,2})" + a + r"(?![א-ת])", lambda m: m.group(1) + b, l)
+    if LED_WORD.search(l):			# only a sentence about the LEDs: a traffic light's green stays green
+        for a, b in HE_GREEN:			# whole words only (a prefix letter is fine): not the ירוק inside פירוק
+            l = re.sub(r"(?<![א-ת])([ובהלמשכ]{0,2})" + a + r"(?![א-ת])", lambda m: m.group(1) + b, l)
     return l
 
 def fix_texts(q, off, psw):
@@ -239,11 +243,20 @@ def compile_q(q, dd, week):
 def lesson_txt(week, m, W):
     if not hasattr(m, "TOPICS"):
         return None				# weeks 3 and 4: the repo's lesson.txt already matches
-    k, lt = 1, []
+    hid = json.load(open(f"{HERE}/hidden.json", encoding="utf-8")).get(str(week), {})
+    hide, mins_over = set(hid.get("hide", [])), hid.get("minutes")
+    k, tops = 1, []
     for mins, name, n in m.TOPICS:
-        lt.append(f"TOPIC {mins} | {name} | " + " ".join(f"Q{i:02d}" for i in range(k, k + n)))
+        qs = [f"Q{i:02d}" for i in range(k, k + n) if f"Q{i:02d}" not in hide]	# hidden.json: left out of the menu
+        if qs:
+            tops.append([mins, name, qs])
         k += n
     assert k - 1 == len(W)
+    if mins_over:
+        assert len(mins_over) == len(tops), f"week {week}: hidden.json minutes {mins_over} vs {len(tops)} topics"
+        for t, mm in zip(tops, mins_over):
+            t[0] = mm
+    lt = [f"TOPIC {mins} | {name} | " + " ".join(qs) for mins, name, qs in tops]
     return (f"# The lesson schedule of week {week} (lecture {week}) - read by LESSON.bat (tools\\lesson.ps1). Edit it before the lesson.\n"
             "# TOPIC <minutes> | <name, Hebrew, no English letters> | <questions, easy -> hard>.\n\n"
             "# The lesson's time starts when the student types the student ID; the TOPIC minutes add up to the lesson's\n"

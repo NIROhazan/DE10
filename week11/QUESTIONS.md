@@ -433,139 +433,7 @@
 
 ## נושא 2 - מונים ואוגרי הזזה
 
-40 דקות, 14 שאלות: Q20-Q33
-
-### Q20 - המונה מהשקופית
-
-- **מתגים ונורות:** `reset = SW9     q = SW8..SW6 (HEX3)     q after the next clock edge = LEDR2..LEDR0     the q to set = HEX0     answer: SW2..SW0`
-- **שלבים:** 2
-
-**שלב 1**
-
-- בשקופית 27 המונה:
-- `if (reset) q <= 0; else q <= q + 1;`
-- בלוח המונה הזה, של 3 ביטים. במתגים הערך עכשיו, ובנורות הערך אחרי עליית השעון הבאה:
-- `reset = SW9     q = SW8..SW6 (HEX3)`
-- `q after the next clock edge = LEDR2..LEDR0`
-- שימו במתגים:
-- `reset = 0     q = HEX0`
-- מה הערך אחרי עליית השעון הבאה?
-- `SW2..SW0`
-
-**שלב 2**
-
-- בלוח אותו מונה:
-- `reset = SW9     q = SW8..SW6 (HEX3)`
-- `q after the next clock edge = LEDR2..LEDR0`
-- מתחילים מ:
-- `reset = 0     q = HEX0`
-- מה הערך אחרי שתי עליות שעון?
-- `SW2..SW0`
-
-### Q21 - המתנד מהשקופית
-
-- **מתגים ונורות:** `q = SW9..SW6 (HEX3)     q after the next clock edge = LEDR3..LEDR0     p = HEX0     the q to set = HEX1     answer: SW3..SW0`
-- **שלבים:** 2
-
-**שלב 1**
-
-- בשקופית 29 מתנד בשליטה ספרתית: מונה שמוסיף בכל עליית שעון את
-- `p`
-- במקום 1.
-- `q <= q + p`
-- בלוח מונה כזה, של 4 ביטים. במתגים הערך עכשיו, ובנורות הערך אחרי עליית השעון הבאה:
-- `q = SW9..SW6 (HEX3)     q after the next clock edge = LEDR3..LEDR0`
-- `p = HEX0`
-- שימו במתגים:
-- `q = HEX1`
-- מה הערך אחרי עליית השעון הבאה?
-- `SW3..SW0`
-
-**שלב 2**
-
-- בלוח אותו מונה:
-- `q = SW9..SW6 (HEX3)     q after the next clock edge = LEDR3..LEDR0`
-- `p = HEX0`
-- מתחילים מ:
-- `q = HEX1`
-- מה הערך אחרי שתי עליות שעון?
-- `SW3..SW0`
-
-### Q22 - אוגר הזזה עם טעינה מהשקופית
-
-- **מתגים ונורות:** `Load = SW9     Sin = SW8     Q3..Q0 = SW7..SW4 (HEX3)     q after the next clock edge = LEDR9..LEDR6     D = HEX0     the Q to set = HEX1     the Sin to set = LEDR0     answer: SW3..SW0`
-- **שלבים:** 2
-
-**שלב 1**
-
-- בשקופיות 31-32 אוגר הזזה עם טעינה מקבילית:
-- `Load = 1: Q <= D     Load = 0: Q <= {Q[2:0], Sin}`
-- בלוח האוגר הזה, של 4 ביטים. במתגים הכניסות והערך עכשיו, ובנורות הערך אחרי עליית השעון הבאה:
-- `Load = SW9     Sin = SW8     Q3..Q0 = SW7..SW4 (HEX3)`
-- `q after the next clock edge = LEDR9..LEDR6`
-- `D = HEX0`
-- שימו במתגים:
-- `Load = 1`
-- מה הערך אחרי עליית השעון הבאה?
-- `SW3..SW0`
-
-**שלב 2**
-
-- בלוח אותו אוגר:
-- `Load = 1: Q <= D     Load = 0: Q <= {Q[2:0], Sin}`
-- `Load = SW9     Sin = SW8     Q3..Q0 = SW7..SW4 (HEX3)`
-- `q after the next clock edge = LEDR9..LEDR6`
-- שימו במתגים:
-- `Load = 0     Sin = LEDR0     Q = HEX1`
-- מה הערך אחרי עליית השעון הבאה?
-- `SW3..SW0`
-
-### Q23 - מטורי למקבילי מהשקופית
-
-- **מתגים ונורות:** `Q3..Q0 = SW9..SW6 (HEX3)     Sin = SW5     q after the next clock edge = LEDR9..LEDR6     the bits to send = LEDR3..LEDR0 (LEDR0 first)     answer: SW3..SW0`
-- **שלבים:** 2
-
-**שלב 1**
-
-- בשקופית 30 אוגר הזזה הוא ממיר מטורי למקבילי: בכל עליית שעון הביט החדש נכנס ל-
-- `Q0`
-- והשאר זזים.
-- `Q <= {Q[2:0], Sin}`
-- בלוח האוגר הזה, של 4 ביטים. במתגים הערך עכשיו והכניסה, ובנורות הערך אחרי עליית השעון הבאה:
-- `Q3..Q0 = SW9..SW6 (HEX3)     Sin = SW5`
-- `q after the next clock edge = LEDR9..LEDR6`
-- `the bits to send = LEDR3..LEDR0 (LEDR0 first)`
-- שימו במתגים:
-- `Q = 0000     Sin = LEDR0`
-- מה הערך אחרי עליית השעון הבאה?
-- `SW3..SW0`
-
-**שלב 2**
-
-- בלוח אותו אוגר:
-- `Q <= {Q[2:0], Sin}`
-- `Q3..Q0 = SW9..SW6 (HEX3)     Sin = SW5`
-- `q after the next clock edge = LEDR9..LEDR6`
-- `the bits to send = LEDR3..LEDR0 (LEDR0 first)`
-- שולחים את 4 הביטים, אחד בכל עליית שעון. מה הערך אחרי 4 עליות שעון?
-- `SW3..SW0`
-
-### Q24 - התדר של המתנד
-
-- **מתגים ונורות:** `q = SW9..SW6 (HEX3)     q after the next clock edge = LEDR3..LEDR0     answer: SW4..SW0`
-- **שלבים:** 1
-
-**שלב 1**
-
-- בשקופית 29 התדר של הביט העליון במתנד בשליטה ספרתית:
-- `f_out = f_clk x p / 2^N`
-- בלוח מתנד של 4 ביטים עם
-- `p`
-- מוסתר. במתגים הערך עכשיו, ובנורות הערך אחרי עליית השעון הבאה:
-- `q = SW9..SW6 (HEX3)     q after the next clock edge = LEDR3..LEDR0`
-- השעון הוא 32 הרץ. מה התדר של הביט העליון, בהרץ?
-- `f_clk = 32 Hz     N = 4     f_out = ?`
-- `16 = SW4   8 = SW3   4 = SW2   2 = SW1   1 = SW0`
+40 דקות, 7 שאלות: Q25-Q33
 
 ### Q25 - הביט העליון של המונה
 
@@ -621,28 +489,6 @@
 - המונה סופר 1 בכל עליית שעון. כמה עליות שעון נמשך מחזור שלם של הנורה (דולקת וכבויה)?
 - `16 = SW4   8 = SW3   4 = SW2   2 = SW1   1 = SW0`
 
-### Q27 - מונה עם ערך איפוס
-
-- **מתגים ונורות:** `reset = SW9     q = SW8..SW5 (HEX3)     q after the next clock edge = HEX0     answer: SW3..SW0`
-- **שלבים:** 2
-
-**שלב 1**
-
-- בלוח מונה:
-- `always_ff @(posedge clk) if (reset) q <= R; else q <= q +- 1;`
-- במתגים הכניסות עכשיו, ובתצוגה הערך אחרי עליית השעון הבאה:
-- `reset = SW9     q = SW8..SW5 (HEX3)     q after the next clock edge = HEX0`
-- מה ערך האיפוס?
-- `R = ?     SW3..SW0`
-
-**שלב 2**
-
-- בלוח אותו מונה:
-- `always_ff @(posedge clk) if (reset) q <= R; else q <= q +- 1;`
-- `reset = SW9     q = SW8..SW5 (HEX3)     q after the next clock edge = HEX0`
-- הוא סופר למעלה או למטה?
-- `up = all down     down = SW0`
-
 ### Q28 - מונה עם מחזור מוסתר
 
 - **מתגים ונורות:** `q = SW9..SW6 (HEX3)     q after the next clock edge = HEX0     answer: SW4..SW0`
@@ -660,26 +506,6 @@
 - בלוח אותו מונה:
 - `q = SW9..SW6 (HEX3)     q after the next clock edge = HEX0`
 - כמה ערכים שונים יש במחזור שלו?
-- `16 = SW4   8 = SW3   4 = SW2   2 = SW1   1 = SW0`
-
-### Q29 - מתנד בשליטה ספרתית
-
-- **מתגים ונורות:** `q = SW9..SW6 (HEX3)     q after the next clock edge = LEDR3..LEDR0     answer: SW4..SW0`
-- **שלבים:** 2
-
-**שלב 1**
-
-- בלוח מונה של 4 ביטים שמוסיף מספר מוסתר בכל עליית שעון (במקום 1).
-- במתגים הערך של המונה עכשיו, ובנורות הערך אחרי עליית השעון הבאה:
-- `q = SW9..SW6 (HEX3)     q after the next clock edge = LEDR3..LEDR0`
-- מה המספר שהוא מוסיף?
-- `p = ?     SW3..SW0`
-
-**שלב 2**
-
-- בלוח אותו מונה:
-- `q = SW9..SW6 (HEX3)     q after the next clock edge = LEDR3..LEDR0`
-- הוא מתחיל ב-0. אחרי כמה עליות שעון הוא חוזר ל-0 בפעם הראשונה?
 - `16 = SW4   8 = SW3   4 = SW2   2 = SW1   1 = SW0`
 
 ### Q30 - אוגר הזזה
@@ -798,7 +624,7 @@
 
 ## נושא 3 - זיכרונות
 
-40 דקות, 17 שאלות: Q34-Q50
+40 דקות, 12 שאלות: Q34-Q49
 
 ### Q34 - מערך הזיכרון מהשקופית
 
@@ -870,47 +696,6 @@
 - מה היציאות?
 - `SW2 SW1 SW0 = X Y Z`
 
-### Q37 - קובץ הזיכרון מהשקופית
-
-- **מתגים ונורות:** `address = SW9 SW8     SW7 = 0: HEX3..HEX0 = the high 16 bits     SW7 = 1: the low 16 bits     answer: SW1 SW0`
-- **שלבים:** 2
-
-**שלב 1**
-
-- בשקופית 62 ארבע שורות של קובץ זיכרון. בלוח זיכרון לקריאה בלבד שאותחל מהשורות האלה, בסדר אחר:
-- `01234567     89ABCDEF     FFFFFFFF     A5A5A5A5`
-- `address = SW9 SW8     SW7 = 0: HEX3..HEX0 = the high 16 bits     SW7 = 1: the low 16 bits`
-- מה כתוב בכתובת 00?
-- `01234567 = all down     89ABCDEF = SW0     FFFFFFFF = SW1     A5A5A5A5 = SW1+SW0`
-
-**שלב 2**
-
-- בלוח אותו זיכרון:
-- `address = SW9 SW8     SW7 = 0: HEX3..HEX0 = the high 16 bits     SW7 = 1: the low 16 bits`
-- באיזו כתובת כתוב
-- `FFFFFFFF`
-- `?`
-- `SW1 SW0 = the address`
-
-### Q38 - קובץ אוגרים עם שני פורטי קריאה
-
-- **מתגים ונורות:** `A1 = SW9 SW8 (HEX2)     RD1 = HEX3     A2 = SW7 SW6 (HEX1)     RD2 = HEX0     answer: SW4..SW0`
-- **שלבים:** 2
-
-**שלב 1**
-
-- בשקופיות 63-64 קובץ אוגרים עם שני פורטי קריאה, ואוגר 0 תמיד נקרא כ-0. בלוח קובץ כזה של 4 אוגרים של 4 ביטים:
-- `A1 = SW9 SW8 (HEX2)     RD1 = HEX3     A2 = SW7 SW6 (HEX1)     RD2 = HEX0`
-- מה כתוב באוגר 1?
-- `SW3..SW0 = R1`
-
-**שלב 2**
-
-- בלוח אותו קובץ:
-- `A1 = SW9 SW8 (HEX2)     RD1 = HEX3     A2 = SW7 SW6 (HEX1)     RD2 = HEX0`
-- קראו את אוגר 2 ואת אוגר 3 בבת אחת, בשני הפורטים. מה הסכום שלהם?
-- `SW4..SW0 = R2 + R3`
-
 ### Q39 - זיכרון נדיף או לא
 
 - **מתגים ונורות:** `SW9 = 0: power on     SW9 = 1: after power off and on again     HEX0 = the word in the memory     answer: SW3..SW0`
@@ -951,35 +736,22 @@
 - `256 = SW8   128 = SW7   64 = SW6   32 = SW5   16 = SW4   8 = SW3`
 - `4 = SW2   2 = SW1   1 = SW0`
 
-### Q41 - כמה ביטי כתובת?
-
-- **מתגים ונורות:** `HEX2 HEX1 HEX0 = the number of words     answer: SW8..SW0`
-- **שלבים:** 1
-
-**שלב 1**
-
-- בתצוגה מספר המילים בזיכרון:
-- `HEX2 HEX1 HEX0 = the number of words`
-- `logic [31:0] mem [words-1:0];`
-- כמה ביטי כתובת צריך?
-- `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0 8 = SW3 9 = SW3+SW0`
-
 ### Q42 - קווי מילה
 
-- **מתגים ונורות:** `address = SW9 SW8 SW7 (HEX3)     wordline i = LEDGi     answer: SW2..SW0`
+- **מתגים ונורות:** `address = SW9 SW8 SW7 (HEX3)     wordline i = LEDRi     answer: SW2..SW0`
 - **שלבים:** 2
 
 **שלב 1**
 
 - בלוח מפענח הכתובות של זיכרון של 8 מילים: כל כתובת צריכה להעלות בדיוק קו מילה אחד.
-- `address = SW9 SW8 SW7 (HEX3)     wordline i = LEDGi`
+- `address = SW9 SW8 SW7 (HEX3)     wordline i = LEDRi`
 - המפענח שבור בכתובת אחת. עברו על כל הכתובות: מה התקלה?
 - `no wordline HIGH = all down     two wordlines HIGH = SW0`
 
 **שלב 2**
 
 - בלוח אותו מפענח:
-- `address = SW9 SW8 SW7 (HEX3)     wordline i = LEDGi`
+- `address = SW9 SW8 SW7 (HEX3)     wordline i = LEDRi`
 - באיזו כתובת התקלה?
 - `4 = SW2   2 = SW1   1 = SW0`
 
@@ -1039,35 +811,6 @@
 - `address = SW9 SW8 (HEX3)     data = LEDR3..LEDR0`
 - כמה נקודות יש בכל הזיכרון?
 - `16 = SW4   8 = SW3   4 = SW2   2 = SW1   1 = SW0`
-
-### Q45 - זיכרון מקובץ
-
-- **מתגים ונורות:** `address = SW9..SW6 (HEX3)     data = HEX0     answer: SW3..SW0`
-- **שלבים:** 3
-
-**שלב 1**
-
-- בלוח זיכרון לקריאה בלבד של 16 מילים של 4 ביטים, שאותחל מקובץ:
-- `logic [3:0] ROM[15:0];     initial $readmemh("memfile.dat", ROM);`
-- `address = SW9..SW6 (HEX3)     data = HEX0`
-- מה כתוב בשורה הראשונה של הקובץ (כתובת 0)?
-- `SW3..SW0`
-
-**שלב 2**
-
-- בלוח אותו זיכרון:
-- `address = SW9..SW6 (HEX3)     data = HEX0`
-- מה כתוב בשורה האחרונה של הקובץ (השורה ה-16)?
-- `SW3..SW0`
-
-**שלב 3**
-
-- בלוח אותו זיכרון:
-- `address = SW9..SW6 (HEX3)     data = HEX0`
-- כל ערך מופיע בקובץ פעם אחת. באיזו כתובת כתוב
-- `F`
-- `?`
-- `SW3..SW0 = the address`
 
 ### Q46 - לוגיקה בזיכרון
 
@@ -1170,25 +913,4 @@
 - כדי לא לאבד את הביט צריך לרענן אותו (לכתוב שוב).
 - אחרי כמה עליות שעון בלי כתיבה, לכל היותר, צריך לרענן?
 - `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0`
-
-### Q50 - קובץ אוגרים
-
-- **מתגים ונורות:** `read: A1 = SW5 SW4 (HEX1)     RD1 = LEDR0 (now)     write: A3 = SW9 SW8 (HEX3)     WD3 = SW7     WE3 = SW6     LEDR7..LEDR4 = R3..R0 after the next clock edge     answer: SW3..SW0`
-- **שלבים:** 2
-
-**שלב 1**
-
-- בלוח קובץ אוגרים של 4 אוגרים של ביט אחד: פורט קריאה ופורט כתיבה.
-- `read: A1 = SW5 SW4 (HEX1)     RD1 = LEDR0 (now)`
-- מה כתוב עכשיו בארבעת האוגרים? קראו את כולם.
-- `SW3..SW0 = R3..R0`
-
-**שלב 2**
-
-- בלוח אותו קובץ אוגרים. הנורות העליונות מראות את האוגרים אחרי עליית השעון הבאה:
-- `write: A3 = SW9 SW8 (HEX3)     WD3 = SW7     WE3 = SW6`
-- `LEDR7..LEDR4 = R3..R0 after the next clock edge`
-- כתבו 1 לכל אחד מארבעת האוגרים. אולי אחד מחובר תמיד ל-0. איזה?
-- `R0 = all down     R1 = SW0     R2 = SW1`
-- `R3 = SW1+SW0     none = SW2`
 

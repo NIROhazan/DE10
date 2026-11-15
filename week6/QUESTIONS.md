@@ -4,7 +4,7 @@
 
 ## נושא 1 - מכונות מצבים: מצבים, מעברים ויציאות
 
-40 דקות, 17 שאלות: Q01-Q17
+40 דקות, 15 שאלות: Q01-Q16
 
 ### Q01 - המחלק ב-3 מהשקופית
 
@@ -70,34 +70,6 @@
 - דולקת - הרימו:
 - `SW0`
 - כבויה - השאירו למטה.
-
-### Q04 - המחלק ב-3 והאיפוס
-
-- **מתגים ונורות:** `state bits = SW9 SW8     reset = SW7     q = LEDR2     next state bits = LEDR1 LEDR0     the state to set = HEX3     reset = HEX0     answer: SW1 SW0`
-- **שלבים:** 2
-
-**שלב 1**
-
-- המחלק ב-3 של שקופיות 21-22, עם האיפוס. בלוח לוגיקת המצב הבא והיציאה שלו.
-- `if (reset) state <= S0;     S0 -> S1 -> S2 -> S0     q = 1 in S0`
-- `S0 = 00     S1 = 01     S2 = 10`
-- `state bits = SW9 SW8     reset = SW7     q = LEDR2     next state bits = LEDR1 LEDR0`
-- `the state to set = HEX3     reset = HEX0`
-- הציבו במתגים את מה שבתצוגה.
-- האם היציאה
-- `q`
-- דולקת?
-- דולקת - הרימו:
-- `SW0`
-- כבויה - השאירו למטה.
-
-**שלב 2**
-
-- מה המצב הבא?
-- `S0 = 00     S1 = 01     S2 = 10`
-- `state bits = SW9 SW8     reset = SW7     q = LEDR2     next state bits = LEDR1 LEDR0`
-- `the state to set = HEX3     reset = HEX0`
-- `SW1 SW0 = next state bits`
 
 ### Q05 - משוואה של המחלק ב-3
 
@@ -382,30 +354,6 @@
 - `0 = all down`
 - `1 = SW0 2 = SW1 3 = SW1+SW0`
 
-### Q17 - קידוד מצבים
-
-- **מתגים ונורות:** `state bits = SW9 SW8 SW7 SW6     next state bits = LEDR3 LEDR2 LEDR1 LEDR0     answer: SW3..SW0`
-- **שלבים:** 3
-
-**שלב 1**
-
-- בלוח לוגיקת המצב הבא של מכונה בלי כניסות. ביטי המצב על המתגים, ביטי המצב הבא בנורות (באותו סדר).
-- `state bits = SW9 SW8 SW7 SW6     next state bits = LEDR3 LEDR2 LEDR1 LEDR0`
-- התחילו מכל המתגים למטה, ובכל פעם העתיקו את הנורות למתגים. כמה קודים שונים יש במחזור?
-- `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2`
-
-**שלב 2**
-
-- כמה ביטים משתנים לפחות פעם אחת במחזור (כמה דלגלגים באמת בשימוש)?
-- `state bits = SW9 SW8 SW7 SW6     next state bits = LEDR3 LEDR2 LEDR1 LEDR0`
-- `binary / Gray: 2     one-hot: one per state`
-- `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2`
-
-**שלב 3**
-
-- איזה קידוד? באחד-חם ביט אחד דולק, בגריי רק ביט אחד משתנה בכל מעבר.
-- `binary = all down     one-hot = SW0     Gray = SW1`
-
 ## נושא 2 - בקר הרמזור מההרצאה
 
 40 דקות, 15 שאלות: Q18-Q32
@@ -568,7 +516,7 @@
 
 **שלב 2**
 
-- שני החיישנים למטה. אחרי כמה שעונים הרחוב שבתצוגה אדום?
+- שני החיישנים למטה. אחרי כמה שעונים הרחוב שבתצוגה ירוק?
 - שעון אחד = להציב במתגי המצב את המצב הבא.
 - `S1 S0 = SW9 SW8     TA = SW7     TB = SW6     next state = HEX0`
 - `HEX3 = the start state     HEX1 = the street (A or b)`
@@ -588,7 +536,7 @@
 - `TA, TB = SW6, SW5   (in some order)`
 - `LA:  green = LEDR7   yellow = LEDR6   red = LEDR5`
 - `LB:  green = LEDR2   yellow = LEDR1   red = LEDR0`
-- במצב 0 הרחוב הראשון אדום. איזה מתג הוא
+- במצב 0 הרחוב הראשון ירוק. איזה מתג הוא
 - `TA`
 - ? (כשהוא למעלה, המצב הבא נשאר 0)
 - `SW6 = all down     SW5 = SW0`
@@ -653,7 +601,7 @@
 
 **שלב 2**
 
-- מצאו את המצב שבו הרחוב הראשון אדום. איזה מתג הוא
+- מצאו את המצב שבו הרחוב הראשון ירוק. איזה מתג הוא
 - `TA`
 - ? (כשהוא למעלה, המצב הבא לא משתנה)
 - `S1 S0 = SW9 SW8   (HEX3)     next state = HEX0`
@@ -710,7 +658,7 @@
 - בלוח לוגיקת היציאה של בקר הרמזור: המצב על המתגים, וכל רמזור בשני ביטים.
 - `S1 S0 = SW9 SW8   (HEX3)     LA1 LA0 = LEDR3 LEDR2     LB1 LB0 = LEDR1 LEDR0`
 - `S0: LA green, LB red`
-- במצב 0 הרחוב הראשון אדום. מה הקוד של אדום?
+- במצב 0 הרחוב הראשון ירוק. מה הקוד של ירוק?
 - `S = 0     SW1 SW0 = LA1 LA0`
 
 **שלב 2**
@@ -738,14 +686,14 @@
 - `LB:  green = LEDR2   yellow = LEDR1   red = LEDR0`
 - מה הקוד של
 - `S0`
-- (הרחוב הראשון אדום)?
+- (הרחוב הראשון ירוק)?
 - `SW1 SW0 = S1 S0`
 
 **שלב 2**
 
 - מה הקוד של
 - `S2`
-- (הרחוב השני אדום)?
+- (הרחוב השני ירוק)?
 - `S1 S0 = SW9 SW8   (HEX3)`
 - `LB green = LEDR2`
 - `SW1 SW0 = S1 S0`
@@ -776,7 +724,7 @@
 - `S3 -> S0`
 - איזה מתג הוא
 - `S0`
-- ? (כשרק הוא למעלה, הרחוב הראשון אדום)
+- ? (כשרק הוא למעלה, הרחוב הראשון ירוק)
 - `SW6 = all down     SW7 = SW0     SW8 = SW1     SW9 = SW1+SW0`
 
 **שלב 2**
@@ -827,80 +775,7 @@
 
 ## נושא 3 - מכונות מצבים בקוד וגלאי רצף
 
-40 דקות, 18 שאלות: Q33-Q50
-
-### Q33 - גלאי המור מהשקופית
-
-- **מתגים ונורות:** `state bits = SW9 SW8     a = SW7     smile = LEDR2     next state bits = LEDR1 LEDR0     the state to set = HEX3     a = HEX0     answer: SW1 SW0`
-- **שלבים:** 2
-
-**שלב 1**
-
-- גלאי הרצף של מור בקוד של שקופית 24. בלוח הלוגיקה שלו.
-- `typedef enum logic [1:0] {S0, S1, S2}     assign smile = (state == S2);`
-- `S0 = 00     S1 = 01     S2 = 10`
-- `state bits = SW9 SW8     a = SW7     smile = LEDR2     next state bits = LEDR1 LEDR0`
-- `the state to set = HEX3     a = HEX0`
-- הציבו במתגים את מה שבתצוגה.
-- האם החיוך דולק?
-- דולק - הרימו:
-- `SW0`
-- כבוי - השאירו למטה.
-
-**שלב 2**
-
-- מה המצב הבא?
-- `S0 = 00     S1 = 01     S2 = 10`
-- `state bits = SW9 SW8     a = SW7     smile = LEDR2     next state bits = LEDR1 LEDR0`
-- `the state to set = HEX3     a = HEX0`
-- `S0 = all down     S1 = SW0     S2 = SW1`
-
-### Q34 - גלאי המילי מהשקופית
-
-- **מתגים ונורות:** `state = SW9     a = SW8     smile = LEDR1     next state = LEDR0     the state to set = HEX3     a = HEX0     answer: SW0`
-- **שלבים:** 2
-
-**שלב 1**
-
-- גלאי הרצף של מילי בקוד של שקופית 26. בלוח הלוגיקה שלו.
-- `typedef enum logic {S0, S1}     S0 = 0     S1 = 1`
-- `state = SW9     a = SW8     smile = LEDR1     next state = LEDR0`
-- `the state to set = HEX3     a = HEX0`
-- הציבו במתגים את מה שבתצוגה.
-- האם החיוך דולק?
-- דולק - הרימו:
-- `SW0`
-- כבוי - השאירו למטה.
-
-**שלב 2**
-
-- מה המצב הבא?
-- `state = SW9     a = SW8     smile = LEDR1     next state = LEDR0`
-- `the state to set = HEX3     a = HEX0`
-- `S0 = all down     S1 = SW0`
-
-### Q35 - ה-case של המחלק ב-3
-
-- **מתגים ונורות:** `state bits = SW9 SW8     q = LEDR2     next state bits = LEDR1 LEDR0     HEX3 HEX2 = the state bits to set     answer: SW1 SW0`
-- **שלבים:** 2
-
-**שלב 1**
-
-- המחלק ב-3 בקוד של שקופית 22. בלוח לוגיקת המצב הבא והיציאה שלו.
-- `typedef enum logic [1:0] {S0, S1, S2}     S0: nextstate = S1;   S1: nextstate = S2;   S2: nextstate = S0;   default: nextstate = S0;`
-- `state bits = SW9 SW8     q = LEDR2     next state bits = LEDR1 LEDR0`
-- `HEX3 HEX2 = the state bits to set`
-- איזו שורה של ה-
-- `case`
-- מתבצעת בקוד שבתצוגה?
-- `S0 = all down     S1 = SW0     S2 = SW1     default = SW1+SW0`
-
-**שלב 2**
-
-- הציבו את הקוד במתגים. מה המצב הבא?
-- `state bits = SW9 SW8     q = LEDR2     next state bits = LEDR1 LEDR0`
-- `HEX3 HEX2 = the state bits to set`
-- `SW1 SW0 = next state bits`
+40 דקות, 11 שאלות: Q36-Q50
 
 ### Q36 - מתי גלאי המור נשאר במקום?
 
@@ -1099,113 +974,6 @@
 - `y = 1`
 - ? הרימו את המתג שלו:
 - `S=0 a=0 -> SW0     S=0 a=1 -> SW1     S=1 a=0 -> SW2     S=1 a=1 -> SW3`
-
-### Q45 - שכחו את ברירת המחדל
-
-- **מתגים ונורות:** `S = SW9 = the last bit     a = SW8     two Mealy detectors = LEDR1 LEDR0     answer: SW3..SW0`
-- **שלבים:** 2
-
-**שלב 1**
-
-- בלוח לוגיקת היציאה של שני גלאי מילי של אותו רצף של 2 ביטים, כמו בשקופית. באחד מהם חסרה השורה
-- `smile = 1'b0;`
-- בתחילת
-- `always_comb`
-- ולכן היציאה נשמרת (תפס).
-- `S = SW9 = the last bit     a = SW8     two Mealy detectors = LEDR1 LEDR0`
-- איזו נורה היא הגלאי עם הבאג (נדלקת ולא נכבית יותר)?
-- `LEDR0 = all down     LEDR1 = SW0`
-
-**שלב 2**
-
-- מה הרצף? (לפי הגלאי התקין)
-- `S = SW9 = the last bit     a = SW8     two Mealy detectors = LEDR1 LEDR0`
-- `SW1 = first bit     SW0 = second bit`
-
-### Q46 - קידוד של enum
-
-- **מתגים ונורות:** `state bits = SW9 SW8     q = LEDR2     next state bits = LEDR1 LEDR0     answer: SW1 SW0`
-- **שלבים:** 3
-
-**שלב 1**
-
-- בלוח הלוגיקה של המחלק ב-3 מהשקופית: ביטי המצב על המתגים, ביטי המצב הבא בנורות.
-- `S0 -> S1 -> S2 -> S0     q = 1 in S0`
-- `typedef enum logic [1:0] {?, ?, ?} statetype;     (the first name = 00, the second = 01, the third = 10)`
-- `state bits = SW9 SW8     q = LEDR2     next state bits = LEDR1 LEDR0`
-- מה הקוד של
-- `S0`
-- `?`
-- `SW1 SW0`
-
-**שלב 2**
-
-- מה הקוד של
-- `S1`
-- `?`
-- `state bits = SW9 SW8     q = LEDR2     next state bits = LEDR1 LEDR0`
-- `SW1 SW0`
-
-**שלב 3**
-
-- ומה הקוד של
-- `S2`
-- `?`
-- `state bits = SW9 SW8     q = LEDR2     next state bits = LEDR1 LEDR0`
-- `SW1 SW0`
-
-### Q47 - הקוד שאין לו שם
-
-- **מתגים ונורות:** `state bits = SW9 SW8     q = LEDR2     next state bits = LEDR1 LEDR0     answer: SW3..SW0`
-- **שלבים:** 2
-
-**שלב 1**
-
-- בלוח הלוגיקה של המחלק ב-3 מהשקופית. לקוד 11 אין שם, ומה שקורה בו נקבע בשורה
-- `default: nextstate = ?;`
-- `S0 = 00     S1 = 01     S2 = 10     q = 1 in S0`
-- `state bits = SW9 SW8     q = LEDR2     next state bits = LEDR1 LEDR0`
-- הציבו את הקוד 11. מה המצב הבא?
-- `SW9 SW8 = 11`
-- `S0 = all down     S1 = SW0     S2 = SW1     stays 11 = SW1+SW0`
-
-**שלב 2**
-
-- התחילו בקוד 11 ועקבו אחרי המצב הבא. אחרי כמה שעונים
-- `q`
-- נדלקת?
-- שעון אחד = להציב במתגי המצב את המצב הבא.
-- `state bits = SW9 SW8     q = LEDR2     next state bits = LEDR1 LEDR0`
-- `never = all down     1 = SW0     2 = SW1     3 = SW1+SW0`
-
-### Q48 - שורה שגויה במכונת המצבים
-
-- **מתגים ונורות:** `S = SW9 SW8 SW7   (HEX3)     next state = HEX0     answer: SW3..SW0`
-- **שלבים:** 3
-
-**שלב 1**
-
-- בלוח לוגיקת המצב הבא של מחלק כמו בשקופית, אבל באחת השורות של
-- `S0 -> S1 -> ... -> S0     case (state)`
-- המצב הבא שגוי. לכל קוד אחר יש
-- `default: nextstate = S0;`
-- `S = SW9 SW8 SW7   (HEX3)     next state = HEX0`
-- כמה מצבים יש בקוד? (בין 3 ל-5: המצב הגדול שיש לו שורה משלו ועוד 1)
-- `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0`
-
-**שלב 2**
-
-- מאיזה מצב יש מעבר שגוי?
-- `S = SW9 SW8 SW7   (HEX3)     next state = HEX0`
-- `0 = all down`
-- `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2`
-
-**שלב 3**
-
-- ולאיזה מצב הוא הולך במקום?
-- `S = SW9 SW8 SW7   (HEX3)     next state = HEX0`
-- `0 = all down`
-- `1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2`
 
 ### Q49 - איזה בלוק שבור?
 

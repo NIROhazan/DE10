@@ -1,0 +1,111 @@
+{
+ "_doc": "Questions left out of lesson.txt (the LESSON.bat menu) - hidden, not deleted: the .sof and the generator stay. 'minutes' overrides the TOPIC minutes after empty topics drop out. Review of 2026-11-14 (numerical_systems_2027/00_course/question_review_2026-11-14).",
+ "5": {
+  "hide": [
+   "Q34",
+   "Q35",
+   "Q36",
+   "Q37",
+   "Q38",
+   "Q39",
+   "Q40",
+   "Q41",
+   "Q42",
+   "Q43",
+   "Q44",
+   "Q45",
+   "Q46",
+   "Q47",
+   "Q48",
+   "Q49",
+   "Q50"
+  ],
+  "minutes": [
+   60,
+   60
+  ],
+  "why": "topic 3 = SystemVerilog code reading (SV dropped 2026-10-08). Q11/Q22/Q29 fixed in gen_w5 + recompiled 2026-11-14"
+ },
+ "6": {
+  "hide": [
+   "Q04",
+   "Q17",
+   "Q33",
+   "Q34",
+   "Q35",
+   "Q45",
+   "Q46",
+   "Q47",
+   "Q48"
+  ],
+  "why": "SV code on screen (Q04 Q33-35 Q45-48); Q17 3-state Gray contradicts the screen's Gray rule"
+ },
+ "8": {
+  "hide": [
+   "Q16",
+   "Q34",
+   "Q35",
+   "Q36",
+   "Q37",
+   "Q38",
+   "Q40",
+   "Q48",
+   "Q49",
+   "Q50"
+  ],
+  "why": "SV delay code (Q36 Q38 Q48-50; Q48 key wrong); cut cookie examples (Q34 Q35 Q37 Q40); Q16 S1 constant key"
+ },
+ "9": {
+  "hide": [
+   "Q18",
+   "Q22",
+   "Q30",
+   "Q31",
+   "Q32",
+   "Q36",
+   "Q47",
+   "Q49",
+   "Q50"
+  ],
+  "why": "prefix adders not in the videos (Q18 Q22 Q30-32); SV parametric modules (Q36 Q49 Q50); Q47 hint fails. Q13/Q42 ambiguous variants filtered in gen_w9 + recompiled 2026-11-14"
+ },
+ "10": {
+  "hide": [
+   "Q16",
+   "Q39",
+   "Q40",
+   "Q41",
+   "Q42",
+   "Q43",
+   "Q44",
+   "Q45",
+   "Q46",
+   "Q47",
+   "Q48",
+   "Q49",
+   "Q50"
+  ],
+  "minutes": [
+   60,
+   60
+  ],
+  "why": "testbench topic (cut video, SV); Q16 cut ALU part (Q09 fixed by text: B = 1..14, prefer add - unique in 43/43)"
+ },
+ "11": {
+  "hide": [
+   "Q20",
+   "Q21",
+   "Q22",
+   "Q23",
+   "Q24",
+   "Q27",
+   "Q29",
+   "Q37",
+   "Q38",
+   "Q41",
+   "Q45",
+   "Q50"
+  ],
+  "why": "SV on screen / SV memory video (Q20 Q22 Q23 Q27 Q37 Q38 Q41 Q45 Q50); DCO cut (Q21 Q29); Q24 wrong key for p>8"
+ }
+}

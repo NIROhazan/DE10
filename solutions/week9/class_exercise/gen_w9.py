@@ -70,6 +70,10 @@ def br_sum(p, a):
         s |= si << i
         c = ci
     return s | (c << 4)
+# keep only variants the student can identify: the table differs from the correct adder and from every other fault (same B)
+_brt = lambda p: tuple(br_sum(p, a) for a in range(16))
+VBR = [p for p in VBR if _brt(p) != tuple(a + p[2] for a in range(16))
+       and all(_brt(p) != _brt((k, f, p[2])) for k in range(4) for f in range(2) if (k, f) != p[:2])]
 W.append(Q(id="BROKENFA", name="BROKENFA", title="מחבר מלא מקולקל", inputs=[9, 8, 7, 6], flat=True,
     outs=[("G", i) for i in range(5)] + hexd(2), hexes=[None, None, None, [9, 8, 7, 6]], variants=VBR,
     tables=lambda p: [col(lambda a: (br_sum(p, a) >> k) & 1, 4) for k in range(5)] + const(bitsof(p[2], 4), 4),
@@ -416,6 +420,8 @@ def sb_y(p, a):
     return (a + nb + cin) & 15
 SBN = ["correct", "missing +1", "bit 0 of B not inverted", "bit 1 of B not inverted", "bit 2 of B not inverted", "bit 3 of B not inverted"]
 VSG = [(b, bug) for b in range(1, 16) for bug in range(6) if bug < 2 or (b >> (bug - 2)) & 1]
+# keep only variants with one right answer: no other bug gives the same table for this B (e.g. 'missing +1' = 'bit 0 not inverted' when B is even)
+VSG = [p for p in VSG if all(tuple(sb_y(p, a) for a in range(16)) != tuple(sb_y((p[0], g), a) for a in range(16)) for g in range(6) if g != p[1])]
 VSG = random.Random(98).sample(VSG, len(VSG))
 W.append(Q(id="SUBBUG", name="SUBBUG", title="מחסר עם באג", inputs=[9, 8, 7, 6], flat=True,
     outs=[("G", i) for i in range(4)] + hexd(2), hexes=[None, None, None, [9, 8, 7, 6]], variants=VSG,

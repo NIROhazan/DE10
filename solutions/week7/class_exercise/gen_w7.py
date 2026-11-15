@@ -234,7 +234,7 @@ add("OVERLAP", "גלאי חופף או לא חופף", [9, 8, 7], OSN, H98_7,
     [(["בלוח החלק הצירופי של גלאי מור לרצף של שלושה ביטים. במצב 3 הוא מחייך.", NOCLK, LS, LN,
        "מה הרצף? (מהמצב 0, ביט אחר ביט, עד המצב 3)", PATH3], lambda q, p: (p[0], 0x7)),
      (["ממצב 3: האם סוף הרצף נספר גם כהתחלה של הרצף הבא (חפיפה)?",
-       "בדקו לאן הוא עובר ממצב 3 עם הביט שממשיך את הרצף.", LS, LN] + UP0("חופף", "לא חופף"), lambda q, p: (p[1], 0x1))])
+       "ממצב 3 הכניסו את הביט השני של הרצף ובדקו לאן הוא עובר: אם הוא ממשיך רצף שכבר התחיל, הגלאי חופף.", LS, LN] + UP0("חופף", "לא חופף"), lambda q, p: (p[1], 0x1))])
 
 # ================================================================ topic 2: factored FSMs - the parade
 LIGHTS = ["LA:  green = LEDG7   yellow = LEDG6   red = LEDG5", "LB:  green = LEDG2   yellow = LEDG1   red = LEDG0"]
@@ -625,7 +625,7 @@ add("MOORESLIDE", "חילזון מור מהשקופית", [9, 8, 7], OSS + hexd(
     LMO + "     case: state = HEX1, A = HEX0",
     [(["חילזון מור, שקופיות 4 ו-7: המעגל של המצב הבא.", "S1' = S0 A     S0' = A'     Y = S1", NOCLK, ENC, LMO,
        "the case:   state = HEX1     A = HEX0", CASE, "SW1 SW0 = next S1 S0"], lambda q, p: (moore_ns(*p), 0x3)),
-     (["החילזון מחייך במצב הזה?", "Y = LEDG0"] + SMILE, lambda q, p: (int(p[0] == 2), 0x1))])
+     (["החילזון מחייך עכשיו, במצב שבתצוגה (לפני עליית השעון)?", "Y = LEDG0"] + SMILE, lambda q, p: (int(p[0] == 2), 0x1))])
 
 # topic 1: the Mealy snail (slides 6, 8): S0' = A', Y = S0 A, one case from the HEX
 LMEA = "S0 = SW9     A = SW8     next S0 = LEDG1     Y = LEDG0"

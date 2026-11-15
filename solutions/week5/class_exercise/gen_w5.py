@@ -76,9 +76,9 @@ def kind_col(k):
     for r in range(4):
         a, b = r >> 1, r & 1
         if k == 0:
-            out.append(1 if (a, b) == (1, 0) else 0 if (a, b) == (0, 1) else HOLD)
+            out.append(1 if (a, b) == (1, 0) else 0 if b else HOLD)	# NOR SR latch: S=R=1 -> Q=0 (slide 13)
         elif k == 1:
-            out.append(1 if (a, b) == (0, 1) else 0 if (a, b) == (1, 0) else HOLD)
+            out.append(1 if (a, b) == (0, 1) else 0 if a else HOLD)
         elif k == 2:
             out.append(b if a else HOLD)
         else:
@@ -367,7 +367,7 @@ W.append(Q(id="REGPERM", name="REGPERM", title="אוגר של 4 ביטים", inp
 # a 4-bit register: some flip-flops are settable, some resettable, all on one switch
 LRI4 = ["D[3:0] = SW9..SW6 (HEX0)     set/reset = SW5     LEDG3..LEDG0 = Q after the next clock edge"]
 W.append(Q(id="REGINIT", name="REGINIT", title="אוגר עם קביעה ואיפוס", inputs=[9, 8, 7, 6, 5], flat=True,
-    outs=[("G", i) for i in range(4)], hexes=[None, None, None, [9, 8, 7, 6]], variants=list(range(16)),
+    outs=[("G", i) for i in range(4)], hexes=[None, None, None, [9, 8, 7, 6]], variants=list(range(1, 15)),	# "some set, some reset": not 0000 / 1111
     tables=lambda p: tabf(5, lambda d3, d2, d1, d0, s: hx(p if s else val(d3, d2, d1, d0))),
     answer=lambda p: (p, 0xF), describe=lambda p: f"SW5 loads {p:04b} (1 = settable flip-flop)",
     B=[LRI4[0] + "     answer: SW3..SW0"], L=[], F=[],
@@ -442,7 +442,7 @@ W.append(Q(id="ACCUM", name="ACCUM", title="אוגר עם משוב דרך מחב
     tables=lambda p: tabf(4, lambda *b: hx((val(*b) + p) % 10)),
     answer=lambda p: (10 // math.gcd(p, 10), 0xF), describe=lambda p: f"q <= (q + {p}) % 10",
     B=[LAC[0] + "     answer: SW3..SW0"], L=[], F=[],
-    steps=[(["בלוח אוגר של ספרה, ומחבר במשוב מהיציאה שלו לכניסה שלו:", "always_ff @(posedge clk)  q <= (q + K) % 10;", NOW] +
+    steps=[(["בלוח אוגר של ספרה, ומחבר במשוב מהיציאה שלו לכניסה שלו:", "בכל עליית שעון:", "q_next = (q + K) mod 10", NOW] +
             LAC + ["שימו", "q = 0", "מה", "K", "?"] + cnt(9), lambda q, p: (p, 0xF)),
            (["מתחילים מאפס. אחרי כמה עליות שעון חוזרים לאפס?", COPY] + LAC + cnt(10),
             lambda q, p: (10 // math.gcd(p, 10), 0xF))]))
@@ -856,7 +856,7 @@ W.append(Q(id="ENWAVE", name="ENWAVE", title="דלגלג עם אפשור - אר�
 ast = lambda s: val(1 - (s & 1), 1 - (s >> 2), 1 - ((s >> 1) & 1))	# X' = ~Z, Y' = ~X, Z' = ~Y
 LAS = ["X -> Y -> Z -> X  (three inverters)     HEX3 = X     HEX2 = Y     HEX1 = Z  (now)"]
 W.append(Q(id="ASTABLE", name="ASTABLE", title="המעגל המתנדנד מהשקופיות", inputs=[9], flat=True,
-    outs=CASEN(3), hexes=[None] * 4, variants=list(range(8)),
+    outs=CASEN(3), hexes=[None] * 4, variants=list(range(1, 7)),	# the 6 states of the slide-29 cycle (000/111 flip all at once)
     tables=lambda p: const([p >> 2, (p >> 1) & 1, p & 1]), answer=lambda p: (ast(ast(p)), 0x7),
     describe=lambda p: f"XYZ {p:03b} -> {ast(p):03b} -> {ast(ast(p)):03b}",
     B=[LAS[0] + "     answer: SW2..SW0"], L=[], F=[],
