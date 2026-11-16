@@ -619,7 +619,7 @@ def moore_eq(r):				# + slide 5: Y = S1
     return {("G", 3): ns >> 1, ("G", 2): ns & 1, ("G", 0): s >> 1}
 
 # topic 1: the Moore snail's next-state circuit (slides 4, 7), one case from the HEX
-add("MOORESLIDE", "חילזון מור מהשקופית", [9, 8, 7], OSS + hexd(1) + hexd(0), [None] * 4,
+add("MOORESLIDE", "חילזון מור משקופיות 4 ו-7", [9, 8, 7], OSS + hexd(1) + hexd(0), [None] * 4,
     [(s, a) for s in range(3) for a in range(2)], lambda p, r: {**moore_eq(r), **dig(1, p[0]), **dig(0, p[1])},
     lambda p: f"case S{p[0]}, A = {p[1]}: next {moore_ns(p[0], p[1]):02b}, Y = {int(p[0] == 2)}",
     LMO + "     case: state = HEX1, A = HEX0",
@@ -632,7 +632,7 @@ LMEA = "S0 = SW9     A = SW8     next S0 = LEDG1     Y = LEDG0"
 def mealy_eq(r):
     s, a = fld(r, 1, 1)
     return {("G", 1): 1 - a, ("G", 0): s & a}
-add("MEALYSLIDE", "חילזון מילי מהשקופית", [9, 8], [("G", 1), ("G", 0)] + hexd(1) + hexd(0), [None] * 4,
+add("MEALYSLIDE", "חילזון מילי משקופיות 6 ו-8", [9, 8], [("G", 1), ("G", 0)] + hexd(1) + hexd(0), [None] * 4,
     [(s, a) for s in range(2) for a in range(2)], lambda p, r: {**mealy_eq(r), **dig(1, p[0]), **dig(0, p[1])},
     lambda p: f"case S0 = {p[0]}, A = {p[1]}: next {1 - p[1]}, Y = {p[0] & p[1]}", LMEA + "     case: S0 = HEX1, A = HEX0",
     [(["חילזון מילי, שקופיות 6 ו-8: ביט מצב אחד.", "S0' = A'     Y = S0 A", NOCLK, LMEA,
@@ -660,7 +660,7 @@ def mode14(m, p_, r_):
     return 1 - r_ if m else p_
 def mode2(p):
     return mode14(mode14(*p), p[1], p[2])
-add("MODESLIDE", "מכונת מצב התהלוכה מהשקופית", [9, 8, 7], [("G", 0)] + hexd(2) + hexd(1) + hexd(0), [None] * 4,
+add("MODESLIDE", "מכונת מצב התהלוכה משקופית 14", [9, 8, 7], [("G", 0)] + hexd(2) + hexd(1) + hexd(0), [None] * 4,
     list(itertools.product(range(2), repeat=3)),
     lambda p, r: {("G", 0): mode14(*fld(r, 1, 1, 1)), **dig(2, p[0]), **dig(1, p[1]), **dig(0, p[2])},
     lambda p: f"case M P R = {p[0]}{p[1]}{p[2]}: next M {mode14(*p)}, then {mode2(p)}", LMS + "     case: HEX2 HEX1 HEX0",
@@ -679,7 +679,7 @@ def lights2(p):
 def ls_f(p, r):
     ns = lights1(fld(r, 2, 1, 1, 1))
     return {("G", 1): ns >> 1, ("G", 0): ns & 1, **dig(3, p[0]), **dig(2, p[1]), **dig(1, p[2]), **dig(0, p[3])}
-add("LIGHTSSLIDE", "מכונת הרמזורים מהשקופית", [9, 8, 7, 6, 5], [("G", 1), ("G", 0)] + hexd(3) + hexd(2) + hexd(1) + hexd(0),
+add("LIGHTSSLIDE", "מכונת הרמזורים משקופית 14", [9, 8, 7, 6, 5], [("G", 1), ("G", 0)] + hexd(3) + hexd(2) + hexd(1) + hexd(0),
     [None] * 4, list(itertools.product(range(4), range(2), range(2), range(2))), ls_f,
     lambda p: f"case S{p[0]} M{p[1]} TA{p[2]} TB{p[3]}: next S{lights1(p)}, then S{lights2(p)}",
     LLS + "     case: HEX3..HEX0",

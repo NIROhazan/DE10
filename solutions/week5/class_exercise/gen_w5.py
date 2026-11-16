@@ -607,11 +607,11 @@ def wm_f(p):
             return (now, 0 if rs else d)
         return (now, 0 if rs else (d if en else q_))
     return f
-W.append(Q(id="WHICHMOD", name="WHICHMOD", title="איזה מודול מהשקופיות?", inputs=[9, 8, 7, 6], flat=True, seq=True,
+W.append(Q(id="WHICHMOD", name="WHICHMOD", title="איזה מודול משקופיות 35-39?", inputs=[9, 8, 7, 6], flat=True, seq=True,
     outs=[("G", 1), ("G", 0)], hexes=[[9], [8], [7], [6]], variants=list(range(4)),
     tables=lambda p: tabf(4, wm_f(p)), answer=lambda p: (p, 0x3), describe=lambda p: MODS[p],
     B=["   ".join(LWM) + "     answer: SW3..SW0"], L=[], F=[],
-    steps=[(["בלוח אחד המודולים מהשקופיות:"] + CWM + [NOW2] + LWM +
+    steps=[(["בלוח אחד המודולים משקופיות 35-39:"] + CWM + [NOW2] + LWM +
             ["האם הנורה של עכשיו הולכת אחרי הנתון כשמתג האפשור למעלה, גם כשלא נוגעים בערך הקודם?"] + UP0("כן", "לא"),
             lambda q, p: (int(p == 3), 0x1)),
            (["איזה מודול?"] + CWM + LWM + code(MODS), lambda q, p: (p, 0x3))]))
@@ -629,12 +629,12 @@ def srn_tab(p):
 def srn_after(p, k):					# Q Q' after case 1 (k = 1) or after case 2 (k = 2)
     return val(*SRV.get(p[1], SRV[p[0]])) if k == 2 else val(*SRV[p[0]])
 LSRN = ["S = SW9     R = SW8     Q = LEDG1     Q' = LEDG0"]
-W.append(Q(id="SRNOR", name="SRNOR", title="תפסן קביעה-איפוס מהשקופיות", inputs=[9, 8], flat=True, seq=True,
+W.append(Q(id="SRNOR", name="SRNOR", title="תפסן קביעה-איפוס משקופיות 11-13", inputs=[9, 8], flat=True, seq=True,
     outs=[("G", 0), ("G", 1), ("H", (3, 0)), ("H", (2, 0)), ("H", (1, 0)), ("H", (0, 0))], hexes=[None] * 4,
     variants=VSRN, tables=srn_tab, answer=lambda p: (srn_after(p, 2), 0x3),
     describe=lambda p: f"NOR SR latch: S R = {p[0]:02b} then {p[1]:02b}",
     B=[LSRN[0] + "     case 1 = HEX3 HEX2     case 2 = HEX1 HEX0     answer: SW1 SW0"], L=[], F=[],
-    steps=[(["בלוח תפסן הקביעה-איפוס מהשקופיות, משני שערים:", "SR latch:   N1 = NOR(R, Q')     N2 = NOR(S, Q)"] + LSRN +
+    steps=[(["בלוח תפסן הקביעה-איפוס משקופיות 11-13, משני שערים:", "SR latch:   N1 = NOR(R, Q')     N2 = NOR(S, Q)"] + LSRN +
             ["שימו את המתגים כמו במצב 1 שבתצוגה, והעתיקו את הנורות:", "case 1:   S = HEX3     R = HEX2"] + SW1SW0,
             lambda q, p: (srn_after(p, 1), 0x3)),
            (["עכשיו שימו את המתגים כמו במצב 2 שבתצוגה, והעתיקו שוב:", "case 2:   S = HEX1     R = HEX0"] + LSRN + SW1SW0,
@@ -652,12 +652,12 @@ def ds_after(p, k):					# S R Q Q' after case 1 / case 2
     qv = d2 if c2 else d1
     return val(c2 & d2, c2 & (1 - d2), qv, 1 - qv)
 LDS = ["CLK = SW9     D = SW8", "S = LEDG3     R = LEDG2     Q = LEDG1     Q' = LEDG0"]
-W.append(Q(id="DLATCHSR", name="DLATCHSR", title="תפסן D מהשקופיות", inputs=[9, 8], flat=True, seq=True,
+W.append(Q(id="DLATCHSR", name="DLATCHSR", title="תפסן D משקופית 17", inputs=[9, 8], flat=True, seq=True,
     outs=[("G", 0), ("G", 1), ("G", 2), ("G", 3), ("H", (3, 0)), ("H", (2, 0)), ("H", (1, 0)), ("H", (0, 0))],
     hexes=[None] * 4, variants=VDS, tables=ds_tab, answer=lambda p: (ds_after(p, 2), 0xF),
     describe=lambda p: f"D latch: CLK D = 1{p[0]} then {p[1][0]}{p[1][1]}",
     B=["   ".join(LDS) + "     case 1 = HEX3 HEX2     case 2 = HEX1 HEX0     answer: SW3..SW0"], L=[], F=[],
-    steps=[(["בלוח תפסן", "D", "מהשקופיות: תפסן קביעה-איפוס ושני שערי וגם.", "S = CLK & D     R = CLK & ~D"] + LDS +
+    steps=[(["בלוח תפסן", "D", "משקופית 17: תפסן קביעה-איפוס ושני שערי וגם.", "S = CLK & D     R = CLK & ~D"] + LDS +
             ["שימו את המתגים כמו במצב 1 שבתצוגה, והעתיקו את הנורות:", "case 1:   CLK = HEX3     D = HEX2"] + SW3SW0,
             lambda q, p: (ds_after(p, 1), 0xF)),
            (["עכשיו שימו את המתגים כמו במצב 2 שבתצוגה (קודם את השעון, אחר כך את הנתון), והעתיקו שוב:",
@@ -667,12 +667,12 @@ W.append(Q(id="DLATCHSR", name="DLATCHSR", title="תפסן D מהשקופיות"
 VEM = [(e, d, q_) for e in range(2) for d in range(2) for q_ in range(2)]
 mux = lambda e, d, q_: d if e else q_
 LEM = ["EN = SW9     D = SW8     Q now = SW7     LEDG0 = Q after the next clock edge"]
-W.append(Q(id="ENMUX", name="ENMUX", title="דלגלג עם אפשור מהשקופיות", inputs=[9, 8, 7], flat=True,
+W.append(Q(id="ENMUX", name="ENMUX", title="דלגלג עם אפשור משקופית 24", inputs=[9, 8, 7], flat=True,
     outs=[("G", 0), ("H", (3, 0)), ("H", (2, 0)), ("H", (1, 0))], hexes=[None] * 4, variants=VEM,
     tables=lambda p: tabf(3, lambda e, d, q_: (mux(e, d, q_),)) + const(list(p), 3),
     answer=lambda p: (mux(1 - p[0], p[1], p[2]), 0x1), describe=lambda p: f"EN D Q = {p[0]}{p[1]}{p[2]}",
     B=[LEM[0] + "     case = HEX3 HEX2 HEX1     answer: SW0"], L=[], F=[],
-    steps=[(["בלוח הדלגלג עם אפשור מהשקופיות: בורר לפני הדלגלג בוחר מה ייכנס בעליית השעון.",
+    steps=[(["בלוח הדלגלג עם אפשור משקופית 24: בורר לפני הדלגלג בוחר מה ייכנס בעליית השעון.",
              "mux:   EN = 1 -> D     EN = 0 -> Q", NOW] + LEM +
             ["שימו את המתגים כמו בתצוגה, ומה הנורה מראה?", "EN = HEX3     D = HEX2     Q now = HEX1"] +
             UP0("הנורה דולקת", "הנורה כבויה"), lambda q, p: (mux(*p), 0x1)),
@@ -688,7 +688,7 @@ W.append(Q(id="RSTORSET", name="RSTORSET", title="דלגלג עם איפוס א�
     tables=lambda p: tabf(2, lambda d, c: (p[0] if c else d,)) + const([p[1], p[2]], 2),
     answer=lambda p: (p[0], 0x1), describe=lambda p: f"{'settable' if p[0] else 'resettable'}, case D = {p[1]}, ctl = {p[2]}",
     B=[LRS2[0] + "     case = HEX3 HEX2     answer: SW0"], L=[], F=[],
-    steps=[(["בלוח אחד משני הדלגלגים מהשקופיות: דלגלג עם איפוס, או דלגלג עם קביעה.", NOW] + LRS2 +
+    steps=[(["בלוח אחד משני הדלגלגים משקופיות 25-27: דלגלג עם איפוס, או דלגלג עם קביעה.", NOW] + LRS2 +
             ["שימו את המתגים כמו בתצוגה. מה הנורה מראה?", "D = HEX3     Reset or Set = HEX2"] +
             UP0("הנורה דולקת", "הנורה כבויה"), lambda q, p: (rsv(p), 0x1)),
            (["איזה שער יש לפני הכניסה של הדלגלג? נסו גם מצבים אחרים של המתגים."] + LRS2 +
@@ -699,12 +699,12 @@ VRS = [(k, v) for k in range(4) for v in range(2)]
 def stuck(p, d):
     k, v = p
     return (d | (1 << k)) if v else (d & ~(1 << k))
-W.append(Q(id="REGSTUCK", name="REGSTUCK", title="אוגר של 4 ביטים מהשקופיות", inputs=[9, 8, 7, 6], flat=True,
+W.append(Q(id="REGSTUCK", name="REGSTUCK", title="אוגר של 4 ביטים משקופית 23", inputs=[9, 8, 7, 6], flat=True,
     outs=[("G", i) for i in range(4)], hexes=[None, None, None, [9, 8, 7, 6]], variants=VRS,
     tables=lambda p: tabf(4, lambda *b: hx(stuck(p, val(*b)))), answer=lambda p: (p[0], 0x3),
     describe=lambda p: f"Q{p[0]} stuck at {p[1]}",
     B=[LRP[0] + "     answer: SW3..SW0"], L=[], F=[],
-    steps=[(["בלוח האוגר של 4 ביטים מהשקופיות: ארבעה דלגלגים עם שעון משותף.",
+    steps=[(["בלוח האוגר של 4 ביטים משקופית 23: ארבעה דלגלגים עם שעון משותף.",
              "אבל דלגלג אחד מקולקל: היציאה שלו תקועה.", REGNOW] + LRP +
             ["שימו", "D = 0000", "והעתיקו את הנורות:"] + SW3SW0, lambda q, p: (stuck(p, 0), 0xF)),
            (["עכשיו", "D = 1111", "והעתיקו:"] + LRP + SW3SW0, lambda q, p: (stuck(p, 15), 0xF)),
@@ -713,12 +713,12 @@ W.append(Q(id="REGSTUCK", name="REGSTUCK", title="אוגר של 4 ביטים מ�
 # topic 3, slides 36-37: flopr with a synchronous or an asynchronous reset (reset to 0), one bit
 CFR2 = ["36:  always_ff @(posedge clk)              if (reset) q <= 0; else q <= d;",
         "37:  always_ff @(posedge clk, posedge reset)  if (reset) q <= 0; else q <= d;"]
-W.append(Q(id="FLOPRSLIDE", name="FLOPRSLIDE", title="flopr מהשקופיות", inputs=[9, 8, 7], flat=True,
+W.append(Q(id="FLOPRSLIDE", name="FLOPRSLIDE", title="flopr משקופיות 36-37", inputs=[9, 8, 7], flat=True,
     outs=[("G", 1), ("G", 0)], hexes=[[9], [8], [7], None], variants=[0, 1],
     tables=lambda p: tabf(3, lambda rs, d, q_: (0 if (p and rs) else q_, 0 if rs else d)),
     answer=lambda p: (p, 0x1), describe=lambda p: "slide 37 (asynchronous)" if p else "slide 36 (synchronous)",
     B=["   ".join(LFR) + "     answer: SW1 SW0"], L=[], F=[],
-    steps=[(["בלוח הדלגלג עם איפוס מהשקופיות, באחד משני הקודים:"] + CFR2 + [NOW2] + LFR +
+    steps=[(["בלוח הדלגלג עם איפוס משקופיות 36-37, באחד משני הקודים:"] + CFR2 + [NOW2] + LFR +
             ["שימו", "reset = 1     d = 1     q before = 1", "והעתיקו את הנורות:"] + SW1SW0,
             lambda q, p: (0 if p else 2, 0x3)),
            (["איזה קוד בלוח?"] + CFR2 + LFR + code(["36", "37"]), lambda q, p: (p, 0x1))]))
@@ -730,7 +730,7 @@ W.append(Q(id="SYNCGOOD", name="SYNCGOOD", title="syncgood או syncbad?", input
     tables=lambda p: tabf(3, lambda d, n1, q_: (d, d if p else n1)),
     answer=lambda p: (p, 0x1), describe=lambda p: "syncbad" if p else "syncgood",
     B=["   ".join(LBL) + "     answer: SW1 SW0"], L=[], F=[],
-    steps=[(["בלוח אחד משני המודולים מהשקופיות, בתוך", "always_ff @(posedge clk) begin ... end"] + CSG + [ONE] + LBL +
+    steps=[(["בלוח אחד משני המודולים משקופית 41, בתוך", "always_ff @(posedge clk) begin ... end"] + CSG + [ONE] + LBL +
             ["שימו", "d = 1     n1 before = 0     q before = 0", "והעתיקו את הנורות:"] + SW1SW0,
             lambda q, p: (3 if p else 2, 0x3)),
            (["איזה מודול בלוח?"] + CSG + LBL + code(["syncgood", "syncbad"]), lambda q, p: (p, 0x1))]))
@@ -738,12 +738,12 @@ W.append(Q(id="SYNCGOOD", name="SYNCGOOD", title="syncgood או syncbad?", input
 # topic 3, slide 39: the latch module, 4 bits; two numbers from the display
 VLS = rv(539, 60, lambda r: (lambda a, b: (a, b) if a != b else None)(r.randint(1, 15), r.randint(1, 15)))
 LLS = ["clk = SW9     d[3:0] = SW8..SW5 (HEX0)     q = LEDG3..LEDG0"]
-W.append(Q(id="LATCHSLIDE", name="LATCHSLIDE", title="מודול ה-latch מהשקופיות", inputs=[9, 8, 7, 6, 5], flat=True, seq=True,
+W.append(Q(id="LATCHSLIDE", name="LATCHSLIDE", title="מודול ה-latch משקופית 39", inputs=[9, 8, 7, 6, 5], flat=True, seq=True,
     small=True, outs=[("G", i) for i in range(4)] + hexd(3) + hexd(2), hexes=[None, None, None, [8, 7, 6, 5]], variants=VLS,
     tables=lambda p: tabf(5, lambda c, *b: tuple(x if c else HOLD for x in hx(val(*b)))) + const(bitsof(p[0], 4) + bitsof(p[1], 4), 5),
     answer=lambda p: (p[0], 0xF), describe=lambda p: f"numbers {p[0]:X}, {p[1]:X}",
     B=[LLS[0] + "     HEX3, HEX2 = two numbers     answer: SW3..SW0"], L=[], F=[],
-    steps=[(["בלוח מודול ה-", "latch", "מהשקופיות, של 4 ביטים:", "always_latch  if (clk) q <= d;"] + LLS +
+    steps=[(["בלוח מודול ה-", "latch", "משקופית 39, של 4 ביטים:", "always_latch  if (clk) q <= d;"] + LLS +
             ["הרימו את השעון, שימו ב-", "d", "את המספר שב-", "HEX3", "והעתיקו את הנורות:"] + SW3SW0,
             lambda q, p: (p[0], 0xF)),
            (["הורידו את השעון, ואז שימו ב-", "d", "את המספר שב-", "HEX2", "והעתיקו שוב את הנורות:"] + LLS + SW3SW0,
@@ -754,11 +754,11 @@ LIT = UP0("הנורה דולקת", "הנורה כבויה")
 CASEN = lambda k: [("H", (d, 0)) for d in (3, 2, 1, 0)[:k]]	# a case of k bits on HEX3.. (one bit per digit)
 
 # topic 1, slides 8-9: the bistable circuit (two inverters back to back); the stored bit Q is on HEX3
-W.append(Q(id="BISTABLE", name="BISTABLE", title="המעגל הדו-יציב מהשקופיות", inputs=[9], flat=True,
+W.append(Q(id="BISTABLE", name="BISTABLE", title="המעגל הדו-יציב משקופיות 8-9", inputs=[9], flat=True,
     outs=CASEN(1), hexes=[None] * 4, variants=[0, 1],
     tables=lambda p: const([p]), answer=lambda p: (2 if p else 1, 0x3), describe=lambda p: f"bistable, Q = {p}",
     B=["HEX3 = Q     answer: SW1 SW0"], L=[], F=[],
-    steps=[(["בלוח המעגל הדו-יציב מהשקופיות: שני מהפכים, היציאה של כל אחד היא הכניסה של השני.",
+    steps=[(["בלוח המעגל הדו-יציב משקופיות 8-9: שני מהפכים, היציאה של כל אחד היא הכניסה של השני.",
              "I1: Q -> Q'     I2: Q' -> Q", "HEX3 = Q (the stored bit)", "מה היציאה של המהפך הראשון?", "Q' = ?"] + UP0("1", "0"),
             lambda q, p: (1 - p, 0x1)),
            (["העתיקו את שני הצמתים של המעגל:", "HEX3 = Q", "SW1 = Q     SW0 = Q'"], lambda q, p: (2 if p else 1, 0x3))]))
@@ -768,12 +768,12 @@ VFE = [(cb, d, qb) for cb in range(2) for d in range(2) for qb in range(2)]		# C
 fedge = lambda cb, cn, d, qb: d if (cn and not cb) else qb
 LDE = ["CLK before = SW9     CLK now = SW8     D = SW7     Q before = SW6     Q now = LEDG0"]
 CDE = ["case:   CLK before = HEX3     CLK now = HEX2     D = HEX1     Q before = HEX0"]
-W.append(Q(id="DFFEDGE", name="DFFEDGE", title="דלגלג D מהשקופיות - עליית השעון", inputs=[9, 8, 7, 6], flat=True,
+W.append(Q(id="DFFEDGE", name="DFFEDGE", title="דלגלג D משקופית 19 - עליית השעון", inputs=[9, 8, 7, 6], flat=True,
     outs=[("G", 0)] + CASEN(4), hexes=[None] * 4, variants=VFE,
     tables=lambda p: tabf(4, lambda cb, cn, d, qb: (fedge(cb, cn, d, qb),)) + const([p[0], 1, p[1], p[2]], 4),
     answer=lambda p: (fedge(1 - p[0], 1, p[1], p[2]), 0x1), describe=lambda p: f"CLK before, now, D, Q before = {p[0]}1{p[1]}{p[2]}",
     B=[LDE[0] + "     case = HEX3..HEX0     answer: SW0"], L=[], F=[],
-    steps=[(["בלוח הדלגלג", "D", "מהשקופיות: הוא דוגם את הנתון רק כשהשעון עולה מ-0 ל-1.",
+    steps=[(["בלוח הדלגלג", "D", "משקופית 19: הוא דוגם את הנתון רק כשהשעון עולה מ-0 ל-1.",
              "D flip-flop:   Q = D only on the rising edge of CLK",
              "אין שעון: השעון לפני ועכשיו על מתגים, והנורה מראה את היציאה עכשיו."] + LDE +
             ["שימו את המתגים כמו בתצוגה. מה הנורה מראה?"] + CDE + LIT, lambda q, p: (fedge(p[0], 1, p[1], p[2]), 0x1)),
@@ -790,7 +790,7 @@ W.append(Q(id="MSINSIDE", name="MSINSIDE", title="דלגלג D מבפנים - ש
     tables=lambda p: tabf(4, msi) + const([0, p[0], p[1], p[2]], 4),
     answer=lambda p: (val(p[0], p[0]), 0x3), describe=lambda p: f"CLK 0, D {p[0]}, N1 before {p[1]}, Q before {p[2]}",
     B=["   ".join(LMI) + "     case = HEX3..HEX0     answer: SW1 SW0"], L=[], F=[],
-    steps=[(["בלוח הדלגלג מהשקופיות: שני תפסנים בטור עם שעונים הפוכים.",
+    steps=[(["בלוח הדלגלג משקופית 20: שני תפסנים בטור עם שעונים הפוכים.",
              "D -> L1 -> N1 -> L2 -> Q     L1: transparent when CLK = 0     L2: transparent when CLK = 1"] + LMI +
             ["שימו את המתגים כמו בתצוגה, והעתיקו את הנורות:",
              "case:   CLK = HEX3     D = HEX2     N1 before = HEX1     Q before = HEX0"] + SW1SW0,
@@ -806,12 +806,12 @@ def lvf(p):
     return f
 LLF = ["CLK before = SW9     CLK now = SW8     D = SW7     Q before = SW6",
        "LEDG1, LEDG0 = D latch, D flip-flop (in some order)"]
-W.append(Q(id="LATCHVSFF", name="LATCHVSFF", title="תפסן D מול דלגלג D מהשקופיות", inputs=[9, 8, 7, 6], flat=True,
+W.append(Q(id="LATCHVSFF", name="LATCHVSFF", title="תפסן D מול דלגלג D משקופית 21", inputs=[9, 8, 7, 6], flat=True,
     outs=[("G", 1), ("G", 0)] + CASEN(4), hexes=[None] * 4, variants=[(r, d) for r in range(2) for d in range(2)],
     tables=lambda p: tabf(4, lvf(p)) + const([1, 1, p[1], 1 - p[1]], 4),
     answer=lambda p: (p[0], 0x1), describe=lambda p: f"flip-flop on LEDG{p[0]}, case 11{p[1]}{1 - p[1]}",
     B=["   ".join(LLF) + "     case = HEX3..HEX0     answer: SW0"], L=[], F=[],
-    steps=[(["בלוח תפסן", "D", "ודלגלג", "D", "מהשקופיות, על אותן כניסות.",
+    steps=[(["בלוח תפסן", "D", "ודלגלג", "D", "משקופית 21, על אותן כניסות.",
              "D latch: Q = D while CLK = 1     D flip-flop: Q = D only when CLK rises from 0 to 1"] + LLF +
             ["שימו את המתגים כמו בתצוגה, והעתיקו את הנורות:",
              "case:   CLK before = HEX3     CLK now = HEX2     D = HEX1     Q before = HEX0"] + SW1SW0,
@@ -821,12 +821,12 @@ W.append(Q(id="LATCHVSFF", name="LATCHVSFF", title="תפסן D מול דלגלג
 
 # topic 2, slides 23, 25: a 4-bit resettable register; the data from HEX3
 LRR = ["Reset = SW9     D[3:0] = SW8..SW5 (HEX0)     LEDG3..LEDG0 = Q after the next clock edge", "HEX3 = a number"]
-W.append(Q(id="REGRESET", name="REGRESET", title="אוגר עם איפוס מהשקופיות", inputs=[9, 8, 7, 6, 5], flat=True, small=True,
+W.append(Q(id="REGRESET", name="REGRESET", title="אוגר עם איפוס משקופיות 23 ו-25", inputs=[9, 8, 7, 6, 5], flat=True, small=True,
     outs=[("G", i) for i in range(4)] + hexd(3), hexes=[None, None, None, [8, 7, 6, 5]], variants=list(range(1, 16)),
     tables=lambda p: tabf(5, lambda rs, *b: hx(0 if rs else val(*b))) + const(bitsof(p, 4), 5),
     answer=lambda p: (bin(p).count("1"), 0x7), describe=lambda p: f"number {p:X}",
     B=[LRR[0] + "     HEX3 = a number     answer: SW3..SW0"], L=[], F=[],
-    steps=[(["בלוח אוגר של 4 ביטים מהשקופיות: ארבעה דלגלגים עם שעון משותף ואיפוס משותף.", REGNOW] + LRR +
+    steps=[(["בלוח אוגר של 4 ביטים משקופיות 23 ו-25: ארבעה דלגלגים עם שעון משותף ואיפוס משותף.", REGNOW] + LRR +
             ["הורידו את האיפוס, שימו ב-", "D", "את המספר שב-", "HEX3", "והעתיקו את הנורות:"] + SW3SW0, lambda q, p: (p, 0xF)),
            (["עכשיו הרימו את האיפוס, והעתיקו שוב:"] + LRR + SW3SW0, lambda q, p: (0, 0xF)),
            (["כמה נורות כבו כשהרמתם את האיפוס?"] + LRR + cnt(4), lambda q, p: (bin(p).count("1"), 0x7))]))
@@ -846,7 +846,7 @@ W.append(Q(id="ENWAVE", name="ENWAVE", title="דלגלג עם אפשור - אר�
     tables=lambda p: const(bitsof(p[0], 4) + bitsof(p[1], 4)), answer=lambda p: (en_w(*p), 0xF),
     describe=lambda p: f"EN {p[0]:04b} D {p[1]:04b}: Q {en_w(*p):04b}",
     B=[LEW[0] + "     answer: SW3..SW0"], L=[], F=[],
-    steps=[(["בלוח הדלגלג עם אפשור מהשקופיות, בארבע עליות שעון משמאל לימין:",
+    steps=[(["בלוח הדלגלג עם אפשור משקופית 24, בארבע עליות שעון משמאל לימין:",
              "EN = 1: Q = D at the edge     EN = 0: Q keeps its value"] + LEW +
             ["באילו עליות האפשור פעיל? העתיקו:", "SW3..SW0 = LEDR3..LEDR0"], lambda q, p: (p[0], 0xF)),
            (["מה היציאה אחרי כל עלייה? לפני עלייה 1 היציאה 0."] + LEW + ["SW3..SW0 = Q after edges 1..4"],
@@ -855,12 +855,12 @@ W.append(Q(id="ENWAVE", name="ENWAVE", title="דלגלג עם אפשור - אר�
 # topic 2, slide 29: the astable circuit (three inverters in a ring) - X Y Z now on the display
 ast = lambda s: val(1 - (s & 1), 1 - (s >> 2), 1 - ((s >> 1) & 1))	# X' = ~Z, Y' = ~X, Z' = ~Y
 LAS = ["X -> Y -> Z -> X  (three inverters)     HEX3 = X     HEX2 = Y     HEX1 = Z  (now)"]
-W.append(Q(id="ASTABLE", name="ASTABLE", title="המעגל המתנדנד מהשקופיות", inputs=[9], flat=True,
+W.append(Q(id="ASTABLE", name="ASTABLE", title="המעגל המתנדנד משקופית 29", inputs=[9], flat=True,
     outs=CASEN(3), hexes=[None] * 4, variants=list(range(1, 7)),	# the 6 states of the slide-29 cycle (000/111 flip all at once)
     tables=lambda p: const([p >> 2, (p >> 1) & 1, p & 1]), answer=lambda p: (ast(ast(p)), 0x7),
     describe=lambda p: f"XYZ {p:03b} -> {ast(p):03b} -> {ast(ast(p)):03b}",
     B=[LAS[0] + "     answer: SW2..SW0"], L=[], F=[],
-    steps=[(["בלוח המעגל הבעייתי מהשקופיות: שלושה מהפכים במסלול מעגלי, בלי כניסות.",
+    steps=[(["בלוח המעגל הבעייתי משקופית 29: שלושה מהפכים במסלול מעגלי, בלי כניסות.",
              "כל מהפך הופך את הכניסה שלו אחרי השהיית שער אחת."] + LAS +
             ["מה הצמתים אחרי השהיית שער אחת?", "SW2 = X     SW1 = Y     SW0 = Z"], lambda q, p: (ast(p), 0x7)),
            (["ואחרי עוד השהיית שער אחת?"] + LAS + ["SW2 = X     SW1 = Y     SW0 = Z"], lambda q, p: (ast(ast(p)), 0x7))]))
@@ -872,7 +872,7 @@ W.append(Q(id="SYNC2REG", name="SYNC2REG", title="לוגיקה סינכרוני�
     tables=lambda p: tabf(3, lambda a, r1, r2: (a, 1 - r1)) + const([p >> 2, (p >> 1) & 1, p & 1], 3),
     answer=lambda p: (val(p >> 2, 1 - (p >> 2)), 0x3), describe=lambda p: f"A R1 R2 = {p:03b}",
     B=["   ".join(LS2) + "     case = HEX3..HEX1     answer: SW1 SW0"], L=[], F=[],
-    steps=[(["בלוח מעגל סינכרוני מהשקופיות: שני אוגרים עם אותו שעון, ומהפך ביניהם.",
+    steps=[(["בלוח מעגל סינכרוני משקופיות 30-31: שני אוגרים עם אותו שעון, ומהפך ביניהם.",
              "R1 <= A;     R2 <= ~R1;", NOW] + LS2 +
             ["שימו את המתגים כמו בתצוגה, והעתיקו את הנורות:", "case:   A = HEX3     R1 = HEX2     R2 = HEX1"] + SW1SW0,
             lambda q, p: (val(p >> 2, 1 - ((p >> 1) & 1)), 0x3)),
@@ -884,12 +884,12 @@ VFS = rv(538, 40, lambda r: (lambda a, b: (a, b) if a != b else None)(r.randint(
 CFS = ["flopren:  always_ff @(posedge clk, posedge reset)", "  if (reset) q <= 4'b0;  else if (en) q <= d;"]
 LFS = ["reset = SW9     en = SW8     d[3:0] = SW7..SW4 (HEX0)     HEX3 = q now     HEX2 = a number",
        "LEDG3..LEDG0 = q after the next clock edge"]
-W.append(Q(id="FLOPRENSLIDE", name="FLOPRENSLIDE", title="flopren מהשקופיות", inputs=[9, 8, 7, 6, 5, 4], flat=True, small=True,
+W.append(Q(id="FLOPRENSLIDE", name="FLOPRENSLIDE", title="flopren משקופית 38", inputs=[9, 8, 7, 6, 5, 4], flat=True, small=True,
     outs=[("G", i) for i in range(4)] + hexd(3) + hexd(2), hexes=[None, None, None, [7, 6, 5, 4]], variants=VFS,
     tables=lambda p: tabf(6, lambda rs, en, *b: hx(0 if rs else (val(*b) if en else p[0]))) + const(bitsof(p[0], 4) + bitsof(p[1], 4), 6),
     answer=lambda p: (p[0], 0xF), describe=lambda p: f"q now {p[0]:X}, number {p[1]:X}",
     B=["   ".join(LFS) + "     answer: SW3..SW0"], L=[], F=[],
-    steps=[(["בלוח המודול", "flopren", "מהשקופיות, של 4 ביטים:"] + CFS + [REGNOW] + LFS +
+    steps=[(["בלוח המודול", "flopren", "משקופית 38, של 4 ביטים:"] + CFS + [REGNOW] + LFS +
             ["הרימו את האיפוס, והעתיקו את הנורות:"] + SW3SW0, lambda q, p: (0, 0xF)),
            (["הורידו את האיפוס, הרימו את האפשור, שימו ב-", "d", "את המספר שב-", "HEX2", "והעתיקו:"] + CFS + LFS + SW3SW0,
             lambda q, p: (p[1], 0xF)),
@@ -901,7 +901,7 @@ W.append(Q(id="SYNCWAVE", name="SYNCWAVE", title="syncgood בארבע עליות
     outs=[("R", i) for i in range(4)], hexes=[None] * 4, variants=list(range(1, 16)),
     tables=lambda p: const(bitsof(p, 4)), answer=lambda p: (p >> 1, 0xF), describe=lambda p: f"d {p:04b}: q {p >> 1:04b}",
     B=[LSW4[0] + "     answer: SW3..SW0"], L=[], F=[],
-    steps=[(["בלוח הנתון של", "syncgood", "מהשקופיות, בארבע עליות שעון:",
+    steps=[(["בלוח הנתון של", "syncgood", "משקופית 41, בארבע עליות שעון:",
              "always_ff @(posedge clk) begin  n1 <= d;  q <= n1;  end"] + LSW4 +
             ["מה", "n1", "אחרי כל עלייה?", "SW3..SW0 = n1 after edges 1..4"], lambda q, p: (p, 0xF)),
            (["ומה", "q", "אחרי כל עלייה? (הוא מקבל את", "n1", "של לפני העלייה)"] + LSW4 + ["SW3..SW0 = q after edges 1..4"],
@@ -910,13 +910,13 @@ W.append(Q(id="SYNCWAVE", name="SYNCWAVE", title="syncgood בארבע עליות
 # topic 3, slides 34, 42: assign (combinational, at once) and always_ff (at the clock edge) together
 CAF = ["assign y = a & b;", "always_ff @(posedge clk)  q <= y;"]
 LAF = ["a = SW9     b = SW8     q now = SW7", "LEDG2 = y     LEDG1 = q now     LEDG0 = q after the next clock edge"]
-W.append(Q(id="ASSIGNFF", name="ASSIGNFF", title="assign ו-always_ff מהשקופיות", inputs=[9, 8, 7], flat=True,
+W.append(Q(id="ASSIGNFF", name="ASSIGNFF", title="assign ו-always_ff משקופית 42", inputs=[9, 8, 7], flat=True,
     outs=[("G", 2), ("G", 1), ("G", 0)] + CASEN(3), hexes=[None] * 4, variants=list(range(8)),
     tables=lambda p: tabf(3, lambda a, b, q_: (a & b, q_, a & b)) + const([p >> 2, (p >> 1) & 1, p & 1], 3),
     answer=lambda p: (val(((p >> 2) ^ 1) & (p >> 1) & 1, p & 1, ((p >> 2) ^ 1) & (p >> 1) & 1), 0x7),
     describe=lambda p: f"a b q = {p:03b}",
     B=["   ".join(LAF) + "     case = HEX3..HEX1     answer: SW2..SW0"], L=[], F=[],
-    steps=[(["בלוח הכללים מהשקופיות: לוגיקה צירופית ב-", "assign", "ודלגלג ב-", "always_ff", ":"] + CAF + [NOW2] + LAF +
+    steps=[(["בלוח הכללים משקופית 42: לוגיקה צירופית ב-", "assign", "ודלגלג ב-", "always_ff", ":"] + CAF + [NOW2] + LAF +
             ["שימו את המתגים כמו בתצוגה, והעתיקו את הנורות:", "case:   a = HEX3     b = HEX2     q now = HEX1",
              "SW2 SW1 SW0 = LEDG2 LEDG1 LEDG0"],
             lambda q, p: (val((p >> 2) & (p >> 1) & 1, p & 1, (p >> 2) & (p >> 1) & 1), 0x7)),

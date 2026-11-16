@@ -11,7 +11,7 @@ S1: Ua.b:   a = HEX1 integer bits     b = HEX0 fraction bits
 S1: כתבו את 6.75 בפורמט הזה:
 S1: SW7..SW0
 
-[Q02] SLIDESAT | המחבר ברוויה מהשקופית | npub 1 | steps 3 | flat
+[Q02] SLIDESAT | המחבר ברוויה משקופית 7 | npub 1 | steps 3 | flat
 B: A = 11000000 (12)     B = LEDR7..LEDR0     answer: SW7..SW0
 S1: בשקופית 7 חיבור ברוויה בפורמט
 S1: U4.4
@@ -28,7 +28,7 @@ S2: A = 11000000 (12)     B = LEDR7..LEDR0
 S2: מה התוצאה ברוויה? (בגלישה התוצאה היא הערך הגדול ביותר)
 S2: SW7..SW0 = A + B (saturated)
 
-[Q03] SLIDEFP | מספרי נקודה צפה מהשקופיות | npub 1 | steps 4 | flat
+[Q03] SLIDEFP | מספרי נקודה צפה משקופיות 14-24 | npub 1 | steps 4 | flat
 B: HEX3..HEX0 = the high 16 bits (hex)     the low 16 bits are 0     answer: SW8..SW0
 S1: בתצוגה אחד המספרים מהשקופיות 14, 15 ו-21 עד 24, בנקודה צפה:
 S1: HEX3..HEX0 = the high 16 bits (hex)     the low 16 bits are 0
@@ -263,7 +263,7 @@ S2: מה המעריך המוטה של הסכום (אחרי נרמול)?
 S2: 128 = SW7   64 = SW6   32 = SW5   16 = SW4   8 = SW3   4 = SW2
 S2: 2 = SW1   1 = SW0
 
-[Q20] SLIDECNT | המונה מהשקופית | npub 1 | steps 3 | flat
+[Q20] SLIDECNT | המונה משקופית 27 | npub 1 | steps 3 | flat
 B: reset = SW9     q = SW8..SW6 (HEX3)     q after the next clock edge = LEDR2..LEDR0     the q to set = HEX0     answer: SW2..SW0
 S1: בשקופית 27 המונה:
 S1: if (reset) q <= 0; else q <= q + 1;
@@ -282,7 +282,7 @@ S2: reset = 0     q = HEX0
 S2: מה הערך אחרי שתי עליות שעון?
 S2: SW2..SW0
 
-[Q21] SLIDEDCO | המתנד מהשקופית | npub 1 | steps 3 | flat
+[Q21] SLIDEDCO | המתנד משקופית 29 | npub 1 | steps 3 | flat
 B: q = SW9..SW6 (HEX3)     q after the next clock edge = LEDR3..LEDR0     p = HEX0     the q to set = HEX1     answer: SW3..SW0
 S1: בשקופית 29 מתנד בשליטה ספרתית: מונה שמוסיף בכל עליית שעון את
 S1: p
@@ -303,7 +303,7 @@ S2: q = HEX1
 S2: מה הערך אחרי שתי עליות שעון?
 S2: SW3..SW0
 
-[Q22] SLIDEPL | אוגר הזזה עם טעינה מהשקופית | npub 1 | steps 3 | flat
+[Q22] SLIDEPL | אוגר הזזה עם טעינה משקופיות 31-32 | npub 1 | steps 3 | flat
 B: Load = SW9     Sin = SW8     Q3..Q0 = SW7..SW4 (HEX3)     q after the next clock edge = LEDR9..LEDR6     D = HEX0     the Q to set = HEX1     the Sin to set = LEDR0     answer: SW3..SW0
 S1: בשקופיות 31-32 אוגר הזזה עם טעינה מקבילית:
 S1: Load = 1: Q <= D     Load = 0: Q <= {Q[2:0], Sin}
@@ -324,7 +324,7 @@ S2: Load = 0     Sin = LEDR0     Q = HEX1
 S2: מה הערך אחרי עליית השעון הבאה?
 S2: SW3..SW0
 
-[Q23] SLIDES2P | מטורי למקבילי מהשקופית | npub 1 | steps 3 | flat
+[Q23] SLIDES2P | מטורי למקבילי משקופית 30 | npub 1 | steps 3 | flat
 B: Q3..Q0 = SW9..SW6 (HEX3)     Sin = SW5     q after the next clock edge = LEDR9..LEDR6     the bits to send = LEDR3..LEDR0 (LEDR0 first)     answer: SW3..SW0
 S1: בשקופית 30 אוגר הזזה הוא ממיר מטורי למקבילי: בכל עליית שעון הביט החדש נכנס ל-
 S1: Q0
@@ -506,7 +506,7 @@ S2: q after the next clock edge = LEDR3..LEDR0
 S2: לאיזה כיוון הוא מזיז?
 S2: left (into LEDR0) = all 0     right (into LEDR3) = SW0
 
-[Q34] SLIDEARR | מערך הזיכרון מהשקופית | npub 1 | steps 3 | flat
+[Q34] SLIDEARR | מערך הזיכרון משקופית 36 | npub 1 | steps 3 | flat
 B: address = SW9 SW8 (HEX3)     data = LEDR2..LEDR0     the addresses to read = HEX1, HEX0     answer: SW2..SW0
 S1: בשקופית 36 מערך זיכרון של 4 מילים של 3 ביטים. בלוח המערך הזה:
 S1: address = SW9 SW8 (HEX3)     data = LEDR2..LEDR0
@@ -519,7 +519,7 @@ S2: ומה המילה בכתובת:
 S2: address = HEX0
 S2: SW2..SW0
 
-[Q35] SLIDEROM54 | הזיכרון מהשקופית: שלוש פונקציות | npub 1 | steps 3 | flat
+[Q35] SLIDEROM54 | הזיכרון משקופית 54: שלוש פונקציות | npub 1 | steps 3 | flat
 B: A1 A0 = SW9 SW8 (HEX3)     Data2 Data1 Data0 = LEDR2 LEDR1 LEDR0     the addresses to read = HEX1, HEX0     answer: SW2..SW0
 S1: בשקופית 54 זיכרון של 4 מילים של 3 ביטים שמממש שלוש פונקציות של הכתובת:
 S1: Data2 = A1 xor A0     Data1 = A1 + A0     Data0 = A1 A0
@@ -534,7 +534,7 @@ S2: ומה המילה בכתובת:
 S2: A1 A0 = HEX0
 S2: SW2..SW0
 
-[Q36] SLIDEXYZ | לוגיקה בזיכרון מהשקופית | npub 1 | steps 3 | flat
+[Q36] SLIDEXYZ | לוגיקה בזיכרון משקופיות 55 ו-57 | npub 1 | steps 3 | flat
 B: A = SW9     B = SW8     X Y Z = LEDR2 LEDR1 LEDR0     the inputs to set: HEX3 HEX2, then HEX1 HEX0     answer: SW2..SW0
 S1: בשקופיות 55 ו-57 מימוש שלוש פונקציות בזיכרון של 4 מילים של 3 ביטים:
 S1: X = AB     Y = A + B     Z = AB'
@@ -552,7 +552,7 @@ S2: A = HEX1     B = HEX0
 S2: מה היציאות?
 S2: SW2 SW1 SW0 = X Y Z
 
-[Q37] SLIDEMEMF | קובץ הזיכרון מהשקופית | npub 1 | steps 3 | flat
+[Q37] SLIDEMEMF | קובץ הזיכרון משקופית 62 | npub 1 | steps 3 | flat
 B: address = SW9 SW8     SW7 = 0: HEX3..HEX0 = the high 16 bits     SW7 = 1: the low 16 bits     answer: SW1 SW0
 S1: בשקופית 62 ארבע שורות של קובץ זיכרון. בלוח זיכרון לקריאה בלבד שאותחל מהשורות האלה, בסדר אחר:
 S1: 01234567     89ABCDEF     FFFFFFFF     A5A5A5A5
@@ -672,7 +672,7 @@ S3: SW3..SW0 = the address
 
 [Q46] ROMLOGIC | לוגיקה בזיכרון | npub 1 | steps 3 | flat
 B: A1 = SW9     A0 = SW8     Data2..0 = LEDR2..LEDR0     answer: SW3..SW0
-S1: בלוח זיכרון של 4 מילים של 3 ביטים שמממש שלוש פונקציות של הכתובת (כמו בשקופית):
+S1: בלוח זיכרון של 4 מילים של 3 ביטים שמממש שלוש פונקציות של הכתובת (כמו בשקופית 54):
 S1: A1 = SW9     A0 = SW8     Data2 Data1 Data0 = LEDR2 LEDR1 LEDR0
 S1: איזה ביט נתונים הוא
 S1: A1 xor A0

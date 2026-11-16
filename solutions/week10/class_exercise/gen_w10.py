@@ -193,7 +193,7 @@ def div_iter(a, b, steps):			# the slide's algorithm, the first `steps` iteratio
     return qb, r_
 VDS = [(a, b) for a in range(8, 16) for b in range(1, 4)]
 numq(W, "DIVSTEP", "האלגוריתם של המחלק", 2, VDS, lambda p: [[p[0], p[1]]], LDV,
-     [(["בתצוגה מחולק ומחלק. האלגוריתם מהשקופית:", LDV,
+     [(["בתצוגה מחולק ומחלק. האלגוריתם משקופית 26:", LDV,
         "R' = 0;  for i = 3 to 0:  R = {R' << 1, A[i]};  D = R - B;  if D < 0: Q[i] = 0, R' = R  else: Q[i] = 1, R' = D",
         "אחרי הסיבוב הראשון: מה", "i = 3:   Q[3] = ?"] + UP0("1", "0"), lambda q, p: (div_iter(p[0], p[1], 1)[0][0], 0x1)),
       (["ומה השארית החלקית אחרי שני סיבובים?", "i = 3, 2:   R' = ?     SW3..SW0"], lambda q, p: (div_iter(p[0], p[1], 2)[1], 0xF)),
@@ -202,7 +202,7 @@ numq(W, "DIVSTEP", "האלגוריתם של המחלק", 2, VDS, lambda p: [[p[0
 
 LAR = "HEX3 = N (bits)"
 numq(W, "DIVARRAY", "מערך המחלק", 1, [2, 3, 4, 5, 6, 7, 8], lambda n: [[n]], LAR,
-     [(["בתצוגה הרוחב של מחלק מערך (כמו המחלק של 4 על 4 בשקופית):", LAR,
+     [(["בתצוגה הרוחב של מחלק מערך (כמו המחלק של 4 על 4 בשקופית 27):", LAR,
         "כל שורה במערך מחשבת סיבוב אחד של האלגוריתם. כמה שורות?"] + cnt(8), lambda q, n: (n, 0xF)),
       (["כמה ביטים במכפלה של שני מספרים ברוחב הזה?", "2N"] + binl(5), lambda q, n: (2 * n, 0x1F))],
      lambda n: f"N = {n}")
@@ -434,7 +434,7 @@ numq(W, "TBCOMPARE", "מתי הבודק משווה?", 3, rv(107, 200, lambda r: 
 LAE = "A = HEX3     B = HEX2     ALUControl = SW9 SW8 (HEX0)     Result = LEDG3..LEDG0"
 def alu_board(p):
     return [col(lambda r: (alu(r, p[0], p[1])[0] >> k) & 1, 2) for k in range(4)] + const(bitsof(p[0], 4) + bitsof(p[1], 4), 2)
-W.append(Q(id="ALUEX", name="ALUEX", title="ה-ALU מהשקופית", inputs=[9, 8], flat=True,
+W.append(Q(id="ALUEX", name="ALUEX", title="ה-ALU משקופיות 3-5", inputs=[9, 8], flat=True,
     outs=[("G", i) for i in range(4)] + hexd(3) + hexd(2), hexes=[None, None, None, [9, 8]],
     variants=rv(201, 200, lambda r: (r.randrange(16), r.randrange(16))), tables=alu_board,
     answer=lambda p: (alu(1, p[0], p[1])[0], 0xF), describe=lambda p: f"A {p[0]:04b} B {p[1]:04b}",
@@ -448,7 +448,7 @@ W.append(Q(id="ALUEX", name="ALUEX", title="ה-ALU מהשקופית", inputs=[9,
             lambda q, p: (alu(1, p[0], p[1])[0], 0xF))]))
 
 # the same ALU, the flags of slides 8-10 (no flag LEDs: the student finds them from Result)
-W.append(Q(id="FLAGEX", name="FLAGEX", title="הדגלים מהשקופית", inputs=[9, 8], flat=True,
+W.append(Q(id="FLAGEX", name="FLAGEX", title="הדגלים משקופיות 6-10", inputs=[9, 8], flat=True,
     outs=[("G", i) for i in range(4)] + hexd(3) + hexd(2), hexes=[None, None, None, [9, 8]],
     variants=rv(202, 200, lambda r: (r.randrange(16), r.randrange(16))), tables=alu_board,
     answer=lambda p: (alu(0, p[0], p[1])[3], 0x1), describe=lambda p: f"A {p[0]:04b} B {p[1]:04b}",
@@ -475,7 +475,7 @@ def _slt_pair(r):
         return None
     return (a, b)
 LSE = "A = HEX3     B = HEX2     ALUControl = SW9 SW8 SW7 (HEX0)     Result = LEDG3..LEDG0"
-W.append(Q(id="SLTEX", name="SLTEX", title="SLT מהשקופית", inputs=[9, 8, 7], flat=True,
+W.append(Q(id="SLTEX", name="SLTEX", title="SLT משקופיות 16-17", inputs=[9, 8, 7], flat=True,
     outs=[("G", i) for i in range(4)] + hexd(3) + hexd(2), hexes=[None, None, None, [9, 8, 7]],
     variants=rv(203, 200, _slt_pair),
     tables=lambda p: [col(lambda r: (alu3(r, p[0], p[1]) >> k) & 1, 3) for k in range(4)] + const(bitsof(p[0], 4) + bitsof(p[1], 4), 3),
@@ -489,7 +489,7 @@ W.append(Q(id="SLTEX", name="SLTEX", title="SLT מהשקופית", inputs=[9, 8,
 
 # topic 2: the slide's shifters (slides 19-20), 4 bits, shamt on the switches
 LSXA = "A = HEX3     shamt = SW9 SW8 (HEX0)"
-W.append(Q(id="SHIFTEX", name="SHIFTEX", title="ההזזות מהשקופית", inputs=[9, 8], flat=True,
+W.append(Q(id="SHIFTEX", name="SHIFTEX", title="ההזזות משקופיות 19-20", inputs=[9, 8], flat=True,
     outs=[("R", i) for i in range(4)] + [("G", 4 + i) for i in range(4)] + [("G", i) for i in range(4)] + hexd(3),
     hexes=[None, None, None, [9, 8]], variants=list(range(1, 16)),
     tables=lambda a: [col(lambda s: (shf(0, s, a) >> k) & 1, 2) for k in range(4)] +
@@ -506,7 +506,7 @@ W.append(Q(id="SHIFTEX", name="SHIFTEX", title="ההזזות מהשקופית", 
 
 # the 4 x 4 multiplier (slides 22-23): A and B on the display, P on the LEDs
 LMX = "A = HEX3     B = HEX2     P = A x B = LEDG7..LEDG0"
-W.append(Q(id="MULEX", name="MULEX", title="המכפל מהשקופית", inputs=[9], flat=True,
+W.append(Q(id="MULEX", name="MULEX", title="המכפל משקופיות 22-23", inputs=[9], flat=True,
     outs=[("G", i) for i in range(8)] + hexd(3) + hexd(2), hexes=[None, None, None, None],
     variants=random.Random(204).sample([(a, b) for a in range(1, 16) for b in range(1, 16)], 200),
     tables=lambda p: const(bitsof(p[0] * p[1], 8) + bitsof(p[0], 4) + bitsof(p[1], 4)),
@@ -519,7 +519,7 @@ W.append(Q(id="MULEX", name="MULEX", title="המכפל מהשקופית", inputs
 
 # the divider (slides 25-27) with the slide's dividend 1101 and a divisor on the display
 LDX = "A = SW9..SW6 (HEX0)     B = HEX3     Q = LEDG7..LEDG4     R = LEDG3..LEDG0"
-W.append(Q(id="DIVEX", name="DIVEX", title="המחלק מהשקופית", inputs=[9, 8, 7, 6], flat=True,
+W.append(Q(id="DIVEX", name="DIVEX", title="המחלק משקופיות 25-27", inputs=[9, 8, 7, 6], flat=True,
     outs=[("G", i) for i in range(4)] + [("G", 4 + i) for i in range(4)] + hexd(3), hexes=[None, None, None, [9, 8, 7, 6]],
     variants=[1] + list(range(3, 16)),
     tables=lambda b: [col(lambda a: ((a % b) >> k) & 1, 4) for k in range(4)] + [col(lambda a: ((a // b) >> k) & 1, 4) for k in range(4)]
@@ -527,7 +527,7 @@ W.append(Q(id="DIVEX", name="DIVEX", title="המחלק מהשקופית", inputs
     answer=lambda b: (13 % b, 0xF), describe=lambda b: f"1101 / {b:04b} = {13 // b:04b} R {13 % b}",
     B=[LDX + "     answer: SW3..SW0"], L=[], F=[],
     steps=[(["בלוח המחלק של 4 על 4 משקופית 27.", "הדוגמה של שקופית 25:", "1101 / 0010 = 0110 R1",
-             LDX, "שימו את המחולק של השקופית:", "A = 1101", "מה המנה?", "Q = ?     SW3..SW0"], lambda q, b: (13 // b, 0xF)),
+             LDX, "שימו את המחולק של שקופית 25:", "A = 1101", "מה המנה?", "Q = ?     SW3..SW0"], lambda q, b: (13 // b, 0xF)),
            (["A = 1101", LDX, "מה השארית?", "R = ?     SW3..SW0"], lambda q, b: (13 % b, 0xF))]))
 
 # topic 3: sillyfunction (slide 31) is the board; the vector to apply on the display
@@ -582,7 +582,7 @@ def _ovf_pair(r):
     if r.random() < 0.5 and not (alu(0, a, b)[4] or alu(1, a, b)[4]):
         return None
     return (a, b)
-W.append(Q(id="OVFEX", name="OVFEX", title="דגל הגלישה מהשקופית", inputs=[9, 8], flat=True,
+W.append(Q(id="OVFEX", name="OVFEX", title="דגל הגלישה משקופיות 11-13", inputs=[9, 8], flat=True,
     outs=[("G", i) for i in range(8)] + hexd(3) + hexd(2), hexes=[None, None, None, [9, 8]],
     variants=rv(206, 200, _ovf_pair),
     tables=lambda p: [col(lambda r: (alu(r, p[0], p[1])[0] >> k) & 1, 2) for k in range(4)] +
@@ -597,7 +597,7 @@ W.append(Q(id="OVFEX", name="OVFEX", title="דגל הגלישה מהשקופית
 
 # the comparison table (slide 14): the flags of A - B with A on the switches
 LCE = "A = SW9..SW6     B = HEX3     A - B:   N = LEDG3   Z = LEDG2   C = LEDG1   V = LEDG0"
-W.append(Q(id="CMPEX", name="CMPEX", title="השוואה מהטבלה של השקופית", inputs=[9, 8, 7, 6], flat=True,
+W.append(Q(id="CMPEX", name="CMPEX", title="השוואה מהטבלה של שקופית 14", inputs=[9, 8, 7, 6], flat=True,
     outs=[("G", 3), ("G", 2), ("G", 1), ("G", 0)] + hexd(3), hexes=[None, None, None, [9, 8, 7, 6]], variants=list(range(16)),
     tables=lambda b: [col(lambda a: alu(1, a, b)[f], 4) for f in (1, 2, 3, 4)] + const(bitsof(b, 4), 4),
     answer=lambda b: (int(3 < b), 0x1), describe=lambda b: f"B = {b:04b} ({sv(b)})",
@@ -612,7 +612,7 @@ W.append(Q(id="CMPEX", name="CMPEX", title="השוואה מהטבלה של הש�
 
 # XOR (slide 15) with B on the display
 LXE = "A = SW9..SW6     B = HEX3     Result = A XOR B = LEDG3..LEDG0"
-W.append(Q(id="XOREX", name="XOREX", title="XOR מהשקופית", inputs=[9, 8, 7, 6], flat=True,
+W.append(Q(id="XOREX", name="XOREX", title="XOR משקופית 15", inputs=[9, 8, 7, 6], flat=True,
     outs=[("G", i) for i in range(4)] + hexd(3), hexes=[None, None, None, [9, 8, 7, 6]], variants=list(range(16)),
     tables=lambda b: [col(lambda a: ((a ^ b) >> k) & 1, 4) for k in range(4)] + const(bitsof(b, 4), 4),
     answer=lambda b: (b, 0xF), describe=lambda b: f"B = {b:04b}",
@@ -625,7 +625,7 @@ W.append(Q(id="XOREX", name="XOREX", title="XOR מהשקופית", inputs=[9, 8,
 LRO = "A = HEX3     shamt = SW9 SW8 (HEX0)     A ROR shamt = LEDG7..LEDG4     A ROL shamt = LEDG3..LEDG0"
 def ror(a, k):
     return ((a >> k) | (a << (4 - k))) & 15
-W.append(Q(id="ROTEX", name="ROTEX", title="המסובב מהשקופית", inputs=[9, 8], flat=True,
+W.append(Q(id="ROTEX", name="ROTEX", title="המסובב משקופית 19", inputs=[9, 8], flat=True,
     outs=[("G", i) for i in range(4)] + [("G", 4 + i) for i in range(4)] + hexd(3), hexes=[None, None, None, [9, 8]],
     variants=list(range(1, 15)),
     tables=lambda a: [col(lambda s: (ror(a, (4 - s) % 4) >> k) & 1, 2) for k in range(4)] +

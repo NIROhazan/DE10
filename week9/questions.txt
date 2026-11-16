@@ -4,6 +4,7 @@
 
 [Q01] HATABLE | חצי המחבר מהשקף | npub 1 | steps 2 | flat
 B: A = SW9 (HEX3)     B = SW8 (HEX2)     row = HEX1 HEX0     Cout = LEDR1     S = LEDR0     answer: SW1 SW0
+S1: הרצאה 9, שקופית 5
 S1: בשקף 5: חצי מחבר. בלוח בדיוק המעגל של השקף.
 S1: S = A ^ B     Cout = AB
 S1: A = SW9 (HEX3)     B = SW8 (HEX2)     Cout = LEDR1     S = LEDR0
@@ -14,6 +15,7 @@ S1: SW1 = Cout     SW0 = S
 
 [Q02] FATABLE | המחבר המלא מהשקף | npub 1 | steps 2 | flat
 B: A = SW9     B = SW8     Cin = SW7     row = HEX3 HEX2 HEX1     Cout = LEDR1     S = LEDR0     answer: SW1 SW0
+S1: הרצאה 9, שקופית 5
 S1: בשקף 5: מחבר מלא. בלוח בדיוק המעגל של השקף.
 S1: S = A ^ B ^ Cin     Cout = AB + ACin + BCin
 S1: A = SW9     B = SW8     Cin = SW7     Cout = LEDR1     S = LEDR0
@@ -24,6 +26,7 @@ S1: SW1 = Cout     SW0 = S
 
 [Q03] RIPPLE4 | שרשרת האדווה מהשקף | npub 1 | steps 3 | flat
 B: A = SW9..SW6 (HEX0)     HEX3 = the A to set     B = HEX2     S = LEDR3..LEDR0     Cout = LEDR4     answer: SW3..SW0
+S1: הרצאה 9, שקופית 8
 S1: בשקף 8: מחבר אדווה, שרשרת של מחברים מלאים. בלוח שרשרת של 4 מהם, ונשא הכניסה 0.
 S1: S = A + B     Cin = 0
 S1: A = SW9..SW6 (HEX0)     B = HEX2     S = LEDR3..LEDR0
@@ -39,6 +42,7 @@ S2: לא - השאירו למטה.
 
 [Q04] HAROWS | חצי המחבר: כמה שורות | npub 1 | steps 2 | flat
 B: A = SW9 (HEX3)     B = SW8 (HEX2)     Cout = LEDR1     S = LEDR0     HEX1 HEX0 = the outputs     answer: SW1 SW0
+S1: הרצאה 9, שקופית 5
 S1: בשקף 5: חצי מחבר. בלוח בדיוק המעגל של השקף.
 S1: S = A ^ B     Cout = AB
 S1: A = SW9 (HEX3)     B = SW8 (HEX2)     Cout = LEDR1     S = LEDR0
@@ -50,6 +54,7 @@ S1: 1 = SW0 2 = SW1 3 = SW1+SW0
 
 [Q05] FACOUNT | המחבר המלא סופר אחדות | npub 1 | steps 2 | flat
 B: A = SW9 (HEX3)     B = SW8 (HEX2)     Cin = SW7 (HEX1)     HEX0 = how many ones     Cout = LEDR1     S = LEDR0     answer: SW1 SW0
+S1: הרצאה 9, שקופית 5
 S1: בשקף 5: מחבר מלא. בלוח בדיוק המעגל של השקף.
 S1: S = A ^ B ^ Cin     Cout = AB + ACin + BCin
 S1: A = SW9 (HEX3)     B = SW8 (HEX2)     Cin = SW7 (HEX1)     Cout = LEDR1     S = LEDR0
@@ -60,6 +65,7 @@ S1: SW1 = Cout     SW0 = S
 
 [Q06] RIPPLECIN | נשא הכניסה של שרשרת האדווה | npub 1 | steps 3 | flat
 B: A = SW9..SW6 (HEX0)     Cin = SW5 (HEX1)     B = HEX2     S = LEDR3..LEDR0     Cout = LEDR4     HEX3 = the A to set     answer: SW4..SW0
+S1: הרצאה 9, שקופית 8
 S1: בשקף 8: מחבר אדווה, שרשרת של מחברים מלאים. בלוח שרשרת של 4 מהם, עם נשא כניסה.
 S1: S = A + B + Cin
 S1: A = SW9..SW6 (HEX0)     Cin = SW5 (HEX1)     B = HEX2     S = LEDR3..LEDR0     Cout = LEDR4
@@ -75,6 +81,7 @@ S2: SW4 = Cout     SW3..SW0 = S3..S0
 
 [Q07] RIPPLEC | הנשא עובר בשרשרת | npub 1 | steps 2 | flat
 B: A = SW9..SW6 (HEX0)     HEX3 = the A to set     B = HEX2     C3..C0 = LEDR3..LEDR0     answer: SW3..SW0
+S1: הרצאה 9, שקופית 8
 S1: בשקף 8: מחבר אדווה. הנשא עובר מכל מחבר מלא לבא אחריו. בלוח שרשרת של 4, ונשא הכניסה 0.
 S1: Ci = the carry out of full adder i     C3 = Cout
 S1: A = SW9..SW6 (HEX0)     B = HEX2     C3..C0 = LEDR3..LEDR0
@@ -85,6 +92,7 @@ S1: SW3..SW0 = C3..C0
 
 [Q08] HALFADD | חצי מחבר | npub 1 | steps 2 | flat
 B: A = SW9     B = SW8     LEDR1 LEDR0     answer: SW3..SW0
+S1: הרצאה 9, שקופית 5
 S1: בלוח חצי מחבר של שני ביטים. נורה אחת היא הסכום ואחת הנשא.
 S1: A = SW9     B = SW8
 S1: איזו נורה היא הסכום? (דולקת כשבדיוק כניסה אחת 1)
@@ -92,6 +100,7 @@ S1: LEDR0 = all 0     LEDR1 = SW0
 
 [Q09] FULLADD | מחבר מלא | npub 1 | steps 3 | flat
 B: A = SW9     B = SW8     Cin = SW7     LEDR2 LEDR1 LEDR0     answer: SW3..SW0
+S1: הרצאה 9, שקופית 5
 S1: בלוח מחבר מלא, ועוד נורה של הנשא של חצי המחבר הראשון.
 S1: A = SW9     B = SW8     Cin = SW7
 S1: S = A ^ B ^ Cin     Cout = AB + ACin + BCin     extra = AB
@@ -104,6 +113,7 @@ S2: LEDR0 = all 0     LEDR1 = SW0     LEDR2 = SW1
 
 [Q10] FACIN | מחבר מלא עם נשא כניסה קבוע | npub 1 | steps 3 | flat
 B: A = SW9     B = SW8     Cin = hidden constant     LEDR1 LEDR0     answer: SW3..SW0
+S1: הרצאה 9, שקופית 5
 S1: בלוח מחבר מלא. נשא הכניסה מחובר בפנים לקבוע מוסתר (0 או 1).
 S1: A = SW9     B = SW8
 S1: S = A ^ B ^ Cin     Cout = AB + ACin + BCin
@@ -116,6 +126,7 @@ S2: 0 = all 0     1 = SW0
 
 [Q11] INVERTEDIN | מחבר מלא עם מהפך מוסתר | npub 1 | steps 3 | flat
 B: A = SW9     B = SW8     Cin = SW7     LEDR1 LEDR0     answer: SW3..SW0
+S1: הרצאה 9, שקופית 5
 S1: בלוח מחבר מלא, אבל כניסה אחת עוברת דרך מהפך מוסתר.
 S1: A = SW9     B = SW8     Cin = SW7
 S1: S = A ^ B ^ Cin     Cout = AB + ACin + BCin
@@ -131,6 +142,7 @@ S2: A = all 0     B = SW0     Cin = SW1
 
 [Q12] RIPPLE | מחבר אדווה עם מספר מוסתר | npub 1 | steps 3 | flat
 B: A = SW9..SW6 (HEX0)     Cin = SW5     S = LEDR3..LEDR0     Cout = LEDR4     answer: SW4..SW0
+S1: הרצאה 9, שקופית 8
 S1: בלוח מחבר אדווה של 4 ביטים:
 S1: S = A + B + Cin
 S1: A = SW9..SW6     Cin = SW5     S = LEDR3..0     Cout = LEDR4
@@ -145,6 +157,7 @@ S2: 16 = SW4   8 = SW3   4 = SW2   2 = SW1   1 = SW0
 
 [Q13] BROKENFA | מחבר מלא מקולקל | npub 1 | steps 3 | flat
 B: A = SW9..SW6 (HEX0)     B = HEX2     S = LEDR3..LEDR0     Cout = LEDR4     answer: SW3..SW0
+S1: הרצאה 9, שקופית 8
 S1: בלוח מחבר אדווה של 4 מחברים מלאים, והמספר השני מוצג בתצוגה. אחד המחברים המלאים מקולקל.
 S1: S = A + B     A = SW9..SW6     B = HEX2     S = LEDR3..0, Cout = LEDR4
 S1: נסו כמה ערכים בכניסה והשוו לחשבון. איזה מחבר מלא מקולקל? (0 = הימני)
@@ -155,6 +168,7 @@ S2: carry out stuck at 0 = all 0     sum inverted = SW0
 
 [Q14] RIPPLEDELAY | השהיה של מחבר אדווה | npub 1 | steps 2 | flat
 B: HEX3 HEX2 = N bits     HEX1 = tFA     answer: SW8..SW0
+S1: הרצאה 9, שקופית 9
 S1: בתצוגה מחבר אדווה:
 S1: HEX3 HEX2 = N bits     HEX1 = tFA (ns)
 S1: מה ההשהיה שלו (בננו-שניות)?
@@ -164,6 +178,7 @@ S1: 4 = SW2   2 = SW1   1 = SW0
 
 [Q15] OVERFLOW | גלישה בחיבור עם סימן | npub 1 | steps 3 | flat
 B: A = SW9..SW6 (HEX0)     overflow = LEDR0     answer: SW3..SW0
+S1: הרצאה 9, שקופית 38
 S1: בלוח מחבר של 4 ביטים עם סימן (משלים ל-2). המספר השני מוסתר, ורק נורת הגלישה מוצגת.
 S1: S = A + B     A = SW9..SW6     overflow = LEDR0
 S1: גלישה קורית רק כששני המספרים באותו סימן. נסו את כל הכניסות: האם המספר המוסתר חיובי או שלילי?
@@ -173,6 +188,7 @@ S2: B = ?     SW3..SW0 (4 bits, two's complement)
 
 [Q16] GPCOLUMNS | מעביר ומייצר של כל עמודה מהשקף | npub 1 | steps 3 | flat
 B: A = SW9..SW6 (HEX0)     P3..P0 = LEDR3..LEDR0     G3..G0 = LEDR7..LEDR4     answer: SW3..SW0
+S1: הרצאה 9, שקופית 12
 S1: בשקף 12: אותות מעביר ומייצר לכל עמודה. בלוח המעגל של 4 עמודות, והמספר השני מוסתר.
 S1: Pi = Ai + Bi     Gi = Ai Bi
 S1: A = SW9..SW6 (HEX0)     P3..P0 = LEDR3..LEDR0
@@ -188,6 +204,7 @@ S2: SW3..SW0 = G3..G0
 
 [Q17] BLOCK4 | הבלוק של 4 ביטים מהשקף | npub 1 | steps 2 | flat
 B: A = SW9..SW6 (HEX0)     HEX3 = the A to set     B = HEX2     P3:0 = LEDR0     G3:0 = LEDR1     answer: SW1 SW0
+S1: הרצאה 9, שקופיות 14-16
 S1: בשקפים 14-16: מעביר ומייצר של בלוק של 4 ביטים. בלוח המעגל של השקף.
 S1: P3:0 = P3 P2 P1 P0     G3:0 = G3 + P3 (G2 + P2 (G1 + P1 G0))
 S1: A = SW9..SW6 (HEX0)     B = HEX2     P3:0 = LEDR0     G3:0 = LEDR1
@@ -208,6 +225,7 @@ S1: SW1 = G_i:j     SW0 = P_i:j
 
 [Q19] GPROW | מייצר ומעביר של עמודה מהשקף | npub 1 | steps 2 | flat
 B: Ai = SW9 (HEX3)     Bi = SW8 (HEX2)     row = HEX1 HEX0     Gi = LEDR1     Pi = LEDR0     answer: SW1 SW0
+S1: הרצאה 9, שקופית 11
 S1: בשקף 11: אותות מייצר ומעביר של עמודה אחת. בלוח המעגל של השקף.
 S1: Gi = Ai Bi     Pi = Ai + Bi
 S1: Ai = SW9 (HEX3)     Bi = SW8 (HEX2)     Gi = LEDR1     Pi = LEDR0
@@ -218,6 +236,7 @@ S1: SW1 = Gi     SW0 = Pi
 
 [Q20] BLOCKCIN | הנשא שיוצא מהבלוק | npub 1 | steps 3 | flat
 B: A = SW9..SW6 (HEX0)     Cin = SW5 (HEX1)     B = HEX2     C3 = LEDR0     HEX3 = the A to set     answer: SW0
+S1: הרצאה 9, שקופית 18
 S1: בשקף 18: הנשא שיוצא מבלוק של 4 ביטים. בלוח המעגל של השקף.
 S1: C3 = G3:0 + P3:0 Cin
 S1: A = SW9..SW6 (HEX0)     Cin = SW5 (HEX1)     B = HEX2     C3 = LEDR0
@@ -237,6 +256,7 @@ S2: לא - השאירו למטה.
 
 [Q21] CLACHAIN | שרשרת הבלוקים מהשקף | npub 1 | steps 3 | flat
 B: Cin = SW9 (HEX3)     C3 = LEDR0     C7 = LEDR1     answer: SW1 SW0
+S1: הרצאה 9, שקופיות 19 ו-25
 S1: בשקפים 19 ו-25: מחבר הצצה קדימה עם בלוקים של 4 ביטים. בלוח שני הבלוקים הראשונים, והמספרים מוסתרים.
 S1: C3 = G3:0 + P3:0 Cin     C7 = G7:4 + P7:4 C3
 S1: Cin = SW9 (HEX3)     C3 = LEDR0     C7 = LEDR1
@@ -262,6 +282,7 @@ S1: Cin = SW5 = 1     SW3..SW0 = G_3:-1 G_2:-1 G_1:-1 G_0:-1
 
 [Q23] GENKILL | מייצר, מעביר או הורג | npub 1 | steps 2 | flat
 B: Ai = SW9     Bi = SW8     LEDR1 LEDR0     answer: SW3..SW0
+S1: הרצאה 9, שקופית 12
 S1: בלוח עמודה אחת של מחבר: נורה אחת היא
 S1: Gi = Ai Bi
 S1: (מייצר נשא) והשנייה
@@ -275,6 +296,7 @@ S1: LEDR0 = all 0     LEDR1 = SW0
 
 [Q24] GENPROP | אותות מייצר ומעביר | npub 1 | steps 3 | flat
 B: HEX3 = A (hex)     HEX2 = B (hex)     answer: SW8..SW0
+S1: הרצאה 9, שקופית 12
 S1: בתצוגה שני מספרים של 4 ביטים:
 S1: HEX3 = A (hex)     HEX2 = B (hex)
 S1: מה אותות המייצר של כל העמודות?
@@ -286,6 +308,7 @@ S2: SW3..SW0 = P3..P0
 
 [Q25] BLOCKGP | מייצר ומעביר של בלוק | npub 1 | steps 3 | flat
 B: HEX3 = A (hex)     HEX2 = B (hex)     answer: SW8..SW0
+S1: הרצאה 9, שקופיות 13-17
 S1: בתצוגה שני מספרים של 4 ביטים:
 S1: HEX3 = A (hex)     HEX2 = B (hex)
 S1: האם הבלוק כולו מעביר נשא?
@@ -301,6 +324,7 @@ S2: לא - השאירו למטה.
 
 [Q26] BLOCKHIDDEN | מייצר ומעביר של בלוק עם מספר מוסתר | npub 1 | steps 4 | flat
 B: A = SW9..SW6 (HEX0)     P3:0 = LEDR0     G3:0 = LEDR1     answer: SW4..SW0
+S1: הרצאה 9, שקופיות 13-17
 S1: בלוח בלוק של 4 ביטים, והמספר השני מוסתר:
 S1: P3:0 = P3 P2 P1 P0 = LEDR0     Pi = Ai + Bi
 S1: A = SW9..SW6
@@ -315,6 +339,7 @@ S3: 16 = SW4   8 = SW3   4 = SW2   2 = SW1   1 = SW0
 
 [Q27] CARRIES | הנשאים של כל העמודות | npub 1 | steps 3 | flat
 B: HEX3 = A (hex)     HEX2 = B (hex)     HEX1 = Cin     answer: SW8..SW0
+S1: הרצאה 9, שקופיות 20-24
 S1: בתצוגה שני מספרים של 4 ביטים ונשא כניסה:
 S1: HEX3 = A (hex)     HEX2 = B (hex)     HEX1 = Cin
 S1: מה הנשא שיוצא מכל עמודה?
@@ -325,6 +350,7 @@ S2: SW3..SW0
 
 [Q28] PBUG | מעביר שנבנה משער אחר | npub 1 | steps 3 | flat
 B: A = SW9..SW6 (HEX0)     B = HEX2     S = LEDR3..LEDR0     Cout = LEDR4     answer: SW3..SW0
+S1: הרצאה 9, שקופיות 11-12
 S1: בלוח מחבר הצצה קדימה של 4 ביטים, והמספר השני מוצג בתצוגה:
 S1: Ci = Gi + Pi C(i-1)     Si = Ai ^ Bi ^ C(i-1)
 S1: A = SW9..SW6     B = HEX2     S = LEDR3..0     Cout = LEDR4
@@ -340,6 +366,7 @@ S2: column 3 = SW2
 
 [Q29] CLADELAY | השהיה של מחבר הצצה קדימה | npub 1 | steps 2 | flat
 B: tpg tpg_block tAND_OR tFA / N k     SW9 = page 2     answer: SW8..SW0
+S1: הרצאה 9, שקופית 26
 S1: בתצוגה שני דפים של מחבר הצצה קדימה עם בלוקים:
 S1: page 1 (SW9 = 0):  HEX3 = tpg   HEX2 = tpg_block   HEX1 = tAND_OR   HEX0 = tFA
 S1: page 2 (SW9 = 1):    HEX3 HEX2 = N     HEX1 = k
@@ -386,6 +413,7 @@ S1: 1 = SW0
 
 [Q33] ADDERRACE | מרוץ המחברים | npub 1 | steps 5 | flat
 B: HEX3 HEX2 = N bits     HEX1 = tgate     HEX0 = tFA     answer: SW8..SW0
+S1: הרצאה 9, שקופית 34
 S1: בתצוגה מספר הביטים, השהיית שער של 2 כניסות והשהיית מחבר מלא (בננו-שניות):
 S1: HEX3 HEX2 = N bits     HEX1 = tgate     HEX0 = tFA
 S1: מה ההשהיה של מחבר אדווה?
@@ -408,6 +436,7 @@ S4: ripple = all 0     CLA = SW0     prefix = SW1
 
 [Q34] SUBNOTB | המחסר מהשקף | npub 1 | steps 3 | flat
 B: B = SW9..SW6 (HEX0)     HEX2 = the B to set     A = HEX3     ~B = LEDR3..LEDR0     Y = LEDR7..LEDR4     answer: SW3..SW0
+S1: הרצאה 9, שקופית 36
 S1: בשקף 36: מחסר, מהפכים ואחריהם מחבר עם נשא כניסה 1. בלוח המעגל של השקף.
 S1: Y = A - B = A + ~B + 1
 S1: B = SW9..SW6 (HEX0)     ~B = LEDR3..LEDR0
@@ -421,6 +450,7 @@ S2: SW3..SW0 = Y
 
 [Q35] EQXNOR | משווה השוויון מהשקף | npub 1 | steps 3 | flat
 B: A = SW9..SW6 (HEX0)     XNOR3..XNOR0 = LEDR3..LEDR0     Equal = LEDR4     answer: SW3..SW0
+S1: הרצאה 9, שקופית 37
 S1: בשקף 37: משווה שוויון. בלוח המעגל של השקף, והמספר השני מוסתר.
 S1: Xi = Ai XNOR Bi = LEDRi     Equal = X3 X2 X1 X0 = LEDR4
 S1: A = SW9..SW6 (HEX0)
@@ -449,6 +479,7 @@ S2: SW3..SW0 = y = d1
 
 [Q37] SUBCIN | ה-1 של המחסר | npub 1 | steps 3 | flat
 B: A = SW9..SW6 (HEX0)     Cin = SW5 (HEX1)     B = HEX2     Y = LEDR3..LEDR0     HEX3 = the A to set     answer: SW3..SW0
+S1: הרצאה 9, שקופית 36
 S1: בשקף 36: מחסר, מהפכים ומחבר. ה-1 נכנס בנשא הכניסה של המחבר. בלוח המעגל, ונשא הכניסה במתג.
 S1: Y = A + ~B + Cin
 S1: A = SW9..SW6 (HEX0)     Cin = SW5 (HEX1)     B = HEX2     Y = LEDR3..LEDR0
@@ -464,6 +495,7 @@ S2: SW3..SW0 = Y
 
 [Q38] EQCOUNT | משווה השוויון: כמה ביטים שווים | npub 1 | steps 2 | flat
 B: A = SW9..SW6 (HEX0)     HEX3 = the A to set     B = HEX2     Xi = LEDRi     answer: SW3..SW0
+S1: הרצאה 9, שקופית 37
 S1: בשקף 37: משווה שוויון. לכל ביט שער
 S1: XNOR
 S1: ואחריהם
@@ -479,6 +511,7 @@ S1: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2
 
 [Q39] SLTSIGN | קטן-מ מהשקף: ביט הסימן | npub 1 | steps 3 | flat
 B: A = SW9..SW6 (HEX0)     B = HEX2     Y = A - B = LEDR3..LEDR0     A < B = Y3 = LEDR4     HEX3 = the A to set     answer: SW3..SW0
+S1: הרצאה 9, שקופית 38
 S1: בשקף 38: קטן-מ עם סימן. מחסר, והיציאה היא ביט הסימן של ההפרש. בלוח המעגל של השקף.
 S1: A < B  if  A - B < 0
 S1: A = SW9..SW6 (HEX0)     B = HEX2     Y = A - B = LEDR3..LEDR0     A < B = Y3 = LEDR4
@@ -496,6 +529,7 @@ S2: לא - השאירו למטה.
 
 [Q40] SUBTRACTER | מחסר עם מספר מוסתר | npub 1 | steps 3 | flat
 B: A = SW9..SW6 (HEX0)     Y = LEDR3..LEDR0     Cout = LEDR4     answer: SW3..SW0
+S1: הרצאה 9, שקופית 36
 S1: בלוח מחסר:
 S1: Y = A - B = A + ~B + 1
 S1: A = SW9..SW6     Y = LEDR3..0     Cout = LEDR4
@@ -510,6 +544,7 @@ S2: B = ?     SW3..SW0
 
 [Q41] NOBORROW | הנשא של המחסר | npub 1 | steps 2 | flat
 B: A = SW9..SW6 (HEX0)     Cout = LEDR4     answer: SW3..SW0
+S1: הרצאה 9, שקופית 36
 S1: בלוח מחסר, ורק הנשא שלו מוצג:
 S1: A - B = A + ~B + 1     Cout = LEDR4
 S1: A = SW9..SW6
@@ -518,6 +553,7 @@ S1: B = the smallest A with Cout = 1     SW3..SW0
 
 [Q42] SUBBUG | מחסר עם באג | npub 1 | steps 3 | flat
 B: A = SW9..SW6 (HEX0)     B = HEX2     Y = LEDR3..LEDR0     answer: SW3..SW0
+S1: הרצאה 9, שקופית 36
 S1: בלוח מחסר של 4 ביטים, והמספר השני מוצג בתצוגה:
 S1: Y = A - B = A + ~B + 1
 S1: A = SW9..SW6     B = HEX2     Y = LEDR3..0
@@ -533,6 +569,7 @@ S2: bit 2 of B not inverted = SW2     bit 3 of B not inverted = SW2+SW0
 
 [Q43] EQBUG | משווה עם באג | npub 1 | steps 2 | flat
 B: A = SW9..SW6 (HEX0)     A == B = LEDR0     answer: SW3..SW0
+S1: הרצאה 9, שקופית 37
 S1: בלוח משווה שוויון:
 S1: LEDR0 = (A == B)
 S1: אבל ביט אחד לא מחובר להשוואה, אז שני ערכים מדליקים את הנורה.
@@ -543,6 +580,7 @@ S1: 1 = SW0 2 = SW1 3 = SW1+SW0
 
 [Q44] COMPARE3 | משווה עם שלוש יציאות | npub 1 | steps 3 | flat
 B: A = SW9..SW6 (HEX0)     LEDR2 LEDR1 LEDR0     answer: SW3..SW0
+S1: הרצאה 9, שקופיות 37-38
 S1: בלוח משווה של הכניסה עם מספר מוסתר (בלי סימן). שלוש נורות:
 S1: A == B,  A < B,  A > B  (in some order)
 S1: A = SW9..SW6
@@ -555,6 +593,7 @@ S2: B = ?     SW3..SW0
 
 [Q45] MINMAX | משווה ובורר: מינימום או מקסימום | npub 1 | steps 3 | flat
 B: A = SW9..SW6 (HEX0)     y = LEDR3..LEDR0     answer: SW3..SW0
+S1: הרצאה 9, שקופיות 37-38
 S1: בלוח משווה ובורר (בלי סימן), והמספר השני מוסתר. אחד משני המעגלים:
 S1: y = (A < B) ? A : B     or     y = (A < B) ? B : A
 S1: A = SW9..SW6     y = LEDR3..0
@@ -566,6 +605,7 @@ S2: B = ?     SW3..SW0
 
 [Q46] LTWIRING | ארבעה מופעים של משווה קטן-מ | npub 1 | steps 3 | flat
 B: A = SW9..SW6 (HEX0)     B = HEX2     LEDR0     answer: SW3..SW0
+S1: הרצאה 9, שקופית 38
 S1: בלוח מודול משווה (בלי סימן), והמספר השני מוצג בתצוגה:
 S1: lt(x, y) = (x < y)
 S1: A = SW9..SW6     B = HEX2     LEDR0
@@ -589,6 +629,7 @@ S2: unsigned = all 0     signed = SW0
 
 [Q48] SLT | קטן-מ עם סימן: האם יש באג גלישה? | npub 1 | steps 2 | flat
 B: A = SW9..SW6 (HEX0)     A < B = LEDR0 (signed)     answer: SW3..SW0
+S1: הרצאה 9, שקופית 38
 S1: בלוח משווה עם סימן:
 S1: A < B  if  A - B < 0
 S1: המספר השני מוסתר. אולי המשווה רק בודק את ביט הסימן של

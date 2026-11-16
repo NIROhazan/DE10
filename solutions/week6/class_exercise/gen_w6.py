@@ -356,7 +356,7 @@ W.append(Q(id="TRAFFICRESET", name="TRAFFICRESET", title="מצב האיפוס ש
     tables=lambda p: ft(OTS, 2, 2, lambda s, inb: {**tl_leds((s + p[1]) & 3), **dig(0, ts_next(p, s, inb))}),
     answer=lambda p: (p[0], 0x1), describe=lambda p: f"code 00 = S{p[1]}, TA = SW{6 if p[0] else 7}",
     B=[L2 + "     TA, TB = SW7, SW6 (in some order)     lights = LEDG7..5, LEDG2..0     answer: SW3..SW0"], L=[], F=[],
-    steps=[(["בלוח הלוגיקה של בקר הרמזור, אבל הקידוד של המצבים אולי שונה מהשקופית.",
+    steps=[(["בלוח הלוגיקה של בקר הרמזור, אבל הקידוד של המצבים אולי שונה משקופית 12.",
              "אחרי איפוס אוגר המצב מכיל 00. מה מראה אז הרמזור של הרחוב הראשון?", "S1 S0 = SW9 SW8 = 00", LA_ONLY] +
             code(["green", "yellow", "red"]), lambda q, p: (TL_OUT[(p[1]) & 3][0], 0x3)),
            (["מצאו את המצב שבו הרחוב הראשון ירוק. איזה מתג הוא", "TA", "? (כשהוא למעלה, המצב הבא לא משתנה)",
@@ -414,7 +414,7 @@ W.append(Q(id="TLOUTEQ", name="TLOUTEQ", title="משוואת יציאה של ה�
     tables=lambda p: ft(OLT, 2, 0, lambda c, a: tl_leds(p.index(c))),
     answer=lambda p: (oe_eq(p), 0x7), describe=lambda p: " ".join(f"S{s}={p[s]:02b}" for s in range(4)) + f", LA red = {OEN6[oe_eq(p)]}",
     B=[LOE + "     lights = LEDG7..5, LEDG2..0     answer: SW3..SW0"], L=[], F=[],
-    steps=[(["בלוח לוגיקת היציאה של בקר הרמזור בקידוד בינארי, אבל לא בקידוד של השקופית. קוד המצב על המתגים.", LOE] + LIGHTS +
+    steps=[(["בלוח לוגיקת היציאה של בקר הרמזור בקידוד בינארי, אבל לא בקידוד של שקופית 13. קוד המצב על המתגים.", LOE] + LIGHTS +
             ["מה הקוד של", "S0", "(הרחוב הראשון ירוק)?", "SW1 SW0 = S1 S0"], lambda q, p: (p[0], 0x3)),
            (["מה הקוד של", "S2", "(הרחוב השני ירוק)?", LOE, "LB green = LEDG2", "SW1 SW0 = S1 S0"], lambda q, p: (p[2], 0x3)),
            (["הרמזור של הרחוב הראשון אדום בדיוק בשני מצבים. מה משוואת היציאה שלו?", LOE,
@@ -459,7 +459,7 @@ W.append(Q(id="TRAFFICBUG", name="TRAFFICBUG", title="מעבר שגוי ברמז
     tables=lambda p: ft(OTB, 2, 2, lambda s, inb: dig(0, tb_next(p, s, inb))),
     answer=lambda p: (p[1], 0x3), describe=lambda p: f"{TLS[p[0]]} goes to S{p[1]} instead",
     B=[L2 + "     " + LTB + "     answer: SW3..SW0"], L=[], F=[],
-    steps=[(["בלוח לוגיקת המצב הבא של בקר הרמזור, אבל מעבר אחד שונה מהשקופית:"] + TLS + [L2, LTB,
+    steps=[(["בלוח לוגיקת המצב הבא של בקר הרמזור, אבל מעבר אחד שונה משקופית 10:"] + TLS + [L2, LTB,
              "מאיזה מצב יוצא המעבר השגוי?"] + code(["S0", "S1", "S2", "S3"]), lambda q, p: (p[0], 0x3)),
            (["ולאיזה מצב הוא הולך במקום?", L2, LTB] + code(["S0", "S1", "S2", "S3"]), lambda q, p: (p[1], 0x3))]))
 
@@ -577,7 +577,7 @@ W.append(Q(id="LATCH", name="LATCH", title="שכחו את ברירת המחדל"
     tables=lambda p: ft(OLA, 1, 1, lambda s, a: la_out(p, s, a)),
     answer=lambda p: (p[1], 0x3), describe=lambda p: f"pattern {p[1]:02b}, the latch (no default) on LEDG{p[0]}",
     B=[LLA + "     answer: SW3..SW0"], L=[], F=[],
-    steps=[(["בלוח לוגיקת היציאה של שני גלאי מילי של אותו רצף של 2 ביטים, כמו בשקופית. באחד מהם חסרה השורה", "smile = 1'b0;",
+    steps=[(["בלוח לוגיקת היציאה של שני גלאי מילי של אותו רצף של 2 ביטים, כמו בשקופיות 25-26. באחד מהם חסרה השורה", "smile = 1'b0;",
              "בתחילת", "always_comb", "ולכן היציאה נשמרת (תפס).", LLA,
              "איזו נורה היא הגלאי עם הבאג (נדלקת ולא נכבית יותר)?"] + code(["LEDG0", "LEDG1"]), lambda q, p: (p[0], 0x1)),
            (["מה הרצף? (לפי הגלאי התקין)", LLA, "SW1 = first bit     SW0 = second bit"], lambda q, p: (p[1], 0x3))]))
@@ -596,7 +596,7 @@ W.append(Q(id="ENUM", name="ENUM", title="קידוד של enum", inputs=[9, 8], 
     tables=lambda p: ft(OEU, 2, 0, lambda c, a: eu_f(p, c)),
     answer=lambda p: (p[2], 0x3), describe=lambda p: "typedef enum logic [1:0] {" + ", ".join(f"S{p.index(c)}" for c in range(3)) + "}",
     B=[LEU + "     answer: SW1 SW0"], L=[], F=[],
-    steps=[(["בלוח הלוגיקה של המחלק ב-3 מהשקופית: ביטי המצב על המתגים, ביטי המצב הבא בנורות.",
+    steps=[(["בלוח הלוגיקה של המחלק ב-3 משקופית 21: ביטי המצב על המתגים, ביטי המצב הבא בנורות.",
              "S0 -> S1 -> S2 -> S0     q = 1 in S0",
              "typedef enum logic [1:0] {?, ?, ?} statetype;     (the first name = 00, the second = 01, the third = 10)", LEU,
              "מה הקוד של", "S0", "?", "SW1 SW0"], lambda q, p: (p[0], 0x3)),
@@ -615,7 +615,7 @@ W.append(Q(id="DEFAULT", name="DEFAULT", title="הקוד שאין לו שם", in
     tables=lambda p: ft(ODF, 2, 0, lambda s, a: {("G", 2): int(s == 0), ("G", 1): df_next(p, s) >> 1, ("G", 0): df_next(p, s) & 1}),
     answer=lambda p: (df_press(p), 0x3), describe=lambda p: "default: nextstate = " + ["S0", "S1", "S2", "state (stuck)"][p],
     B=[LEU + "     answer: SW3..SW0"], L=[], F=[],
-    steps=[(["בלוח הלוגיקה של המחלק ב-3 מהשקופית. לקוד 11 אין שם, ומה שקורה בו נקבע בשורה", "default: nextstate = ?;",
+    steps=[(["בלוח הלוגיקה של המחלק ב-3 משקופית 21. לקוד 11 אין שם, ומה שקורה בו נקבע בשורה", "default: nextstate = ?;",
              "S0 = 00     S1 = 01     S2 = 10     q = 1 in S0", LEU,
              "הציבו את הקוד 11. מה המצב הבא?", "SW9 SW8 = 11"] + code(["S0", "S1", "S2", "stays 11"]),
             lambda q, p: (p, 0x3)),
@@ -642,7 +642,7 @@ W.append(Q(id="DIVCODE", name="DIVCODE", title="שורה שגויה במכונת
     tables=lambda p: ft(ODC, 3, 0, lambda s, a: dig(0, dc_next(p, s))),
     answer=lambda p: (p[1], 0x7), describe=lambda p: f"divide by {p[0]}: S{p[1]} goes to S{p[2]}",
     B=[LRH + "     answer: SW3..SW0"], L=[], F=[],
-    steps=[(["בלוח לוגיקת המצב הבא של מחלק כמו בשקופית, אבל באחת השורות של", "S0 -> S1 -> ... -> S0     case (state)",
+    steps=[(["בלוח לוגיקת המצב הבא של מחלק כמו בשקופית 21, אבל באחת השורות של", "S0 -> S1 -> ... -> S0     case (state)",
              "המצב הבא שגוי. לכל קוד אחר יש", "default: nextstate = S0;", LRH,
              "כמה מצבים יש בקוד? (בין 3 ל-5: המצב הגדול שיש לו שורה משלו ועוד 1)"] + cnt(5), lambda q, p: (p[0], 0x7)),
            (["מאיזה מצב יש מעבר שגוי?", LRH, "0 = all down"] + cnt(4), lambda q, p: (p[1], 0x7)),
@@ -673,10 +673,10 @@ W.append(Q(id="BLOCKBUG", name="BLOCKBUG", title="איזה בלוק שבור?", 
     tables=lambda p: ft(OBB, 2, 1, lambda s, r: bb_f(p, s, r)),
     answer=lambda p: (["reg", "next", "out"].index(p[0]), 0x3), describe=lambda p: f"bug {p}",
     B=[LBB + "     answer: SW3..SW0"], L=[], F=[],
-    steps=[(["בלוח הלוגיקה של המחלק ב-3 מהשקופית, אבל אחד משלושת הבלוקים שלו שבור. המצב והאיפוס על המתגים, המצב הבא בתצוגה.",
+    steps=[(["בלוח הלוגיקה של המחלק ב-3 משקופית 21, אבל אחד משלושת הבלוקים שלו שבור. המצב והאיפוס על המתגים, המצב הבא בתצוגה.",
              LBB, "הרימו את האיפוס. מה המצב הבא?"] + code(["S0", "S1", "S2"]), lambda q, p: (bb_rst(p), 0x3)),
            (["באיזה מצב", "q", "דולקת?", LBB] + code(["S0", "S1", "S2"]), lambda q, p: (bb_q(p), 0x3)),
-           (["השוו לשקופית. איזה בלוק שבור?", "S0 -> S1 -> S2 -> S0     reset -> S0     q = 1 in S0", LBB] + code(BLK),
+           (["השוו לשקופית 21. איזה בלוק שבור?", "S0 -> S1 -> S2 -> S0     reset -> S0     q = 1 in S0", LBB] + code(BLK),
             lambda q, p: (["reg", "next", "out"].index(p[0]), 0x3))]))
 
 # an up / down counter: which switch counts up, modulo what
@@ -710,7 +710,7 @@ SET = "הציבו במתגים את מה שבתצוגה."
 OD3 = [("G", 0)] + hexd(1) + hexd(0)
 LD3 = "S = SW9 SW8   (HEX3)     next state = HEX0     q = LEDG0"
 TD3 = "HEX1 = the state to set"
-W.append(Q(id="DIV3NEXT", name="DIV3NEXT", title="המחלק ב-3 מהשקופית", inputs=[9, 8], flat=True,
+W.append(Q(id="DIV3NEXT", name="DIV3NEXT", title="המחלק ב-3 משקופית 21", inputs=[9, 8], flat=True,
     outs=OD3, hexes=[[9, 8], None, None, None], variants=[0, 1, 2],
     tables=lambda p: ft(OD3, 2, 0, lambda s, a: {("G", 0): int(s == 0), **dig(1, p), **dig(0, (s + 1) % 3 if s < 3 else 0)}),
     answer=lambda p: ((3 - p) % 3 or 3, 0x3), describe=lambda p: f"start S{p}: next S{(p + 1) % 3}, q after {(3 - p) % 3 or 3} clocks",
@@ -724,7 +724,7 @@ W.append(Q(id="DIV3NEXT", name="DIV3NEXT", title="המחלק ב-3 מהשקופי
 OOH17 = [("G", i) for i in (3, 2, 1, 0)] + hexd(3) + hexd(2) + hexd(1) + hexd(0)
 LOH17 = "binary code = SW9 SW8     one-hot code = LEDG3 LEDG2 LEDG1 LEDG0"
 TOH17 = "HEX3 HEX2 HEX1 HEX0 = a one-hot code"
-W.append(Q(id="ONEHOT17", name="ONEHOT17", title="בינארי ואחד-חם מהשקופית", inputs=[9, 8], flat=True,
+W.append(Q(id="ONEHOT17", name="ONEHOT17", title="בינארי ואחד-חם משקופית 17", inputs=[9, 8], flat=True,
     outs=OOH17, hexes=[None, None, None, None], variants=[0, 1, 2, 3],
     tables=lambda p: ft(OOH17, 2, 0, lambda s, a: {**{("G", i): int(s == i) for i in range(4)},
                                                     **{o: v for d in range(4) for o, v in dig(d, int(d == p)).items()}}),
@@ -778,7 +778,7 @@ C1H = "S0 = 0001     S1 = 0010     S2 = 0100     S3 = 1000"
 def h1_f(p, c, inb):
     nx = 1 << tb_next((9, 9), c.bit_length() - 1, inb) if c in (1, 2, 4, 8) else 0
     return {**{("G", i): (nx >> i) & 1 for i in range(4)}, **tgt(p)}
-W.append(Q(id="TL1HOT", name="TL1HOT", title="הרמזור באחד-חם מהשקופית", inputs=[9, 8, 7, 6, 5, 4], flat=True, small=True,
+W.append(Q(id="TL1HOT", name="TL1HOT", title="הרמזור באחד-חם משקופית 18", inputs=[9, 8, 7, 6, 5, 4], flat=True, small=True,
     outs=O1H, hexes=[None, None, None, None], variants=VTN,
     tables=lambda p: ft(O1H, 4, 2, lambda c, inb: h1_f(p, c, inb)),
     answer=lambda p: (tn_nx(p), 0x3), describe=lambda p: f"S{p[0]} TA={p[1]} TB={p[2]} -> S{tn_nx(p)} = {1 << tn_nx(p):04b}",
@@ -797,7 +797,7 @@ OMO = [("G", 2), ("G", 1), ("G", 0)] + hexd(3) + hexd(0)
 LMO = "state bits = SW9 SW8     a = SW7     smile = LEDG2     next state bits = LEDG1 LEDG0"
 TMO = "the state to set = HEX3     a = HEX0"
 CMO = "S0 = 00     S1 = 01     S2 = 10"
-W.append(Q(id="MOORE01", name="MOORE01", title="גלאי המור מהשקופית", inputs=[9, 8, 7], flat=True,
+W.append(Q(id="MOORE01", name="MOORE01", title="גלאי המור משקופית 24", inputs=[9, 8, 7], flat=True,
     outs=OMO, hexes=[None, None, None, None], variants=[(s, a) for s in range(3) for a in range(2)],
     tables=lambda p: ft(OMO, 2, 1, lambda s, a: mo_f(p, s, a)),
     answer=lambda p: (mo_nx(*p), 0x3), describe=lambda p: f"S{p[0]} a={p[1]} -> S{mo_nx(*p)}, smile {int(p[0] == 2)}",
@@ -809,7 +809,7 @@ W.append(Q(id="MOORE01", name="MOORE01", title="גלאי המור מהשקופי
 # topic 3: the Mealy detector of slides 25-26 (S0 = 0, S1 = 1; smile when S1 and a)
 OML = [("G", 1), ("G", 0)] + hexd(3) + hexd(0)
 LML = "state = SW9     a = SW8     smile = LEDG1     next state = LEDG0"
-W.append(Q(id="MEALY01", name="MEALY01", title="גלאי המילי מהשקופית", inputs=[9, 8], flat=True,
+W.append(Q(id="MEALY01", name="MEALY01", title="גלאי המילי משקופית 26", inputs=[9, 8], flat=True,
     outs=OML, hexes=[None, None, None, None], variants=[(s, a) for s in range(2) for a in range(2)],
     tables=lambda p: ft(OML, 1, 1, lambda s, a: {("G", 1): s & a, ("G", 0): 1 - a, **dig(3, p[0]), **dig(0, p[1])}),
     answer=lambda p: (1 - p[1], 0x1), describe=lambda p: f"S{p[0]} a={p[1]} -> S{1 - p[1]}, smile {p[0] & p[1]}",
@@ -914,7 +914,7 @@ def ob_eq(k):
     return [0, 2, 1, 3][k]
 OOB = [("G", i) for i in (3, 2, 1, 0)] + hexd(1) + hexd(0)
 TOB = "HEX1 = the street (A or b)     HEX0 = the bit (1 or 0)"
-W.append(Q(id="TLOUTBIT", name="TLOUTBIT", title="משוואת יציאה מהשקופית", inputs=[9, 8], flat=True,
+W.append(Q(id="TLOUTBIT", name="TLOUTBIT", title="משוואת יציאה משקופיות 13-14", inputs=[9, 8], flat=True,
     outs=OOB, hexes=[None, None, None, None], variants=[0, 1, 2, 3],
     tables=lambda p: ft(OOB, 2, 0, lambda s, a: {**{("G", 3 - k): ob_bit(k, s) for k in range(4)},
                                                 **dig(1, 10 if OB[p][0] else 11), **dig(0, OB[p][1])}),
@@ -1031,7 +1031,7 @@ def bd_f(p, st, a):
     ms, me = st >> 1, st & 1
     nx = mo_nx(ms, a)
     return {("G", 7): int(ms == 2), ("G", 6): nx >> 1, ("G", 5): nx & 1, ("G", 1): me & a, ("G", 0): 1 - a, **seqhex(p, 3)}
-W.append(Q(id="BOTHDET", name="BOTHDET", title="מור ומילי של השקופיות על אותם ביטים", inputs=[9, 8, 7, 6], flat=True, small=True,
+W.append(Q(id="BOTHDET", name="BOTHDET", title="מור ומילי של שקופיות 23-26 על אותם ביטים", inputs=[9, 8, 7, 6], flat=True, small=True,
     outs=OBD, hexes=[None, None, None, None], variants=list(range(8)),
     tables=lambda p: ft(OBD, 3, 1, lambda st, a: bd_f(p, st, a)),
     answer=lambda p: (me_first(p, 3), 0x3), describe=lambda p: f"{p:03b}: Mealy smiles in bit {me_first(p, 3)}, Moore after clock {me_first(p, 3)}",

@@ -110,6 +110,20 @@ def restyle(q, week):
         q.P = {k: list(a["P"][str(k)]) for k in q.P}
     q.steps = [(list(ls), f) for ls, (_, f) in zip(a["S"], q.steps)]
 
+SLIDES = None
+def slides(q, week):
+    """slides.json: put the lecture slide(s) of the question as the first line of its first screen."""
+    global SLIDES
+    if SLIDES is None:
+        SLIDES = json.load(open(f"{HERE}/slides.json", encoding="utf-8"))
+    w = SLIDES.get(str(week))
+    x = w and w["q"].get(q.id)
+    if not x or not q.steps:
+        return
+    word = "שקופיות" if re.search(r"[-ו]", x) else "שקופית"
+    ls, f = q.steps[0]
+    q.steps[0] = ([f"{w['deck']}, {word} {x}"] + list(ls), f)
+
 # ---------------------------------------------------------------- the DE10 top level
 def top_v(q, led, page, psw):
     rows = []
@@ -299,6 +313,7 @@ if __name__ == "__main__":
         lays[q.id] = (led, page, psw)
         fix_texts(q, off, psw)
         restyle(q, week)
+        slides(q, week)
         if psw is not None or off:
             print(f"{q.id} {q.name}: " + (f"page switch SW{psw}" if psw is not None else f"green LEDs moved up by {off}"))
     # every LEDR a screen names must be an output of that question

@@ -331,7 +331,7 @@ W.append(Q(id="ROMLOGIC", name="ROMLOGIC", title="לוגיקה בזיכרון", 
     tables=lambda p: [col(RLF[p[k]], 2) for k in range(3)], answer=lambda p: (p.index(1), 0x3),
     describe=lambda p: " ".join(f"Data{k}={['XOR', 'OR', 'AND'][p[k]]}" for k in range(3)),
     B=["A1 = SW9     A0 = SW8     Data2..0 = LEDG2..LEDG0     answer: SW3..SW0"], L=[], F=[],
-    steps=[(["בלוח זיכרון של 4 מילים של 3 ביטים שמממש שלוש פונקציות של הכתובת (כמו בשקופית):",
+    steps=[(["בלוח זיכרון של 4 מילים של 3 ביטים שמממש שלוש פונקציות של הכתובת (כמו בשקופית 54):",
              "A1 = SW9     A0 = SW8     Data2 Data1 Data0 = LEDG2 LEDG1 LEDG0", "איזה ביט נתונים הוא", "A1 xor A0", "?"] +
             code(["Data0", "Data1", "Data2"]), lambda q, p: (p.index(0), 0x3)),
            (["איזה ביט הוא", "A1 + A0", "(OR)?"] + code(["Data0", "Data1", "Data2"]), lambda q, p: (p.index(1), 0x3))]))
@@ -468,7 +468,7 @@ W.append(Q(id="SLIDEFMT", name="SLIDEFMT", title="6.75 בפורמט אחר", inp
 
 VSS = [b for b in rv(121, 60, lambda r: r.randrange(1, 256)) if b != 0x78]
 LSS = "A = 11000000 (12)     B = LEDG7..LEDG0"
-W.append(Q(id="SLIDESAT", name="SLIDESAT", title="המחבר ברוויה מהשקופית", inputs=[9], flat=True,
+W.append(Q(id="SLIDESAT", name="SLIDESAT", title="המחבר ברוויה משקופית 7", inputs=[9], flat=True,
     outs=[("G", i) for i in range(8)], hexes=[None, None, None, None], variants=VSS,
     tables=lambda b: const(bitsof(b, 8)), answer=lambda b: (min(255, 192 + b), 0xFF),
     describe=lambda b: f"11000000 + {b:08b}: saturated {min(255, 192 + b):08b}",
@@ -481,7 +481,7 @@ W.append(Q(id="SLIDESAT", name="SLIDESAT", title="המחבר ברוויה מהש
 
 SFV = [228.0, -58.25, 1.5, 3.25, 4.75]
 LFH = "HEX3..HEX0 = the high 16 bits (hex)     the low 16 bits are 0"
-numq(W, "SLIDEFP", "מספרי נקודה צפה מהשקופיות", 4, list(range(5)),
+numq(W, "SLIDEFP", "מספרי נקודה צפה משקופיות 14-24", 4, list(range(5)),
      lambda k: [[(f32(SFV[k]) >> s) & 15 for s in (28, 24, 20, 16)]], LFH,
      [(["בתצוגה אחד המספרים מהשקופיות 14, 15 ו-21 עד 24, בנקודה צפה:", LFH, "sign | biased exponent (8 bits) | fraction (23 bits)",
         "מה ביט הסימן?"] + UP0("1 (שלילי)", "0"), lambda q, k: (int(SFV[k] < 0), 0x1)),
@@ -495,7 +495,7 @@ numq(W, "SLIDEFP", "מספרי נקודה צפה מהשקופיות", 4, list(ra
 def cnt_next(r):				# r = reset (SW9), q (SW8..SW6)
     return 0 if r >> 3 else ((r & 7) + 1) & 7
 LSC = ["reset = SW9     q = SW8..SW6 (HEX3)", "q after the next clock edge = LEDG2..LEDG0"]
-W.append(Q(id="SLIDECNT", name="SLIDECNT", title="המונה מהשקופית", inputs=[9, 8, 7, 6], flat=True,
+W.append(Q(id="SLIDECNT", name="SLIDECNT", title="המונה משקופית 27", inputs=[9, 8, 7, 6], flat=True,
     outs=[("G", i) for i in range(3)] + hexd(0), hexes=[[8, 7, 6], None, None, None], variants=list(range(8)),
     tables=lambda v: [col(lambda r: (cnt_next(r) >> i) & 1, 4) for i in range(3)] + const(bitsof(v, 4), 4),
     answer=lambda v: ((v + 2) & 7, 0x7), describe=lambda v: f"q = {v:03b}: next {(v + 1) & 7:03b}, then {(v + 2) & 7:03b}",
@@ -507,7 +507,7 @@ W.append(Q(id="SLIDECNT", name="SLIDECNT", title="המונה מהשקופית", 
             lambda q, v: ((v + 2) & 7, 0x7))]))
 
 LSO = ["q = SW9..SW6 (HEX3)     q after the next clock edge = LEDG3..LEDG0", "p = HEX0"]
-W.append(Q(id="SLIDEDCO", name="SLIDEDCO", title="המתנד מהשקופית", inputs=[9, 8, 7, 6], flat=True,
+W.append(Q(id="SLIDEDCO", name="SLIDEDCO", title="המתנד משקופית 29", inputs=[9, 8, 7, 6], flat=True,
     outs=[("G", i) for i in range(4)] + hexd(1) + hexd(0), hexes=[[9, 8, 7, 6], None, None, None],
     variants=[(p, v) for p in range(1, 16) for v in range(16)],
     tables=lambda pv: [col(lambda s: (((s + pv[0]) & 15) >> i) & 1, 4) for i in range(4)] + const(bitsof(pv[1], 4) + bitsof(pv[0], 4), 4),
@@ -525,7 +525,7 @@ def spl_next(d, r):				# r = Load (SW9), Sin (SW8), Q3..Q0 (SW7..SW4)
     return d if r >> 5 else (((r & 15) << 1) | ((r >> 4) & 1)) & 15
 LSP = ["Load = SW9     Sin = SW8     Q3..Q0 = SW7..SW4 (HEX3)", LNX]
 SPC = "Load = 1: Q <= D     Load = 0: Q <= {Q[2:0], Sin}"
-W.append(Q(id="SLIDEPL", name="SLIDEPL", title="אוגר הזזה עם טעינה מהשקופית", inputs=[9, 8, 7, 6, 5, 4], flat=True, small=True,
+W.append(Q(id="SLIDEPL", name="SLIDEPL", title="אוגר הזזה עם טעינה משקופיות 31-32", inputs=[9, 8, 7, 6, 5, 4], flat=True, small=True,
     outs=[("G", i) for i in range(4)] + hexd(1) + hexd(0) + [("R", 0)], hexes=[[7, 6, 5, 4], None, None, None], variants=VSL,
     tables=lambda p: [col(lambda r: (spl_next(p[1], r) >> i) & 1, 6) for i in range(4)] +
                      const(bitsof(p[0], 4) + bitsof(p[1], 4) + [p[2]], 6),
@@ -542,7 +542,7 @@ W.append(Q(id="SLIDEPL", name="SLIDEPL", title="אוגר הזזה עם טעינ�
 PAIRS = [(a, b) for a in range(4) for b in range(4) if a != b]
 ARR36 = [0b011, 0b110, 0b100, 0b010]			# slide 36 (and the dots of slide 51)
 LAR = "address = SW9 SW8 (HEX3)     data = LEDG2..LEDG0"
-W.append(Q(id="SLIDEARR", name="SLIDEARR", title="מערך הזיכרון מהשקופית", inputs=[9, 8], flat=True,
+W.append(Q(id="SLIDEARR", name="SLIDEARR", title="מערך הזיכרון משקופית 36", inputs=[9, 8], flat=True,
     outs=[("G", i) for i in range(3)] + hexd(1) + hexd(0), hexes=[[9, 8], None, None, None], variants=PAIRS,
     tables=lambda p: [col(lambda a: (ARR36[a] >> k) & 1, 2) for k in range(3)] + const(bitsof(p[0], 4) + bitsof(p[1], 4), 2),
     answer=lambda p: (ARR36[p[1]], 0x7),
@@ -554,7 +554,7 @@ W.append(Q(id="SLIDEARR", name="SLIDEARR", title="מערך הזיכרון מהש
 
 R54 = [((a >> 1) ^ (a & 1)) << 2 | ((a >> 1) | (a & 1)) << 1 | ((a >> 1) & a & 1) for a in range(4)]
 L54 = "A1 A0 = SW9 SW8 (HEX3)     Data2 Data1 Data0 = LEDG2 LEDG1 LEDG0"
-W.append(Q(id="SLIDEROM54", name="SLIDEROM54", title="הזיכרון מהשקופית: שלוש פונקציות", inputs=[9, 8], flat=True,
+W.append(Q(id="SLIDEROM54", name="SLIDEROM54", title="הזיכרון משקופית 54: שלוש פונקציות", inputs=[9, 8], flat=True,
     outs=[("G", i) for i in range(3)] + hexd(1) + hexd(0), hexes=[[9, 8], None, None, None], variants=PAIRS,
     tables=lambda p: [col(lambda a: (R54[a] >> k) & 1, 2) for k in range(3)] + const(bitsof(p[0], 4) + bitsof(p[1], 4), 2),
     answer=lambda p: (R54[p[1]], 0x7),
@@ -567,7 +567,7 @@ W.append(Q(id="SLIDEROM54", name="SLIDEROM54", title="הזיכרון מהשקו�
 
 XYZ = [((a >> 1) & a & 1) << 2 | ((a >> 1) | (a & 1)) << 1 | ((a >> 1) & (1 - (a & 1))) for a in range(4)]
 LXY = "A = SW9     B = SW8     X Y Z = LEDG2 LEDG1 LEDG0"
-W.append(Q(id="SLIDEXYZ", name="SLIDEXYZ", title="לוגיקה בזיכרון מהשקופית", inputs=[9, 8], flat=True,
+W.append(Q(id="SLIDEXYZ", name="SLIDEXYZ", title="לוגיקה בזיכרון משקופיות 55 ו-57", inputs=[9, 8], flat=True,
     outs=[("G", i) for i in range(3)] + digs(4), hexes=[None, None, None, None], variants=PAIRS,
     tables=lambda p: [col(lambda a: (XYZ[a] >> k) & 1, 2) for k in range(3)] +
                      const([b for v in (p[0] >> 1, p[0] & 1, p[1] >> 1, p[1] & 1) for b in bitsof(v, 4)], 2),
@@ -630,7 +630,7 @@ W.append(Q(id="SLIDENORM", name="SLIDENORM", title="נרמול אחרי חיבו
 def rev4b(b):
     return int(f"{b:04b}"[::-1], 2)
 LS2P = ["Q3..Q0 = SW9..SW6 (HEX3)     Sin = SW5", LNX, "the bits to send = LEDR3..LEDR0 (LEDR0 first)"]
-W.append(Q(id="SLIDES2P", name="SLIDES2P", title="מטורי למקבילי מהשקופית", inputs=[9, 8, 7, 6, 5], flat=True,
+W.append(Q(id="SLIDES2P", name="SLIDES2P", title="מטורי למקבילי משקופית 30", inputs=[9, 8, 7, 6, 5], flat=True,
     outs=[("G", i) for i in range(4)] + [("R", i) for i in range(4)], hexes=[[9, 8, 7, 6], None, None, None],
     variants=list(range(1, 16)),
     tables=lambda b: [col(lambda r: ((r & 15) >> i) & 1, 5) for i in range(4)] + const(bitsof(b, 4), 5),
@@ -673,7 +673,7 @@ MFN = ["01234567", "89ABCDEF", "FFFFFFFF", "A5A5A5A5"]
 LMF2 = ["address = SW9 SW8     SW7 = 0: HEX3..HEX0 = the high 16 bits     SW7 = 1: the low 16 bits"]
 def mf_digit(p, r, k):			# r = a (SW9 SW8), half (SW7); k = 0..3 for HEX3..HEX0
     return (MF62[p[r >> 1]] >> (16 * (1 - (r & 1)) + 4 * (3 - k))) & 15
-W.append(Q(id="SLIDEMEMF", name="SLIDEMEMF", title="קובץ הזיכרון מהשקופית", inputs=[9, 8, 7], flat=True,
+W.append(Q(id="SLIDEMEMF", name="SLIDEMEMF", title="קובץ הזיכרון משקופית 62", inputs=[9, 8, 7], flat=True,
     outs=digs(4), hexes=[None, None, None, None], variants=list(itertools.permutations(range(4))),
     tables=lambda p: [col(lambda r: (mf_digit(p, r, k) >> b) & 1, 3) for k in range(4) for b in range(4)],
     answer=lambda p: (p.index(2), 0x3), describe=lambda p: " ".join(f"{a:02b}:{MFN[p[a]]}" for a in range(4)),

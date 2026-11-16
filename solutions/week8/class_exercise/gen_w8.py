@@ -79,7 +79,7 @@ numq("SLACK", "האם המעגל עומד בזמן?", 4,
 # two gates between the registers (slides 10-11)
 LG = "page 1 (SW9 down):  HEX3 = tpcq   HEX2 = tsetup   HEX1 = tpd gate   HEX0 = tcd gate"
 LGb = "page 2 (SW9 up):    HEX3 = tccq   HEX2 = thold"
-numq("EXAMPLE", "הדוגמה מהשקופית: שני שערים בטור", 4,
+numq("EXAMPLE", "הדוגמה משקופיות 10-11: שני שערים בטור", 4,
      rv(85, 200, lambda r: (lambda tpcq, tsu, tpd, tcd, tccq, th: (tpcq, tsu, tpd, tcd, tccq, th) if tcd <= tpd and tccq <= tpcq else None)(
          r.randint(2, 9), r.randint(2, 9), r.randint(2, 9), r.randint(1, 5), r.randint(1, 6), r.randint(2, 9))),
      lambda p: [[p[0], p[1], p[2], p[3]], [p[4], p[5], 0, 0]], "tpcq tsetup tpd tcd / tccq thold",
@@ -281,12 +281,12 @@ LE3 = "page 1 (SW9 down):  HEX3 = tpcq   HEX2 = tsetup   HEX1 = tpd of a gate   
 LE3b = "page 2 (SW9 up):    HEX3 = tccq   HEX2 = thold   HEX1 = tcd of a gate   HEX0 = gates on the short path"
 LE3s = "page 1 (SW9 down):  HEX3 = tpcq   HEX2 = tsetup   HEX1 = tpd of a gate   HEX0 = gates on the long path"
 LE3h = "page 2 (SW9 up):    HEX3 = tccq   HEX2 = thold   HEX1 = tcd of a gate   HEX0 = gates on the short path"
-numq("EXAMPLE3", "הדוגמה מהשקופית עם יותר שערים", 4,
+numq("EXAMPLE3", "הדוגמה משקופיות 10-11 עם יותר שערים", 4,
      rv(103, 220, lambda r: (lambda pc, su, pd, nl, cc, th, cd, ns: (pc, su, pd, nl, cc, th, cd, ns)
                              if cd <= pd and cc <= pc and ns <= nl else None)(
          r.randint(2, 9), r.randint(2, 9), r.randint(2, 9), r.randint(2, 5), r.randint(1, 6), r.randint(2, 9), r.randint(1, 4), r.randint(1, 3))),
      lambda p: [[p[0], p[1], p[2], p[3]], [p[4], p[5], p[6], p[7]]], "tpcq tsetup tpd n_long / tccq thold tcd n_short",
-     [(["כמו בדוגמה מהשקופית, עם מספר אחר של שערים. הנתונים בדף הראשון:", LE3s, UNIT,
+     [(["כמו בדוגמה משקופיות 10-11, עם מספר אחר של שערים. הנתונים בדף הראשון:", LE3s, UNIT,
         "מה זמן המחזור המינימלי?", "Tc >= tpcq + n_long x tpd + tsetup"] + BIN6, lambda q, p: (p[0] + p[3] * p[2] + p[1], 0x3F)),
       (["הנתונים של המסלול הקצר בדף השני (המתג השמאלי למעלה):", LE3h, UNIT,
         "האם אילוץ ההחזקה מתקיים?", "tccq + n_short x tcd >= thold"] + UP0("מתקיים", "לא מתקיים"),
