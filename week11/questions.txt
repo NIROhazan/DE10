@@ -4,6 +4,7 @@
 
 [Q01] SLIDEFMT | 6.75 בפורמט אחר | npub 1 | steps 2 | flat
 B: a = HEX1     b = HEX0 (the format Ua.b)     answer: SW7..SW0
+S1: הרצאה 11, שקופיות 4-5
 S1: בשקופית 5 המספר 6.75 בפורמט
 S1: U4.4 = 0110.1100 = 01101100
 S1: בתצוגה פורמט אחר:
@@ -13,6 +14,7 @@ S1: SW7..SW0
 
 [Q02] SLIDESAT | המחבר ברוויה משקופית 7 | npub 1 | steps 3 | flat
 B: A = 11000000 (12)     B = LEDR7..LEDR0     answer: SW7..SW0
+S1: הרצאה 11, שקופית 7
 S1: בשקופית 7 חיבור ברוויה בפורמט
 S1: U4.4
 S1: :
@@ -30,6 +32,7 @@ S2: SW7..SW0 = A + B (saturated)
 
 [Q03] SLIDEFP | מספרי נקודה צפה משקופיות 14-24 | npub 1 | steps 4 | flat
 B: HEX3..HEX0 = the high 16 bits (hex)     the low 16 bits are 0     answer: SW8..SW0
+S1: הרצאה 11, שקופיות 14-15 ו-21-24
 S1: בתצוגה אחד המספרים מהשקופיות 14, 15 ו-21 עד 24, בנקודה צפה:
 S1: HEX3..HEX0 = the high 16 bits (hex)     the low 16 bits are 0
 S1: sign | biased exponent (8 bits) | fraction (23 bits)
@@ -51,6 +54,7 @@ S3: 3.25 = SW1+SW0     4.75 = SW2
 
 [Q04] SLIDEU88 | קריאת חיישן בנקודה קבועה | npub 1 | steps 3 | flat
 B: HEX3 HEX2 = the integer part (hex)     HEX1 HEX0 = the fraction (hex)     answer: SW8..SW0
+S1: הרצאה 11, שקופית 5
 S1: בשקופית 5: הפורמט
 S1: U8.8
 S1: משמש לנתוני חיישנים. בתצוגה קריאה של חיישן בפורמט הזה:
@@ -66,6 +70,7 @@ S2: 0 = all 0 1 = SW0 2 = SW1 3 = SW1+SW0
 
 [Q05] SLIDESCI | כתיב מדעי בינארי | npub 1 | steps 3 | flat
 B: n = LEDR7..LEDR0 (unsigned)     answer: SW6..SW0
+S1: הרצאה 11, שקופיות 11-12
 S1: בשקופית 12 המספר 228 בכתיב מדעי בינארי:
 S1: 228 = 11100100 = 1.11001 x 2^7
 S1: בנורות מספר אחר:
@@ -80,6 +85,7 @@ S2: SW6..SW0 = n - 2^E
 
 [Q06] SLIDEPREC | דיוק יחיד ודיוק כפול | npub 1 | steps 3 | flat
 B: HEX3 HEX2 = the total number of bits (decimal)     answer: SW8..SW0
+S1: הרצאה 11, שקופית 17
 S1: בשקופית 17 שני פורמטים של נקודה צפה: דיוק יחיד ודיוק כפול. בתצוגה מספר הביטים של אחד מהם:
 S1: HEX3 HEX2 = the total number of bits (decimal)
 S1: כמה ביטים יש למעריך שלו?
@@ -92,6 +98,7 @@ S2: 32 = SW5   16 = SW4   8 = SW3   4 = SW2   2 = SW1   1 = SW0
 
 [Q07] SLIDENORM | נרמול אחרי חיבור | npub 1 | steps 4 | flat
 B: LEDR5..LEDR0 = the sum mantissa xx.xxxx     HEX0 = its exponent E     answer: SW4..SW0
+S1: הרצאה 11, שקופית 24
 S1: בשקופית 24 מנרמלים את הסכום:
 S1: 10.011 x 2^1 = 1.0011 x 2^2
 S1: בנורות סכום אחר של מנטיסות, עם 2 ביטים שלמים:
@@ -111,6 +118,7 @@ S3: SW4..SW0 = 1.f:  f = ?
 
 [Q08] FIXEDU | נקודה קבועה בלי סימן | npub 1 | steps 3 | flat
 B: the bits = LEDR7..LEDR0     a = HEX1     b = HEX0 (the format Ua.b)     answer: SW5..SW0
+S1: הרצאה 11, שקופית 5
 S1: בנורות מספר בנקודה קבועה בלי סימן, ובתצוגה הפורמט:
 S1: Ua.b:   a = HEX1 integer bits     b = HEX0 fraction bits
 S1: מה החלק השלם שלו?
@@ -121,6 +129,7 @@ S2: 8 = SW3     4 = SW2     2 = SW1     1 = SW0
 
 [Q09] FIXEDQ | נקודה קבועה עם סימן | npub 1 | steps 4 | flat
 B: the bits = LEDR7..LEDR0 (Q4.4)     answer: SW3..SW0
+S1: הרצאה 11, שקופית 6
 S1: בנורות מספר
 S1: Q4.4
 S1: (משלים ל-2, 4 ביטים שלמים כולל הסימן, 4 שבורים).
@@ -136,6 +145,7 @@ S3: 8 = SW3     4 = SW2     2 = SW1     1 = SW0
 
 [Q10] QNEG | מספר נגדי בנקודה קבועה | npub 1 | steps 3 | flat
 B: x = LEDR7..LEDR0 (Q4.4, positive)     answer: SW7..SW0
+S1: הרצאה 11, שקופית 6
 S1: בנורות מספר חיובי בפורמט
 S1: Q4.4
 S1: x = LEDR7..LEDR0
@@ -151,6 +161,7 @@ S2: SW7..SW0 = -x
 
 [Q11] TOFIXED | לכתוב בנקודה קבועה | npub 1 | steps 2 | flat
 B: HEX3 = integer     HEX2 HEX1 = hundredths     answer: SW8..SW0
+S1: הרצאה 11, שקופיות 4-6
 S1: בתצוגה מספר עשרוני:
 S1: HEX3 = the integer part (hex)     HEX2 HEX1 = hundredths
 S1: כתבו אותו בפורמט
@@ -160,6 +171,7 @@ S1: SW7..SW4 = integer     SW3..SW0 = fraction x 16
 
 [Q12] SATURATE | חשבון רוויה | npub 1 | steps 3 | flat
 B: HEX3 = A (hex)     HEX2 = B (hex)     (unsigned 4 bits)     answer: SW8..SW0
+S1: הרצאה 11, שקופית 7
 S1: בתצוגה שני מספרים של 4 ביטים בלי סימן:
 S1: HEX3 = A (hex)     HEX2 = B (hex)     (unsigned 4 bits)
 S1: מה החיבור הרגיל שלהם ב-4 ביטים (הנשא נזרק)?
@@ -169,6 +181,7 @@ S2: SW3..SW0
 
 [Q13] SATU44 | חיבור ברוויה בנקודה קבועה | npub 1 | steps 3 | flat
 B: HEX3 HEX2 = A (hex)     HEX1 HEX0 = B (hex)     (U4.4)     answer: SW8..SW0
+S1: הרצאה 11, שקופית 7
 S1: בתצוגה שני מספרים בנקודה קבועה בלי סימן:
 S1: HEX3 HEX2 = A (hex)     HEX1 HEX0 = B (hex)     (U4.4)
 S1: האם החיבור שלהם גולש (לא נכנס ב-8 ביטים)?
@@ -182,6 +195,7 @@ S2: SW7..SW0 = A + B (U4.4, saturated)
 
 [Q14] FPDECODE | לפענח מספר נקודה צפה | npub 1 | steps 5 | flat
 B: the float in hex, high / low 16 bits     SW9 = page 2     answer: SW8..SW0
+S1: הרצאה 11, שקופיות 13-15
 S1: בתצוגה מספר נקודה צפה של 32 ביטים, בהקס, בשני דפים:
 S1: page 1 (SW9 = 0): the high 16 bits (hex)     page 2 (SW9 = 1): the low 16 bits
 S1: sign | biased exponent (8 bits) | fraction (23 bits)
@@ -202,6 +216,7 @@ S4: 2 = SW1   1 = SW0
 
 [Q15] FPENCODE | לקודד מספר בנקודה צפה | npub 1 | steps 3 | flat
 B: HEX2 HEX1 HEX0 = N (decimal)     answer: SW8..SW0
+S1: הרצאה 11, שקופיות 11-15
 S1: בתצוגה מספר שלם:
 S1: HEX2 HEX1 HEX0 = N (decimal)
 S1: בנקודה צפה הוא
@@ -215,6 +230,7 @@ S2: SW7 = the first fraction bit
 
 [Q16] FPSPECIAL | מקרים מיוחדים בנקודה צפה | npub 1 | steps 2 | flat
 B: the float in hex: high 16 bits / low 16 bits (SW9)     answer: SW3..SW0
+S1: הרצאה 11, שקופית 16
 S1: בתצוגה מספר נקודה צפה בהקס, בשני דפים:
 S1: page 1 (SW9 = 0): the high 16 bits (hex)     page 2 (SW9 = 1): the low 16 bits
 S1: exponent all 0 and fraction 0: zero     exponent all 1: fraction 0 = infinity, else NaN
@@ -224,6 +240,7 @@ S1: -infinity = SW1+SW0     NaN = SW2     a normal number = SW2+SW0
 
 [Q17] FPCOMPARE | השוואת מספרים בנקודה צפה | npub 1 | steps 4 | flat
 B: N1 / N2 high 16 bits     SW9 = page 2     answer: SW8..SW0
+S1: הרצאה 11, שקופיות 13-14
 S1: בתצוגה שני מספרים בנקודה צפה (רק 16 הביטים העליונים, השאר 0):
 S1: page 1 (SW9 = 0): N1, the high 16 bits     page 2 (SW9 = 1): N2, the high 16 bits     (the low 16 bits are 0)
 S1: מה הסימנים שלהם?
@@ -239,6 +256,7 @@ S3: N1 = all 0     N2 = SW0
 
 [Q18] FPROUND | עיגול בנקודה צפה | npub 1 | steps 4 | flat
 B: LEDR6 = the leading 1     LEDR5..LEDR0 = the 6 fraction bits     answer: SW2..SW0
+S1: הרצאה 11, שקופית 18
 S1: בנורות מנטיסה חיובית עם 6 ביטי שבר:
 S1: 1.f
 S1: LEDR6 = the leading 1     LEDR5..LEDR0 = the 6 fraction bits
@@ -255,6 +273,7 @@ S3: SW2..SW0
 
 [Q19] FPADD | חיבור בנקודה צפה | npub 1 | steps 3 | flat
 B: N1 / N2 high 16 bits     SW9 = page 2     answer: SW8..SW0
+S1: הרצאה 11, שקופיות 20-24
 S1: בתצוגה שני מספרים בנקודה צפה (רק 16 הביטים העליונים, השאר 0):
 S1: page 1 (SW9 = 0): N1, the high 16 bits     page 2 (SW9 = 1): N2, the high 16 bits     (the low 16 bits are 0)
 S1: החיבור: מוציאים מעריכים, מזיזים את הקטן ימינה בהפרש. בכמה מקומות מזיזים?
@@ -360,6 +379,7 @@ S1: 16 = SW4   8 = SW3   4 = SW2   2 = SW1   1 = SW0
 
 [Q25] SLIDEMSB | הביט העליון של המונה | npub 1 | steps 3 | flat
 B: q = SW9..SW7 (HEX3)     q after the next clock edge = LEDR2..LEDR0     the start value = HEX0     answer: SW2..SW0
+S1: הרצאה 11, שקופיות 26 ו-28
 S1: בשקופיות 26 ו-28 מונה של 3 ביטים: 000, 001, ..., 111, 000. הביט העליון שלו משמש לחלוקת תדר.
 S1: בלוח המונה הזה. במתגים הערך עכשיו, ובנורות הערך אחרי עליית השעון הבאה:
 S1: q = SW9..SW7 (HEX3)     q after the next clock edge = LEDR2..LEDR0
@@ -379,6 +399,7 @@ S2: SW2..SW0
 
 [Q26] DIVBY2N | מחלק ב-2 בחזקת N | npub 1 | steps 4 | flat
 B: q = SW9..SW6 (HEX3)     LEDR0 = one bit of q     answer: SW4..SW0
+S1: הרצאה 11, שקופית 28
 S1: בלוח מונה בינארי, והנורה מחוברת לאחד הביטים שלו.
 S1: q = SW9..SW6 (HEX3)     LEDR0 = one bit of q
 S1: שימו במתגים את ערכי המונה לפי הסדר: 0, 1, 2, 3, ... כל כמה ספירות הנורה משתנה?
@@ -409,6 +430,7 @@ S2: up = all 0     down = SW0
 
 [Q28] MODCNT | מונה עם מחזור מוסתר | npub 1 | steps 3 | flat
 B: q = SW9..SW6 (HEX3)     q after the next clock edge = HEX0     answer: SW4..SW0
+S1: הרצאה 11, שקופית 26
 S1: בלוח מונה שחוזר ל-0 אחרי ערך מוסתר. במתגים הערך עכשיו, ובתצוגה הערך אחרי עליית השעון הבאה:
 S1: q = SW9..SW6 (HEX3)     q after the next clock edge = HEX0
 S1: התחילו ב-0 ועקבו אחרי המונה. מה הערך הגדול ביותר שהוא מגיע אליו?
@@ -432,6 +454,7 @@ S2: 16 = SW4   8 = SW3   4 = SW2   2 = SW1   1 = SW0
 
 [Q30] SHIFTDIR | אוגר הזזה | npub 1 | steps 3 | flat
 B: Q = SW9..SW6 (HEX3)     Sin = SW5 (HEX2)     q after the next clock edge = LEDR3..LEDR0     answer: SW3..SW0
+S1: הרצאה 11, שקופית 30
 S1: בלוח אוגר הזזה של 4 ביטים עם כניסה טורית. במתגים הערך עכשיו והכניסה, ובנורות הערך אחרי עליית השעון הבאה:
 S1: Q = SW9..SW6 (HEX3)     Sin = SW5 (HEX2)     q after the next clock edge = LEDR3..LEDR0
 S1: באיזו נורה נכנס הביט החדש?
@@ -443,6 +466,7 @@ S2: as is = all 0     inverted = SW0
 
 [Q31] SHIFTDELAY | אוגר הזזה כקו השהיה | npub 1 | steps 4 | flat
 B: Sin = SW9     Q[0] Q[1] Q[2] = SW8 SW7 SW6 (now)     LEDR0 = one output, after the next clock edge     answer: SW3..SW0
+S1: הרצאה 11, שקופית 30
 S1: בלוח אוגר הזזה של 4 ביטים. בכל עליית שעון הכניסה הטורית נכנסת לביט הראשון והשאר זזים הלאה.
 S1: Sin -> Q[0] -> Q[1] -> Q[2] -> Q[3]
 S1: הנורה מחוברת לאחת היציאות, ומראה אותה אחרי עליית השעון הבאה.
@@ -467,6 +491,7 @@ S3: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2
 
 [Q32] PAR2SER | ממקבילי לטורי | npub 1 | steps 4 | flat
 B: Load = SW9     Q = SW8..SW5 (HEX3)     q after the next clock edge = LEDR3..LEDR0     Load = 1: Q <= W (hidden)     Load = 0: shift (0 enters)     answer: SW3..SW0
+S1: הרצאה 11, שקופיות 30-31
 S1: בלוח ממיר ממקבילי לטורי: אוגר הזזה שטוען מילה מוסתרת ומוציא אותה ביט אחרי ביט.
 S1: במתגים הכניסות עכשיו, ובנורות הערך אחרי עליית השעון הבאה:
 S1: Load = SW9     Q = SW8..SW5 (HEX3)
@@ -489,6 +514,7 @@ S3: SW3 = the first bit out   ...   SW0 = the last bit out
 
 [Q33] PARLOAD | אוגר הזזה עם טעינה מקבילית | npub 1 | steps 3 | flat
 B: D = HEX0     Q = SW9..SW6 (HEX3)     Load, Sin = SW5, SW4 (in some order)     q after the next clock edge = LEDR3..LEDR0     answer: SW3..SW0
+S1: הרצאה 11, שקופית 31
 S1: בלוח אוגר הזזה עם טעינה מקבילית: כש-
 S1: Load = 1
 S1: הוא טוען את הכניסה המקבילית, ואחרת הוא מזיז ומכניס את הביט הטורי.
@@ -508,6 +534,7 @@ S2: left (into LEDR0) = all 0     right (into LEDR3) = SW0
 
 [Q34] SLIDEARR | מערך הזיכרון משקופית 36 | npub 1 | steps 3 | flat
 B: address = SW9 SW8 (HEX3)     data = LEDR2..LEDR0     the addresses to read = HEX1, HEX0     answer: SW2..SW0
+S1: הרצאה 11, שקופית 36
 S1: בשקופית 36 מערך זיכרון של 4 מילים של 3 ביטים. בלוח המערך הזה:
 S1: address = SW9 SW8 (HEX3)     data = LEDR2..LEDR0
 S1: מה המילה בכתובת שבתצוגה?
@@ -521,6 +548,7 @@ S2: SW2..SW0
 
 [Q35] SLIDEROM54 | הזיכרון משקופית 54: שלוש פונקציות | npub 1 | steps 3 | flat
 B: A1 A0 = SW9 SW8 (HEX3)     Data2 Data1 Data0 = LEDR2 LEDR1 LEDR0     the addresses to read = HEX1, HEX0     answer: SW2..SW0
+S1: הרצאה 11, שקופית 54
 S1: בשקופית 54 זיכרון של 4 מילים של 3 ביטים שמממש שלוש פונקציות של הכתובת:
 S1: Data2 = A1 xor A0     Data1 = A1 + A0     Data0 = A1 A0
 S1: בלוח הזיכרון הזה:
@@ -536,6 +564,7 @@ S2: SW2..SW0
 
 [Q36] SLIDEXYZ | לוגיקה בזיכרון משקופיות 55 ו-57 | npub 1 | steps 3 | flat
 B: A = SW9     B = SW8     X Y Z = LEDR2 LEDR1 LEDR0     the inputs to set: HEX3 HEX2, then HEX1 HEX0     answer: SW2..SW0
+S1: הרצאה 11, שקופיות 55 ו-57
 S1: בשקופיות 55 ו-57 מימוש שלוש פונקציות בזיכרון של 4 מילים של 3 ביטים:
 S1: X = AB     Y = A + B     Z = AB'
 S1: בלוח הזיכרון הזה:
@@ -579,6 +608,7 @@ S2: SW4..SW0 = R2 + R3
 
 [Q39] SLIDEVOL | זיכרון נדיף או לא | npub 1 | steps 3 | flat
 B: SW9 = 0: power on     SW9 = 1: after power off and on again     HEX0 = the word in the memory     answer: SW3..SW0
+S1: הרצאה 11, שקופיות 40-42
 S1: בשקופיות 40-42: זיכרון לקריאה וכתיבה נדיף (מאבד את המידע כשהמתח נופל), וזיכרון לקריאה בלבד שומר עליו.
 S1: בלוח זיכרון של מילה אחת:
 S1: SW9 = 0: power on     SW9 = 1: after power off and on again     HEX0 = the word in the memory
@@ -591,6 +621,7 @@ S2: RAM = all 0     ROM = SW0
 
 [Q40] MEMARRAY | גודל מערך זיכרון | npub 1 | steps 3 | flat
 B: HEX3 = N address bits     HEX2 = M data bits     answer: SW8..SW0
+S1: הרצאה 11, שקופיות 34-36
 S1: בתצוגה מערך זיכרון:
 S1: HEX3 = N address bits     HEX2 = M data bits
 S1: כמה מילים יש בו?
@@ -611,6 +642,7 @@ S1: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0 
 
 [Q42] WORDLINE | קווי מילה | npub 1 | steps 3 | flat
 B: address = SW9 SW8 SW7 (HEX3)     wordline i = LEDRi     answer: SW2..SW0
+S1: הרצאה 11, שקופית 39
 S1: בלוח מפענח הכתובות של זיכרון של 8 מילים: כל כתובת צריכה להעלות בדיוק קו מילה אחד.
 S1: address = SW9 SW8 SW7 (HEX3)     wordline i = LEDRi
 S1: המפענח שבור בכתובת אחת. עברו על כל הכתובות: מה התקלה?
@@ -622,6 +654,7 @@ S2: 4 = SW2   2 = SW1   1 = SW0
 
 [Q43] ROMREAD | לקרוא זיכרון לקריאה בלבד | npub 1 | steps 5 | flat
 B: address = SW9 SW8 (HEX3)     data = LEDR2..LEDR0     answer: SW2..SW0
+S1: הרצאה 11, שקופיות 51-52
 S1: בלוח זיכרון לקריאה בלבד של 4 מילים של 3 ביטים. מה כתוב בכתובת:
 S1: address = 00
 S1: SW2..SW0 = LEDR2..LEDR0
@@ -637,6 +670,7 @@ S4: SW2..SW0 = LEDR2..LEDR0
 
 [Q44] ROMDOTS | סימון נקודות בזיכרון | npub 1 | steps 4 | flat
 B: address = SW9 SW8 (HEX3)     data = LEDR3..LEDR0     answer: SW4..SW0
+S1: הרצאה 11, שקופיות 51-52
 S1: בלוח זיכרון לקריאה בלבד של 4 מילים של 4 ביטים. בסימון נקודות, נקודה היא ביט 1.
 S1: address = SW9 SW8 (HEX3)     data = LEDR3..LEDR0
 S1: כמה נקודות יש בשורה של כתובת 00?
@@ -672,6 +706,7 @@ S3: SW3..SW0 = the address
 
 [Q46] ROMLOGIC | לוגיקה בזיכרון | npub 1 | steps 3 | flat
 B: A1 = SW9     A0 = SW8     Data2..0 = LEDR2..LEDR0     answer: SW3..SW0
+S1: הרצאה 11, שקופיות 54-56
 S1: בלוח זיכרון של 4 מילים של 3 ביטים שמממש שלוש פונקציות של הכתובת (כמו בשקופית 54):
 S1: A1 = SW9     A0 = SW8     Data2 Data1 Data0 = LEDR2 LEDR1 LEDR0
 S1: איזה ביט נתונים הוא
@@ -685,6 +720,7 @@ S2: Data0 = all 0     Data1 = SW0     Data2 = SW1
 
 [Q47] LUT | טבלת חיפוש | npub 1 | steps 4 | flat
 B: address = SW9 SW8 SW7     out = LEDR0     answer: SW4..SW0
+S1: הרצאה 11, שקופית 58
 S1: בלוח טבלת חיפוש
 S1: (LUT)
 S1: של 3 כניסות: זיכרון של 8 ביטים, והכניסות הן הכתובת.
@@ -701,6 +737,7 @@ S3: 16 = SW4   8 = SW3   4 = SW2   2 = SW1   1 = SW0
 
 [Q48] RAM | זיכרון לקריאה וכתיבה | npub 1 | steps 4 | flat
 B: a = SW9     rd = LEDR1 LEDR0 (the word at a, now)     a = SW9     wd = SW8 SW7     we = SW6     LEDR3 LEDR2 = the word at a after the next clock edge     answer: SW1 SW0
+S1: הרצאה 11, שקופיות 41 ו-44
 S1: בלוח זיכרון של 2 מילים של 2 ביטים. הקריאה מיידית, והכתיבה קורית בעליית השעון.
 S1: a = SW9     rd = LEDR1 LEDR0 (the word at a, now)
 S1: מה כתוב עכשיו במילה 0?
@@ -721,6 +758,7 @@ S3: למטה - השאירו למטה.
 
 [Q49] DRAMLEAK | תא זיכרון דינמי | npub 1 | steps 3 | flat
 B: the bit written = SW9     clock edges since the write = SW8..SW6 (HEX3)     the bit read = LEDR0     answer: SW3..SW0
+S1: הרצאה 11, שקופית 46
 S1: בלוח תא זיכרון דינמי: הביט נשמר בקבל, והמטען דולף אחרי כמה עליות שעון בלי כתיבה.
 S1: במתגים הביט שנכתב, וכמה עליות שעון עברו מאז הכתיבה. בנורה מה שנקרא עכשיו:
 S1: the bit written = SW9     clock edges since the write = SW8..SW6 (HEX3)
