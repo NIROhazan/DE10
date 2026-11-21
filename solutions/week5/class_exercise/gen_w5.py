@@ -628,16 +628,24 @@ def srn_tab(p):
     return [[x[1] for x in v], [x[0] for x in v]] + const([p[0] >> 1, p[0] & 1, p[1] >> 1, p[1] & 1], 2)
 def srn_after(p, k):					# Q Q' after case 1 (k = 1) or after case 2 (k = 2)
     return val(*SRV.get(p[1], SRV[p[0]])) if k == 2 else val(*SRV[p[0]])
-LSRN = ["S = SW9     R = SW8     Q = LEDG1     Q' = LEDG0"]
-W.append(Q(id="SRNOR", name="SRNOR", title="תפסן קביעה-איפוס משקופיות 11-13", inputs=[9, 8], flat=True, seq=True,
+# 2026-11-21: the latch is NOT on the board any more - the student works out Q Q' and sets them on SW1 SW0;
+# LEDG1 LEDG0 only show the student's own switches (inputs = the answer switches), KEY0 says PASS / Err.
+def srn_tab2(p):
+    return tabf(2, lambda a, b: (b, a)) + const([p[0] >> 1, p[0] & 1, p[1] >> 1, p[1] & 1], 2)
+W.append(Q(id="SRNOR", name="SRNOR", title="תפסן קביעה-איפוס משקופיות 11-13", inputs=[1, 0], flat=True,
     outs=[("G", 0), ("G", 1), ("H", (3, 0)), ("H", (2, 0)), ("H", (1, 0)), ("H", (0, 0))], hexes=[None] * 4,
-    variants=VSRN, tables=srn_tab, answer=lambda p: (srn_after(p, 2), 0x3),
+    variants=VSRN, tables=srn_tab2, answer=lambda p: (srn_after(p, 2), 0x3),
     describe=lambda p: f"NOR SR latch: S R = {p[0]:02b} then {p[1]:02b}",
-    B=[LSRN[0] + "     case 1 = HEX3 HEX2     case 2 = HEX1 HEX0     answer: SW1 SW0"], L=[], F=[],
-    steps=[(["בלוח תפסן הקביעה-איפוס משקופיות 11-13, משני שערים:", "SR latch:   N1 = NOR(R, Q')     N2 = NOR(S, Q)"] + LSRN +
-            ["שימו את המתגים כמו במצב 1 שבתצוגה, והעתיקו את הנורות:", "case 1:   S = HEX3     R = HEX2"] + SW1SW0,
+    B=["case 1:  S R = HEX3 HEX2     case 2:  S R = HEX1 HEX0",
+       "Q = SW1 (LEDG1)     Q' = SW0 (LEDG0)     answer: SW1 SW0"], L=[], F=[],
+    steps=[(["נתון תפסן הקביעה-איפוס משקופיות 11-13, משני שערים:", "N1:  Q = NOR(R, Q')     N2:  Q' = NOR(S, Q)",
+             "התפסן לא בלוח. בתצוגת ההקס רק הכניסות של מצב 1:", "S = HEX3     R = HEX2",
+             "חשבו מה יהיו היציאות במצב הזה, ושימו אותן על המתגים (1 = למעלה):", "Q = SW1     Q' = SW0",
+             "הנורות שמעל המתגים מראות רק את מה ששמתם. בדקו שזה מתאים למה שאתם יודעים על התפסן, ואז בדקו את התשובה."],
             lambda q, p: (srn_after(p, 1), 0x3)),
-           (["עכשיו שימו את המתגים כמו במצב 2 שבתצוגה, והעתיקו שוב:", "case 2:   S = HEX1     R = HEX0"] + LSRN + SW1SW0,
+           (["עכשיו מגיע מצב 2, מיד אחרי מצב 1:", "S = HEX1     R = HEX0",
+             "חשבו מה יהיו היציאות אחרי מצב 2, ושימו אותן על המתגים:", "Q = SW1     Q' = SW0",
+             "רמז: תפסן זוכר. היציאות תלויות גם במצב הקודם, לא רק בכניסות של עכשיו."],
             lambda q, p: (srn_after(p, 2), 0x3))]))
 
 # topic 1, slides 16-17: the D latch inside (an SR latch and two AND gates); two cases (CLK D) from the display
@@ -651,17 +659,25 @@ def ds_after(p, k):					# S R Q Q' after case 1 / case 2
         return val(d1, 1 - d1, d1, 1 - d1)
     qv = d2 if c2 else d1
     return val(c2 & d2, c2 & (1 - d2), qv, 1 - qv)
-LDS = ["CLK = SW9     D = SW8", "S = LEDG3     R = LEDG2     Q = LEDG1     Q' = LEDG0"]
-W.append(Q(id="DLATCHSR", name="DLATCHSR", title="תפסן D משקופית 17", inputs=[9, 8], flat=True, seq=True,
+# 2026-11-21: the latch is NOT on the board any more - the student works out S R Q Q' and sets them on SW3..SW0;
+# LEDG3..LEDG0 only show the student's own switches (inputs = the answer switches), KEY0 says PASS / Err.
+def ds_tab2(p):
+    return tabf(4, lambda *b: tuple(reversed(b))) + const([1, p[0], p[1][0], p[1][1]], 4)
+W.append(Q(id="DLATCHSR", name="DLATCHSR", title="תפסן D משקופית 17", inputs=[3, 2, 1, 0], flat=True,
     outs=[("G", 0), ("G", 1), ("G", 2), ("G", 3), ("H", (3, 0)), ("H", (2, 0)), ("H", (1, 0)), ("H", (0, 0))],
-    hexes=[None] * 4, variants=VDS, tables=ds_tab, answer=lambda p: (ds_after(p, 2), 0xF),
+    hexes=[None] * 4, variants=VDS, tables=ds_tab2, answer=lambda p: (ds_after(p, 2), 0xF),
     describe=lambda p: f"D latch: CLK D = 1{p[0]} then {p[1][0]}{p[1][1]}",
-    B=["   ".join(LDS) + "     case 1 = HEX3 HEX2     case 2 = HEX1 HEX0     answer: SW3..SW0"], L=[], F=[],
-    steps=[(["בלוח תפסן", "D", "משקופית 17: תפסן קביעה-איפוס ושני שערי וגם.", "S = CLK & D     R = CLK & ~D"] + LDS +
-            ["שימו את המתגים כמו במצב 1 שבתצוגה, והעתיקו את הנורות:", "case 1:   CLK = HEX3     D = HEX2"] + SW3SW0,
+    B=["case 1:  CLK D = HEX3 HEX2     case 2:  CLK D = HEX1 HEX0",
+       "S = SW3     R = SW2     Q = SW1     Q' = SW0     (LEDG3..LEDG0 = your switches)     answer: SW3..SW0"], L=[], F=[],
+    steps=[(["נתון התפסן משקופית 17: תפסן קביעה-איפוס ושני שערי וגם לפניו:", "D latch:   S = CLK · D     R = CLK · D'",
+             "התפסן לא בלוח. בתצוגת ההקס רק הכניסות של מצב 1:", "CLK = HEX3     D = HEX2",
+             "חשבו מה יהיו ארבעת הצמתים במצב הזה, ושימו אותם על המתגים (1 = למעלה):", "S = SW3     R = SW2     Q = SW1     Q' = SW0",
+             "הנורות שמעל המתגים מראות רק את מה ששמתם. בדקו שזה מתאים למה שאתם יודעים על התפסן, ואז בדקו את התשובה."],
             lambda q, p: (ds_after(p, 1), 0xF)),
-           (["עכשיו שימו את המתגים כמו במצב 2 שבתצוגה (קודם את השעון, אחר כך את הנתון), והעתיקו שוב:",
-             "case 2:   CLK = HEX1     D = HEX0"] + LDS + SW3SW0, lambda q, p: (ds_after(p, 2), 0xF))]))
+           (["עכשיו מגיע מצב 2, מיד אחרי מצב 1. קודם משתנה השעון, אחר כך הנתון:", "CLK = HEX1     D = HEX0",
+             "חשבו מה יהיו ארבעת הצמתים אחרי מצב 2, ושימו אותם על המתגים:", "S = SW3     R = SW2     Q = SW1     Q' = SW0",
+             "רמז: כשהשעון למטה, שני השערים מוציאים 0, והתפסן זוכר."],
+            lambda q, p: (ds_after(p, 2), 0xF))]))
 
 # topic 2, slide 24: the enabled flip-flop inside (a mux: EN = 1 -> D, EN = 0 -> Q); the case comes from the display
 VEM = [(e, d, q_) for e in range(2) for d in range(2) for q_ in range(2)]
@@ -699,16 +715,30 @@ VRS = [(k, v) for k in range(4) for v in range(2)]
 def stuck(p, d):
     k, v = p
     return (d | (1 << k)) if v else (d & ~(1 << k))
-W.append(Q(id="REGSTUCK", name="REGSTUCK", title="אוגר של 4 ביטים משקופית 23", inputs=[9, 8, 7, 6], flat=True,
-    outs=[("G", i) for i in range(4)], hexes=[None, None, None, [9, 8, 7, 6]], variants=VRS,
-    tables=lambda p: tabf(4, lambda *b: hx(stuck(p, val(*b)))), answer=lambda p: (p[0], 0x3),
-    describe=lambda p: f"Q{p[0]} stuck at {p[1]}",
-    B=[LRP[0] + "     answer: SW3..SW0"], L=[], F=[],
-    steps=[(["בלוח האוגר של 4 ביטים משקופית 23: ארבעה דלגלגים עם שעון משותף.",
-             "אבל דלגלג אחד מקולקל: היציאה שלו תקועה.", REGNOW] + LRP +
-            ["שימו", "D = 0000", "והעתיקו את הנורות:"] + SW3SW0, lambda q, p: (stuck(p, 0), 0xF)),
-           (["עכשיו", "D = 1111", "והעתיקו:"] + LRP + SW3SW0, lambda q, p: (stuck(p, 15), 0xF)),
-           (["איזה דלגלג מקולקל?"] + LRP + code(["Q0", "Q1", "Q2", "Q3"]), lambda q, p: (p[0], 0x3))]))
+# 2026-11-21: the register is NOT on the board any more. The display says which flip-flop is stuck (HEX3) and at what
+# value (HEX2); the student works out Q after the clock edge for D = 0000, 1111 and D = HEX0, and sets it on SW3..SW0;
+# LEDG3..LEDG0 only show the student's own switches.
+VRS2 = [(k, v, d) for k in range(4) for v in range(2) for d in range(16) if stuck((k, v), d) != d]	# d: the fault shows
+W.append(Q(id="REGSTUCK", name="REGSTUCK", title="אוגר של 4 ביטים משקופית 23", inputs=[3, 2, 1, 0], flat=True,
+    outs=[("G", i) for i in range(4)] + C.hexd(3) + C.hexd(2) + C.hexd(0), hexes=[None] * 4, variants=VRS2,
+    tables=lambda p: tabf(4, lambda *b: tuple(reversed(b))) + const(list(hx(p[0]) + hx(p[1]) + hx(p[2])), 4),
+    answer=lambda p: (stuck(p[:2], p[2]), 0xF), describe=lambda p: f"Q{p[0]} stuck at {p[1]}, D = {p[2]:04b}",
+    B=["stuck flip-flop = HEX3     stuck at = HEX2     D (step 3) = HEX0",
+       "Q3 Q2 Q1 Q0 = SW3 SW2 SW1 SW0     (LEDG3..LEDG0 = your switches)     answer: SW3..SW0"], L=[], F=[],
+    steps=[(["נתון האוגר של 4 ביטים משקופית 23: ארבעה דלגלגים עם שעון משותף.",
+             "אבל דלגלג אחד מקולקל: היציאה שלו תקועה. האוגר לא בלוח. בתצוגת ההקס:",
+             "stuck flip-flop = HEX3     stuck at = HEX2",
+             "שמים בכניסה את הנתון הזה:", "D = 0000",
+             "חשבו מה יראה האוגר אחרי עליית השעון, ושימו את זה על המתגים (1 = למעלה):", "Q3 Q2 Q1 Q0 = SW3 SW2 SW1 SW0",
+             "הנורות שמעל המתגים מראות רק את מה ששמתם. בדקו שזה מתאים למה שאתם יודעים על האוגר, ואז בדקו את התשובה."],
+            lambda q, p: (stuck(p[:2], 0), 0xF)),
+           (["עכשיו שמים בכניסה את הנתון הזה:", "D = 1111",
+             "חשבו שוב מה יראה האוגר אחרי עליית השעון, ושימו את זה על המתגים:", "Q3 Q2 Q1 Q0 = SW3 SW2 SW1 SW0"],
+            lambda q, p: (stuck(p[:2], 15), 0xF)),
+           (["עכשיו שמים בכניסה את הנתון שבתצוגה הימנית:", "D = HEX0",
+             "חשבו מה יראה האוגר אחרי עליית השעון, ושימו את זה על המתגים:", "Q3 Q2 Q1 Q0 = SW3 SW2 SW1 SW0",
+             "רמז: שלושה דלגלגים מעתיקים את הנתון. רק הדלגלג התקוע מראה תמיד את אותו ערך."],
+            lambda q, p: (stuck(p[:2], p[2]), 0xF))]))
 
 # topic 3, slides 36-37: flopr with a synchronous or an asynchronous reset (reset to 0), one bit
 CFR2 = ["36:  always_ff @(posedge clk)              if (reset) q <= 0; else q <= d;",
