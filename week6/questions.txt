@@ -2,22 +2,22 @@
 # [Qnn] NAME | title | npub n [| steps n];  B: board;  Pk: printed for login numbers with pub = k;
 # with steps: Sk: the screen of step k (step 0 = login, in run.ps1);  without: L: question, F: answer format
 
-[Q01] DIV3NEXT | המחלק ב-3 משקופית 21 | npub 1 | steps 3 | flat
-B: S = SW9 SW8   (HEX3)     next state = HEX0     q = LEDR0     HEX1 = the state to set     answer: SW1 SW0
+[Q01] DIV3NEXT | המחלק ב-3 משקופית 21 | npub 1 | steps 4 | flat
+B: the state = HEX1     SW1 SW0 = your answer   (LEDR1 LEDR0)     answer: SW1 SW0
 S1: הרצאה 6, שקופית 21
-S1: המחלק ב-3 של שקופית 21. בלוח לוגיקת המצב הבא והיציאה שלו.
-S1: S0 -> S1 -> S2 -> S0     q = 1 in S0
-S1: S = SW9 SW8   (HEX3)     next state = HEX0     q = LEDR0
-S1: HEX1 = the state to set
-S1: הציבו במתגים את המצב שבתצוגה. מה המצב הבא?
-S1: S0 = all 0     S1 = SW0     S2 = SW1
-S2: התחילו במצב שבתצוגה. אחרי כמה שעונים
-S2: q
-S2: נדלקת?
-S2: שעון אחד = להציב במתגי המצב את המצב הבא.
-S2: S = SW9 SW8   (HEX3)     next state = HEX0     q = LEDR0
-S2: HEX1 = the state to set
-S2: 1 = SW0 2 = SW1 3 = SW1+SW0
+S1: 1. פתחו את המצגת של הרצאה 6, בשקופית 21.
+S1: המכונה לא בלוח ולא על המסך - רק בשקופית.
+S1: 2. כמה מצבים יש במכונה שבשקופית?
+S1: 1 = SW0 2 = SW1 3 = SW1+SW0
+S2: 3. בשקופית יש חץ שיוצא מהמצב שבתצוגה. לאיזה מצב הוא מגיע?
+S2: the state = HEX1
+S2: SW1 SW0 = your answer   (LEDR1 LEDR0)
+S2: S0 = all 0     S1 = SW0     S2 = SW1
+S3: 4. המכונה במצב שבתצוגה. כל שעון היא עוברת בחץ אחד.
+S3: אחרי כמה שעונים היא מגיעה למצב שמסומן בשקופית בעיגול כפול?
+S3: the state = HEX1
+S3: SW1 SW0 = your answer   (LEDR1 LEDR0)
+S3: 1 = SW0 2 = SW1 3 = SW1+SW0
 
 [Q02] ONEHOT17 | בינארי ואחד-חם משקופית 17 | npub 1 | steps 2 | flat
 B: binary code = SW9 SW8     one-hot code = LEDR3 LEDR2 LEDR1 LEDR0     HEX3 HEX2 HEX1 HEX0 = a one-hot code     answer: SW1 SW0

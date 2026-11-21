@@ -707,18 +707,28 @@ W.append(Q(id="UPDOWN", name="UPDOWN", title="מונה למעלה ולמטה", i
 SET = "הציבו במתגים את מה שבתצוגה."
 
 # topic 1: the divide by 3 of slide 21 (S0 -> S1 -> S2 -> S0, q = 1 in S0)
+# 2026-11-21: the machine is NOT on the board and NOT on the screen any more - the student opens slide 21 and reads it
+# there. Step 1 asks what the slide shows, step 2 an arrow of it (from the state on HEX1), step 3 whether the student
+# understood the slide (the double circle = the reset state). LEDG1 LEDG0 only show the student's own SW1 SW0.
+OD3S = [("G", 1), ("G", 0)] + hexd(1)
+TD3S = "the state = HEX1"
+AD3S = "SW1 SW0 = your answer   (LEDG1 LEDG0)"
+W.append(Q(id="DIV3NEXT", name="DIV3NEXT", title="המחלק ב-3 משקופית 21", inputs=[1, 0], flat=True,
+    outs=OD3S, hexes=[None, None, None, None], variants=[0, 1, 2],
+    tables=lambda p: ft(OD3S, 2, 0, lambda s, a: {("G", 1): s >> 1, ("G", 0): s & 1, **dig(1, p)}),
+    answer=lambda p: ((3 - p) % 3 or 3, 0x3), describe=lambda p: f"start S{p}: next S{(p + 1) % 3}, back to S0 after {(3 - p) % 3 or 3} clocks",
+    B=[TD3S + "     " + AD3S + "     answer: SW1 SW0"], L=[], F=[],
+    steps=[(["1. פתחו את המצגת של הרצאה 6, בשקופית 21.", "המכונה לא בלוח ולא על המסך - רק בשקופית.",
+             "2. כמה מצבים יש במכונה שבשקופית?"] + cnt(3), lambda q, p: (3, 0x3)),
+           (["3. בשקופית יש חץ שיוצא מהמצב שבתצוגה. לאיזה מצב הוא מגיע?", TD3S, AD3S] + code(["S0", "S1", "S2"]),
+            lambda q, p: ((p + 1) % 3, 0x3)),
+           (["4. המכונה במצב שבתצוגה. כל שעון היא עוברת בחץ אחד.",
+             "אחרי כמה שעונים היא מגיעה למצב שמסומן בשקופית בעיגול כפול?", TD3S, AD3S] + cnt(3),
+            lambda q, p: ((3 - p) % 3 or 3, 0x3))]))
+
+# D3AFTER (below) still has the divide by 3 on the board
 OD3 = [("G", 0)] + hexd(1) + hexd(0)
 LD3 = "S = SW9 SW8   (HEX3)     next state = HEX0     q = LEDG0"
-TD3 = "HEX1 = the state to set"
-W.append(Q(id="DIV3NEXT", name="DIV3NEXT", title="המחלק ב-3 משקופית 21", inputs=[9, 8], flat=True,
-    outs=OD3, hexes=[[9, 8], None, None, None], variants=[0, 1, 2],
-    tables=lambda p: ft(OD3, 2, 0, lambda s, a: {("G", 0): int(s == 0), **dig(1, p), **dig(0, (s + 1) % 3 if s < 3 else 0)}),
-    answer=lambda p: ((3 - p) % 3 or 3, 0x3), describe=lambda p: f"start S{p}: next S{(p + 1) % 3}, q after {(3 - p) % 3 or 3} clocks",
-    B=[LD3 + "     " + TD3 + "     answer: SW1 SW0"], L=[], F=[],
-    steps=[(["המחלק ב-3 של שקופית 21. בלוח לוגיקת המצב הבא והיציאה שלו.", "S0 -> S1 -> S2 -> S0     q = 1 in S0", LD3, TD3,
-             "הציבו במתגים את המצב שבתצוגה. מה המצב הבא?"] + code(["S0", "S1", "S2"]), lambda q, p: ((p + 1) % 3, 0x3)),
-           (["התחילו במצב שבתצוגה. אחרי כמה שעונים", "q", "נדלקת?", FOLLOW, LD3, TD3] + cnt(3),
-            lambda q, p: ((3 - p) % 3 or 3, 0x3))]))
 
 # topic 1: slide 17 - binary and one-hot codes of 4 states
 OOH17 = [("G", i) for i in (3, 2, 1, 0)] + hexd(3) + hexd(2) + hexd(1) + hexd(0)
