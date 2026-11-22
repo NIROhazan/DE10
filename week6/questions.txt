@@ -61,7 +61,7 @@ S3: כבויה - השאירו למטה.
 
 [Q04] D3RESET | המחלק ב-3 והאיפוס | npub 1 | steps 3 | flat
 B: state bits = SW9 SW8     reset = SW7     q = LEDR2     next state bits = LEDR1 LEDR0     the state to set = HEX3     reset = HEX0     answer: SW1 SW0
-S1: המחלק ב-3 של שקופיות 21-22, עם האיפוס. בלוח לוגיקת המצב הבא והיציאה שלו.
+S1: המחלק ב-3 של שקופית 21, עם האיפוס. בלוח לוגיקת המצב הבא והיציאה שלו.
 S1: if (reset) state <= S0;     S0 -> S1 -> S2 -> S0     q = 1 in S0
 S1: S0 = 00     S1 = 01     S2 = 10
 S1: state bits = SW9 SW8     reset = SW7     q = LEDR2     next state bits = LEDR1 LEDR0
@@ -85,7 +85,7 @@ S1: הרצאה 6, שקופיות 5-6 ו-21
 S1: 1. פתחו את המצגת בשקופית שלמעלה, והסתכלו בה.
 S1: 2. בשקופית 6: באיזה שלב של התהליך כותבים משוואות בוליאניות?
 S1: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1 7 = SW2+SW1+SW0
-S2: שלבי התכנון של שקופית 5 על המחלק ב-3 של שקופיות 21-22: מהטבלה המקודדת למשוואה.
+S2: שלבי התכנון של שקופית 5 על המחלק ב-3 של שקופית 21: מהטבלה המקודדת למשוואה.
 S2: S0 = 00     S1 = 01     S2 = 10     11 = default -> S0
 S2: S1 S0 = SW9 SW8     q = LEDR2     S'1 = LEDR1     S'0 = LEDR0
 S2: HEX0 = the LED to study (LEDR0, LEDR1 or LEDR2)
@@ -675,9 +675,9 @@ S3: S1 S0 = SW9 SW8   (HEX3)     next state = HEX0
 S3: TA = SW7     TB = SW6
 S3: S0 = all 0     S1 = SW0     S2 = SW1     S3 = SW1+SW0
 
-[Q33] MOORE01 | גלאי המור משקופית 24 | npub 1 | steps 3 | flat
+[Q33] MOORE01 | גלאי המור משקופית 23 | npub 1 | steps 3 | flat
 B: state bits = SW9 SW8     a = SW7     smile = LEDR2     next state bits = LEDR1 LEDR0     the state to set = HEX3     a = HEX0     answer: SW1 SW0
-S1: גלאי הרצף של מור בקוד של שקופית 24. בלוח הלוגיקה שלו.
+S1: גלאי הרצף של מור של שקופית 23. בלוח הלוגיקה שלו.
 S1: typedef enum logic [1:0] {S0, S1, S2}     assign smile = (state == S2);
 S1: S0 = 00     S1 = 01     S2 = 10
 S1: state bits = SW9 SW8     a = SW7     smile = LEDR2     next state bits = LEDR1 LEDR0
@@ -693,9 +693,9 @@ S2: state bits = SW9 SW8     a = SW7     smile = LEDR2     next state bits = LED
 S2: the state to set = HEX3     a = HEX0
 S2: S0 = all 0     S1 = SW0     S2 = SW1
 
-[Q34] MEALY01 | גלאי המילי משקופית 26 | npub 1 | steps 3 | flat
+[Q34] MEALY01 | גלאי המילי משקופית 25 | npub 1 | steps 3 | flat
 B: state = SW9     a = SW8     smile = LEDR1     next state = LEDR0     the state to set = HEX3     a = HEX0     answer: SW0
-S1: גלאי הרצף של מילי בקוד של שקופית 26. בלוח הלוגיקה שלו.
+S1: גלאי הרצף של מילי של שקופית 25. בלוח הלוגיקה שלו.
 S1: typedef enum logic {S0, S1}     S0 = 0     S1 = 1
 S1: state = SW9     a = SW8     smile = LEDR1     next state = LEDR0
 S1: the state to set = HEX3     a = HEX0
@@ -711,7 +711,7 @@ S2: S0 = all 0     S1 = SW0
 
 [Q35] DIV3CASE | ה-case של המחלק ב-3 | npub 1 | steps 3 | flat
 B: state bits = SW9 SW8     q = LEDR2     next state bits = LEDR1 LEDR0     HEX3 HEX2 = the state bits to set     answer: SW1 SW0
-S1: המחלק ב-3 בקוד של שקופית 22. בלוח לוגיקת המצב הבא והיציאה שלו.
+S1: המחלק ב-3 של שקופית 21. בלוח לוגיקת המצב הבא והיציאה שלו.
 S1: typedef enum logic [1:0] {S0, S1, S2}     S0: nextstate = S1;   S1: nextstate = S2;   S2: nextstate = S0;   default: nextstate = S0;
 S1: state bits = SW9 SW8     q = LEDR2     next state bits = LEDR1 LEDR0
 S1: HEX3 HEX2 = the state bits to set
@@ -726,11 +726,11 @@ S2: SW1 SW0 = next state bits
 
 [Q36] MOORESTAY | מתי גלאי המור נשאר במקום? | npub 1 | steps 4 | flat
 B: state bits = SW9 SW8     a = SW7     smile = LEDR2     next state bits = LEDR1 LEDR0     HEX3 = the state to set     answer: SW1 SW0
-S1: הרצאה 6, שקופית 24
+S1: הרצאה 6, שקופית 23
 S1: 1. פתחו את המצגת בשקופית שלמעלה, והסתכלו בה.
-S1: 2. בשקופית 24: באיזה מצב החיוך דולק?
+S1: 2. בשקופית 23: באיזה מצב החיוך דולק?
 S1: S0 = all 0     S1 = SW0     S2 = SW1
-S2: גלאי הרצף של מור בקוד של שקופית 24. בלוח הלוגיקה שלו.
+S2: גלאי הרצף של מור של שקופית 23. בלוח הלוגיקה שלו.
 S2: S0: if (a) S0 else S1     S1: if (a) S2 else S1     S2: if (a) S0 else S1
 S2: S0 = 00     S1 = 01     S2 = 10
 S2: state bits = SW9 SW8     a = SW7     smile = LEDR2     next state bits = LEDR1 LEDR0
@@ -748,12 +748,12 @@ S3: none = all 0     a=0 = SW0     a=1 = SW1
 
 [Q37] MOORESEQ | ארבעה ביטים לגלאי המור | npub 1 | steps 4 | flat
 B: state bits = SW9 SW8     a = SW7     smile = LEDR2     next state bits = LEDR1 LEDR0     the input bits = HEX3 HEX2 HEX1 HEX0   (HEX3 = the first)     answer: SW1 SW0
-S1: הרצאה 6, שקופיות 23-24
+S1: הרצאה 6, שקופית 23
 S1: 1. פתחו את המצגת בשקופית שלמעלה, והסתכלו בה.
 S1: 2. בשקופית 23: לאן הולך החץ שיוצא מהמצב הזה כשהכניסה 1?
 S1: S1
 S1: S0 = all 0     S1 = SW0     S2 = SW1
-S2: גלאי הרצף של מור של שקופיות 23-24. בלוח הלוגיקה שלו.
+S2: גלאי הרצף של מור של שקופית 23. בלוח הלוגיקה שלו.
 S2: S0 = 00     S1 = 01     S2 = 10
 S2: state bits = SW9 SW8     a = SW7     smile = LEDR2     next state bits = LEDR1 LEDR0
 S2: the input bits = HEX3 HEX2 HEX1 HEX0   (HEX3 = the first)
@@ -768,11 +768,11 @@ S3: 1 = SW0 2 = SW1
 
 [Q38] MEALYSEQ | ארבעה ביטים לגלאי המילי | npub 1 | steps 4 | flat
 B: state = SW9     a = SW8     smile = LEDR1     next state = LEDR0     the input bits = HEX3 HEX2 HEX1 HEX0   (HEX3 = the first)     answer: SW2..SW0
-S1: הרצאה 6, שקופיות 25-26
+S1: הרצאה 6, שקופית 25
 S1: 1. פתחו את המצגת בשקופית שלמעלה, והסתכלו בה.
 S1: 2. בשקופית 25: כמה מצבים יש בגלאי המילי?
 S1: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2
-S2: גלאי הרצף של מילי של שקופיות 25-26. בלוח הלוגיקה שלו.
+S2: גלאי הרצף של מילי של שקופית 25. בלוח הלוגיקה שלו.
 S2: S0 = 0     S1 = 1
 S2: state = SW9     a = SW8     smile = LEDR1     next state = LEDR0
 S2: the input bits = HEX3 HEX2 HEX1 HEX0   (HEX3 = the first)
@@ -786,16 +786,16 @@ S3: the input bits = HEX3 HEX2 HEX1 HEX0   (HEX3 = the first)
 S3: 0 = all 0
 S3: 1 = SW0 2 = SW1
 
-[Q39] BOTHDET | מור ומילי של שקופיות 23-26 על אותם ביטים | npub 1 | steps 4 | flat
+[Q39] BOTHDET | מור ומילי של שקופיות 23 ו-25 על אותם ביטים | npub 1 | steps 4 | flat
 B: Moore:  state bits = SW9 SW8     smile = LEDR7     next state bits = LEDR6 LEDR5     Mealy:  state = SW7     smile = LEDR1     next state = LEDR0     a = SW6     the input bits = HEX3 HEX2 HEX1   (HEX3 = the first)     answer: SW1 SW0
-S1: הרצאה 6, שקופיות 23-26
+S1: הרצאה 6, שקופיות 23 ו-25
 S1: 1. פתחו את המצגת בשקופית שלמעלה, והסתכלו בה.
 S1: 2. בשקופית 25: מה היציאה שכתובה על החץ הזה?
 S1: S1 -> S0
 S1: 1 - הרימו:
 S1: SW0
 S1: 0 - השאירו למטה.
-S2: שני גלאי הרצף של שקופיות 23-26, מור ומילי, על אותה כניסה. בלוח הלוגיקה של שניהם.
+S2: שני גלאי הרצף של שקופיות 23 ו-25, מור ומילי, על אותה כניסה. בלוח הלוגיקה של שניהם.
 S2: Moore:  S0 = 00     S1 = 01     S2 = 10
 S2: Moore:  state bits = SW9 SW8     smile = LEDR7     next state bits = LEDR6 LEDR5
 S2: Mealy:  state = SW7     smile = LEDR1     next state = LEDR0
@@ -816,7 +816,7 @@ S3: 1 = SW0 2 = SW1 3 = SW1+SW0
 
 [Q40] SEQDET | גלאי רצף | npub 1 | steps 4 | flat
 B: S = SW9 SW8 SW7 = the last three bits (SW9 = the oldest)     a = SW6     smile = LEDR0     answer: SW2..SW0
-S1: הרצאה 6, שקופיות 23-26
+S1: הרצאה 6, שקופיות 23 ו-25
 S1: 1. פתחו את המצגת בשקופית שלמעלה, והסתכלו בה.
 S1: 2. בשקופית 23: כמה חצים יוצאים מכל מצב?
 S1: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2
@@ -830,7 +830,7 @@ S3: SW2 = first bit     SW1 = second     SW0 = last
 
 [Q41] SEQCOUNT | כמה פעמים הגלאי מזהה? | npub 1 | steps 4 | flat
 B: S1 S0 = SW9 SW8   (HEX3)     a = SW7     next state = HEX0     smile = LEDR0     answer: SW3..SW0
-S1: הרצאה 6, שקופיות 23-24
+S1: הרצאה 6, שקופית 23
 S1: 1. פתחו את המצגת בשקופית שלמעלה, והסתכלו בה.
 S1: 2. בשקופית 23: מה היציאה במצב הזה?
 S1: S2
@@ -853,7 +853,7 @@ S3: 1 = SW0 2 = SW1 3 = SW1+SW0 4 = SW2 5 = SW2+SW0 6 = SW2+SW1
 
 [Q42] TWODET | מור ומילי זה ליד זה | npub 1 | steps 4 | flat
 B: S = SW9 SW8 = the last two bits (SW9 = the older)     a = SW7     LEDR1 LEDR0     answer: SW3..SW0
-S1: הרצאה 6, שקופיות 23-26
+S1: הרצאה 6, שקופיות 23 ו-25
 S1: 1. פתחו את המצגת בשקופית שלמעלה, והסתכלו בה.
 S1: 2. בשקופית 23: לאן הולך החץ שיוצא מהמצב הזה כשהכניסה 0?
 S1: S2
@@ -868,7 +868,7 @@ S3: SW1 = first bit     SW0 = second bit
 
 [Q43] OVERLAP | רצף חופף או לא? | npub 1 | steps 4 | flat
 B: S1 S0 = SW9 SW8   (HEX3)     a = SW7     next state = HEX0     smile = LEDR0     answer: SW3..SW0
-S1: הרצאה 6, שקופיות 23-24
+S1: הרצאה 6, שקופית 23
 S1: 1. פתחו את המצגת בשקופית שלמעלה, והסתכלו בה.
 S1: 2. בשקופית 23: לאן הולך החץ שיוצא מהמצב הזה כשהכניסה 0?
 S1: S1
@@ -901,7 +901,7 @@ S2: S=0 a=0 -> SW0     S=0 a=1 -> SW1     S=1 a=0 -> SW2     S=1 a=1 -> SW3
 
 [Q45] LATCH | שכחו את ברירת המחדל | npub 1 | steps 3 | flat
 B: S = SW9 = the last bit     a = SW8     two Mealy detectors = LEDR1 LEDR0     answer: SW3..SW0
-S1: בלוח לוגיקת היציאה של שני גלאי מילי של אותו רצף של 2 ביטים, כמו בשקופיות 25-26. באחד מהם חסרה השורה
+S1: בלוח לוגיקת היציאה של שני גלאי מילי של אותו רצף של 2 ביטים, כמו בשקופית 25. באחד מהם חסרה השורה
 S1: smile = 1'b0;
 S1: בתחילת
 S1: always_comb

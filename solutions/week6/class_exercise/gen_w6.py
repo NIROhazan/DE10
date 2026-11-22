@@ -577,7 +577,7 @@ W.append(Q(id="LATCH", name="LATCH", title="שכחו את ברירת המחדל"
     tables=lambda p: ft(OLA, 1, 1, lambda s, a: la_out(p, s, a)),
     answer=lambda p: (p[1], 0x3), describe=lambda p: f"pattern {p[1]:02b}, the latch (no default) on LEDG{p[0]}",
     B=[LLA + "     answer: SW3..SW0"], L=[], F=[],
-    steps=[(["בלוח לוגיקת היציאה של שני גלאי מילי של אותו רצף של 2 ביטים, כמו בשקופיות 25-26. באחד מהם חסרה השורה", "smile = 1'b0;",
+    steps=[(["בלוח לוגיקת היציאה של שני גלאי מילי של אותו רצף של 2 ביטים, כמו בשקופית 25. באחד מהם חסרה השורה", "smile = 1'b0;",
              "בתחילת", "always_comb", "ולכן היציאה נשמרת (תפס).", LLA,
              "איזו נורה היא הגלאי עם הבאג (נדלקת ולא נכבית יותר)?"] + code(["LEDG0", "LEDG1"]), lambda q, p: (p[0], 0x1)),
            (["מה הרצף? (לפי הגלאי התקין)", LLA, "SW1 = first bit     SW0 = second bit"], lambda q, p: (p[1], 0x3))]))
@@ -808,24 +808,24 @@ OMO = [("G", 2), ("G", 1), ("G", 0)] + hexd(3) + hexd(0)
 LMO = "state bits = SW9 SW8     a = SW7     smile = LEDG2     next state bits = LEDG1 LEDG0"
 TMO = "the state to set = HEX3     a = HEX0"
 CMO = "S0 = 00     S1 = 01     S2 = 10"
-W.append(Q(id="MOORE01", name="MOORE01", title="גלאי המור משקופית 24", inputs=[9, 8, 7], flat=True,
+W.append(Q(id="MOORE01", name="MOORE01", title="גלאי המור משקופית 23", inputs=[9, 8, 7], flat=True,
     outs=OMO, hexes=[None, None, None, None], variants=[(s, a) for s in range(3) for a in range(2)],
     tables=lambda p: ft(OMO, 2, 1, lambda s, a: mo_f(p, s, a)),
     answer=lambda p: (mo_nx(*p), 0x3), describe=lambda p: f"S{p[0]} a={p[1]} -> S{mo_nx(*p)}, smile {int(p[0] == 2)}",
     B=[LMO + "     " + TMO + "     answer: SW1 SW0"], L=[], F=[],
-    steps=[(["גלאי הרצף של מור בקוד של שקופית 24. בלוח הלוגיקה שלו.", "typedef enum logic [1:0] {S0, S1, S2}     assign smile = (state == S2);",
+    steps=[(["גלאי הרצף של מור של שקופית 23. בלוח הלוגיקה שלו.", "typedef enum logic [1:0] {S0, S1, S2}     assign smile = (state == S2);",
              CMO, LMO, TMO, SET, "האם החיוך דולק?"] + UP0("דולק", "כבוי"), lambda q, p: (int(p[0] == 2), 0x1)),
            (["מה המצב הבא?", CMO, LMO, TMO] + code(["S0", "S1", "S2"]), lambda q, p: (mo_nx(*p), 0x3))]))
 
 # topic 3: the Mealy detector of slides 25-26 (S0 = 0, S1 = 1; smile when S1 and a)
 OML = [("G", 1), ("G", 0)] + hexd(3) + hexd(0)
 LML = "state = SW9     a = SW8     smile = LEDG1     next state = LEDG0"
-W.append(Q(id="MEALY01", name="MEALY01", title="גלאי המילי משקופית 26", inputs=[9, 8], flat=True,
+W.append(Q(id="MEALY01", name="MEALY01", title="גלאי המילי משקופית 25", inputs=[9, 8], flat=True,
     outs=OML, hexes=[None, None, None, None], variants=[(s, a) for s in range(2) for a in range(2)],
     tables=lambda p: ft(OML, 1, 1, lambda s, a: {("G", 1): s & a, ("G", 0): 1 - a, **dig(3, p[0]), **dig(0, p[1])}),
     answer=lambda p: (1 - p[1], 0x1), describe=lambda p: f"S{p[0]} a={p[1]} -> S{1 - p[1]}, smile {p[0] & p[1]}",
     B=[LML + "     " + TMO + "     answer: SW0"], L=[], F=[],
-    steps=[(["גלאי הרצף של מילי בקוד של שקופית 26. בלוח הלוגיקה שלו.", "typedef enum logic {S0, S1}     S0 = 0     S1 = 1",
+    steps=[(["גלאי הרצף של מילי של שקופית 25. בלוח הלוגיקה שלו.", "typedef enum logic {S0, S1}     S0 = 0     S1 = 1",
              LML, TMO, SET, "האם החיוך דולק?"] + UP0("דולק", "כבוי"), lambda q, p: (p[0] & p[1], 0x1)),
            (["מה המצב הבא?", LML, TMO] + code(["S0", "S1"]), lambda q, p: (1 - p[1], 0x1))]))
 
@@ -840,7 +840,7 @@ W.append(Q(id="DIV3CASE", name="DIV3CASE", title="ה-case של המחלק ב-3",
                                                   **dig(3, p >> 1), **dig(2, p & 1)}),
     answer=lambda p: (D3N[p], 0x3), describe=lambda p: f"code {p:02b}: line {['S0', 'S1', 'S2', 'default'][p]}, next {D3N[p]:02b}",
     B=[LD3C + "     " + TD3C + "     answer: SW1 SW0"], L=[], F=[],
-    steps=[(["המחלק ב-3 בקוד של שקופית 22. בלוח לוגיקת המצב הבא והיציאה שלו.",
+    steps=[(["המחלק ב-3 של שקופית 21. בלוח לוגיקת המצב הבא והיציאה שלו.",
              "typedef enum logic [1:0] {S0, S1, S2}     S0: nextstate = S1;   S1: nextstate = S2;   S2: nextstate = S0;   default: nextstate = S0;",
              LD3C, TD3C, "איזו שורה של ה-", "case", "מתבצעת בקוד שבתצוגה?"] + code(["S0", "S1", "S2", "default"]),
             lambda q, p: (p, 0x3)),
@@ -871,7 +871,7 @@ W.append(Q(id="D3RESET", name="D3RESET", title="המחלק ב-3 והאיפוס",
                                                  **dig(3, p[0]), **dig(0, p[1])}),
     answer=lambda p: (rs_nx(*p), 0x3), describe=lambda p: f"S{p[0]} reset={p[1]} -> S{rs_nx(*p)}",
     B=[LRS + "     " + TRS + "     answer: SW1 SW0"], L=[], F=[],
-    steps=[(["המחלק ב-3 של שקופיות 21-22, עם האיפוס. בלוח לוגיקת המצב הבא והיציאה שלו.",
+    steps=[(["המחלק ב-3 של שקופית 21, עם האיפוס. בלוח לוגיקת המצב הבא והיציאה שלו.",
              "if (reset) state <= S0;     S0 -> S1 -> S2 -> S0     q = 1 in S0", CD3, LRS, TRS, SET,
              "האם היציאה", "q", "דולקת?"] + UP0("דולקת", "כבויה"), lambda q, p: (int(p[0] == 0), 0x1)),
            (["מה המצב הבא?", CD3, LRS, TRS, "SW1 SW0 = next state bits"], lambda q, p: (rs_nx(*p), 0x3))]))
@@ -891,7 +891,7 @@ W.append(Q(id="D3EQ", name="D3EQ", title="משוואה של המחלק ב-3", in
     answer=lambda p: (EQ3.index("~S1 & S0" if p == 1 else "~S1 & ~S0"), 0x3),
     describe=lambda p: f"LEDG{p}: codes {eq3_mask(p):04b}, " + ("~S1 & S0" if p == 1 else "~S1 & ~S0"),
     B=[LEQ + "     " + TEQ + "     answer: SW3..SW0"], L=[], F=[],
-    steps=[(["שלבי התכנון של שקופית 5 על המחלק ב-3 של שקופיות 21-22: מהטבלה המקודדת למשוואה.",
+    steps=[(["שלבי התכנון של שקופית 5 על המחלק ב-3 של שקופית 21: מהטבלה המקודדת למשוואה.",
              CD3 + "     11 = default -> S0", LEQ, TEQ,
              "הציבו כל קוד. בכל קוד שבו הנורה שבתצוגה דולקת, הרימו את המתג שלו:",
              "S1 S0 = 00 -> SW0     01 -> SW1     10 -> SW2     11 -> SW3"], lambda q, p: (eq3_mask(p), 0xF)),
@@ -986,7 +986,7 @@ W.append(Q(id="MOORESTAY", name="MOORESTAY", title="מתי גלאי המור נ�
     tables=lambda p: ft(OMS, 2, 1, lambda s, a: {("G", 2): int(s == 2), ("G", 1): mo_nx(s, a) >> 1, ("G", 0): mo_nx(s, a) & 1, **dig(3, p)}),
     answer=lambda p: (ms_stay(p), 0x3), describe=lambda p: f"S{p}: smile {int(p == 2)}, stays with {STAYM[ms_stay(p)]}",
     B=[LMO + "     " + TMS + "     answer: SW1 SW0"], L=[], F=[],
-    steps=[(["גלאי הרצף של מור בקוד של שקופית 24. בלוח הלוגיקה שלו.", "S0: if (a) S0 else S1     S1: if (a) S2 else S1     S2: if (a) S0 else S1",
+    steps=[(["גלאי הרצף של מור של שקופית 23. בלוח הלוגיקה שלו.", "S0: if (a) S0 else S1     S1: if (a) S2 else S1     S2: if (a) S0 else S1",
              CMO, LMO, TMS, SET, "האם החיוך דולק?"] + UP0("דולק", "כבוי"), lambda q, p: (int(p == 2), 0x1)),
            (["הזיזו רק את הכניסה. באיזה ערך שלה המצב הבא שווה למצב הנוכחי?", CMO, LMO, TMS] + code(STAYM),
             lambda q, p: (ms_stay(p), 0x3))]))
@@ -1008,7 +1008,7 @@ W.append(Q(id="MOORESEQ", name="MOORESEQ", title="ארבעה ביטים לגלא
     tables=lambda p: ft(OMQ, 2, 1, lambda s, a: {("G", 2): int(s == 2), ("G", 1): mo_nx(s, a) >> 1, ("G", 0): mo_nx(s, a) & 1, **seqhex(p)}),
     answer=lambda p: (mo_run(p).count(2), 0x3), describe=lambda p: f"{p:04b}: states {mo_run(p)}, smile {mo_run(p).count(2)} times",
     B=[LMO + "     " + TSQ + "     answer: SW1 SW0"], L=[], F=[],
-    steps=[(["גלאי הרצף של מור של שקופיות 23-24. בלוח הלוגיקה שלו.", CMO, LMO, TSQ, FOLLOW,
+    steps=[(["גלאי הרצף של מור של שקופית 23. בלוח הלוגיקה שלו.", CMO, LMO, TSQ, FOLLOW,
              "התחילו במצב 0 והכניסו את הביטים שבתצוגה, ביט בכל שעון. באיזה מצב אתם בסוף?"] + code(["S0", "S1", "S2"]),
             lambda q, p: (mo_run(p)[-1], 0x3)),
            (["אחרי כמה מארבעת השעונים החיוך דלק?", LMO, TSQ, "0 = all down"] + cnt(2), lambda q, p: (mo_run(p).count(2), 0x3))]))
@@ -1028,7 +1028,7 @@ W.append(Q(id="MEALYSEQ", name="MEALYSEQ", title="ארבעה ביטים לגלא
     tables=lambda p: ft(OLQ, 1, 1, lambda s, a: {("G", 1): s & a, ("G", 0): 1 - a, **seqhex(p)}),
     answer=lambda p: (sum(me_run(p)), 0x3), describe=lambda p: f"{p:04b}: smiles {me_run(p)}",
     B=[LML + "     " + TSQ + "     answer: SW2..SW0"], L=[], F=[],
-    steps=[(["גלאי הרצף של מילי של שקופיות 25-26. בלוח הלוגיקה שלו.", "S0 = 0     S1 = 1", LML, TSQ, FOLLOW,
+    steps=[(["גלאי הרצף של מילי של שקופית 25. בלוח הלוגיקה שלו.", "S0 = 0     S1 = 1", LML, TSQ, FOLLOW,
              "התחילו במצב 0. בכל ביט: הציבו אותו בכניסה, הסתכלו על החיוך, ואז שעון. באיזה ביט החיוך דולק לראשונה?",
              "0 = never = all down"] + cnt(4), lambda q, p: (me_first(p), 0x7)),
            (["בכמה מארבעת הביטים החיוך דלק?", LML, TSQ, "0 = all down"] + cnt(2), lambda q, p: (sum(me_run(p)), 0x3))]))
@@ -1042,12 +1042,12 @@ def bd_f(p, st, a):
     ms, me = st >> 1, st & 1
     nx = mo_nx(ms, a)
     return {("G", 7): int(ms == 2), ("G", 6): nx >> 1, ("G", 5): nx & 1, ("G", 1): me & a, ("G", 0): 1 - a, **seqhex(p, 3)}
-W.append(Q(id="BOTHDET", name="BOTHDET", title="מור ומילי של שקופיות 23-26 על אותם ביטים", inputs=[9, 8, 7, 6], flat=True, small=True,
+W.append(Q(id="BOTHDET", name="BOTHDET", title="מור ומילי של שקופיות 23 ו-25 על אותם ביטים", inputs=[9, 8, 7, 6], flat=True, small=True,
     outs=OBD, hexes=[None, None, None, None], variants=list(range(8)),
     tables=lambda p: ft(OBD, 3, 1, lambda st, a: bd_f(p, st, a)),
     answer=lambda p: (me_first(p, 3), 0x3), describe=lambda p: f"{p:03b}: Mealy smiles in bit {me_first(p, 3)}, Moore after clock {me_first(p, 3)}",
     B=[LBD[0] + "     " + LBD[1] + "     " + LBD[2] + "     " + TBD + "     answer: SW1 SW0"], L=[], F=[],
-    steps=[(["שני גלאי הרצף של שקופיות 23-26, מור ומילי, על אותה כניסה. בלוח הלוגיקה של שניהם.", "Moore:  " + CMO] + LBD + [TBD, FOLLOW,
+    steps=[(["שני גלאי הרצף של שקופיות 23 ו-25, מור ומילי, על אותה כניסה. בלוח הלוגיקה של שניהם.", "Moore:  " + CMO] + LBD + [TBD, FOLLOW,
              "התחילו את שניהם במצב 0. בכל ביט: הציבו אותו בכניסה, הסתכלו, ואז שעון.",
              "באיזה ביט החיוך של המילי דולק לראשונה (לפני השעון)?", "0 = never = all down"] + cnt(3), lambda q, p: (me_first(p, 3), 0x3)),
            (["ואחרי כמה שעונים החיוך של המור דולק לראשונה?"] + LBD + [TBD, "0 = never = all down"] + cnt(3),
@@ -1148,7 +1148,7 @@ SLIDEQ = {
     "TLOUTEQ": (["2. בשקופית 14: מה המשוואה של היציאה הזו?", "LB1 = ?"] + code(["S1", "S1'", "S0"]), 1),
     "ONEHOT": (["2. בשקופית 18: כמה ביטים יש בכל קוד אחד-חם?"] + cnt(8), 4),
     "TRAFFICBUG": (["2. בשקופית 10: מה כתוב בתוך המצב, מתחת לשם שלו?"] + opts("הצבעים של שני הרמזורים", "החיישנים", "הקוד הבינארי"), 1),
-    "MOORESTAY": (["2. בשקופית 24: באיזה מצב החיוך דולק?"] + code(["S0", "S1", "S2"]), 2),
+    "MOORESTAY": (["2. בשקופית 23: באיזה מצב החיוך דולק?"] + code(["S0", "S1", "S2"]), 2),
     "MOORESEQ": (["2. בשקופית 23: לאן הולך החץ שיוצא מהמצב הזה כשהכניסה 1?", "S1"] + code(["S0", "S1", "S2"]), 2),
     "MEALYSEQ": (["2. בשקופית 25: כמה מצבים יש בגלאי המילי?"] + cnt(4), 2),
     "BOTHDET": (["2. בשקופית 25: מה היציאה שכתובה על החץ הזה?", "S1 -> S0"] + UP0("1", "0"), 1, 0x1),
