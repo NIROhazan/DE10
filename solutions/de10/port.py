@@ -118,11 +118,14 @@ def slides(q, week):
         SLIDES = json.load(open(f"{HERE}/slides.json", encoding="utf-8"))
     w = SLIDES.get(str(week))
     x = w and w["q"].get(q.id)
+    deck = w and w["deck"]
+    if isinstance(x, dict):			# a question whose slides are in another lecture's deck: {"deck": ..., "s": ...}
+        deck, x = x["deck"], x["s"]
     if not x or not q.steps:
         return
     word = "שקופיות" if re.search(r"[-ו]", x) else "שקופית"
     ls, f = q.steps[0]
-    q.steps[0] = ([f"{w['deck']}, {word} {x}"] + list(ls), f)
+    q.steps[0] = ([f"{deck}, {word} {x}"] + list(ls), f)
 
 # ---------------------------------------------------------------- the DE10 top level
 def top_v(q, led, page, psw):

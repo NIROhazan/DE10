@@ -3,6 +3,7 @@
 
 # The lesson's time starts when the student types the student ID; the TOPIC minutes add up to the lesson's
 # length and are only a recommendation (the menu lets the student open any question).
-TOPIC 40 | החילזון: מור ומילי | Q01 Q02 Q03 Q04 Q05 Q06 Q07 Q08 Q09 Q10 Q11 Q12 Q13 Q14 Q15 Q16 Q17 Q18
-TOPIC 40 | פירוק מכונות: התהלוכה | Q19 Q20 Q21 Q22 Q23 Q24 Q25 Q26 Q27 Q28 Q29 Q30 Q31
-TOPIC 40 | תכנון מכונות מצבים | Q32 Q33 Q34 Q35 Q36 Q37 Q38 Q39 Q40 Q41 Q42 Q43 Q44 Q45 Q46 Q47 Q48 Q49 Q50
+TOPIC 30 | החילזון: מור ומילי | Q01 Q02 Q03 Q04 Q05 Q06 Q07 Q08 Q09 Q10 Q11 Q12 Q13 Q14 Q15 Q16 Q17 Q18
+TOPIC 25 | פירוק מכונות: התהלוכה | Q19 Q20 Q21 Q22 Q23 Q24 Q25 Q26 Q27 Q28 Q29 Q30 Q31
+TOPIC 30 | תכנון מכונות מצבים | Q32 Q33 Q34 Q35 Q36 Q37 Q38 Q39 Q40 Q41 Q42 Q43 Q44 Q45 Q46 Q47 Q48 Q49 Q50
+TOPIC 35 | בקר הרמזור, קידוד אחד-חם וגלאי רצף | Q51 Q52 Q53 Q54 Q55 Q56 Q57 Q58 Q59 Q60 Q61 Q62 Q63 Q64 Q65 Q66 Q67 Q68 Q69 Q70 Q71 Q72 Q73 Q74

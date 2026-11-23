@@ -8,6 +8,21 @@
 import itertools, random, sys
 sys.path.insert(0, "C:/DE10/solutions")
 import wk_common as C
+# 2026-11-23: week 6 questions on week 7 material (videos 10-11: the traffic light, one-hot, Moore vs Mealy, the sequence
+# detectors) move here as Q51-Q74 (hidden in week 6). Loaded before C.setup(7): gen_w6 runs C.setup(6) when imported.
+# Their slides are in lecture 6 (slides.json week 7: {"deck": "הרצאה 6", ...}). Two names collide with week 7: + "6".
+import importlib.util as _iu
+_s = _iu.spec_from_file_location("gen_w6", "C:/DE10/solutions/week6/class_exercise/gen_w6.py")
+_w6 = _iu.module_from_spec(_s); _s.loader.exec_module(_w6)
+FROM6 = ["ONEHOT17", "FFCOUNT", "MOOREMEALY", "TL1HOT", "TLOUTBIT", "TLTRACE", "TLWAIT", "TRAFFIC", "TLCYCLE", "TRAFFICRESET",
+         "TLPOLARITY", "LIGHTCODE", "TLOUTEQ", "ONEHOT", "TRAFFICBUG", "MOORESTAY", "MOORESEQ", "MEALYSEQ", "BOTHDET", "SEQDET",
+         "SEQCOUNT", "TWODET", "OVERLAP", "MEALYOUT"]
+RENAME6 = {"SEQCOUNT": "SEQCOUNT6", "OVERLAP": "OVERLAP6"}
+_by6 = {q.name: q for q in _w6.W}
+W6Q = [_by6[n] for n in FROM6]
+DESC6 = {RENAME6.get(n, n): _w6.DESC[n] for n in FROM6 if n in _w6.DESC}
+for q in W6Q:
+    q.name = RENAME6.get(q.name, q.name)
 G, Q, HOLD = C.setup(7, __file__)
 from wk_common import hexd, bitsof, const, cnt, code, BIN4, BIN5, UP0, binl
 W = []
@@ -940,6 +955,10 @@ DESC = {"MOORECODE": "חילזון מור: הקוד של המצב שבתצוגה
         "VENDING": "מכונת שתייה: איזה מטבע, מה המחיר",
         "TWOFSM": "שתי מכונות שמדברות: מתי השנייה מתקדמת",
         "ARBITER": "בורר בקשות: סבב או עדיפות קבועה"}
+W += W6Q						# 2026-11-23: from week 6 (see FROM6 above)
+ORDER = ORDER + [q.name for q in W6Q]
+TOPICS = TOPICS + [(40, "בקר הרמזור, קידוד אחד-חם וגלאי רצף", len(W6Q))]
+DESC.update(DESC6)
 W = C.order(W, ORDER)
 if __name__ == "__main__":
     C.main(W, TOPICS, DESC, "מור ומילי, פירוק מכונות ותכנון - מהקל אל הקשה, ואי אפשר בלי הלוח")
