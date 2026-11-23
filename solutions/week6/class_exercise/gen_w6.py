@@ -1058,7 +1058,7 @@ ORDER = ["DIV3NEXT", "ONEHOT17", "D3AFTER", "D3RESET", "D3EQ", "FFCOUNT", "DIVN"
          "ENCODING",
          "TLNEXT", "TLOUT", "TL1HOT", "TLSTAY", "TLOUTBIT", "TLTRACE", "TLWAIT", "TRAFFIC", "TLCYCLE", "TRAFFICRESET", "TLPOLARITY", "LIGHTCODE", "TLOUTEQ", "ONEHOT", "TRAFFICBUG",
          "MOORE01", "MEALY01", "DIV3CASE", "MOORESTAY", "MOORESEQ", "MEALYSEQ", "BOTHDET", "SEQDET", "SEQCOUNT", "TWODET", "OVERLAP", "MEALYOUT", "LATCH", "ENUM", "DEFAULT", "DIVCODE", "BLOCKBUG", "UPDOWN"]
-TOPICS = [(40, "מכונות מצבים: מצבים, מעברים ויציאות", 17), (40, "בקר הרמזור מההרצאה", 15), (40, "מכונות מצבים בקוד וגלאי רצף", 18)]
+TOPICS = [(40, "מכונות מצבים: מצבים, מעברים ויציאות", 17), (40, "בקר הרמזור מההרצאה", 15), (40, "שלושת הבלוקים ושלבי התכנון", 18)]
 DESC = {"DIV3NEXT": "המחלק ב-3 של השקופית: המצב הבא, ומתי היציאה נדלקת",
         "ONEHOT17": "קידוד בינארי ואחד-חם של השקופית: מקוד לקוד",
         "TLNEXT": "בקר הרמזור: המצב הבא מטבלת המעברים של השקופית",
