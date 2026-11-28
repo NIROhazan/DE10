@@ -966,6 +966,18 @@ DESC = {"MOORECODE": "חילזון מור: הקוד של המצב שבתצוגה
         "VENDING": "מכונת שתייה: איזה מטבע, מה המחיר",
         "TWOFSM": "שתי מכונות שמדברות: מתי השנייה מתקדמת",
         "ARBITER": "בורר בקשות: סבב או עדיפות קבועה"}
+# 2026-11-28: every snail question says first what the snail is (lecture 7 slide 17); the lecture's pattern 01 only
+# where the question uses the lecture's snail - the others hide the pattern.
+SNAIL = ["החילזון זוחל על סרט של אפסים ואחדות, ביט אחד בכל שעון.",
+         "כשהוא מזהה רצף מסוים על הסרט הוא מחייך - היציאה נדלקת."]
+SNAIL01 = "בהרצאה הרצף הוא 01: הוא מחייך אחרי 0 ומיד אחריו 1."
+SNAIL_LECTURE = {"MOORESLIDE", "MEALYSLIDE", "MOORESTEP", "MOORECODE", "MOOREARROW", "MEALYARROW", "MOORETIME",
+                 "CODE11", "MOOREGATES", "MEALYTAPE", "TWOSTATE", "ONEHOTSNAIL", "ENABLE3"}
+SNAIL_HIDDEN = {"SNAIL", "SNAILSTATES", "SNAILNEXT", "SNAILMEALY", "SNAILTIME", "TAPE", "TWOSNAILS"}
+for q in W:
+    if q.name in SNAIL_LECTURE | SNAIL_HIDDEN:
+        ls, f = q.steps[0]
+        q.steps[0] = (SNAIL + ([SNAIL01] if q.name in SNAIL_LECTURE else []) + list(ls), f)
 W += W6Q						# 2026-11-23: from week 6 (see FROM6 above)
 ORDER = ORDER + [q.name for q in W6Q]
 TOPICS = TOPICS + [(40, "בקר הרמזור, קידוד אחד-חם וגלאי רצף", len(W6Q))]
