@@ -10,8 +10,15 @@ sys.path.insert(0, "C:/DE10/solutions")
 import wk_common as C
 # 2026-11-23: week 6 questions on week 7 material (videos 10-11: the traffic light, one-hot, Moore vs Mealy, the sequence
 # detectors) move here as Q51-Q74 (hidden in week 6). Loaded before C.setup(7): gen_w6 runs C.setup(6) when imported.
-# Their slides are in lecture 6 (slides.json week 7: {"deck": "הרצאה 6", ...}). Two names collide with week 7: + "6".
-import importlib.util as _iu
+# Two names collide with week 7: + "6".
+# 2026-11-28: lecture 7 now holds their slides (lecture 6 slides 7-18 -> 1-12, 21 -> 13, 23 -> 25, 25 -> 26; 3-4 = Moore
+# vs Mealy -> 15-16), and the snail / parade slides moved to 17-24 / 27-31. Their texts keep the lecture 6 numbers for
+# week 6, so here every "שקופית N" in them is renumbered (L6TO7).
+import importlib.util as _iu, re
+L6TO7 = {3: 15, 4: 16, 21: 13, 23: 25, 25: 26} | {n: n - 6 for n in range(7, 19)}
+def _to7(s):
+    return re.sub(r"(שקופי(?:ת|ות) )(\d+(?:(?:-| ו-|, )\d+)*)",
+                  lambda m: m.group(1) + re.sub(r"\d+", lambda d: str(L6TO7[int(d.group())]), m.group(2)), s)
 _s = _iu.spec_from_file_location("gen_w6", "C:/DE10/solutions/week6/class_exercise/gen_w6.py")
 _w6 = _iu.module_from_spec(_s); _s.loader.exec_module(_w6)
 FROM6 = ["ONEHOT17", "FFCOUNT", "MOOREMEALY", "TL1HOT", "TLOUTBIT", "TLTRACE", "TLWAIT", "TRAFFIC", "TLCYCLE", "TRAFFICRESET",
@@ -23,6 +30,10 @@ W6Q = [_by6[n] for n in FROM6]
 DESC6 = {RENAME6.get(n, n): _w6.DESC[n] for n in FROM6 if n in _w6.DESC}
 for q in W6Q:
     q.name = RENAME6.get(q.name, q.name)
+    q.title, q.B, q.L, q.F = _to7(q.title), [_to7(l) for l in q.B], [_to7(l) for l in q.L], [_to7(l) for l in q.F]
+    q.steps = [([_to7(l) for l in ls], f) for ls, f in q.steps]
+    if q.P:
+        q.P = {k: [_to7(l) for l in v] for k, v in q.P.items()}
 G, Q, HOLD = C.setup(7, __file__)
 from wk_common import hexd, bitsof, const, cnt, code, BIN4, BIN5, UP0, binl
 W = []
@@ -634,11 +645,11 @@ def moore_eq(r):				# + slide 5: Y = S1
     return {("G", 3): ns >> 1, ("G", 2): ns & 1, ("G", 0): s >> 1}
 
 # topic 1: the Moore snail's next-state circuit (slides 4, 7), one case from the HEX
-add("MOORESLIDE", "חילזון מור משקופיות 4 ו-7", [9, 8, 7], OSS + hexd(1) + hexd(0), [None] * 4,
+add("MOORESLIDE", "חילזון מור משקופיות 19 ו-22", [9, 8, 7], OSS + hexd(1) + hexd(0), [None] * 4,
     [(s, a) for s in range(3) for a in range(2)], lambda p, r: {**moore_eq(r), **dig(1, p[0]), **dig(0, p[1])},
     lambda p: f"case S{p[0]}, A = {p[1]}: next {moore_ns(p[0], p[1]):02b}, Y = {int(p[0] == 2)}",
     LMO + "     case: state = HEX1, A = HEX0",
-    [(["חילזון מור, שקופיות 4 ו-7: המעגל של המצב הבא.", "S1' = S0 A     S0' = A'     Y = S1", NOCLK, ENC, LMO,
+    [(["חילזון מור, שקופיות 19 ו-22: המעגל של המצב הבא.", "S1' = S0 A     S0' = A'     Y = S1", NOCLK, ENC, LMO,
        "the case:   state = HEX1     A = HEX0", CASE, "SW1 SW0 = next S1 S0"], lambda q, p: (moore_ns(*p), 0x3)),
      (["החילזון מחייך עכשיו, במצב שבתצוגה (לפני עליית השעון)?", "Y = LEDG0"] + SMILE, lambda q, p: (int(p[0] == 2), 0x1))])
 
@@ -647,10 +658,10 @@ LMEA = "S0 = SW9     A = SW8     next S0 = LEDG1     Y = LEDG0"
 def mealy_eq(r):
     s, a = fld(r, 1, 1)
     return {("G", 1): 1 - a, ("G", 0): s & a}
-add("MEALYSLIDE", "חילזון מילי משקופיות 6 ו-8", [9, 8], [("G", 1), ("G", 0)] + hexd(1) + hexd(0), [None] * 4,
+add("MEALYSLIDE", "חילזון מילי משקופיות 21 ו-23", [9, 8], [("G", 1), ("G", 0)] + hexd(1) + hexd(0), [None] * 4,
     [(s, a) for s in range(2) for a in range(2)], lambda p, r: {**mealy_eq(r), **dig(1, p[0]), **dig(0, p[1])},
     lambda p: f"case S0 = {p[0]}, A = {p[1]}: next {1 - p[1]}, Y = {p[0] & p[1]}", LMEA + "     case: S0 = HEX1, A = HEX0",
-    [(["חילזון מילי, שקופיות 6 ו-8: ביט מצב אחד.", "S0' = A'     Y = S0 A", NOCLK, LMEA,
+    [(["חילזון מילי, שקופיות 21 ו-23: ביט מצב אחד.", "S0' = A'     Y = S0 A", NOCLK, LMEA,
        "the case:   S0 = HEX1     A = HEX0", CASE] + UP0("1", "0"), lambda q, p: (1 - p[1], 0x1)),
      (["החילזון מחייך עכשיו?", "Y = LEDG0"] + SMILE, lambda q, p: (p[0] & p[1], 0x1))])
 
@@ -663,7 +674,7 @@ def moore_run(bits):
 add("MOORESTEP", "חילזון מור על שני ביטים", [9, 8, 7], OSS + hexd(1) + hexd(0), [None] * 4, list(range(4)),
     lambda p, r: {**moore_eq(r), **dig(1, p >> 1), **dig(0, p & 1)},
     lambda p: f"tape {p:02b}: ends in {moore_run(pbits(p, 2)):02b}", LMO + "     tape: HEX1, HEX0",
-    [(["חילזון מור, שקופית 4: שני ביטים על הסרט.", NOCLK, LMO, "the tape:   first bit = HEX1     second bit = HEX0",
+    [(["חילזון מור, שקופית 19: שני ביטים על הסרט.", NOCLK, LMO, "the tape:   first bit = HEX1     second bit = HEX0",
        "מתחילים במצב 00. שימו בכניסה את הביט הראשון, והעבירו את המצב הבא אל מתגי המצב.",
        "אחר כך אותו דבר עם הביט השני. לאיזה מצב הגעתם?", "SW1 SW0 = S1 S0"],
       lambda q, p: (moore_run(pbits(p, 2)), 0x3)),
@@ -675,11 +686,11 @@ def mode14(m, p_, r_):
     return 1 - r_ if m else p_
 def mode2(p):
     return mode14(mode14(*p), p[1], p[2])
-add("MODESLIDE", "מכונת מצב התהלוכה משקופית 14", [9, 8, 7], [("G", 0)] + hexd(2) + hexd(1) + hexd(0), [None] * 4,
+add("MODESLIDE", "מכונת מצב התהלוכה משקופית 31", [9, 8, 7], [("G", 0)] + hexd(2) + hexd(1) + hexd(0), [None] * 4,
     list(itertools.product(range(2), repeat=3)),
     lambda p, r: {("G", 0): mode14(*fld(r, 1, 1, 1)), **dig(2, p[0]), **dig(1, p[1]), **dig(0, p[2])},
     lambda p: f"case M P R = {p[0]}{p[1]}{p[2]}: next M {mode14(*p)}, then {mode2(p)}", LMS + "     case: HEX2 HEX1 HEX0",
-    [(["מכונת מצב התהלוכה, שקופית 14: ביט מצב אחד.", NOCLKN, LMS, "the case:   M = HEX2     P = HEX1     R = HEX0", CASE]
+    [(["מכונת מצב התהלוכה, שקופית 31: ביט מצב אחד.", NOCLKN, LMS, "the case:   M = HEX2     P = HEX1     R = HEX0", CASE]
       + UP0("1", "0"), lambda q, p: (mode14(*p), 0x1)),
      ([FWD, "השאירו את הכניסות. מה המצב הבא עכשיו?", LMS] + UP0("1", "0"), lambda q, p: (mode2(p), 0x1))])
 
@@ -694,18 +705,18 @@ def lights2(p):
 def ls_f(p, r):
     ns = lights1(fld(r, 2, 1, 1, 1))
     return {("G", 1): ns >> 1, ("G", 0): ns & 1, **dig(3, p[0]), **dig(2, p[1]), **dig(1, p[2]), **dig(0, p[3])}
-add("LIGHTSSLIDE", "מכונת הרמזורים משקופית 14", [9, 8, 7, 6, 5], [("G", 1), ("G", 0)] + hexd(3) + hexd(2) + hexd(1) + hexd(0),
+add("LIGHTSSLIDE", "מכונת הרמזורים משקופית 31", [9, 8, 7, 6, 5], [("G", 1), ("G", 0)] + hexd(3) + hexd(2) + hexd(1) + hexd(0),
     [None] * 4, list(itertools.product(range(4), range(2), range(2), range(2))), ls_f,
     lambda p: f"case S{p[0]} M{p[1]} TA{p[2]} TB{p[3]}: next S{lights1(p)}, then S{lights2(p)}",
     LLS + "     case: HEX3..HEX0",
-    [(["מכונת הרמזורים, שקופית 14.", NOCLKN, LLS, "the case:   S = HEX3     M = HEX2     TA = HEX1     TB = HEX0", CASE]
+    [(["מכונת הרמזורים, שקופית 31.", NOCLKN, LLS, "the case:   S = HEX3     M = HEX2     TA = HEX1     TB = HEX0", CASE]
       + S4, lambda q, p: (lights1(p), 0x3)),
      ([FWD, "השאירו את הכניסות. מה המצב הבא עכשיו?", LLS] + S4, lambda q, p: (lights2(p), 0x3))])
 
 # topic 3: the design of the Moore snail leaves code 11 unused - what do the equations of slide 7 do there?
 add("CODE11", "הקוד שלא בשימוש", [9, 8, 7], OSS + hexd(0), [None] * 4, [0, 1],
     lambda p, r: {**moore_eq(r), **dig(0, p)}, lambda p: f"A = {p}: 11 -> {moore_ns(3, p):02b}", LMO + "     A to try = HEX0",
-    [(["תכנון חילזון מור, שקופית 7: בקידוד הקוד 11 לא בשימוש. מה המעגל עושה בו?", "S1' = S0 A     S0' = A'     Y = S1",
+    [(["תכנון חילזון מור, שקופית 22: בקידוד הקוד 11 לא בשימוש. מה המעגל עושה בו?", "S1' = S0 A     S0' = A'     Y = S1",
        NOCLK, LMO, "שימו במתגי המצב 11. החילזון מחייך?", "Y = LEDG0"] + SMILE, lambda q, p: (1, 0x1)),
      (["the input to try:   A = HEX0", "שימו בכניסה את הערך שבתצוגה. מה המצב הבא?", LMO, "SW1 SW0 = next S1 S0"],
       lambda q, p: (moore_ns(3, p), 0x3)),
@@ -721,7 +732,7 @@ def sg_f(perm, r):				# perm[i] = the signal on LEDG(2 - i): 0 Y, 1 S0', 2 S1'
 add("MOOREGATES", "השרטוט של חילזון מור", [9, 8, 7], [("G", 2), ("G", 1), ("G", 0)], [None] * 4,
     list(itertools.permutations(range(3))), sg_f,
     lambda p: "LEDG2..0 = " + " ".join(["Y", "S0'", "S1'"][x] for x in p), LSG,
-    [(["השרטוט של חילזון מור, שקופית 7: שלוש היציאות של המעגל על נורות בסדר נסתר.", "Y = S1     S0' = A'     S1' = S0 A",
+    [(["השרטוט של חילזון מור, שקופית 22: שלוש היציאות של המעגל על נורות בסדר נסתר.", "Y = S1     S0' = A'     S1' = S0 A",
        NOCLK, LSG, "איזו נורה היא היציאה? היא תלויה רק במתג השמאלי."] + L3, lambda q, p: (p.index(0), 0x3)),
      (["איזו נורה היא המצב הבא הימני (המהפך)? היא דולקת כשהכניסה 0.", LSG] + L3, lambda q, p: (p.index(1), 0x3)),
      (["איזו נורה היא המצב הבא השמאלי (שער וגם)?", LSG] + L3, lambda q, p: (p.index(2), 0x3))])
@@ -737,7 +748,7 @@ TP3 = "the tape:   first bit = HEX2     second = HEX1     third = HEX0"
 add("MEALYTAPE", "חילזון מילי על שלושה ביטים", [9, 8], [("G", 1), ("G", 0)] + hexd(2) + hexd(1) + hexd(0), [None] * 4,
     list(range(8)), lambda p, r: {**mealy_eq(r), **dig(2, p >> 2), **dig(1, (p >> 1) & 1), **dig(0, p & 1)},
     lambda p: f"tape {p:03b}: {mealy_run(pbits(p, 3))} smiles", LMEA + "     tape: HEX2 HEX1 HEX0",
-    [(["חילזון מילי, שקופית 8: שלושה ביטים על הסרט.", NOCLK, LMEA, TP3,
+    [(["חילזון מילי, שקופית 23: שלושה ביטים על הסרט.", NOCLK, LMEA, TP3,
        "מתחילים במצב 0. שימו בכניסה את הביט הראשון. מה המצב הבא?"] + UP0("1", "0"), lambda q, p: (1 - (p >> 2), 0x1)),
      (["בכל ביט: שימו אותו בכניסה, הסתכלו על היציאה, והעבירו את המצב הבא אל מתג המצב.", TP3, LMEA,
        "כמה פעמים החילזון חייך לאורך שלושת הביטים?"] + cnt(3, 0), lambda q, p: (mealy_run(pbits(p, 3)), 0xF))])
@@ -747,7 +758,7 @@ add("MEALYTAPE", "חילזון מילי על שלושה ביטים", [9, 8], [("
 add("MOORECODE", "הקוד של מצב בחילזון מור", [9, 8, 7], OSS + hexd(0), [None] * 4, [0, 1, 2],
     lambda k, r: {**moore_eq(r), **dig(0, k)},
     lambda k: f"S{k} = {k:02b}, stays with {['A = 1', 'A = 0', 'none'][k]}", LMO + "     the state: HEX0",
-    [(["חילזון מור, שקופיות 3-4: טבלת הקידוד.", ENC, "the state:   S = HEX0 (its number)",
+    [(["חילזון מור, שקופיות 18-19: טבלת הקידוד.", ENC, "the state:   S = HEX0 (its number)",
        "מה הקוד של המצב שבתצוגה?", "SW1 SW0 = S1 S0"], lambda q, k: (k, 0x3)),
      (["שימו את הקוד במתגי המצב ונסו את שני ערכי הכניסה. באיזה ערך המצב הבא שווה למצב הנוכחי?", LMO]
       + code(["0", "1", "none"], 3), lambda q, k: ([1, 0, 2][k], 0x3))])
@@ -759,7 +770,7 @@ def arr_a(s, t):
 add("MOOREARROW", "חץ בדיאגרמה של חילזון מור", [9, 8, 7], OSS + hexd(1) + hexd(0), [None] * 4, ARR,
     lambda p, r: {**moore_eq(r), **dig(1, p[0]), **dig(0, p[1])},
     lambda p: f"S{p[0]} -> S{p[1]} with A = {arr_a(*p)}", LMO + "     the arrow: HEX1 -> HEX0",
-    [(["חילזון מור, שקופיות 3-4: חץ אחד בדיאגרמת המצבים.", NOCLK, ENC, LMO, "the arrow:   from state HEX1 to state HEX0",
+    [(["חילזון מור, שקופיות 18-19: חץ אחד בדיאגרמת המצבים.", NOCLK, ENC, LMO, "the arrow:   from state HEX1 to state HEX0",
        "שימו במתגי המצב את הקוד של מצב המוצא. איזה ערך כניסה מוביל אל מצב היעד?"] + UP0("1", "0"),
       lambda q, p: (arr_a(*p), 0x1)),
      (["ובמצב היעד - החילזון מחייך?", ENC, LMO] + SMILE, lambda q, p: (int(p[1] == 2), 0x1))])
@@ -768,7 +779,7 @@ add("MOOREARROW", "חץ בדיאגרמה של חילזון מור", [9, 8, 7], O
 add("MEALYARROW", "חץ בחילזון מילי", [9, 8], [("G", 1), ("G", 0)] + hexd(1) + hexd(0), [None] * 4,
     [(s, t) for s in range(2) for t in range(2)], lambda p, r: {**mealy_eq(r), **dig(1, p[0]), **dig(0, p[1])},
     lambda p: f"S{p[0]} -> S{p[1]} with A = {1 - p[1]}, Y = {p[0] & (1 - p[1])}", LMEA + "     the arrow: HEX1 -> HEX0",
-    [(["חילזון מילי, שקופית 6: חץ אחד בדיאגרמה.", NOCLK, "S0 = 0     S1 = 1", LMEA,
+    [(["חילזון מילי, שקופית 21: חץ אחד בדיאגרמה.", NOCLK, "S0 = 0     S1 = 1", LMEA,
        "the arrow:   from state HEX1 to state HEX0", "שימו את מצב המוצא. איזה ערך כניסה מוביל אל מצב היעד?"] + UP0("1", "0"),
       lambda q, p: (1 - p[1], 0x1)),
      (["בחץ הזה (מצב המוצא והכניסה שמצאתם) - החילזון מחייך?", LMEA] + SMILE, lambda q, p: (p[0] & (1 - p[1]), 0x1))])
@@ -785,10 +796,10 @@ add("MOORETIME", "מתי מחייך מור ומתי מילי?", [9, 8, 7], OSS +
     [t for t in range(16) if moore_first(t)],
     lambda t, r: {**moore_eq(r), **dig(3, t >> 3), **dig(2, (t >> 2) & 1), **dig(1, (t >> 1) & 1), **dig(0, t & 1)},
     lambda t: f"tape {t:04b}: Moore at bit {moore_first(t)}, Mealy at bit {moore_first(t) - 1}", LMO + "     tape: HEX3..HEX0",
-    [(["חילזון מור, שקופית 9: דיאגרמת הזמנים על סרט של ארבעה ביטים.", NOCLK, LMO, TP4,
+    [(["חילזון מור, שקופית 24: דיאגרמת הזמנים על סרט של ארבעה ביטים.", NOCLK, LMO, TP4,
        "מתחילים במצב 00. בכל ביט: שימו אותו בכניסה, הסתכלו על היציאה, והעבירו את המצב הבא אל מתגי המצב.",
        "בזמן איזה ביט (המספר שלו) היציאה דולקת בפעם הראשונה?"] + cnt(4), lambda q, t: (moore_first(t), 0xF)),
-     (["לפי שקופית 9 חילזון מילי מחייך ביט אחד קודם. בזמן איזה ביט הוא מחייך בפעם הראשונה?", TP4] + cnt(4),
+     (["לפי שקופית 24 חילזון מילי מחייך ביט אחד קודם. בזמן איזה ביט הוא מחייך בפעם הראשונה?", TP4] + cnt(4),
       lambda q, t: (moore_first(t) - 1, 0xF))])
 
 # topic 2: the unfactored FSM of slide 13 (S0..S7 = 4 M + lights): the lights of a state from HEX0
@@ -798,10 +809,10 @@ S4 = code(["S0", "S1", "S2", "S3"])
 add("UNFACTLIGHTS", "הרמזורים במכונה הלא מפורקת", [9, 8, 7], LGT + hexd(0), [None] * 4, list(range(8)),
     lambda k, r: {**tl_leds(r & 3), **dig(0, k)},
     lambda k: f"S{k}: lights state {k & 3}, M = {k >> 2}", LUF + "     lights LEDG7..5, LEDG2..0     the state: HEX0",
-    [(["המכונה הלא מפורקת של שקופית 13: שמונה מצבים, ובכל אחד צבע לכל רחוב.", LUF, "the state:   HEX0"] + LIGHTS
+    [(["המכונה הלא מפורקת של שקופית 30: שמונה מצבים, ובכל אחד צבע לכל רחוב.", LUF, "the state:   HEX0"] + LIGHTS
       + ["שימו את המצב שבתצוגה. מה הצבע של רחוב א'?", "LA = ?"] + COL, lambda q, k: (TL_OUT[k & 3][0], 0x3)),
      (["ומה הצבע של רחוב ב'?", "LB = ?"] + LIGHTS + COL, lambda q, k: (TL_OUT[k & 3][1], 0x3)),
-     (["באיזה מצב של מכונת הרמזורים המפורקת (שקופית 14) יש אותם צבעים?", "the state:   HEX0", LPH] + S4, lambda q, k: (k & 3, 0x3))])
+     (["באיזה מצב של מכונת הרמזורים המפורקת (שקופית 31) יש אותם צבעים?", "the state:   HEX0", LPH] + S4, lambda q, k: (k & 3, 0x3))])
 
 # topic 2: the unfactored FSM of slide 13 - its next state, read from the diagram
 def unf_next(s, p_, r_, ta, tb):
@@ -815,7 +826,7 @@ def unf_row(r):
 add("UNFACTPR", "מתי בודקים כל כניסה?", [9, 8, 7, 6, 5, 4, 3], hexd(1) + hexd(0), [None] * 4, list(range(8)),
     lambda k, r: {**dig(1, k), **dig(0, unf_row(r))},
     lambda k: f"S{k}: {'PR'[k >> 2]} matters, idle next S{unf_next(k, 0, 0, 0, 0)}", LUN + "     the state: HEX1",
-    [(["המכונה הלא מפורקת של שקופית 13.", NOCLKN, LUN, "the state:   HEX1",
+    [(["המכונה הלא מפורקת של שקופית 30.", NOCLKN, LUN, "the state:   HEX1",
        "שימו את המצב שבתצוגה. איזו מבין שתי הכניסות האלה משנה את המצב הבא?"] + code(["P", "R"]),
       lambda q, k: (k >> 2, 0x1)),
      (["כל הכניסות למטה. מה המצב הבא?", LUN, "SW2 SW1 SW0 = next S"] + NUM8,
@@ -829,7 +840,7 @@ add("UNFACTNEXT", "צעד במכונה הלא מפורקת", [9, 8, 7, 6, 5, 4, 
     lambda p, r: {**dig(3, p[0]), **dig(2, p[1]), **dig(1, p[2]), **dig(0, unf_row(r))},
     lambda p: f"case S{p[0]} P=R={p[1]} TA=TB={p[2]}: next S{unf_next(p[0], p[1], p[1], p[2], p[2])}, then S{unf2(p)}",
     LUN + "     case: HEX3 HEX2 HEX1",
-    [(["המכונה הלא מפורקת של שקופית 13.", NOCLKN, LUN, "the case:   S = HEX3     P = R = HEX2     TA = TB = HEX1",
+    [(["המכונה הלא מפורקת של שקופית 30.", NOCLKN, LUN, "the case:   S = HEX3     P = R = HEX2     TA = TB = HEX1",
        CASE, "SW2 SW1 SW0 = next S"] + NUM8, lambda q, p: (unf_next(p[0], p[1], p[1], p[2], p[2]), 0x7)),
      ([FWD, "השאירו את הכניסות. מה המצב הבא עכשיו?", LUN, "SW2 SW1 SW0 = next S"] + NUM8, lambda q, p: (unf2(p), 0x7))])
 
@@ -850,7 +861,7 @@ def ps_steps(k):
 add("PARADESTART", "התהלוכה מתחילה", [9, 8, 7, 6, 5, 4, 3], [("G", 4)] + hexd(2) + hexd(0), [None] * 4, list(range(4)),
     lambda k, r: {**ps_row(r), **dig(2, k)}, lambda k: f"start lights {k}: first next {(k + 1) & 3}, B green after {ps_steps(k)}",
     LPS1 + "     " + LPS2 + "     start: HEX2",
-    [(["בקר הרמזור המפורק של שקופית 14: מכונת המצב ומכונת הרמזורים יחד.", NOCLKN, LPS1, LPS2, LPS3,
+    [(["בקר הרמזור המפורק של שקופית 31: מכונת המצב ומכונת הרמזורים יחד.", NOCLKN, LPS1, LPS2, LPS3,
        "שימו את ההתחלה והרימו את המתג של התהלוכה. מה המצב הבא של הרמזורים?", "P = 1"] + S4,
       lambda q, k: ((k + 1) & 3, 0x3)),
      ([FWD, "בצעד הבא הורידו את המתג של התהלוכה, והמשיכו צעד אחר צעד.", "P = 0     next M -> SW9     next lights -> SW8 SW7",
@@ -864,7 +875,7 @@ def eq1(e, s, a):
 LE1 = "S = SW9     A = SW8     next S = LEDG0"
 add("TWOSTATE", "מכונה של ביט מצב אחד", [9, 8], [("G", 0)], [[9], [8], None, None], list(range(5)),
     lambda e, r: {("G", 0): eq1(e, *fld(r, 1, 1))}, lambda e: EQ1[e], LE1,
-    [(["מכונה של ביט מצב אחד, כמו החילזון של שקופית 8 (שם המצב הבא הוא היפוך הכניסה).", NOCLK, LE1,
+    [(["מכונה של ביט מצב אחד, כמו החילזון של שקופית 23 (שם המצב הבא הוא היפוך הכניסה).", NOCLK, LE1,
        "במצב 0 עם כניסה 1: מה המצב הבא?"] + UP0("1", "0"), lambda q, e: (eq1(e, 0, 1), 0x1)),
      (["נסו את ארבעת המקרים. מה משוואת המצב הבא?", LE1] + code(EQ1, 3), lambda q, e: (e, 0x7))])
 
@@ -880,10 +891,10 @@ add("ONEHOTSNAIL", "חילזון מור בקידוד אחד-חם", [9, 8, 7, 6],
     [None] * 4, [(k, a) for k in range(3) for a in range(2)], oh_f,
     lambda p: f"S{p[0]}, A = {p[1]}: next S{moore_ns(*p)} = {1 << moore_ns(*p):03b}, binary {moore_ns(*p):02b}",
     LOH1 + "     " + LOH2 + "     case: HEX1 HEX0",
-    [(["החילזון של שקופית 4 בקידוד אחר: ביט מצב לכל מצב (אחד-חם).", NOCLK, OHE, LOH1, LOH2,
+    [(["החילזון של שקופית 19 בקידוד אחר: ביט מצב לכל מצב (אחד-חם).", NOCLK, OHE, LOH1, LOH2,
        "the case:   state number = HEX1     A = HEX0", "שימו את המקרה. מה המצב הבא?", "SW2 SW1 SW0 = next (one-hot)"],
       lambda q, p: (1 << moore_ns(*p), 0x7)),
-     (["אותו מעבר בקידוד הבינארי של שקופית 4: מה הקוד של המצב הבא?", ENC, "SW1 SW0 = next S1 S0"],
+     (["אותו מעבר בקידוד הבינארי של שקופית 19: מה הקוד של המצב הבא?", ENC, "SW1 SW0 = next S1 S0"],
       lambda q, p: (moore_ns(*p), 0x3))])
 
 # topic 3: a counter modulo 3 with an enable, designed like the snail (Y = S1 as in slide 5, code 11 -> 00)
@@ -895,7 +906,7 @@ def en3_f(k, r):
     return {("G", 3): ns >> 1, ("G", 2): ns & 1, ("G", 0): s >> 1, **dig(0, k)}
 add("ENABLE3", "מונה של שלושה מצבים עם אפשור", [9, 8, 7], OSS + hexd(0), [None] * 4, [0, 1, 2], en3_f,
     lambda k: f"start {k:02b}: {(3 - k) % 3 or 3} steps back to 00", LMO + "     the start: HEX0",
-    [(["מכונה בתכנון כמו החילזון של שקופיות 4-5: מונה של שלושה מצבים שמתקדם רק כשהכניסה 1.", NOCLK, LMO,
+    [(["מכונה בתכנון כמו החילזון של שקופיות 19-20: מונה של שלושה מצבים שמתקדם רק כשהכניסה 1.", NOCLK, LMO,
        "the start:   state number = HEX0", "שימו את ההתחלה וכניסה 0. מה המצב הבא?", "SW1 SW0 = next S1 S0"],
       lambda q, k: (k, 0x3)),
      (["עם כניסה 1, צעד אחר צעד: כמה צעדים עד שחוזרים למצב 00?", FWD, LMO] + cnt(3), lambda q, k: ((3 - k) % 3 or 3, 0x3))])
