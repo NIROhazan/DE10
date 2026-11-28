@@ -149,7 +149,7 @@ SLIDES = {
     "TIMERLIGHT": ("פירוק: מכונת טיימר", "28-29"),
     "TWODIGITS": ("מכונה לא מפורקת מול מפורקת: מכפלה וסכום", "29-31"),
     "BLINK": ("תכנון מכונה", "-"),
-    "PARITY": ("תכנון מכונה (מהרצאה 6)", "-"),
+    "PARITY": ("תכנון מכונה", "-"),
     "COUNTONES": ("תכנון מכונה", "-"),
     "SATURATE": ("תכנון מכונה", "-"),
     "UPDOWN": ("תכנון מכונה", "-"),
@@ -163,3 +163,25 @@ SLIDES = {
     "ARBITER": ("תכנון מכונה", "-"),
 }
 NOT_COVERED = [("1, 14, 27", "שקפי כותרת")]
+
+# Q51-Q74 = the week 6 questions on week 7 material (gen_w7.py FROM6, same order): their guide texts come from
+# explain_w6.py with the slide numbers of lecture 7 (gen_w7.py L6TO7), their slides = slides.json week 7.
+import json as _json, re as _re
+_FROM6 = ["ONEHOT17", "FFCOUNT", "MOOREMEALY", "TL1HOT", "TLOUTBIT", "TLTRACE", "TLWAIT", "TRAFFIC", "TLCYCLE", "TRAFFICRESET",
+          "TLPOLARITY", "LIGHTCODE", "TLOUTEQ", "ONEHOT", "TRAFFICBUG", "MOORESTAY", "MOORESEQ", "MEALYSEQ", "BOTHDET", "SEQDET",
+          "SEQCOUNT", "TWODET", "OVERLAP", "MEALYOUT"]
+_RENAME6 = {"SEQCOUNT": "SEQCOUNT6", "OVERLAP": "OVERLAP6"}
+_L6TO7 = {3: 15, 4: 16, 21: 13, 23: 25, 25: 26} | {n: n - 6 for n in range(7, 19)}
+def _to7(s):
+    return _re.sub(r"(שקופי(?:ת|ות) )(\d+(?:(?:-| ו-|, )\d+)*)",
+                   lambda m: m.group(1) + _re.sub(r"\d+", lambda d: str(_L6TO7[int(d.group())]), m.group(2)), s)
+_w6 = {}
+exec(open("C:/DE10/solutions/week6/class_exercise/explain_w6.py", encoding="utf-8").read(), _w6)
+# Their first step (gen_w6.py SLIDEQ, 2026-11-21) asks about the slide only; explain_w6.py has no line for it.
+SLIDESTEP = "התשובה כתובה בשקופית שהשאלה מציינת - בלי הלוח."
+_s7 = _json.load(open("C:/DE10/solutions/de10/slides.json", encoding="utf-8"))["7"]["q"]
+for _i, _n in enumerate(_FROM6):
+    _k = _RENAME6.get(_n, _n)
+    TEACH[_k] = _to7(_w6["TEACH"][_n])
+    EXPLAIN[_k] = [SLIDESTEP] + [_to7(x) for x in _w6["EXPLAIN"][_n]]
+    SLIDES[_k] = (_w6["SLIDES"][_n][0], _s7[f"Q{51 + _i}"].replace(" ו-", ", "))
